@@ -6,7 +6,7 @@ import {
     ReactNode,
   } from 'react'
   
-import '@/shared/utils/mockEnv'
+import '@/utils/mockEnv'
 import { preloadImageURLs } from '@/core/config'
   
   interface PreloadContextType {

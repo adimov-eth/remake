@@ -32,6 +32,9 @@ importers:
       eruda:
         specifier: ^3.0.1
         version: 3.2.3
+      nanoevents:
+        specifier: ^9.0.0
+        version: 9.0.0
       nanostores:
         specifier: ^0.11.2
         version: 0.11.2
@@ -1458,6 +1461,10 @@ packages:
 
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+
+  nanoevents@9.0.0:
+    resolution: {integrity: sha512-X8pU7IOpgKXVLPxYUI55ymXc8XuBE+uypfEyEFBtHkD1EX9KavYTVc+vXZHFyHKzA1TaZoVDqklLdQBBrxIuAw==}
+    engines: {node: ^18.0.0 || >=20.0.0}
 
   nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
@@ -3407,6 +3414,8 @@ snapshots:
   mitt@3.0.1: {}
 
   ms@2.1.2: {}
+
+  nanoevents@9.0.0: {}
 
   nanoid@3.3.7: {}
 

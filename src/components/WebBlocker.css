@@ -1,0 +1,23 @@
+.web-blocker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.web-blocker-text {
+  margin: 20px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.qr-code-link {
+  text-decoration: none;
+}
+
+.qr-code {
+  width: 200px;
+  height: 200px;
+}

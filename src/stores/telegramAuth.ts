@@ -1,5 +1,4 @@
-import { InitDataParsed } from '@telegram-apps/sdk-react'
-import { parseInitData } from '@telegram-apps/sdk-react'
+import { InitDataParsed, parseInitData } from '@telegram-apps/sdk-react'
 import { computed, atom } from 'nanostores'
 
 export const $telegramProvideRawData = atom('')
@@ -23,7 +22,3 @@ export const $telegramUser = computed(
     }
   }
 )
-
-export const setTelegramProvideRawData = (rawData: string) => {
-  $telegramProvideRawData.set(rawData)
-}

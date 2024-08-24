@@ -4,8 +4,8 @@ import { type FC, useEffect } from 'react';
 
 import { App } from '@/core/App.tsx';
 import { ErrorBoundary } from '@/core/ErrorBoundary';
-import { AuthProvider } from '@/features/auth/authProvider';
-import { $telegramProvideRawData } from '@/features/auth/authStore';
+import { AuthProvider } from '@/providers/authProvider';
+import { $telegramProvideRawData } from "@/stores/telegramAuth";
 import { CONFIG } from './config';
 
 const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
@@ -25,9 +25,10 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
 
 const Inner: FC = () => {
   const debug = useLaunchParams().startParam === 'debug';
-
-  const { initDataRaw } = retrieveLaunchParams()
-  $telegramProvideRawData.set(initDataRaw || '')
+  const { initDataRaw } = retrieveLaunchParams();
+  if (initDataRaw) {
+    $telegramProvideRawData.set(initDataRaw);
+  }
 
   // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {

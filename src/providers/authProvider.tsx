@@ -1,11 +1,12 @@
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { createContext, useContext } from 'react'
 import { useStore } from '@nanostores/react'
-import { $telegramUser, setTelegramProvideRawData } from './authStore'
+import { $telegramUser } from '@/stores/telegramAuth'
 import { useLaunchParams } from '@telegram-apps/sdk-react'
 
 interface AuthContextType {
   user: ReturnType<typeof $telegramUser.get>
   isAuthenticated: boolean
+  isWebTelegram: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -14,15 +15,12 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const launchParams = useLaunchParams()
   const user = useStore($telegramUser)
 
-  useEffect(() => {
-    if (launchParams.initDataRaw) {
-      setTelegramProvideRawData(launchParams.initDataRaw)
-    }
-  }, [launchParams.initDataRaw])
+  const isWebTelegram = !['android', 'android_x', 'ios'].includes(launchParams.platform)
 
-  const value = {
+  const value:AuthContextType = {
     user,
     isAuthenticated: !!user,
+    isWebTelegram,
   }
 
   return (

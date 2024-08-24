@@ -1,5 +1,7 @@
+import { FC, useEffect, useMemo } from 'react'
 import { createRouterConfig } from 'tma-wouter-integration'
 import {
+  SDKProvider,
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
@@ -10,10 +12,16 @@ import {
   useViewport,
 } from '@telegram-apps/sdk-react'
 import { AppRoot } from '@telegram-apps/telegram-ui'
-import { FC, useEffect, useMemo } from 'react'
 import { Router, Route, Switch, Redirect } from 'wouter'
 
+import { ThemeProvider } from "@/providers/themeProvider"
+import { AuthProvider } from "@/providers/authProvider"
+import { ConnectionProvider } from "@/providers/connectionProvider"
+import { AppLayout } from '@/components/AppLayout'
 import { routes } from '@/navigation/routes'
+import { CONFIG } from '@/core/config'
+
+const { WEBSOCKET_URL } = CONFIG
 
 export const App: FC = () => {
   const lp = useLaunchParams()
@@ -42,20 +50,30 @@ export const App: FC = () => {
   }, [navigator])
 
   return (
-    <AppRoot
+    <SDKProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <ConnectionProvider websocketUrl={WEBSOCKET_URL}>
+            <AppRoot
       appearance={miniApp.isDark ? 'dark' : 'light'}
       platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
-    >
-      <Router {...routerConfig}>
-        <Switch>
-          {routes.map((route) => (
-            <Route key={route.path} path={route.path} component={route.Component} />
-          ))}
-          <Route path="*">
-            <Redirect to="/" />
-          </Route>
-        </Switch>
-      </Router>
-    </AppRoot>
+            >
+              <AppLayout>
+                <Router {...routerConfig}>
+                  <Switch>
+                    {routes.map((route) => (
+                      <Route key={route.path} path={route.path} component={route.Component} />
+                    ))}
+                    <Route path="*">
+                      <Redirect to="/" />
+                    </Route>
+                  </Switch>
+                </Router>
+              </AppLayout>
+            </AppRoot>
+          </ConnectionProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </SDKProvider>
   )
 }

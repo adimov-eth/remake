@@ -16,7 +16,7 @@ export const getDailyRewards = ({
     .get(`/missions/daily_login_challenge`, {
       params: { rawData },
     })
-    .then((res) => res.data)
+    .then((res: { data: any }) => res.data)
 
 export const claimMissionReward = ({
   missionId,
@@ -27,7 +27,7 @@ export const claimMissionReward = ({
 }): Promise<any> =>
   instance
     .post(`/missions/${missionId}/claim_reward`, {}, { params: { rawData } })
-    .then((res) => res.data)
+    .then((res: { data: any }) => res.data)
 
 export const getMissions = ({
   rawData,
@@ -38,7 +38,7 @@ export const getMissions = ({
     .get(`/missions`, {
       params: { rawData },
     })
-    .then((res) => res.data)
+    .then((res: { data: any }) => res.data)
 
 export const getDailyMissions = ({
   rawData,
@@ -49,7 +49,7 @@ export const getDailyMissions = ({
     .get(`/missions/daily`, {
       params: { rawData },
     })
-    .then((res) => res.data)
+    .then((res: { data: any }) => res.data)
 
 export const checkMissionStatus = ({
   missionId,
@@ -60,7 +60,7 @@ export const checkMissionStatus = ({
 }): Promise<Mission> =>
   instance
     .post(`/missions/${missionId}/check_status`, {}, { params: { rawData } })
-    .then((res) => res.data)
+    .then((res: { data: any }) => res.data)
 
 // Queries and Mutations
 

@@ -1,18 +1,10 @@
-import { persistentAtom } from '@nanostores/persistent'
 
 export const CONFIG = {
+  APP_URL: import.meta.env.VITE_APP_URL || 'https://t.me/clicker_development_bot/app',
   API_URL: import.meta.env.VITE_API_URL || 'https://api.example.com',
-  WEBSOCKET_URL: import.meta.env.VITE_WEBSOCKET_URL || 'wss://ws.example.com',
+  WEBSOCKET_URL: import.meta.env.VITE_WS_URL || 'wss://ws.example.com',
   TON_CONNECT_MANIFEST_URL: new URL('tonconnect-manifest.json', window.location.href).toString()
 }
-
-export const appState = persistentAtom('appState', {
-  example: 'example' 
-}, {
-  encode: JSON.stringify,
-  decode: JSON.parse,
-})
-
 
 
 export const preloadImageURLs = [
