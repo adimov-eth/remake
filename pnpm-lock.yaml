@@ -8,9 +8,18 @@ importers:
 
   .:
     dependencies:
-      '@telegram-apps/react-router-integration':
-        specifier: ^1.0.0
-        version: 1.0.1(@telegram-apps/sdk@1.1.3)(@types/react@18.3.4)(react-router-dom@6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      '@nanostores/i18n':
+        specifier: ^0.12.2
+        version: 0.12.2(nanostores@0.11.2)
+      '@nanostores/persistent':
+        specifier: ^0.10.2
+        version: 0.10.2(nanostores@0.11.2)
+      '@nanostores/react':
+        specifier: ^0.7.3
+        version: 0.7.3(nanostores@0.11.2)(react@18.3.1)
+      '@tanstack/react-query':
+        specifier: ^5.52.1
+        version: 5.52.1(react@18.3.1)
       '@telegram-apps/sdk-react':
         specifier: ^1.0.0
         version: 1.1.3(@types/react@18.3.4)(react@18.3.1)
@@ -23,19 +32,40 @@ importers:
       eruda:
         specifier: ^3.0.1
         version: 3.2.3
+      nanostores:
+        specifier: ^0.11.2
+        version: 0.11.2
+      posthog-js:
+        specifier: ^1.157.2
+        version: 1.157.2
       react:
         specifier: ^18.2.0
         version: 18.3.1
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
+      react-query-kit:
+        specifier: ^3.3.0
+        version: 3.3.0(@tanstack/react-query@5.52.1(react@18.3.1))
       react-router-dom:
         specifier: ^6.23.0
         version: 6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      tma-wouter-integration:
+        specifier: github:adimov-eth/tma-wouter-integration
+        version: https://codeload.github.com/adimov-eth/tma-wouter-integration/tar.gz/1d0804d2a64d536396a2fa2b1143030e76ee1ac4(@types/react@18.3.4)(react-router-dom@6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      wouter:
+        specifier: ^3.3.3
+        version: 3.3.3(react@18.3.1)
     devDependencies:
       '@eslint/js':
         specifier: ^9.2.0
         version: 9.9.0
+      '@nanostores/logger':
+        specifier: ^0.4.0
+        version: 0.4.0(nanostores@0.11.2)
+      '@tanstack/react-query-devtools':
+        specifier: ^5.52.1
+        version: 5.52.1(@tanstack/react-query@5.52.1(react@18.3.1))(react@18.3.1)
       '@types/node':
         specifier: ^20.12.11
         version: 20.16.1
@@ -271,6 +301,31 @@ packages:
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
+
+  '@nanostores/i18n@0.12.2':
+    resolution: {integrity: sha512-BZNDNB83qwfU8YGYEI5zwstBZGPRUfifhZcw0SqaiGLqUBe4onpQ/NCr4cRg0khlsvPtJ37MQ/XZaT7dN+/RvA==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      nanostores: ^0.9.0 || ^0.10.0 || ^0.11.0
+
+  '@nanostores/logger@0.4.0':
+    resolution: {integrity: sha512-8ipUQgX9udy3Uc9X9b7CFDZQR7DAKa+ZbZlIOcs3F0F1nDEYejffV2UoTQ1oYQ1F+DTXrNZIyZWhw+IWuSqvRQ==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      nanostores: '>=0.10.2'
+
+  '@nanostores/persistent@0.10.2':
+    resolution: {integrity: sha512-BEndnLhRC+yP7gXTESepBbSj8XNl8OXK9hu4xAgKC7MWJHKXnEqJMqY47LUyHxK6vYgFnisyHmqq+vq8AUFyIg==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      nanostores: ^0.9.0 || ^0.10.0 || ^0.11.0
+
+  '@nanostores/react@0.7.3':
+    resolution: {integrity: sha512-/XuLAMENRu/Q71biW4AZ4qmU070vkZgiQ28gaTSNRPm2SZF5zGAR81zPE1MaMB4SeOp6ZTst92NBaG75XSspNg==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      nanostores: ^0.9.0 || ^0.10.0 || ^0.11.0
+      react: '>=18.0.0'
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -608,16 +663,22 @@ packages:
   '@swc/types@0.1.12':
     resolution: {integrity: sha512-wBJA+SdtkbFhHjTMYH+dEH1y4VpfGdAc2Kw/LK09i9bXd/K6j6PkDcFCEzb6iVfZMkPRrl/q0e3toqTAJdkIVA==}
 
-  '@telegram-apps/react-router-integration@1.0.1':
-    resolution: {integrity: sha512-q5fC0ihXyUDqrSdLQ3u3gypmjI/rMU2mTHeAz9IU1F1bl5X+J17LxWmgLp+OlD0Y97bq2XYmc+UbKrYh+eN3Wg==}
+  '@tanstack/query-core@5.52.0':
+    resolution: {integrity: sha512-U1DOEgltjUwalN6uWYTewSnA14b+tE7lSylOiASKCAO61ENJeCq9VVD/TXHA6O5u9+6v5+UgGYBSccTKDoyMqw==}
+
+  '@tanstack/query-devtools@5.51.16':
+    resolution: {integrity: sha512-ajwuq4WnkNCMj/Hy3KR8d3RtZ6PSKc1dD2vs2T408MdjgKzQ3klVoL6zDgVO7X+5jlb5zfgcO3thh4ojPhfIaw==}
+
+  '@tanstack/react-query-devtools@5.52.1':
+    resolution: {integrity: sha512-6KwSm9vcIIK26osQJtT52Gyccz/DyHPT216B7kt4ihg22G2rtGZ7sCXYQO25XEHyVwVingwHdZ7auj+ydgg4Zg==}
     peerDependencies:
-      '@telegram-apps/sdk': ^1
-      '@types/react': ^17.0.0 || ^18.0.0
-      react: ^17.0.0 || ^18.0.0
-      react-router-dom: ^6.22.3
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
+      '@tanstack/react-query': ^5.52.1
+      react: ^18 || ^19
+
+  '@tanstack/react-query@5.52.1':
+    resolution: {integrity: sha512-soyn4dNIUZ8US8NaPVXv06gkZFHaZnPfKWPDjRJjFRW3Y7WZ0jx72eT6zhw3VQlkMPysmXye8l35ewPHspKgbQ==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@telegram-apps/sdk-react@1.1.3':
     resolution: {integrity: sha512-osddnacMIC4/KPvghsHQysPsomNXFQkr2K1owoMgf8MzmPQ2qZahR98xjeUlWU0JTCG+aAY9OHaPUFDNoxW/Bg==}
@@ -1042,6 +1103,9 @@ packages:
   fastq@1.17.1:
     resolution: {integrity: sha512-sRVD3lWVIXWg6By68ZN7vho9a1pQcN/WBFaAAsDDFzlJjvoGx0P8z7V1t72grFJfJhu3YPZBuu25f7Kaw2jN1w==}
 
+  fflate@0.4.8:
+    resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==}
+
   file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -1389,6 +1453,9 @@ packages:
     resolution: {integrity: sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==}
     engines: {node: '>=16 || 14 >=14.17'}
 
+  mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
+
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
 
@@ -1396,6 +1463,10 @@ packages:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  nanostores@0.11.2:
+    resolution: {integrity: sha512-6bucNxMJA5rNV554WQl+MWGng0QVMzlRgpKTHHfIbVLrhQ+yRXBychV9ECGVuuUfCMQPjfIG9bj8oJFZ9hYP/Q==}
+    engines: {node: ^18.0.0 || >=20.0.0}
 
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
@@ -1518,6 +1589,12 @@ packages:
     resolution: {integrity: sha512-TesUflQ0WKZqAvg52PWL6kHgLKP6xB6heTOdoYM0Wt2UHyxNa4K25EZZMgKns3BH1RLVbZCREPpLY0rhnNoHVQ==}
     engines: {node: ^10 || ^12 || >=14}
 
+  posthog-js@1.157.2:
+    resolution: {integrity: sha512-ATYKGs+Q51u26nHHhrhWNh1whqFm7j/rwQQYw+y6/YzNmRlo+YsqrGZji9nqXb9/4fo0ModDr+ZmuOI3hKkUXA==}
+
+  preact@10.23.2:
+    resolution: {integrity: sha512-kKYfePf9rzKnxOAKDpsWhg/ysrHPqT+yQ7UW4JjdnqjFIeNUnNcEJvhuA8fDenxAGWzUqtd51DfVg7xp/8T9NA==}
+
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
@@ -1539,6 +1616,14 @@ packages:
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+
+  react-query-kit@3.3.0:
+    resolution: {integrity: sha512-4lmH/8eP/f0v4NnDuMS7hUPlw12yJ4YskghKZXnpoJrW8x6MJ6aNAqSTvqpGVk6WW+4nJH3NO6JXkPrOcMSEzg==}
+    peerDependencies:
+      '@tanstack/react-query': ^4 || ^5
+    peerDependenciesMeta:
+      '@tanstack/react-query':
+        optional: true
 
   react-remove-scroll-bar@2.3.6:
     resolution: {integrity: sha512-DtSYaao4mBmX+HDo5YWYdBWQwYIQQshUV/dVxFxK+KM26Wjwp1gZ6rv6OC3oujI6Bfu6Xyg3TwK533AQutsn/g==}
@@ -1594,6 +1679,10 @@ packages:
   regexp.prototype.flags@1.5.2:
     resolution: {integrity: sha512-NcDiDkTLuPR+++OCKB0nWafEmhg/Da8aUPLPMQbK+bxKKCm1/S5he+AqYa4PlMCVBalb4/yxIRub6qkEx5yJbw==}
     engines: {node: '>= 0.4'}
+
+  regexparam@3.0.0:
+    resolution: {integrity: sha512-RSYAtP31mvYLkAHrOlh25pCNQ5hWnT106VukGaaFfuJrZFkGRX5GhUAdPqpSDXxOhA2c4akmRuplv1mRqnBn6Q==}
+    engines: {node: '>=8'}
 
   resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
@@ -1709,6 +1798,17 @@ packages:
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
 
+  tma-wouter-integration@https://codeload.github.com/adimov-eth/tma-wouter-integration/tar.gz/1d0804d2a64d536396a2fa2b1143030e76ee1ac4:
+    resolution: {tarball: https://codeload.github.com/adimov-eth/tma-wouter-integration/tar.gz/1d0804d2a64d536396a2fa2b1143030e76ee1ac4}
+    version: 1.0.1
+    peerDependencies:
+      '@types/react': ^17.0.0 || ^18.0.0
+      react: ^17.0.0 || ^18.0.0
+      react-router-dom: ^6.22.3
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
@@ -1820,6 +1920,11 @@ packages:
       '@types/react':
         optional: true
 
+  use-sync-external-store@1.2.2:
+    resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+
   vite-tsconfig-paths@4.3.2:
     resolution: {integrity: sha512-0Vd/a6po6Q+86rPlntHye7F31zA2URZMbH8M3saAZ/xR9QoGN/L21bxEGfXdWmFdNkqPpRdxFT7nmNe12e9/uA==}
     peerDependencies:
@@ -1859,6 +1964,9 @@ packages:
       terser:
         optional: true
 
+  web-vitals@4.2.3:
+    resolution: {integrity: sha512-/CFAm1mNxSmOj6i0Co+iGFJ58OS4NRGVP+AWS/l509uIK5a1bSoIVaHz/ZumpHTfHSZBpgrJ+wjfpAOrTHok5Q==}
+
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
 
@@ -1888,6 +1996,11 @@ packages:
   word-wrap@1.2.5:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
     engines: {node: '>=0.10.0'}
+
+  wouter@3.3.3:
+    resolution: {integrity: sha512-dvbRx1K/7tjAvKY8v0D2MRvWMbvrmpQf917cfCHFgJ7+IhXWrYZPhZQRa34ABOr7NUxjHqUYwhlIUd0frrfMVw==}
+    peerDependencies:
+      react: '>=16.8.0'
 
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
@@ -2020,6 +2133,23 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/object-schema@2.0.3': {}
+
+  '@nanostores/i18n@0.12.2(nanostores@0.11.2)':
+    dependencies:
+      nanostores: 0.11.2
+
+  '@nanostores/logger@0.4.0(nanostores@0.11.2)':
+    dependencies:
+      nanostores: 0.11.2
+
+  '@nanostores/persistent@0.10.2(nanostores@0.11.2)':
+    dependencies:
+      nanostores: 0.11.2
+
+  '@nanostores/react@0.7.3(nanostores@0.11.2)(react@18.3.1)':
+    dependencies:
+      nanostores: 0.11.2
+      react: 18.3.1
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -2275,13 +2405,20 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
 
-  '@telegram-apps/react-router-integration@1.0.1(@telegram-apps/sdk@1.1.3)(@types/react@18.3.4)(react-router-dom@6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
+  '@tanstack/query-core@5.52.0': {}
+
+  '@tanstack/query-devtools@5.51.16': {}
+
+  '@tanstack/react-query-devtools@5.52.1(@tanstack/react-query@5.52.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@telegram-apps/sdk': 1.1.3
+      '@tanstack/query-devtools': 5.51.16
+      '@tanstack/react-query': 5.52.1(react@18.3.1)
       react: 18.3.1
-      react-router-dom: 6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-    optionalDependencies:
-      '@types/react': 18.3.4
+
+  '@tanstack/react-query@5.52.1(react@18.3.1)':
+    dependencies:
+      '@tanstack/query-core': 5.52.0
+      react: 18.3.1
 
   '@telegram-apps/sdk-react@1.1.3(@types/react@18.3.4)(react@18.3.1)':
     dependencies:
@@ -2901,6 +3038,8 @@ snapshots:
     dependencies:
       reusify: 1.0.4
 
+  fflate@0.4.8: {}
+
   file-entry-cache@6.0.1:
     dependencies:
       flat-cache: 3.2.0
@@ -3265,9 +3404,13 @@ snapshots:
     dependencies:
       brace-expansion: 2.0.1
 
+  mitt@3.0.1: {}
+
   ms@2.1.2: {}
 
   nanoid@3.3.7: {}
+
+  nanostores@0.11.2: {}
 
   natural-compare@1.4.0: {}
 
@@ -3376,6 +3519,14 @@ snapshots:
       picocolors: 1.0.1
       source-map-js: 1.2.0
 
+  posthog-js@1.157.2:
+    dependencies:
+      fflate: 0.4.8
+      preact: 10.23.2
+      web-vitals: 4.2.3
+
+  preact@10.23.2: {}
+
   prelude-ls@1.2.1: {}
 
   prop-types@15.8.1:
@@ -3395,6 +3546,10 @@ snapshots:
       scheduler: 0.23.2
 
   react-is@16.13.1: {}
+
+  react-query-kit@3.3.0(@tanstack/react-query@5.52.1(react@18.3.1)):
+    optionalDependencies:
+      '@tanstack/react-query': 5.52.1(react@18.3.1)
 
   react-remove-scroll-bar@2.3.6(@types/react@18.3.4)(react@18.3.1):
     dependencies:
@@ -3456,6 +3611,8 @@ snapshots:
       define-properties: 1.2.1
       es-errors: 1.3.0
       set-function-name: 2.0.2
+
+  regexparam@3.0.0: {}
 
   resolve-from@4.0.0: {}
 
@@ -3608,6 +3765,15 @@ snapshots:
 
   text-table@0.2.0: {}
 
+  tma-wouter-integration@https://codeload.github.com/adimov-eth/tma-wouter-integration/tar.gz/1d0804d2a64d536396a2fa2b1143030e76ee1ac4(@types/react@18.3.4)(react-router-dom@6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@telegram-apps/sdk': 1.1.3
+      react: 18.3.1
+      react-router-dom: 6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      wouter: 3.3.3(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.4
+
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
@@ -3715,6 +3881,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.4
 
+  use-sync-external-store@1.2.2(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
   vite-tsconfig-paths@4.3.2(typescript@5.5.4)(vite@5.4.2(@types/node@20.16.1)):
     dependencies:
       debug: 4.3.6
@@ -3734,6 +3904,8 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.16.1
       fsevents: 2.3.3
+
+  web-vitals@4.2.3: {}
 
   webidl-conversions@3.0.1: {}
 
@@ -3785,6 +3957,13 @@ snapshots:
       isexe: 2.0.0
 
   word-wrap@1.2.5: {}
+
+  wouter@3.3.3(react@18.3.1):
+    dependencies:
+      mitt: 3.0.1
+      react: 18.3.1
+      regexparam: 3.0.0
+      use-sync-external-store: 1.2.2(react@18.3.1)
 
   wrappy@1.0.2: {}
 

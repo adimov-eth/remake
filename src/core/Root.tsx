@@ -1,9 +1,12 @@
-import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
+import { SDKProvider, useLaunchParams, retrieveLaunchParams } from '@telegram-apps/sdk-react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
-import { type FC, useEffect, useMemo } from 'react';
+import { type FC, useEffect } from 'react';
 
-import { App } from '@/components/App.tsx';
-import { ErrorBoundary } from '@/components/ErrorBoundary.tsx';
+import { App } from '@/core/App.tsx';
+import { ErrorBoundary } from '@/core/ErrorBoundary';
+import { AuthProvider } from '@/features/auth/authProvider';
+import { $telegramProvideRawData } from '@/features/auth/authStore';
+import { CONFIG } from './config';
 
 const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
   <div>
@@ -22,21 +25,24 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
 
 const Inner: FC = () => {
   const debug = useLaunchParams().startParam === 'debug';
-  const manifestUrl = useMemo(() => {
-    return new URL('tonconnect-manifest.json', window.location.href).toString();
-  }, []);
+
+  const { initDataRaw } = retrieveLaunchParams()
+  $telegramProvideRawData.set(initDataRaw || '')
 
   // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {
-    if (debug) {
-      import('eruda').then((lib) => lib.default.init());
+    if (import.meta.env.DEV && debug) {
+      // Enable DEBUG CONSOLE on mobile/webview
+      import('eruda').then((lib) => lib.default.init())
     }
-  }, [debug]);
+  }, [debug])
 
   return (
-    <TonConnectUIProvider manifestUrl={manifestUrl}>
+    <TonConnectUIProvider manifestUrl={CONFIG.TON_CONNECT_MANIFEST_URL}>
       <SDKProvider acceptCustomStyles debug={debug}>
-        <App/>
+        <AuthProvider>
+          <App/>
+        </AuthProvider>
       </SDKProvider>
     </TonConnectUIProvider>
   );

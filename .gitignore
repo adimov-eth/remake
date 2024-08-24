@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 *.pem
+
+project_files.txt
+.ctx

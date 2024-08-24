@@ -1,11 +1,5 @@
-ReactQuery
-@tanstack/react-query-devtools
+Delete posthog
 
-Nanostores
-Nanostores/i18n
-Nanostores/persistent
-Nanostores/logger
-
-TelegramUI
-
-Wouter
+Setup in dev:
+    react-query-devtools
+    logger
