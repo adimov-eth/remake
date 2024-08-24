@@ -16,7 +16,7 @@ const WebBlocker: React.FC = () => {
       <div className="web-blocker-text">{text}</div>
       <a href={tgLink} className="qr-code-link">
         <div className="qr-code">
-          <QRCode />
+          <img src={QRCode} alt="QR Code" />
         </div>
       </a>
       <a href={tgLink} className="web-blocker-text">

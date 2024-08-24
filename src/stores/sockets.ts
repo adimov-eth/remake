@@ -19,7 +19,7 @@ function constructUrlWithQueryParams(
 export const $transportStore = computed(
   $telegramAuthData,
   (telegramAuthData: InitDataParsed | undefined) => {
-    console.log('telegramAuthData for computed $transport', telegramAuthData)
+    console.log('Computing $transportStore, telegramAuthData:', telegramAuthData)
     if (telegramAuthData && telegramAuthData.user) {
       const queryParams = {
         rawData: $telegramProvideRawData.get(),
@@ -28,9 +28,13 @@ export const $transportStore = computed(
         import.meta.env.VITE_WS_URL,
         queryParams
       )
+      console.log('Creating new Transport instance with URL:', transportUrl)
       return new Transport(transportUrl)
     } else {
+      console.log('Creating new Transport instance with empty URL')
       return new Transport('')
     }
   }
 )
+
+console.log('$transportStore initialized:', $transportStore.get())

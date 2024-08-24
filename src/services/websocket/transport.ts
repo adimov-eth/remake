@@ -1,8 +1,6 @@
 import { createNanoEvents, Emitter } from 'nanoevents'
 import { atom } from 'nanostores'
 
-// this is a forked version of the original library extracted from Partysocket
-// with up-to-date fixes and types
 import { $currentNotification } from '@/stores/notifications'
 
 import {
@@ -10,6 +8,7 @@ import {
   Action,
   initClicker,
 } from '@/services/websocket/clicker'
+
 import {
   ChannelClientEvent,
   ChannelServerEvent,
@@ -26,12 +25,7 @@ import ReconnectingWebSocket from "@/services/websocket/reconnectingWebsocket"
 
 import { queryClient } from "@/services/api/queryClient"
 
-type ConnectionStatus =
-  | 'online'
-  | 'connecting'
-  | 'reconnecting'
-  | 'handshake'
-  | 'offline'
+import { ConnectionStatus } from '@/types/connectionStatus'
 
 const PING_INTERVAL = 2000
 const PING_LEEWAY = 2000
@@ -65,23 +59,18 @@ class Transport {
   emitter: Emitter = createNanoEvents()
 
   constructor(url: string) {
+    console.log('Transport constructor called with URL:', url)
     this.connect(url)
   }
 
-  ping(websocket: WebSocket) {
-    if (websocket.readyState === 1) {
-      websocket.send(JSON.stringify({ evt: 'ping' }))
-      this.pingTimer = setTimeout(() => this.ping(websocket), pingInterval())
-    }
-  }
-
   connect(url: string) {
+    console.log('Transport.connect called with URL:', url)
     this.socket = new ReconnectingWebSocket(url)
     this.$connectionStatus.set('connecting')
+    console.log('Set connection status to connecting')
 
     this.socket.addEventListener('open', () => {
-      console.log('Connected to server. Sending a handshake...')
-
+      console.log('WebSocket opened. Sending handshake...')
       this.$connectionStatus.set('handshake')
       this.handshakeTime = Date.now()
 
@@ -107,6 +96,7 @@ class Transport {
 
       clearInterval(this.pingTimer)
       this.$connectionStatus.set('offline')
+      console.log('Connection status: offline')
       this.$state.set(null)
     })
 
@@ -182,6 +172,13 @@ class Transport {
       clearInterval(this.pingTimer)
       this.$connectionStatus.set('reconnecting')
     })
+  }
+
+  ping(websocket: WebSocket) {
+    if (websocket.readyState === 1) {
+      websocket.send(JSON.stringify({ evt: 'ping' }))
+      this.pingTimer = setTimeout(() => this.ping(websocket), pingInterval())
+    }
   }
 
   disconnect() {

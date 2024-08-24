@@ -1,6 +1,6 @@
 import { createQuery} from 'react-query-kit'
-import { instance } from '@/api/axiosIntance'
-import { type UserResponseData } from '@/api/user/types'
+import { instance } from '@/services/api/axiosIntance'
+import { type UserResponseData } from '@/services/api/user/types'
 
 // API function
 export const getUserData = ({ rawData }: { rawData: string }): Promise<UserResponseData> =>
@@ -8,7 +8,7 @@ export const getUserData = ({ rawData }: { rawData: string }): Promise<UserRespo
     .get(`/users/me`, {
       params: { rawData },
     })
-    .then((res: any) => {
+    .then((res: { data: UserResponseData }) => {
       console.log('getUserData res', res)
       return res.data
     })

@@ -36,6 +36,7 @@ export interface UserResponse {
   tg_profile_image: null | string;
   tg_uid: string;
   tg_username: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user_upgrades: any[];
   can_play: boolean;
   total_reward_quarks: number;
