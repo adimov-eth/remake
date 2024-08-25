@@ -31,8 +31,8 @@ export const $transportStore = computed(
       console.log('Creating new Transport instance with URL:', transportUrl)
       return new Transport(transportUrl)
     } else {
-      console.log('Creating new Transport instance with empty URL')
-      return new Transport('')
+      console.log('NOT Creating new Transport instance with empty URL')
+      return null;
     }
   }
 )

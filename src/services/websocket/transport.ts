@@ -1,14 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createNanoEvents, Emitter } from 'nanoevents'
 import { atom } from 'nanostores'
-
 import { $currentNotification } from '@/stores/notifications'
-
-import {
-  ClickerState,
-  Action,
-  initClicker,
-} from '@/services/websocket/clicker'
-
+import { ClickerState, Action, initClicker } from '@/services/websocket/clicker'
 import {
   ChannelClientEvent,
   ChannelServerEvent,
@@ -20,220 +14,276 @@ import {
   updateClock,
   IngameNotification,
 } from '@/services/websocket/protocol'
-
 import ReconnectingWebSocket from "@/services/websocket/reconnectingWebsocket"
-
 import { queryClient } from "@/services/api/queryClient"
-
 import { ConnectionStatus } from '@/types/connectionStatus'
 
-const PING_INTERVAL = 2000
-const PING_LEEWAY = 2000
+// Constants
+const PING_INTERVAL = 30000 // 30 seconds
+const PONG_TIMEOUT = 5000 // 5 seconds
 
-const pingInterval = () => {
-  // use varying ping intervals to avoid flooding the server
-  return Math.floor(PING_INTERVAL + Math.random() * PING_LEEWAY)
-}
-
+// Types
 export interface NotificationStore {
   cursor: number
   notifications: IngameNotification[]
 }
 
 class Transport {
-  private clk: VectorClock = [0, 0] // [server, client]
-
+  private clk: VectorClock = [0, 0]
   private socket: ReconnectingWebSocket | undefined
   private handshakeTime: number | null = null
+  private pingTimer: ReturnType<typeof setInterval> | undefined
+  private pongTimer: ReturnType<typeof setTimeout> | undefined
+  private isConnecting = false
+  private messageQueue: any[] = []
+  private batchInterval: ReturnType<typeof setInterval> | undefined
 
-  private pingTimer: ReturnType<typeof setTimeout> | undefined
-
-  // stores that the UI can subscribe to
+  // Stores
   $connectionStatus = atom<ConnectionStatus>('offline')
   $state = atom<ClickerState | null>(null)
-  $ingameNotifications = atom<NotificationStore>({
-    notifications: [],
-    cursor: 0,
-  })
+  $ingameNotifications = atom<NotificationStore>({ notifications: [], cursor: 0 })
 
   emitter: Emitter = createNanoEvents()
 
   constructor(url: string) {
-    console.log('Transport constructor called with URL:', url)
     this.connect(url)
+    window.addEventListener('online', this.handleOnline)
+    window.addEventListener('offline', this.handleOffline)
+    document.addEventListener('visibilitychange', this.handleVisibilityChange)
   }
 
   connect(url: string) {
-    console.log('Transport.connect called with URL:', url)
-    this.socket = new ReconnectingWebSocket(url)
+    if (this.isConnecting) return
+    this.isConnecting = true
     this.$connectionStatus.set('connecting')
-    console.log('Set connection status to connecting')
-
-    this.socket.addEventListener('open', () => {
-      console.log('WebSocket opened. Sending handshake...')
-      this.$connectionStatus.set('handshake')
-      this.handshakeTime = Date.now()
-
-      if (this.socket !== undefined) {
-        this.socket.send(
-          JSON.stringify({
-            evt: 'hi',
-            ver: PROTOCOL_VERSION,
-            time: this.handshakeTime,
-          })
-        )
-
-        clearInterval(this.pingTimer)
-        this.pingTimer = setTimeout(
-          () => this.ping(this.socket as WebSocket),
-          pingInterval()
-        )
-      }
+    this.socket = new ReconnectingWebSocket(url, undefined, {
+      connectionTimeout: 10000, // 10 seconds
+      debug: true, // Enable debug logging
+      debugLogger: console.log, // Use console.log for debug messages
+      maxRetries: Infinity, // Keep trying to reconnect
     })
+    
+    this.setupEventListeners()
+  }
 
-    this.socket.addEventListener('close', () => {
-      console.log('Disconnected from server')
+  private setupEventListeners() {
+    if (!this.socket) return
 
-      clearInterval(this.pingTimer)
-      this.$connectionStatus.set('offline')
-      console.log('Connection status: offline')
-      this.$state.set(null)
-    })
-
-    this.socket.addEventListener('message', (e) => {
-      const event = JSON.parse(e.data) as ChannelServerEvent
-      if (event.evt === 'pong') return // ignore pongs
-
-      console.log('Received message from server:', event)
-
-      if (event.evt === 'ack') {
-        if (
-          !isEqualClocks(this.clk, event.clk) &&
-          (happenedBefore(this.clk, event.clk) ||
-            isParallelClocks(this.clk, event.clk))
-        ) {
-          console.info(
-            'Server version is dominant, overwriting the state :: ' +
-              `${JSON.stringify(this.clk)} < ${JSON.stringify(event.clk)}`
-          )
-          this.$state.get()?.deserialize(event.state)
-          queryClient.invalidateQueries({ queryKey: ['get/userData'] })
-        }
-
-        // update the clock
-        this.clk = updateClock(this.clk, event.clk)
+    this.socket.addEventListener('open', this.handleOpen)
+    this.socket.addEventListener('close', this.handleClose)
+    this.socket.addEventListener('message', this.handleMessage)
+    this.socket.addEventListener('error', (event: Event) => {
+      if (event instanceof ErrorEvent) {
+        this.handleError(event);
+      } else {
+        console.error('Unknown error event:', event);
       }
-
-      if (event.evt === 'leaders') {
-        console.log('Received leaders event', event)
-        const currentState = this.$state.get()
-        currentState?.handleLeaders(event.leaders)
-      }
-
-      if (event.evt === 'notification') {
-        console.log('Received notification event', event)
-        const { message, type } = event.notification
-        const currentStore = this.$ingameNotifications.get()
-        const currentNotifications = currentStore.notifications
-        currentStore.notifications = currentNotifications
-        currentStore.cursor = currentStore.cursor + 1
-        currentNotifications.push({ message, type })
-        this.$ingameNotifications.set(currentStore)
-        $currentNotification.set(event.notification)
-      }
-
-      if (event.evt === 'hi') {
-        const handshakeReceivedTime = Date.now()
-        const roundTripTime = handshakeReceivedTime - this.handshakeTime!
-        const serverTime = handshakeReceivedTime - event.time
-
-        const timeSkew = Math.abs(roundTripTime / 2 - serverTime)
-
-        if (timeSkew > 500) {
-          console.warn(
-            `Time skew is too high: ${timeSkew}ms, consider syncing the time with the server`
-          )
-        } else {
-          console.info('Time skew between client and server: ', timeSkew)
-        }
-
-        if (!this.$state.get()) {
-          this.$state.set(initClicker())
-        }
-        this.$state.get()?.deserialize(event.state)
-
-        this.$connectionStatus.set('online')
-      }
-    })
-
-    this.socket.addEventListener('error', () => {
-      console.log('Error connecting to server. Trying to reconnect...')
-
-      clearInterval(this.pingTimer)
-      this.$connectionStatus.set('reconnecting')
     })
   }
 
-  ping(websocket: WebSocket) {
-    if (websocket.readyState === 1) {
-      websocket.send(JSON.stringify({ evt: 'ping' }))
-      this.pingTimer = setTimeout(() => this.ping(websocket), pingInterval())
+  private handleOpen = () => {
+    this.isConnecting = false
+    this.$connectionStatus.set('handshake')
+    this.handshakeTime = Date.now()
+
+    this.sendHandshake()
+    this.startPingInterval()
+  }
+
+  private handleClose = () => {
+    this.isConnecting = false
+    this.clearPingInterval()
+    this.$connectionStatus.set('offline')
+    this.$state.set(null)
+  }
+
+  private handleMessage = (e: MessageEvent) => {
+    const event = JSON.parse(e.data) as ChannelServerEvent
+    if (event.evt === 'pong') {
+      this.handlePong()
+      return
+    }
+
+    this.processServerEvent(event)
+  }
+
+  private handleError = (event: ErrorEvent) => {
+    console.error('WebSocket error:', event.message);
+    this.isConnecting = false
+    this.clearPingInterval()
+    this.$connectionStatus.set('reconnecting')
+  }
+
+  private handleOnline = () => {
+    if (this.socket?.readyState !== WebSocket.OPEN) {
+      this.connect(this.socket?.url || '')
     }
   }
 
-  disconnect() {
-    console.log('Disconnecting from server...')
-    this.socket?.close()
-    this.$connectionStatus.set('offline')
+  private handleOffline = () => {
+    this.disconnect()
   }
 
-  private async sendAction(
-    type: Action['type'],
-    payload: Action['payload']
-  ): Promise<void> {
+  private handleVisibilityChange = () => {
+    if (!document.hidden && this.socket?.readyState !== WebSocket.OPEN) {
+      this.socket?.reconnect()
+    }
+  }
+
+  private startPingInterval() {
+    this.clearPingInterval()
+    this.pingTimer = setInterval(() => this.ping(), PING_INTERVAL)
+  }
+
+  private clearPingInterval() {
+    if (this.pingTimer) clearInterval(this.pingTimer)
+    if (this.pongTimer) clearTimeout(this.pongTimer)
+  }
+
+  private ping() {
+    if (this.socket?.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify({ evt: 'ping' }))
+      this.pongTimer = setTimeout(() => {
+        // No pong received, connection might be dead
+        this.socket?.close()
+      }, PONG_TIMEOUT)
+    }
+  }
+
+  private handlePong() {
+    if (this.pongTimer) clearTimeout(this.pongTimer)
+  }
+
+  private processServerEvent(event: ChannelServerEvent) {
+    switch (event.evt) {
+      case 'ack':
+        this.handleAckEvent(event)
+        break
+      case 'leaders':
+        this.handleLeadersEvent(event)
+        break
+      case 'notification':
+        this.handleNotificationEvent(event)
+        break
+      case 'hi':
+        this.handleHiEvent(event)
+        break
+    }
+  }
+
+  private handleAckEvent(event: Extract<ChannelServerEvent, { evt: 'ack' }>) {
+    if (
+      !isEqualClocks(this.clk, event.clk) &&
+      (happenedBefore(this.clk, event.clk) ||
+        isParallelClocks(this.clk, event.clk))
+    ) {
+      console.info(
+        'Server version is dominant, overwriting the state :: ' +
+          `${JSON.stringify(this.clk)} < ${JSON.stringify(event.clk)}`
+      )
+      this.$state.get()?.deserialize(event.state)
+      queryClient.invalidateQueries({ queryKey: ['get/userData'] })
+    }
+
+    // update the clock
+    this.clk = updateClock(this.clk, event.clk)
+  }
+
+  private handleLeadersEvent(event: Extract<ChannelServerEvent, { evt: 'leaders' }>) {
+    console.log('Received leaders event', event)
+    const currentState = this.$state.get()
+    currentState?.handleLeaders(event.leaders)
+  }
+
+  private handleNotificationEvent(event: Extract<ChannelServerEvent, { evt: 'notification' }>) {
+    console.log('Received notification event', event)
+    const { message, type } = event.notification
+    const currentStore = this.$ingameNotifications.get()
+    const currentNotifications = currentStore.notifications
+    currentStore.notifications = currentNotifications
+    currentStore.cursor = currentStore.cursor + 1
+    currentNotifications.push({ message, type })
+    this.$ingameNotifications.set(currentStore)
+    $currentNotification.set(event.notification)
+  }
+
+  private handleHiEvent(event: Extract<ChannelServerEvent, { evt: 'hi' }>) {
+    const handshakeReceivedTime = Date.now()
+    const roundTripTime = handshakeReceivedTime - this.handshakeTime!
+    const serverTime = handshakeReceivedTime - event.time
+
+    const timeSkew = Math.abs(roundTripTime / 2 - serverTime)
+
+    if (timeSkew > 500) {
+      console.warn(
+        `Time skew is too high: ${timeSkew}ms, consider syncing the time with the server`
+      )
+    } else {
+      console.info('Time skew between client and server: ', timeSkew)
+    }
+
+    if (!this.$state.get()) {
+      this.$state.set(initClicker())
+    }
+    this.$state.get()?.deserialize(event.state)
+
+    this.$connectionStatus.set('online')
+  }
+
+  private sendHandshake() {
+    this.socket?.send(JSON.stringify({
+      evt: 'hi',
+      ver: PROTOCOL_VERSION,
+      time: this.handshakeTime,
+    }))
+  }
+
+  private sendBatchedMessage(message: any) {
+    this.messageQueue.push(message)
+    if (!this.batchInterval) {
+      this.batchInterval = setInterval(() => this.flushMessages(), 100) // Flush every 100ms
+    }
+  }
+
+  private flushMessages() {
+    if (this.messageQueue.length > 0) {
+      const batch = this.messageQueue
+      this.messageQueue = []
+      this.socket?.send(JSON.stringify(batch))
+    } else {
+      clearInterval(this.batchInterval!)
+      this.batchInterval = undefined
+    }
+  }
+
+  private async sendAction(type: Action['type'], payload: Action['payload']): Promise<void> {
     if (this.$connectionStatus.get() !== 'online') {
       console.error('Not connected to server, cannot send action')
       return
     }
 
-    const action: Action = {
-      type,
-      payload,
-    }
-
     const currentState = this.$state.get()
-
     if (!currentState) {
-      console.error(
-        'State is not initialized, did you forget to do a handshake?'
-      )
+      console.error('State is not initialized, did you forget to do a handshake?')
       return
     }
 
-    // Apply the action using the reducer function
+    const action: Action = { type, payload }
     const updated = currentState.handleAction(action)
 
-    // Send the update if the state was actually changed
     if (updated) {
-      console.log('Local update action:', action)
-
-      // increment our version of the clock
       this.clk[1] += 1
-
-      const message: ChannelClientEvent = {
-        evt: 'action',
-        clk: this.clk,
-        act: action,
-      }
-      console.log('Local update msg:', message)
-      // Send the action to the server
-      this.socket?.send(JSON.stringify(message))
+      const message: ChannelClientEvent = { evt: 'action', clk: this.clk, act: action }
+      this.sendBatchedMessage(message)
     }
   }
 
-  /**
-   * Actions that the UI should call to modify the state
-   */
+  disconnect() {
+    this.socket?.close()
+    this.$connectionStatus.set('offline')
+  }
+
+  // Public methods
   click() {
     this.sendAction('click', {})
   }
@@ -243,7 +293,6 @@ class Transport {
   }
 
   commit() {
-    // Send the action to the server
     this.socket?.send(JSON.stringify({ evt: 'commit' }))
   }
 

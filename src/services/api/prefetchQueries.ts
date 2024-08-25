@@ -2,9 +2,9 @@ import {
   useGetDailyMissions,
   useGetDailyRewards,
   useGetMissions,
-} from '@/api/missions/model.ts'
-import { useGetUserData } from '@/api/user/model'
-import { queryClient } from '@/api/queryClient'
+} from '@/services/api/missions/model.ts'
+import { useGetUserData } from '@/services/api/user/model'
+import { queryClient } from '@/services/api/queryClient'
 
 
 export const prefetchMissionsAndRewards = async (rawData: string) => {

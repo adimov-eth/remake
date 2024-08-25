@@ -23,11 +23,3 @@ html {
   overflow: hidden;
 }
 
-body {
-  min-height: 100vh;
-  height: 100vh;
-  overflow: hidden;
-  background: #0b0d14 url('assets/background-stars.svg') no-repeat center center
-    fixed;
-  background-size: 200% 200%;
-}

@@ -24,18 +24,18 @@ if (import.meta.env.DEV) {
     const initDataRaw = new URLSearchParams([
       ['user', JSON.stringify({
         id: 99281932,
-        first_name: 'Andrew',
-        last_name: 'Rogue',
-        username: 'rogue',
+        first_name: 'Fake',
+        last_name: 'User',
+        username: 'fakeuser',
         language_code: 'en',
         is_premium: true,
         allows_write_to_pm: true,
       })],
-      ['hash', '89d6079ad6762351f38c6dbbc41bb53048019256a9443988af7a48bcad16ba31'],
-      ['auth_date', '1716922846'],
-      ['start_param', 'debug'],
+      ['hash', '056c0c8c8c9c6ac67e3df5adaf6df106simsalabim758ff0f2db4d38817c8b6c'],
+      ['auth_date', '1718098464'],
+      ['start_param', 'refid79204120'],
       ['chat_type', 'sender'],
-      ['chat_instance', '8428209589180549439'],
+      ['chat_instance', '6857846651419371474'],
     ]).toString();
 
     mockTelegramEnv({

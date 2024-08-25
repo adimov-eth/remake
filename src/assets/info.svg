@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" style="color:#000000" xmlns="http://www.w3.org/2000/svg"
+     class="h-full w-full">
+    <rect width="512" height="512" x="0" y="0" rx="30" fill="transparent" stroke="transparent" stroke-width="0"
+          stroke-opacity="100%" paint-order="stroke"></rect>
+    <svg width="512px" height="512px" viewBox="0 0 1024 1024" fill="#000000" x="0" y="0" role="img"
+         style="display:inline-block;vertical-align:middle" xmlns="http://www.w3.org/2000/svg">
+        <g fill="black">
+            <path fill="currentColor"
+                  d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448s448-200.6 448-448S759.4 64 512 64zm32 664c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V456c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v272zm-32-344a48.01 48.01 0 0 1 0-96a48.01 48.01 0 0 1 0 96z"/>
+        </g>
+    </svg>
+</svg>
