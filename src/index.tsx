@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import { postEvent } from '@telegram-apps/sdk';
 
+
 import { Root } from '@/core/Root';
 
 // Uncomment this import in case, you would like to develop the application even outside

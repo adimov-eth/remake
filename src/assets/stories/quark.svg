@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <defs>
+    <filter id="glow1" x="-75%" y="-75%" width="250%" height="250%" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="4.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="glow2" x="-112.5%" y="-112.5%" width="325%" height="325%" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="4.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="glow3" x="-225%" y="-225%" width="550%" height="550%" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="4.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <g id="quark">
+    <rect x="9" y="9" width="12" height="12" rx="6" fill="#002654" filter="url(#glow1)">
+      <animate attributeName="opacity" values="1;0.7;1" dur="3s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="11" y="11" width="8" height="8" rx="4" fill="#00479B" filter="url(#glow2)">
+      <animate attributeName="opacity" values="1;0.8;1" dur="2s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="13" y="13" width="4" height="4" rx="2" fill="#3391FF" filter="url(#glow3)">
+      <animate attributeName="opacity" values="1;0.9;1" dur="1s" repeatCount="indefinite"/>
+    </rect>
+
+    <animateTransform attributeName="transform"
+                      type="rotate"
+                      from="0 15 15"
+                      to="360 15 15"
+                      dur="10s"
+                      repeatCount="indefinite"/>
+  </g>
+
+  <circle id="particle1" r="0.5" fill="#3391FF">
+    <animateMotion path="M15,7 Q20,15 15,23 Q10,15 15,7 Z" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <circle id="particle2" r="0.5" fill="#3391FF">
+    <animateMotion path="M23,15 Q15,20 7,15 Q15,10 23,15 Z" dur="3s" repeatCount="indefinite" />
+  </circle>
+
+  <circle id="particle3" r="0.5" fill="#3391FF">
+    <animateMotion path="M15,23 Q10,15 15,7 Q20,15 15,23 Z" dur="3s" repeatCount="indefinite" begin="0s"/>
+  </circle>
+
+  <animateTransform attributeName="transform"
+                    type="scale"
+                    values="1;1.05;1"
+                    dur="2s"
+                    repeatCount="indefinite"
+                    additive="sum"/>
+</svg>

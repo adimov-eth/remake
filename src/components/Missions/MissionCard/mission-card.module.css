@@ -1,0 +1,116 @@
+.root {
+  position: relative;
+  background: #14151E;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  padding: 16px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-family: var(--font-pro-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.cost {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.currency {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+}
+
+.open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 27px;
+  background: #1C1F30;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.completeRight {
+  background: #1C1F30;
+  box-shadow: 0px 0px 17px 0px #365AE5;
+  padding: 14px;
+  font-family: var(--font-pro-display);
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 27px;
+  color: white;
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+    transition-property: left;
+  }
+  12%,
+  100% {
+    left: 100%;
+    transition-property: left;
+  }
+}
+
+.inProgress {
+  position: relative;
+  overflow: hidden;
+}
+
+.inProgress::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+  );
+  animation: shine 4s ease-in-out infinite;
+}
+
+.complete {
+}
+
+.close {
+  path {
+    fill: red;
+  }
+}

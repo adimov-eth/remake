@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tooltip } from 'react-tooltip'
-import { formatNumberGroup } from '@/utils/format-number'
+import { formatNumberGroup } from '@/utils/formatters'
 
 //TODO consider refactoring to telegram-ui
 
@@ -23,3 +23,4 @@ export const ValueTooltip: React.FC<ValueTooltipProps> = ({ value, type }) => (
     {type === 'quarks' ? formatNumberGroup(value) : value.toFixed(2)}
   </Tooltip>
 )
+

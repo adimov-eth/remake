@@ -1,10 +1,13 @@
 import { FC, useState, useEffect, useCallback } from 'react'
 import UserIcon from '@/assets/user.svg?react'
+
+import { styled, keyframes } from '@/core/styles/stitches.config';
+
 import {
   calculateProgress,
   formatRemainingTime,
   isTimeUp,
-} from '@/features/missions/utils/utils.ts'
+} from '@/utils/missions'
 
 interface AvatarProps {
   src?: string
@@ -112,7 +115,6 @@ export const Avatar: FC<AvatarProps> = ({
 }
 
 
-import { styled, keyframes } from '@/stitches.config';
 
 const progressBarAnimation = keyframes({
   '0%': { background: 'conic-gradient($colors$progressStart 0%, $colors$progressStart 100%)' },

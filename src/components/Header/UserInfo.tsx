@@ -31,6 +31,7 @@ const UserRank = styled('div', {
   color: '#3B4660',
 })
 
+
 interface UserInfoProps {
   user: User | null | undefined
   rank: string

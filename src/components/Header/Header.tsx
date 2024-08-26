@@ -1,18 +1,18 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import { useStore } from '@nanostores/react'
 import { styled } from '@stitches/react'
 import { UserInfo } from './UserInfo'
 import { ValueDisplay } from './ValueDisplay'
 import { SettingsButtons } from './SettingsButtons'
 import { ValueTooltip } from './ValueTooltip'
-import { useUserAndGameState } from '@/hooks/useUserAndGameState'
-import { useConnection } from "@/providers/connectionProvider"
+import { $connectionStatus, $gameState } from '@/stores/state'
+
+import { user } from '@/stores/telegram'
+
 
 const HeaderRoot = styled('div', {
-  position: 'fixed',
-  top: 0,
   width: '100%',
-  zIndex: 2,
   background: 'rgba(43, 46, 69, 0.3)',
   boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25)',
   backdropFilter: 'blur(24px)',
@@ -28,13 +28,13 @@ const HeaderWrapper = styled('div', {
 
 export const Header: React.FC = () => {
   const location = useLocation()
-  const { isLoading, data } = useUserAndGameState()
-  const { connectionStatus } = useConnection()
+  const connectionStatus = useStore($connectionStatus)
+  const gameState = useStore($gameState)
 
   const isProfilePage = location.pathname === '/profile'
   const showQuarks = location.pathname !== '/'
 
-  if (isLoading || connectionStatus !== 'online') {
+  if (connectionStatus !== 'online') {
     return (
       <HeaderRoot>
         <HeaderWrapper>
@@ -43,29 +43,31 @@ export const Header: React.FC = () => {
       </HeaderRoot>
     )
   }
+  const { quarks, stars } = gameState
+  const currentRank = gameState.levelDef.get()
+  const telegramUser = user
 
-  const { telegramUser, currentRank, profileImage, quarks, stars } = data || {}
 
   return (
     <HeaderRoot>
       <HeaderWrapper>
         <UserInfo
           user={telegramUser}
-          rank={currentRank || ''}
-          avatar={profileImage || ''}
+          rank={currentRank.name}
+          avatar={telegramUser?.photoUrl as string}
         />
         {isProfilePage ? (
           <SettingsButtons />
         ) : (
           <ValueDisplay
-            quarks={quarks || 0}
-            stars={stars || 0}
+            quarks={quarks.get()}
+            stars={stars.get()}
             showQuarks={showQuarks}
           />
         )}
       </HeaderWrapper>
-      <ValueTooltip value={quarks || 0} type="quarks" />
-      <ValueTooltip value={stars || 0} type="stars" />
+      <ValueTooltip value={quarks.get()} type="quarks" />
+      <ValueTooltip value={stars.get()} type="stars" />
     </HeaderRoot>
   )
 }

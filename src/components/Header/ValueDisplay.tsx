@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from '@stitches/react'
-import { formatNumber } from '@/utils/format-number'
+import { formatNumber } from '@/utils/formatters'
 import QuarkIcon from '@/assets/quark.svg?react'
 import StarIcon from '@/assets/star.svg?react'
 

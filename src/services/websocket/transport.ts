@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createNanoEvents, Emitter } from 'nanoevents'
-import { atom } from 'nanostores'
 import { $currentNotification } from '@/stores/notifications'
-import { ClickerState, Action, initClicker } from '@/services/websocket/clicker'
+import { Action } from '@/services/websocket/clicker'
 import {
   ChannelClientEvent,
   ChannelServerEvent,
@@ -16,7 +15,8 @@ import {
 } from '@/services/websocket/protocol'
 import ReconnectingWebSocket from "@/services/websocket/reconnectingWebsocket"
 import { queryClient } from "@/services/api/queryClient"
-import { ConnectionStatus } from '@/types/connectionStatus'
+
+import { $connectionStatus, $gameState, $ingameNotifications } from '@/stores/state'
 
 // Constants
 const PING_INTERVAL = 30000 // 30 seconds
@@ -38,12 +38,8 @@ class Transport {
   private messageQueue: any[] = []
   private batchInterval: ReturnType<typeof setInterval> | undefined
 
-  // Stores
-  $connectionStatus = atom<ConnectionStatus>('offline')
-  $state = atom<ClickerState | null>(null)
-  $ingameNotifications = atom<NotificationStore>({ notifications: [], cursor: 0 })
-
   emitter: Emitter = createNanoEvents()
+
 
   constructor(url: string) {
     this.connect(url)
@@ -55,7 +51,7 @@ class Transport {
   connect(url: string) {
     if (this.isConnecting) return
     this.isConnecting = true
-    this.$connectionStatus.set('connecting')
+    $connectionStatus.set('connecting')
     this.socket = new ReconnectingWebSocket(url, undefined, {
       connectionTimeout: 10000, // 10 seconds
       debug: true, // Enable debug logging
@@ -83,7 +79,7 @@ class Transport {
 
   private handleOpen = () => {
     this.isConnecting = false
-    this.$connectionStatus.set('handshake')
+    $connectionStatus.set('handshake')
     this.handshakeTime = Date.now()
 
     this.sendHandshake()
@@ -93,8 +89,7 @@ class Transport {
   private handleClose = () => {
     this.isConnecting = false
     this.clearPingInterval()
-    this.$connectionStatus.set('offline')
-    this.$state.set(null)
+    $connectionStatus.set('offline')
   }
 
   private handleMessage = (e: MessageEvent) => {
@@ -111,7 +106,7 @@ class Transport {
     console.error('WebSocket error:', event.message);
     this.isConnecting = false
     this.clearPingInterval()
-    this.$connectionStatus.set('reconnecting')
+    $connectionStatus.set('reconnecting')
   }
 
   private handleOnline = () => {
@@ -181,7 +176,7 @@ class Transport {
         'Server version is dominant, overwriting the state :: ' +
           `${JSON.stringify(this.clk)} < ${JSON.stringify(event.clk)}`
       )
-      this.$state.get()?.deserialize(event.state)
+      $gameState.get()?.deserialize(event.state)
       queryClient.invalidateQueries({ queryKey: ['get/userData'] })
     }
 
@@ -191,19 +186,19 @@ class Transport {
 
   private handleLeadersEvent(event: Extract<ChannelServerEvent, { evt: 'leaders' }>) {
     console.log('Received leaders event', event)
-    const currentState = this.$state.get()
+    const currentState = $gameState.get()
     currentState?.handleLeaders(event.leaders)
   }
 
   private handleNotificationEvent(event: Extract<ChannelServerEvent, { evt: 'notification' }>) {
     console.log('Received notification event', event)
     const { message, type } = event.notification
-    const currentStore = this.$ingameNotifications.get()
+    const currentStore = $ingameNotifications.get()
     const currentNotifications = currentStore.notifications
     currentStore.notifications = currentNotifications
     currentStore.cursor = currentStore.cursor + 1
     currentNotifications.push({ message, type })
-    this.$ingameNotifications.set(currentStore)
+    $ingameNotifications.set(currentStore)
     $currentNotification.set(event.notification)
   }
 
@@ -222,12 +217,9 @@ class Transport {
       console.info('Time skew between client and server: ', timeSkew)
     }
 
-    if (!this.$state.get()) {
-      this.$state.set(initClicker())
-    }
-    this.$state.get()?.deserialize(event.state)
+    $gameState.get()?.deserialize(event.state)
 
-    this.$connectionStatus.set('online')
+    $connectionStatus.set('online')
   }
 
   private sendHandshake() {
@@ -257,12 +249,12 @@ class Transport {
   }
 
   private async sendAction(type: Action['type'], payload: Action['payload']): Promise<void> {
-    if (this.$connectionStatus.get() !== 'online') {
+    if ($connectionStatus.get() !== 'online') {
       console.error('Not connected to server, cannot send action')
       return
     }
 
-    const currentState = this.$state.get()
+    const currentState = $gameState.get()
     if (!currentState) {
       console.error('State is not initialized, did you forget to do a handshake?')
       return
@@ -280,7 +272,7 @@ class Transport {
 
   disconnect() {
     this.socket?.close()
-    this.$connectionStatus.set('offline')
+    $connectionStatus.set('offline')
   }
 
   // Public methods

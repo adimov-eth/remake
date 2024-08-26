@@ -1,32 +1,21 @@
-import { SDKProvider, useLaunchParams, retrieveLaunchParams } from '@telegram-apps/sdk-react';
+import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
-import { type FC, useEffect, useMemo } from 'react';
-
+import { type FC, useEffect } from 'react';
+import { useStore } from '@nanostores/react';
 import { App } from '@/core/App.tsx';
+import { QueryClientProvider } from '@tanstack/react-query'
 import { ErrorBoundary } from '@/core/ErrorBoundary';
-import { AuthProvider, useAuth } from '@/providers/authProvider';
-import { ConnectionProvider } from "@/providers/connectionProvider"
-import PreloadProvider, { usePreload } from "@/providers/preloadProvider"
-import { $telegramProvideRawData } from "@/stores/telegramAuth";
+import { $imagesLoaded, preload } from "@/stores/preload";
+import { isDesktop } from "@/stores/telegram";
 import { CONFIG } from './config';
 import WebBlocker from '@/components/WebBlocker'
 
-const { WEBSOCKET_URL } = CONFIG;
+import { queryClient } from '@/services/api/queryClient'
 
 const Inner: FC = () => {
   // SDK layer
   const debug = useLaunchParams().startParam === 'debug';
-
-  // Auth layer
-  const { initDataRaw } = retrieveLaunchParams();
-  if (initDataRaw) {
-    $telegramProvideRawData.set(initDataRaw);
-  }
-
-  // Preload layer
-  const shouldPreloadImages = useMemo(() => {
-    return localStorage.getItem('userShouldSeeStories') !== 'false'
-  }, [])
+  
 
   // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {
@@ -36,33 +25,33 @@ const Inner: FC = () => {
     }
   }, [debug])
 
+  useEffect(() => {
+    preload(true)
+  }, [])
+  
+  
   return (
     <TonConnectUIProvider manifestUrl={CONFIG.TON_CONNECT_MANIFEST_URL}>
       <SDKProvider acceptCustomStyles debug={debug}>
-        <AuthProvider>
-          <ConnectionProvider websocketUrl={WEBSOCKET_URL}>
-            <PreloadProvider shouldPreload={shouldPreloadImages}>
-              <PreloadAwareApp shouldPreloadImages={shouldPreloadImages} />
-            </PreloadProvider>
-          </ConnectionProvider>
-        </AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <PreloadAwareApp />
+        </QueryClientProvider>
       </SDKProvider>
     </TonConnectUIProvider>
   );
 };
 
-const PreloadAwareApp: FC<{ shouldPreloadImages: boolean }> = ({ shouldPreloadImages }) => {
-  const { imagesLoaded } = usePreload();
-  const { isDesktop } = useAuth();
-
+const PreloadAwareApp: FC = () => {
+  const imagesLoaded = useStore($imagesLoaded);
+  console.log('imagesLoaded', imagesLoaded)
   useEffect(() => {
     const loader = document.getElementById('initial-loader')
-    if (loader && (!shouldPreloadImages || imagesLoaded)) {
+    if (loader && imagesLoaded) {
       loader.remove()
     }
-  }, [shouldPreloadImages, imagesLoaded])
+  }, [imagesLoaded])
 
-  if (shouldPreloadImages && !imagesLoaded) {
+  if (!imagesLoaded) {
     return null; // or return a loading indicator
   }
 

@@ -13,11 +13,19 @@ const Title = styled('h1', {
   marginBottom: '20px',
 });
 
+const Content = styled('p', {
+  color: '#FFFFFF',
+  fontSize: '16px',
+  lineHeight: '1.5',
+});
+
 const Home: React.FC = () => {
   return (
     <HomeContainer>
       <Title>Welcome Home</Title>
-      {/* Add more content here */}
+      <Content>
+        This is the home page of our application. Here you can find an overview of your account and quick access to other features.
+      </Content>
     </HomeContainer>
   );
 };
