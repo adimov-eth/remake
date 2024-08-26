@@ -12,19 +12,14 @@ import StarIcon from '@/assets/star.svg?react'
 import styles from './mission-card.module.css'
 import { useClaimMissionReward, useCheckMissionStatus } from '@/services/api/missions/model'
 import { Mission } from '@/services/api/missions/types'
-import { MissionCompleteStatus } from '@/stores/missions'
+import { ResolvedMission } from '@/stores/missions'
 
-type MissionCardProps = Mission & {
-  isInProgress: boolean
-  isNotStarted: boolean
-  isComplete: boolean
-  isClaimedReward: boolean
-  isOverdue: boolean
-  isParticipatedOnce: boolean
-  resolved_status: MissionCompleteStatus
+
+type MissionCardProps = {
+  mission: ResolvedMission
 }
 
-export const MissionCard: FC<MissionCardProps> = (props) => {
+export const MissionCard: FC<MissionCardProps> = ({mission}) => {
   const {
     id,
     name,
@@ -36,15 +31,9 @@ export const MissionCard: FC<MissionCardProps> = (props) => {
     // end_date,
     icon_url,
     // requirements,
-    isInProgress,
-    isNotStarted,
-    isComplete,
-    isClaimedReward,
-    isOverdue,
-    isParticipatedOnce,
-    // status,
+    status,
     resolved_status
-  } = props
+  } = mission
 
   const queryClient = useQueryClient()
   const rawData = initDataRaw
@@ -79,25 +68,29 @@ export const MissionCard: FC<MissionCardProps> = (props) => {
     // } else if (isNotStarted) {
     //   checkStatusMutation.mutate({ missionId: id, rawData })
     // } 
-  }, [isComplete, isNotStarted, id, rawData, claimRewardMutation, checkStatusMutation])
+  }, [id, rawData, claimRewardMutation, checkStatusMutation])
 
   const getIcon = () => {
-    if (isOverdue || isParticipatedOnce) return <CloseIcon className={styles.close} />
-    if (isClaimedReward) return <DoneIcon />
-    if (isInProgress) return <ArrowIcon />
-    return null
+    switch (resolved_status) {
+      case 'overdue':
+        return <CloseIcon className={styles.close} />
+      case 'claimed_reward':
+        return <DoneIcon />
+      case 'in_progress':
+        return <ArrowIcon />
+      default:
+        return null
+    }
   }
 
   // TODO check reward display
-
+  console.log('Mission:', status, progress_status, )
+  console.log('resolved_status', resolved_status)
   
-
-
   return (
     <>
       <Card
-        in_progress={resolved_status === 'in_progress'}
-        disabled={resolved_status === 'unavailable'}
+        status={resolved_status}
         onClick={handleOverlayClick}
       >
         <Info>
@@ -107,12 +100,12 @@ export const MissionCard: FC<MissionCardProps> = (props) => {
           />
           <Texts>
             <Title>{name}</Title>
-            <Cost>
+            <Reward>
                 <Currency>
                   {reward_quarks ? <QuarkIcon /> : <StarIcon />}
                   <Value>{formatNumber(reward_quarks || reward_stars)}</Value>
                 </Currency>
-            </Cost>
+            </Reward>
           </Texts>
         </Info>
         {progress_status === 'complete' ? (
@@ -127,12 +120,8 @@ export const MissionCard: FC<MissionCardProps> = (props) => {
 }
 
 
-import { styled, keyframes } from '@/core/styles/stitches.config';
+import { styled, shineAnimation } from '@/core/stitches.config';
 
-const shineAnimation = keyframes({
-  '0%': { left: '-100%', transitionProperty: 'left' },
-  '12%, 100%': { left: '100%', transitionProperty: 'left' },
-});
 
 export const Card = styled('div', {
   position: 'relative',
@@ -145,8 +134,8 @@ export const Card = styled('div', {
   padding: '$4',
 
   variants: {
-    in_progress: {
-      true: {
+    status: {
+      in_progress: {
         overflow: 'hidden',
         '&::before': {
           content: '""',
@@ -159,12 +148,21 @@ export const Card = styled('div', {
           animation: `${shineAnimation} 4s ease-in-out infinite`,
         },
       },
-    },
-    disabled: {
-      true: {
+      complete: {
+        position: 'relative',
+      },
+      claimed_reward: {
         opacity: 0.5,
         pointerEvents: 'none',
       },
+      overdue: {
+        opacity: 0.5,
+        pointerEvents: 'none',
+      },
+      available: {},
+      unavailable: {},
+      not_started: {},
+      participated_once: {},
     },
   },
 });
@@ -188,7 +186,7 @@ export const Title = styled('div', {
   color: '$white',
 });
 
-export const Cost = styled('div', {
+export const Reward = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '$1',
@@ -233,3 +231,74 @@ export const leCloseIcon = styled('svg', {
     fill: '$red',
   },
 });
+
+export const junk = `
+
+.open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 27px;
+  background: #1C1F30;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.completeRight {
+  background: #1C1F30;
+  box-shadow: 0px 0px 17px 0px #365AE5;
+  padding: 14px;
+  font-family: var(--font-pro-display);
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 27px;
+  color: white;
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+    transition-property: left;
+  }
+  12%,
+  100% {
+    left: 100%;
+    transition-property: left;
+  }
+}
+
+.inProgress {
+  position: relative;
+  overflow: hidden;
+}
+
+.inProgress::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+  );
+  animation: shine 4s ease-in-out infinite;
+}
+
+.complete {
+}
+
+.close {
+  path {
+    fill: red;
+  }
+}
+`

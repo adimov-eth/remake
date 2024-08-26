@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled } from '@/core/styles/stitches.config'
+import { styled } from '@/core/stitches.config'
 import { formatNumberGroup, toRoman } from '@/utils/formatters.ts'
 import acceleratorIcons from "@/assets/accelerators/index.ts"
 import currencyIcons from "@/assets/currency/index.ts"

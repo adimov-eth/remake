@@ -1,4 +1,4 @@
-import { styled } from '@/core/styles/stitches.config'
+import { styled } from '@/core/stitches.config'
 
 export const Page = styled('div', {
   display: 'flex',

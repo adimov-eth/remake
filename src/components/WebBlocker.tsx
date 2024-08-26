@@ -1,28 +1,49 @@
 import React from 'react'
+import { styled } from '@stitches/react'
 import AppQR from '@/assets/qr/app.svg'
-import './WebBlocker.css'
 
+const Container = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '100vh',
+  textAlign: 'center',
+})
 
+const Text = styled('div', {
+  margin: '20px 0',
+  fontSize: '18px',
+  color: '#333',
+})
+
+const QRCodeLink = styled('a', {
+  textDecoration: 'none',
+})
+
+const QRCode = styled('div', {
+  width: '200px',
+  height: '200px',
+})
 
 const WebBlocker: React.FC = () => {
   const text = 'Please play on your mobile telegram App'
   const tgUsername = 'TONStarsDAObot'
   const tgLinkPostfix = '/app'
   const tgLink = `https://t.me/${tgUsername}${tgLinkPostfix}`
-  const QRCode = AppQR
 
   return (
-    <div className="web-blocker">
-      <div className="web-blocker-text">{text}</div>
-      <a href={tgLink} className="qr-code-link">
-        <div className="qr-code">
-          <img src={QRCode} alt="QR Code" />
-        </div>
-      </a>
-      <a href={tgLink} className="web-blocker-text">
+    <Container>
+      <Text>{text}</Text>
+      <QRCodeLink href={tgLink}>
+        <QRCode>
+          <img src={AppQR} alt="QR Code" />
+        </QRCode>
+      </QRCodeLink>
+      <Text as="a" href={tgLink}>
         @{tgUsername}
-      </a>
-    </div>
+      </Text>
+    </Container>
   )
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled, keyframes } from '@/core/styles/stitches.config';
+import { styled, keyframes } from '@/core/stitches.config';
 import Rocket from "@/assets/accelerators.png"
 
 import { Page, Banner, Content, Gradient, Title } from '@/components/Page';    

@@ -52,6 +52,7 @@ export const $accelerators = computed(
     const currentUpgrades = upgrades.get()
 
     return Object.entries(UPGRADES).map(([slug, { name, description, price, isEnabled }]) => {
+      
       const { tier = 1 } = currentUpgrades.find(u => u.slug === slug) || {}
 
       return {

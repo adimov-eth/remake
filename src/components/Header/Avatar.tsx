@@ -1,7 +1,7 @@
 import { FC, useState, useEffect, useCallback } from 'react'
 import UserIcon from '@/assets/user.svg?react'
 
-import { styled, keyframes } from '@/core/styles/stitches.config';
+import { styled, keyframes } from '@/core/stitches.config';
 
 import {
   calculateProgress,

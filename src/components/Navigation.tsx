@@ -8,7 +8,7 @@ import Tasks from '@/assets/tasks.svg?react'
 import Upgrades from '@/assets/upgrades.svg?react'
 
 
-import { styled } from '@/core/styles/stitches.config';
+import { styled } from '@/core/stitches.config';
 
 export const Navigation: FC = () => {
   const location = useLocation()
