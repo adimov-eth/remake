@@ -1,0 +1,16 @@
+name = "not-stars"
+main = "src/worker/index.ts"
+compatibility_date = "2023-06-28"
+
+[site]
+bucket = "./dist"
+
+[build]
+command = "npm run build"
+
+[build.upload]
+format = "service-worker"
+
+kv_namespaces = [
+  { binding = "NOT_STATE", id = "6a08337de6434de6a83c5d3cd5625064" }
+]
