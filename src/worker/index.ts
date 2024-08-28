@@ -1,39 +1,53 @@
 import { validate } from './auth';
-import { renderApp } from './render';
 
 export interface Env {
-  TELEGRAM_APP_DATA: KVNamespace;
+  NOT_STATE: KVNamespace;
+  BOT_TOKEN: string;
 }
 
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     const initData = url.searchParams.get('initData');
 
+    // If there's no initData, let Cloudflare Pages handle serving static assets
     if (!initData) {
-      return new Response('Missing initData', { status: 400 });
+      return fetch(request);
     }
 
-    if (!validate(initData)) {
+    if (!await validate(initData, env)) {
       return new Response('Unauthorized', { status: 401 });
     }
 
-    // Parse initData
     const parsedInitData = Object.fromEntries(new URLSearchParams(initData));
     const userId = parsedInitData.user ? JSON.parse(parsedInitData.user).id : null;
 
-    // Fetch data from KV
     let userData = null;
     if (userId) {
-      userData = await env.TELEGRAM_APP_DATA.get(`user:${userId}`);
+      userData = await env.NOT_STATE.get(`user:${userId}`);
       if (userData) {
         userData = JSON.parse(userData);
       }
     }
 
-    const html = await renderApp(initData, userData);
-    return new Response(html, {
-      headers: { 'Content-Type': 'text/html' },
+    // Fetch the index.html file
+    const response = await fetch(request);
+    const text = await response.text();
+
+    // Modify the HTML to include our initial data
+    const modifiedHtml = text.replace(
+      '<div id="root"></div>',
+      `<div id="root"></div>
+       <script>
+         window.INITIAL_DATA = {
+           initData: ${JSON.stringify(initData)},
+           userData: ${JSON.stringify(userData)}
+         };
+       </script>`
+    );
+
+    return new Response(modifiedHtml, {
+      headers: response.headers,
     });
   },
 };

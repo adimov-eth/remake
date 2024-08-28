@@ -1,4 +1,4 @@
-name = "not-stars"
+name = "remake"
 main = "src/worker/index.ts"
 compatibility_date = "2023-06-28"
 

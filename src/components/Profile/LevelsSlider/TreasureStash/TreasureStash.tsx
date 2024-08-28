@@ -64,7 +64,7 @@ export const TreasureStash: React.FC<TreasureStashProps> = ({ string }) => {
       scheduleTimeoutId = setTimeout(() => {
         applyGlitchEffect()
         scheduleNextGlitch() // Schedule the next glitch
-      }, delay)
+      }, delay) as unknown as number
     }
 
     scheduleNextGlitch() // Start the initial glitch cycle

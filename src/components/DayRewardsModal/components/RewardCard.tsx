@@ -5,7 +5,7 @@ import StarIcon from '@/assets/star.svg?react'
 
 import styles from './reward-card.module.css'
 
-import { DailyReward } from '@/api/missions/types.ts'
+import { DailyReward } from '@/services/api/missions/types'
 
 export const RewardCard = ({
   progress_status,
