@@ -1,9 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 // import { styled } from '@/core/stitches.config';
-import { StoryContentProps } from '../StoryTypes';
-
-import { StoryContainer, Content, Title, Description, CTA, Button } from './BaseStory';
+import { StoryContainer, Content, Title, Description, CTA, Button, StoryContentProps } from './BaseStory';
 
 type WelcomeStoryProps = Omit<StoryContentProps, 'story'>;
 

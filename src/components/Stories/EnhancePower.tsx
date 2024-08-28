@@ -1,10 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { StoryContentProps } from '../StoryTypes';
 
 type EnhancePowerStoryProps = Omit<StoryContentProps, 'story'>;
 import { styled } from '@/core/stitches.config';
-import { StoryContainer, Content, Title, Description, Button, AdditionalDescription } from './BaseStory';
+import { StoryContainer, Content, Title, Description, Button, AdditionalDescription, StoryContentProps } from './BaseStory';
 
 export const EnhancePowerStory: React.FC<EnhancePowerStoryProps> = ({ action, languageCode }) => {
   const { t } = useTranslation('onboarding', { useSuspense: false, lng: languageCode });

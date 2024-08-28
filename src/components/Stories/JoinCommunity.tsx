@@ -1,10 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { StoryContentProps } from '../StoryTypes';
 
 type JoinCommunityStoryProps = Omit<StoryContentProps, 'story'>;
 
-import { StoryContainer, Title, Content, Button, Description } from './BaseStory';
+import { StoryContainer, Title, Content, Button, Description,StoryContentProps } from './BaseStory';
 
 export const JoinCommunityStory: React.FC<JoinCommunityStoryProps> = ({ action, languageCode }) => {
   const { t } = useTranslation('onboarding', { useSuspense: false, lng: languageCode });

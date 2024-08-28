@@ -1,6 +1,6 @@
 //@ts-ingnore
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 
 import React, { useRef } from 'react';
 import { styled } from '@stitches/react';

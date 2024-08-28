@@ -9,18 +9,19 @@ import Stories from 'stories-react';
 // import { $onboardingStore, closeOnboarding } from '@/store/onboarding';
 import 'stories-react/dist/index.css';
 
-import { WelcomeStory } from './Stories/WelcomeStory';
-import { EarnQuarksStory } from './Stories/EarnQuarksStory';
-import { ExploreMissionsStory } from './Stories/ExploreMissionsStory';
-import { EnhancePowerStory } from './Stories/EnhancePowerStory';
-import { SwapAndStakeStory } from './Stories/SwapAndStakeStory';
-import { JoinCommunityStory } from './Stories/JoinCommunityStory';
+import { styled } from '@/core/stitches.config';
+
+
+import { WelcomeStory } from './Welcome';
+import { EarnQuarksStory } from './EarnQuarks';
+import { ExploreMissionsStory } from './ExploreMissions';
+import { EnhancePowerStory } from './EnhancePower';
+import { SwapAndStakeStory } from './SwapAndStake';
+import { JoinCommunityStory } from './JoinCommunity';
 import { useGetUserData } from '@/services/api/user/model';
 
 import { initDataRaw,user as $user } from '@/stores/telegram';
-import { StoryContentProps } from './StoryTypes';
-
-import styles from './OnboardingStories.module.css';
+import { StoryContentProps } from './BaseStory';
 
 
 
@@ -127,7 +128,7 @@ const OnboardingStories: React.FC = () => {
   };
 
   return (
-    <div className={styles.root}>
+    <Root>
       <Stories
         width="100%"
         height="100%"
@@ -137,8 +138,27 @@ const OnboardingStories: React.FC = () => {
           objectFit: 'cover'
         }}
       />
-    </div>
+    </Root>
   );
 };
+
+
+const Root = styled('div', {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  zIndex: 2000,
+  backgroundColor: 'rgba(11, 12, 20, 1)',
+
+  '& > div': {
+    backgroundColor: 'transparent',
+  },
+
+  '& video': {
+    height: '100% !important',
+  },
+});
 
 export default OnboardingStories;

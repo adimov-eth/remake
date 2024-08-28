@@ -1,12 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { StoryContentProps } from '../StoryTypes';
 
 import {star,quark, swapCurrency} from '@/assets';
 
 
 import { styled } from '@/core/stitches.config';
-import { StoryContainer, Content, Title, Description, Button } from './BaseStory';
+import { StoryContainer, Content, Title, Description, Button, StoryContentProps } from './BaseStory';
 
 type SwapAndStakeStoryProps = Omit<StoryContentProps, 'story'>;
 
