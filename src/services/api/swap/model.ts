@@ -2,7 +2,7 @@ import { createMutation } from 'react-query-kit'
 
 import { CreateSwapPayload, SwapResponse } from './types'
 
-import { instance } from '@/api/axiosIntance'
+import { instance } from '@/services/api/axiosIntance'
 
 export const createSwap = ({
   rawData,

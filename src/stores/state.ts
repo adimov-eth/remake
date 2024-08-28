@@ -4,9 +4,10 @@ import { atom, computed } from "nanostores"
 
 import { initDataRaw } from "./telegram"
 
-import { ClickerState, initClicker, UPGRADES } from '@/services/websocket/clicker'
+import { ClickerState, initClicker, UPGRADES, LEVELS } from '@/services/websocket/clicker'
 
 import { ConnectionStatus } from '@/types/connectionStatus'
+
 
 
 
@@ -38,6 +39,13 @@ const clicker = initClicker()
 // Stores
 
 export const $gameState = atom<ClickerState>(clicker)
+
+//TODO fix this
+export const $level = computed($gameState, ({ level }) => {
+  const currentLevel = level.get();
+  
+  return currentLevel > LEVELS.length - 1 ? LEVELS.length - 1 : currentLevel;
+})
 
 export const $ingameNotifications = atom<NotificationStore>({ notifications: [], cursor: 0 })
 

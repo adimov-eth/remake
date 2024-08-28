@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import { FC, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { styled, keyframes } from '@/core/stitches.config';
 import { useStore } from '@nanostores/react'
 import {Page, Banner, Content, Gradient, Title} from '@/components/Page'
@@ -8,11 +8,13 @@ import MissionsIcon from '@/assets/cosmo.webp'
 
 import { $missions, $filteredAndSortedMissions, ResolvedMission } from '@/stores/missions'
 import { useAllMissions } from '@/services/api/missions/model'
-import { MissionCard } from "@/components/Missions/MissionCard/MissionCard"
+import { MissionCard } from "@/components/Missions/MissionCard"
 import { Loader } from '@/components/Loader/Loader'
-import {  } from '@/stores/missions'
+
 
 import { initDataRaw } from '@/stores/telegram'
+
+
 
 export const Missions: FC = () => {
 
@@ -100,16 +102,16 @@ const IllustrationWrapper = styled('div', {
   }
 });
 
+interface IllustrationProps {
+  children: React.ReactNode
+}
 
 
-const Illustration: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+const Illustration: React.FC<IllustrationProps> = ({ children }) => {
   return (
     <IllustrationWrapper>
       {children}
     </IllustrationWrapper>
   );
-};
-
-Illustration.propTypes = {
-  children: PropTypes.node.isRequired,
 };

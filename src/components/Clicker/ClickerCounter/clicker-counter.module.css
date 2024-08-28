@@ -1,0 +1,9 @@
+.root {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: white;
+    margin-bottom: 32px;
+    font-size: 36px;
+    text-align: center;
+    margin-top: -36px
+}

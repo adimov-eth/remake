@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled } from '@stitches/react'
 import { Link } from "@/components/Link"
-import { Avatar } from '@/components/Header/Avatar'
+import { Avatar } from '@/components/Avatar'
 import { AutoSizeText } from './AutoSizeText'
 import { User } from '@telegram-apps/sdk-react'
 

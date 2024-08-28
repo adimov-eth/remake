@@ -4,6 +4,9 @@ import { isAfter, isBefore, isValid, parseISO } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
 
 import { MissionStatus, MissionProgressStatus } from '@/services/api/missions/types'
+import { useAllMissions } from '@/services/api/missions/model'
+
+import { initDataRaw } from '@/stores/telegram'
 
 export type StatusMap = {
     [MissionStatus.OVERDUE]: 'overdue';
@@ -86,6 +89,9 @@ export const $resolvedMissions = computed($missions, (missions: Mission[]): Reso
     }))
   )
 
+export const $completedMissionsCount = computed($resolvedMissions, (missions: ResolvedMission[]): number => 
+  missions.filter(mission => mission.resolved_status === 'claimed_reward').length
+)
 
 
 const available = (mission: Mission): boolean => {
@@ -140,6 +146,7 @@ export const $filteredAndSortedMissions = computed($resolvedMissions, missions =
 
 
 
+
 export const calculateProgress = (startDateISO: string | null, endDateISO: string | null): number | undefined => {
   if (!startDateISO || !endDateISO) return undefined
 
@@ -168,3 +175,16 @@ export const formatRemainingTime = (endDate: string): string => {
 
 export const isTimeUp = (endDate: string): boolean => new Date() >= new Date(endDate)
 
+
+export { MissionProgressStatus }
+
+export const fetchMissions = async () => {
+  if (!initDataRaw) return
+  const { data: fetchedMissions, error } = await useAllMissions(initDataRaw)
+  if (fetchedMissions) {
+    $missions.set(fetchedMissions)
+  } else if (error) {
+    console.error('Error fetching missions:', error)
+    // Optionally, you can set an error state here
+  }
+}

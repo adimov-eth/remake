@@ -6,7 +6,7 @@ import { UserInfo } from './UserInfo'
 import { ValueDisplay } from './ValueDisplay'
 import { SettingsButtons } from './SettingsButtons'
 import { ValueTooltip } from './ValueTooltip'
-import { $connectionStatus, $gameState } from '@/stores/state'
+import { $gameState } from '@/stores/state'
 
 import { user } from '@/stores/telegram'
 
@@ -28,24 +28,15 @@ const HeaderWrapper = styled('div', {
 
 export const Header: React.FC = () => {
   const location = useLocation()
-  const connectionStatus = useStore($connectionStatus)
+  // const connectionStatus = useStore($connectionStatus)
   const gameState = useStore($gameState)
 
   const isProfilePage = location.pathname === '/profile'
   const showQuarks = location.pathname !== '/'
 
-  if (connectionStatus !== 'online') {
-    return (
-      <HeaderRoot>
-        <HeaderWrapper>
-          <div>Loading... (Status: {connectionStatus})</div>
-        </HeaderWrapper>
-      </HeaderRoot>
-    )
-  }
   const { quarks, stars } = gameState
   const currentRank = gameState.levelDef.get()
-  const telegramUser = user
+  const telegramUser = user.get()
 
 
   return (

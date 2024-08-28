@@ -103,7 +103,7 @@ export const NavRoot = styled('nav', {
   left: 0,
   right: 0,
   justifyContent: 'center',
-  zIndex: 2,
+  // zIndex: 2,
   pointerEvents: 'none',
   paddingBottom: '24px',
   borderTop: '1px solid $navBorder',

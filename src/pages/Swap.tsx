@@ -1,56 +1,124 @@
-import React from 'react';
-import { styled } from '@stitches/react';
+import React, { useCallback, useMemo } from 'react'
+import * as S from "./Swap.style"
+import { useStore } from '@nanostores/react'
+import { initDataRaw } from '@/stores/telegram'
+import { queryClient } from '@/services/api/queryClient'
+import { useCreateSwap } from '@/services/api/swap/model'
+import { useGetUserData } from '@/services/api/user/model'
+import { $gameState } from '@/stores/state'
+import CurrencyInput from '@/components/CurrencyInput'
 
-const SwapContainer = styled('div', {
-  padding: '20px',
-});
+import {
+  $swapState,
+  SwapDirection,
+  SWAP_PAIRS,
+  updateSwapValues,
+  toggleSwapDirection,
+  setMaxFromValue,
+} from '@/stores/swap'
 
-const Title = styled('h1', {
-  fontFamily: 'var(--font-pro)',
-  fontSize: '24px',
-  fontWeight: 590,
-  color: '#FFFFFF',
-  marginBottom: '20px',
-});
-
-const SwapForm = styled('form', {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '10px',
-});
-
-const Input = styled('input', {
-  padding: '10px',
-  borderRadius: '4px',
-  border: '1px solid #FFFFFF',
-  background: 'transparent',
-  color: '#FFFFFF',
-});
-
-const Button = styled('button', {
-  padding: '10px',
-  borderRadius: '4px',
-  border: 'none',
-  background: '#4CAF50',
-  color: '#FFFFFF',
-  cursor: 'pointer',
-  '&:hover': {
-    background: '#45a049',
-  },
-});
 
 const Swap: React.FC = () => {
-  return (
-    <SwapContainer>
-      <Title>Swap Tokens</Title>
-      <SwapForm>
-        <Input type="text" placeholder="From Token" />
-        <Input type="text" placeholder="To Token" />
-        <Input type="number" placeholder="Amount" />
-        <Button type="submit">Swap</Button>
-      </SwapForm>
-    </SwapContainer>
-  );
-};
+  const rawData = initDataRaw || ''
+  const { quarks, stars } = useStore($gameState)
+  const { fromValue, toValue, direction } = useStore($swapState)
 
-export default Swap;
+  const { data: userData, isLoading: isUserDataLoading } = useGetUserData({
+    enabled: !!rawData,
+    variables: { rawData },
+  })
+
+  const { mutateAsync: swapMutation, isPending: isSwapPending } = useCreateSwap()
+
+  const syncedQuarks = userData?.user?.clicker_state?.quarks ?? quarks.get()
+  const syncedStars = userData?.user?.clicker_state?.stars ?? stars.get()
+
+  const currentPair = useMemo(() => SWAP_PAIRS[direction], [direction])
+
+  const handleValueChange = useCallback((value: string, input: 'from' | 'to') => {
+    const maxValue = direction === SwapDirection.QuarkToStar ? syncedQuarks : syncedStars
+    updateSwapValues(value, input, maxValue)
+  }, [syncedQuarks, syncedStars, direction])
+
+  const handleSwapDirectionToggle = useCallback(() => {
+    toggleSwapDirection()
+  }, [])
+
+  const handleSwapClick = useCallback(async () => {
+    const amount = parseFloat(fromValue)
+    if (!amount) return
+
+    try {
+      await swapMutation(
+        {
+          rawData,
+          body: {
+            amount: String(amount),
+            currency: currentPair.from.symbol,
+          },
+        },
+        {
+          onSuccess: () => {
+            updateSwapValues('', 'from', 0)
+            queryClient.invalidateQueries({ queryKey: ['get/missions'] })
+          },
+        }
+      )
+    } catch (error) {
+      console.error('Error creating swap:', error)
+      // TODO: Implement proper error handling (e.g., show error message to user)
+    }
+  }, [swapMutation, currentPair.from.symbol, fromValue, rawData])
+
+  const isLoading = isUserDataLoading || isSwapPending
+
+  const INIDICATOR: Record<SwapDirection, string> = {
+    QuarkToStar: 'Quark to Star',
+    StarToQuark: 'Star to Quark',
+  }
+
+  const [ top, bottom ] = useMemo( ()=> 
+    direction === SwapDirection.QuarkToStar ? 
+      [syncedQuarks, syncedStars] : [syncedStars, syncedQuarks], 
+  [direction, syncedQuarks, syncedStars])
+
+  return (
+    <>
+      <S.Inputs>
+        <CurrencyInput
+          label="Sell"
+          value={fromValue}
+          onChange={(value) => handleValueChange(value, 'from')}
+          currency={currentPair.from}
+          showMaxButton
+          onMaxClick={() => setMaxFromValue(top)}
+          max={top}
+        />
+        <S.ToggleButton onClick={handleSwapDirectionToggle} aria-label="Toggle swap direction">
+          <S.SwapIcon />
+        </S.ToggleButton>
+        <CurrencyInput
+          label="Buy"
+          value={toValue}
+          onChange={(value) => handleValueChange(value, 'to')}
+          currency={currentPair.to}
+          max={bottom}
+        />
+      </S.Inputs>
+      <S.SwapButton
+        variant="gradientFilled"
+        onClick={handleSwapClick}
+        disabled={isLoading || parseFloat(fromValue) === 0}
+      >
+        {isLoading ? 'Loading...' : 'Swap'}
+      </S.SwapButton>
+      <S.DirectionIndicator>
+        {INIDICATOR[direction]}
+      </S.DirectionIndicator>
+    </>
+  )
+}
+
+
+
+export default Swap

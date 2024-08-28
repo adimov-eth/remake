@@ -1,0 +1,195 @@
+.onboarding5 {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .bot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(11, 12, 20, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .backgroundImage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://bot-assets.fra1.cdn.digitaloceanspaces.com/messages/onboarding-5.webp') no-repeat center center;
+    background-size: cover;
+  }
+  
+  .rectangle115 {
+    position: absolute;
+    left: 0;
+    top: 15%;
+    width: 100%;
+    height: 151px;
+    background-color: rgba(27, 54, 124, 0.55);
+  }
+  
+  .title {
+    position: absolute;
+    left: 5%;
+    top: 10%;
+    width: 90%;
+    font-family: Tektur, sans-serif;
+    font-weight: bold;
+    font-size: 38px;
+    text-align: center;
+    line-height: 48px;
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .description {
+    position: absolute;
+    left: 5%;
+    top: 18%;
+    width: 90%;
+    font-family: SF Pro Display, sans-serif;
+    font-size: 18px;
+    text-align: center;
+    line-height: 26px;
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .swapInterface {
+    position: absolute;
+    left: 5%;
+    bottom: 20%;
+    width: 90%;
+    height: 202px;
+  }
+  
+  .sellFrame, .buyFrame {
+    position: absolute;
+    width: 100%;
+    height: 96px;
+    background-color: rgba(13, 15, 32, 0.9);
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(37, 211, 255, 0.7);
+    padding: 20px 16px;
+  }
+  
+  .sellFrame {
+    top: 0;
+  }
+  
+  .buyFrame {
+    bottom: 0;
+  }
+  
+  .frameTitle {
+    font-family: SF Pro, sans-serif;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .amountFrame {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .amount {
+    font-family: SF Pro, sans-serif;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .currencyFrame {
+    display: flex;
+    align-items: center;
+  }
+  
+  .maxButton {
+    width: 42px;
+    height: 22px;
+    background-color: rgba(46, 85, 251, 1);
+    border-radius: 5px;
+    font-family: SF Pro Display, sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 1);
+    border: none;
+    cursor: pointer;
+    margin-right: 6px;
+  }
+  
+  .currency {
+    display: flex;
+    align-items: center;
+    background-color: rgba(28, 31, 48, 1);
+    border-radius: 12px;
+    padding: 5px 10px;
+  }
+  
+  .quarkIcon, .starIcon {
+    width: 18px;
+    height: 18px;
+    margin-right: 4px;
+  }
+  
+  .quarkIcon {
+    background: linear-gradient(0deg, rgba(0, 38, 84, 1), rgba(51, 145, 255, 1));
+    border-radius: 50%;
+  }
+  
+  .starIcon {
+    background: url('path/to/star-icon.svg') no-repeat center center;
+    background-size: contain;
+  }
+  
+  .currencyName {
+    font-family: SF Pro Display, sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .swapIcon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 1);
+    mask: url('path/to/swap-icon.svg') no-repeat center / contain;
+  }
+  
+  .button {
+    position: absolute;
+    left: 5%;
+    bottom: 5%;
+    width: 90%;
+    height: 54px;
+    background: linear-gradient(0deg, rgba(28, 231, 253, 1) 0%, rgba(54, 90, 229, 1) 100%);
+    border-radius: 14px;
+    box-shadow: 0px 0px 15px rgba(42, 158, 241, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .buttonText {
+    font-family: SF Pro Display, sans-serif;
+    font-weight: bold;
+    font-size: 19px;
+    color: rgba(255, 255, 255, 1);
+  }

@@ -3,7 +3,6 @@ import { styled } from '@/core/stitches.config'
 export const Page = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  minHeight: '100vh',
 })
 
 export const Header = styled('header', {

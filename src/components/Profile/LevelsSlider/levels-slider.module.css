@@ -1,0 +1,63 @@
+.root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.levelWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.levelName {
+    font-family: var(--font-pro-display);
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 12px;
+    color: white;
+}
+
+.quarksToUpgrade {
+    font-family: var(--font-pro-display);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: center;
+    color: #67718C;
+}
+
+.arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.arrow:disabled {
+    cursor: not-allowed;
+}
+
+.arrowIcon {
+    width: 24px;
+    height: 24px;
+}
+
+.arrow:disabled .arrowIcon {
+    opacity: 0.5;
+}
+
+.level {
+    text-align: center;
+    margin: 0 1rem;
+}
+
+.arrowIconLeft {
+    transform: rotate(180deg);
+}

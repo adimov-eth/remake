@@ -4,63 +4,6 @@ import { isAfter, isBefore,
 import { toZonedTime } from 'date-fns-tz'
 
 
-// import { Mission, MissionStatus as MS, MissionProgressStatus as MPS, MissionType } from '@/services/api/missions/types';
-
-
-// const PROGRESS_STATUS_ORDER = {
-//   [MS.OVERDUE]: 0,
-//   [MPS.CLAIMED_REWARD]: 1,
-//   [MPS.NOT_STARTED]: 2,
-//   [MPS.IN_PROGRESS]: 3,
-//   [MPS.COMPLETE]: 4,
-// };
-// const getProgressStatusOrder = (status: MPS | MS): number => {
-//   const statusKey = status as keyof typeof PROGRESS_STATUS_ORDER;
-//   return PROGRESS_STATUS_ORDER[statusKey] ?? 0;
-// };
-
-// const isValidStartDate = (startDate: string | null): boolean => {
-//   if (!startDate) return false;
-//   const parsedDate = parseISO(startDate);
-//   return isValid(parsedDate) && isAfter(currentZonedDate(), parsedDate);
-// };
-
-// const isHiddenMission = (mission: Mission): boolean => {
-//   const isHiddenSecret = 
-//     mission.mission_type === MissionType.SECRET && 
-//     mission.progress_status !== MPS.COMPLETE && 
-//     mission.progress_status !== MPS.CLAIMED_REWARD;
-
-//   const isAlwaysHidden = 
-//     ['secret_stash', 'easter_egg_hunter'].includes(mission.slug || '') && 
-//     mission.progress_status !== MPS.CLAIMED_REWARD;
-
-//   return isHiddenSecret || isAlwaysHidden;
-// };
-
-// export const filterMissions = (missions: Mission[]): Mission[] => {
-//   return missions.filter((mission) => 
-//     mission.status !== MS.UNAVAILABLE &&
-//     (mission.start_date ? isValidStartDate(mission.start_date) : true) &&
-//     !isHiddenMission(mission)
-//   );
-// };
-
-// export const sortMissions = (missions: Mission[], order: MissionType[]): Mission[] => {
-//   return missions.sort((a, b) => {
-//     const statusA = a.status === MS.OVERDUE ? a.status : a.progress_status;
-//     const statusB = b.status === MS.OVERDUE ? b.status : b.progress_status;
-//     const progressOrderA = getProgressStatusOrder(statusA);
-//     const progressOrderB = getProgressStatusOrder(statusB);
-
-//     if (progressOrderA !== progressOrderB) {
-//       return progressOrderB - progressOrderA;
-//     }
-
-//     return order.indexOf(a.mission_type) - order.indexOf(b.mission_type);
-//   });
-// };
-
 
 export const currentZonedDate = () => {
   const TIME_ZONE = 'Europe/Moscow'

@@ -18,6 +18,7 @@ const Accelerators: React.FC = () => {
                 <Gradient color="pink"/>
                 <Illustration image={Rocket} />
             </Banner>
+        
             <Title>Accelerators</Title>
             <Content>
                 <Cards>
@@ -31,6 +32,10 @@ const Accelerators: React.FC = () => {
 };
   
 export default Accelerators;
+
+
+
+
 
 
 const Cards = styled('div', {

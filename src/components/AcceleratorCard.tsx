@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { styled } from '@/core/stitches.config'
 import { formatNumberGroup, toRoman } from '@/utils/formatters.ts'
 import acceleratorIcons from "@/assets/accelerators/index.ts"
 import currencyIcons from "@/assets/currency/index.ts"
+import { purpleMoonPng } from "@/assets"
+import ConfirmDialog from "@/components/ConfirmDialog"
+import { useStore } from '@nanostores/react'
+import { transport, $gameState } from '@/stores/state'
+import { AchievementNotification } from '@/components/Notification'
+import { SerializedUpgrade } from '@/services/websocket/clicker'
+
+// import { Loader } from "@/components/Loader/Loader"
+
 
 type Card = {
     disabled: boolean;
@@ -14,8 +23,55 @@ type Card = {
     currency: 'QRK' | 'STR';
   };  
 
+
 const Card: React.FC<Card> = ({ disabled, slug, name, tier, description, price, currency }) => {
     if (disabled) slug = 'locked'
+
+    const clickerState = useStore($gameState)
+    const currentBalance = useStore(clickerState?.quarks)
+
+    const [dialogState, setDialogState] = useState({
+      notEnoughQuarks: false,
+      confirmUpgrade: false
+    })
+
+    useEffect(() => {
+        if (!clickerState) return
+
+        const handleUpgradeChange = (newUpgrades: readonly SerializedUpgrade[], oldUpgrades: readonly SerializedUpgrade[]) => {
+        const isNewUpgrade = (upgrade: SerializedUpgrade) => upgrade.slug === slug && upgrade.tier > tier
+        const wasUpgraded = newUpgrades.some(isNewUpgrade) && !oldUpgrades.some(isNewUpgrade)
+
+        if (wasUpgraded) {
+                AchievementNotification(`${name} activated`)
+            }
+        }
+
+        const unsubscribe = clickerState.upgrades.listen(handleUpgradeChange)
+
+        return unsubscribe
+    }, [slug, tier, name, clickerState?.upgrades])
+
+    const handlePurchaseClick = () => {
+      if (currentBalance < price) {
+        setDialogState(prev => ({ ...prev, notEnoughQuarks: true }))
+        return
+      }
+      setDialogState(prev => ({ ...prev, confirmUpgrade: true }))
+    }
+
+    const toggleDialog = (dialogType: 'notEnoughQuarks' | 'confirmUpgrade') => {
+      setDialogState(prev => ({ ...prev, [dialogType]: !prev[dialogType] }))
+    }
+
+
+    const confirmUpgrade = () => {
+      if (!disabled) {
+        transport.upgrade(slug)
+      }
+      setDialogState(prev => ({ ...prev, confirmUpgrade: false }))
+    }
+
     return (
         <$Card disabled={disabled}>
             <Icon image={slug} />
@@ -23,11 +79,33 @@ const Card: React.FC<Card> = ({ disabled, slug, name, tier, description, price, 
             <Tier>{toRoman(tier)}</Tier>
             <Description>{description}</Description>
             <Divider />
-            <Price>
+            <Price onClick={handlePurchaseClick}>
                 <CurrencyIcon currency={currency} />
                 <Value price={price} />
             </Price>
+            <ConfirmDialog
+                title="Sorry..."
+                description={`${formatNumberGroup(price - currentBalance)} quarks isn't enough to upgrade`}
+                icon={
+                <div>
+                    <img src={purpleMoonPng} width={94} height={94}/>
+                </div>
+                }
+                onButtonClick={() => toggleDialog('notEnoughQuarks')}
+                isOpen={dialogState.notEnoughQuarks}
+                onClose={() => toggleDialog('notEnoughQuarks')}
+            />
+            <ConfirmDialog
+                description={`Are you sure you want to purchase ${name} for ${formatNumberGroup(price)} ${currency}?`}
+                buttonText="Yes"
+                onButtonClick={confirmUpgrade}
+                isOpen={dialogState.confirmUpgrade}
+                onClose={() => toggleDialog('confirmUpgrade')}
+                enableCancelButton
+            />
         </$Card>
+
+        
     );
 };
 
@@ -109,7 +187,7 @@ const Value: React.FC<{ price: number }> = ({ price }) => {
     );
 };
 
-
+//Todo move modals to portal
 const $Card = styled('div', {
     backgroundColor: '#14151E',
     borderRadius: '16px',
@@ -118,9 +196,9 @@ const $Card = styled('div', {
     alignItems: 'center',
     padding: '24px 16px 16px 16px',
 
-    background: 'rgba(43, 46, 69, 0.3)',
-    boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25)',
-    backdropFilter: 'blur(24px)',
+    // background: 'rgba(43, 46, 69, 0.3)',
+    // boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25)',
+    // backdropFilter: 'blur(24px)',
 
     variants: {
         disabled: {

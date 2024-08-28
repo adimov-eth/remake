@@ -1,0 +1,14 @@
+.root {
+    width: 100%;
+    background: #141622;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 16px;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, #1ce7fd 0%, #365ae5 100%);
+    border-radius: 4px;
+    transition: width 0.5s ease-in-out;
+}

@@ -1,7 +1,6 @@
 import React from 'react'
 import { styled } from '@stitches/react'
 import { Link } from "@/components/Link"
-// import { openOnboarding } from '@/store/onboarding'
 import InfoIcon from '@/assets/info.svg?react'
 import SettingsIcon from "@/assets/settings.svg?react"
 
@@ -34,10 +33,11 @@ const Icon = styled('svg', {
 
 export const SettingsButtons: React.FC = () => (
   <ButtonsContainer>
-    <ButtonWrapper > 
-        {/* onClick={openOnboarding}> */}
-      <Icon as={InfoIcon} />
-    </ButtonWrapper>
+    <Link to="/onboarding">
+      <ButtonWrapper > 
+        <Icon as={InfoIcon} />
+      </ButtonWrapper>
+    </Link>
     <Link to="/settings">
       <ButtonWrapper>
         <Icon as={SettingsIcon} />
