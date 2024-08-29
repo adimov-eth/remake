@@ -1,10 +1,9 @@
 import '@/utils/mockEnv'
-import { atom } from 'nanostores'
 
 import { retrieveLaunchParams} from '@telegram-apps/sdk-react'
 
 
-// export const { initDataRaw, initData, platform } = launchParams;
+
 
 export const launchParams = retrieveLaunchParams();
 
@@ -20,9 +19,4 @@ export const initData: NonNullable<LaunchParams['initData']> = launchParams.init
 export const platform: NonNullable<LaunchParams['platform']> = launchParams.platform;
 
 
-
-export const user = atom(initData.user);
-
-
 export const isDesktop = platform === 'desktop';
-

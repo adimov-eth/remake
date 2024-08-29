@@ -1,13 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StarIcon } from '@/assets/icons';
-// import { styled } from '@/core/stitches.config';
+import { $locale } from '@/stores/state';
 import { StoryContainer, Content, Title, Description, Button, StoryContentProps } from './BaseStory';
 
 type EarnQuarksStoryProps = Omit<StoryContentProps, 'story'>;
 
-export const EarnQuarksStory: React.FC<EarnQuarksStoryProps> = ({ action, languageCode }) => {
-  const { t } = useTranslation('onboarding', { useSuspense: false, lng: languageCode });
+export const EarnQuarksStory: React.FC<EarnQuarksStoryProps> = ({ action }) => {
+  const { t } = useTranslation('onboarding', { useSuspense: false, lng: $locale.get() });
 
   const title = t('earnQuarks.title', 'Earn Quarks by Tapping');
   const description = t('earnQuarks.description', 'Tap to earn Quarks effortlessly. Keep tapping regularly to earn Quarks faster. Make it a fun routine and watch your Quarks turn into valuable Stars!');

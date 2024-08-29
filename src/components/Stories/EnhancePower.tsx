@@ -1,12 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
+import { $locale } from '@/stores/state';
 type EnhancePowerStoryProps = Omit<StoryContentProps, 'story'>;
 import { styled } from '@/core/stitches.config';
 import { StoryContainer, Content, Title, Description, Button, AdditionalDescription, StoryContentProps } from './BaseStory';
 
-export const EnhancePowerStory: React.FC<EnhancePowerStoryProps> = ({ action, languageCode }) => {
-  const { t } = useTranslation('onboarding', { useSuspense: false, lng: languageCode });
+export const EnhancePowerStory: React.FC<EnhancePowerStoryProps> = ({ action }) => {
+  const { t } = useTranslation('onboarding', { useSuspense: false, lng: $locale.get() });
 
   const title = t('enhancePower.title', 'Enhance Your Power with Boosters');
   const description = t('enhancePower.description', 'Boost your gameplay by spending Quarks on upgrades that enhance your click power, energy capacity, and more. Choose wisely, as not all boosters will benefit you equally.');

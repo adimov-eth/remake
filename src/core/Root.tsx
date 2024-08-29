@@ -6,8 +6,8 @@ import { App } from '@/core/App.tsx';
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ErrorBoundary } from '@/core/ErrorBoundary';
 import { $imagesLoaded, preload } from "@/stores/preload";
-import { $initState } from "@/stores/state";
 import { isDesktop } from "@/stores/telegram";
+import { $initState } from "@/stores/state";
 import { CONFIG } from './config';
 import WebBlocker from '@/components/WebBlocker'
 
@@ -25,12 +25,12 @@ const Inner: FC = () => {
       import('eruda').then((lib) => lib.default.init())
     }
   }, [debug])
-  
+
   // Todo refactor
   useEffect(() => {
     const initState = async () => {
       const initStateData = await $initState.get();
-      const { clicks } = initStateData.data;
+      const { clicks = 0 } = initStateData?.data || {};
       preload(clicks > 0);
     };
 

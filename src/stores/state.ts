@@ -2,7 +2,7 @@ import Transport from '@/services/websocket/transport'
 
 import { atom, computed } from "nanostores"
 
-import { initDataRaw } from "./telegram"
+import { initDataRaw, initData } from "./telegram"
 
 import { ClickerState, initClicker, UPGRADES, LEVELS } from '@/services/websocket/clicker'
 
@@ -42,8 +42,16 @@ export type InitState = Promise<InitStateData> | InitStateData;
 export const $initState = atom<InitState>(window.state as InitState);
 
 const initStateData = await $initState.get();
-const { quarks, stars, clicks, level } = initStateData.data
+
+
+const { quarks = 0, stars = 0, clicks = 0, level = 1, profile_image = '' } = initStateData?.data || {}
 const clicker = initClicker(quarks, stars, clicks, level);
+
+
+
+export const user = atom(initData.user);
+export const $pfp = computed(user, (user) => user?.photoUrl || profile_image);
+
 
 
 
@@ -112,3 +120,6 @@ export const $currentNotification = atom<currentNotificationType | null>(null)
 
 
 
+export const $canPlay = atom<boolean>(true)
+
+export const $locale = computed(user, (user) => user?.languageCode || 'en');

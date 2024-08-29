@@ -29,7 +29,6 @@ export const Avatar: FC<AvatarProps> = ({
   const [imgError, setImgError] = useState(false)
   const [progress, setProgress] = useState<number | undefined>(undefined)
   const [remainingTime, setRemainingTime] = useState<string | undefined>(undefined)
-
   const updateProgress = useCallback(() => {
     if (start_date && end_date) {
       const newProgress = calculateProgress(start_date, end_date)

@@ -1,12 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { $locale } from '@/stores/state';
 
 type JoinCommunityStoryProps = Omit<StoryContentProps, 'story'>;
 
 import { StoryContainer, Title, Content, Button, Description,StoryContentProps } from './BaseStory';
 
-export const JoinCommunityStory: React.FC<JoinCommunityStoryProps> = ({ action, languageCode }) => {
-  const { t } = useTranslation('onboarding', { useSuspense: false, lng: languageCode });
+export const JoinCommunityStory: React.FC<JoinCommunityStoryProps> = ({ action }) => {
+  const { t } = useTranslation('onboarding', { useSuspense: false, lng: $locale.get() });
 
   const title = t('joinCommunity.title', 'Join the TON Stars Community Now!');
   const description = t('joinCommunity.description', 'Don\'t forget to follow our Telegram Channel and Invite friends to join TON Stars. As more people join, Star values increase, unlocking new partnerships and features');

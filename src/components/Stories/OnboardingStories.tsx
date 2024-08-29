@@ -4,9 +4,7 @@ import bg6 from '@/assets/stories/bg6.jpg';
 import { useNavigate } from 'react-router-dom'
 
 import React from 'react';
-import { useStore } from '@nanostores/react';
 import Stories from 'stories-react';
-// import { $onboardingStore, closeOnboarding } from '@/store/onboarding';
 import 'stories-react/dist/index.css';
 
 import { styled } from '@/core/stitches.config';
@@ -18,9 +16,6 @@ import { ExploreMissionsStory } from './ExploreMissions';
 import { EnhancePowerStory } from './EnhancePower';
 import { SwapAndStakeStory } from './SwapAndStake';
 import { JoinCommunityStory } from './JoinCommunity';
-import { useGetUserData } from '@/services/api/user/model';
-
-import { initDataRaw,user as $user } from '@/stores/telegram';
 import { StoryContentProps } from './BaseStory';
 
 
@@ -32,22 +27,8 @@ import videoMp4_5 from '@/assets/stories/on5.mp4';
 
 
 const OnboardingStories: React.FC = () => {
-  // const isShow = useStore($onboardingStore); 
   const navigate = useNavigate()
-  const rawData = initDataRaw || ''
-  const { data: userData, isLoading } = useGetUserData({
-    enabled: !!rawData,
-    variables: { rawData },
-  })
 
-  const User = useStore($user);
-
-  const languageCode = User?.languageCode || 'en';
-
-  const isShow = true;
-  if (!isShow || !User || isLoading) return null;
-  
-  const { user } = userData || {};
   const stories = [
     {
       url: videoMp4_1,
@@ -56,8 +37,7 @@ const OnboardingStories: React.FC = () => {
       header: (props: StoryContentProps) => (
         <WelcomeStory
           {...props}
-          languageCode={languageCode}
-          user={user}
+          
         />
       ),
     },
@@ -68,8 +48,7 @@ const OnboardingStories: React.FC = () => {
       header: (props: StoryContentProps) => (
         <EarnQuarksStory
           {...props}
-          languageCode={languageCode}
-          user={user}
+          
         />
       ),
     },
@@ -80,8 +59,7 @@ const OnboardingStories: React.FC = () => {
       header: (props: StoryContentProps) => (
         <ExploreMissionsStory
           {...props}
-          languageCode={languageCode}
-          user={user}
+          
         />
       ),
     },
@@ -92,8 +70,7 @@ const OnboardingStories: React.FC = () => {
       header: (props: StoryContentProps) => (
         <EnhancePowerStory
           {...props}
-          languageCode={languageCode}
-          user={user}
+          
         />
       ),
     },
@@ -104,8 +81,7 @@ const OnboardingStories: React.FC = () => {
       header: (props: StoryContentProps) => (
         <SwapAndStakeStory
           {...props}
-          languageCode={languageCode}
-          user={user}
+          
         />
       ),
     },
@@ -116,8 +92,7 @@ const OnboardingStories: React.FC = () => {
       header: (props: StoryContentProps) => (
         <JoinCommunityStory
           {...props}
-          languageCode={languageCode}
-          user={user}
+          
         />
       ),
     },

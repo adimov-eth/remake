@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import { useStore } from '@nanostores/react'
 import { useUtils } from '@telegram-apps/sdk-react'
 
-import { user } from '@/stores/telegram'
+import { user } from '@/stores/state'
 
 const APP_URL = import.meta.env.VITE_APP_URL
 

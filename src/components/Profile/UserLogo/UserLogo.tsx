@@ -1,6 +1,6 @@
 import { useStore } from '@nanostores/react'
 
-import { user } from '@/stores/telegram'
+import { user } from '@/stores/state'
 
 import { AutoSizeText } from '@/components/Header/AutoSizeText'
 

@@ -6,9 +6,8 @@ import { UserInfo } from './UserInfo'
 import { ValueDisplay } from './ValueDisplay'
 import { SettingsButtons } from './SettingsButtons'
 import { ValueTooltip } from './ValueTooltip'
-import { $gameState } from '@/stores/state'
+import { $gameState, $pfp, user } from '@/stores/state'
 
-import { user } from '@/stores/telegram'
 
 
 const HeaderRoot = styled('div', {
@@ -28,7 +27,6 @@ const HeaderWrapper = styled('div', {
 
 export const Header: React.FC = () => {
   const location = useLocation()
-  // const connectionStatus = useStore($connectionStatus)
   const gameState = useStore($gameState)
 
   const isProfilePage = location.pathname === '/profile'
@@ -36,8 +34,10 @@ export const Header: React.FC = () => {
 
   const { quarks, stars } = gameState
   const currentRank = gameState.levelDef.get()
-  const telegramUser = user.get()
+  const telegramUser = useStore(user)
+  const pfp = useStore($pfp)
 
+  console.log(pfp)
 
   return (
     <HeaderRoot>
@@ -45,7 +45,7 @@ export const Header: React.FC = () => {
         <UserInfo
           user={telegramUser}
           rank={currentRank.name}
-          avatar={telegramUser?.photoUrl as string}
+          avatar={pfp}
         />
         {isProfilePage ? (
           <SettingsButtons />

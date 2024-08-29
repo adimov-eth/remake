@@ -7,10 +7,12 @@ import {star,quark, swapCurrency} from '@/assets';
 import { styled } from '@/core/stitches.config';
 import { StoryContainer, Content, Title, Description, Button, StoryContentProps } from './BaseStory';
 
+import { $locale } from '@/stores/state';
+
 type SwapAndStakeStoryProps = Omit<StoryContentProps, 'story'>;
 
-export const SwapAndStakeStory: React.FC<SwapAndStakeStoryProps> = ({ action, languageCode }) => {
-  const { t } = useTranslation('onboarding', { useSuspense: false, lng: languageCode });
+export const SwapAndStakeStory: React.FC<SwapAndStakeStoryProps> = ({ action }) => {
+  const { t } = useTranslation('onboarding', { useSuspense: false, lng: $locale.get() });
 
   const title = t('swapAndStake.title', 'Swap and Stake');
   const description = t('swapAndStake.description', 'Swap your Quarks for rare Stars on the Swap page. Use our dual token system to maximize your rewards and advance quickly in TON Stars. Remember to stake your Stars, You will surely need them later!');

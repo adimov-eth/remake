@@ -2,11 +2,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 // import { styled } from '@/core/stitches.config';
 import { StoryContainer, Content, Title, Description, CTA, Button, StoryContentProps } from './BaseStory';
+import { $locale } from '@/stores/state';
 
 type WelcomeStoryProps = Omit<StoryContentProps, 'story'>;
 
-export const WelcomeStory: React.FC<WelcomeStoryProps> = ({ action, languageCode }) => {
-  const { t } = useTranslation('onboarding', { useSuspense: false, lng: languageCode });
+
+export const WelcomeStory: React.FC<WelcomeStoryProps> = ({ action }) => {
+  const { t } = useTranslation('onboarding', { useSuspense: false, lng: $locale.get() });
 
   const title = t('welcome.title', 'Welcome to TON Stars');
   const description = t('welcome.description', 'Our game is built on Telegram and combines strategy with community gameplay. Earn rewards by making smart decisions and completing missions.');

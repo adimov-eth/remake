@@ -11,10 +11,40 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://unpkg.com/@telegram-apps/sdk@1.0.0/dist/index.iife.js"></script>
 <script>
- var { retrieveLaunchParams } = window.telegramApps.sdk;
-var { initDataRaw } = retrieveLaunchParams();
+  
 
-console.log('initDataRaw:', initDataRaw);
+var { retrieveLaunchParams } = window.telegramApps.sdk;
+try { 
+  var { initDataRaw } = retrieveLaunchParams();
+  window.initDataRaw = initDataRaw;
+  fetch('https://state.42.works', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: `{"initData": "${initDataRaw}"}`
+  })
+  .then(function(response) {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(function(userData) {
+    document.body.setAttribute('data-state', JSON.stringify(userData));
+    var event = document.createEvent('CustomEvent');
+    event.initCustomEvent('stateReceived', true, true, userData);
+    document.dispatchEvent(event);
+  })
+  .catch(function(error) {
+    console.error('Error:', error);
+  });
+
+} catch (e) {
+  console.warn('Not able to prefetch state', e)
+}
+
+
 
 var state = {
   data: null,
@@ -39,40 +69,8 @@ var state = {
   }
 };
 
-
 window.state = state;
 
-fetch('https://state.42.works', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: `{"initData": "${initDataRaw}"}`
-  })
-  .then(function(response) {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(function(userData) {
-    document.body.setAttribute('data-state', JSON.stringify(userData));
-    var event = document.createEvent('CustomEvent');
-    event.initCustomEvent('stateReceived', true, true, userData);
-    document.dispatchEvent(event);
-  })
-  .catch(function(error) {
-    console.error('Error:', error);
-  });
-
-// Usage example
-state.ready().then(function(userData) {
-  console.log('User data is ready:', userData);
-  // You can now access additional user data properties, e.g.:
-  // console.log('User ID:', userData.id);
-  // console.log('User Name:', userData.name);
-  // ... etc.
-});
 
 
   </script>
