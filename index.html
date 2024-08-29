@@ -8,6 +8,75 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://unpkg.com/@telegram-apps/sdk@1.0.0/dist/index.iife.js"></script>
+<script>
+ var { retrieveLaunchParams } = window.telegramApps.sdk;
+var { initDataRaw } = retrieveLaunchParams();
+
+console.log('initDataRaw:', initDataRaw);
+
+var state = {
+  data: null,
+  ready: function() {
+    var self = this;
+    return new Promise(function(resolve, reject) {
+      if (self.data) {
+        resolve(self.data);
+      } else {
+        var timeout = setTimeout(function() {
+          reject(new Error('State data not received in time'));
+        }, 10000); // 10 seconds timeout
+
+        document.addEventListener('stateReceived', function onStateReceived(event) {
+          document.removeEventListener('stateReceived', onStateReceived);
+          clearTimeout(timeout);
+          self.data = event.detail;
+          resolve(self.data);
+        });
+      }
+    });
+  }
+};
+
+
+window.state = state;
+
+fetch('https://state.42.works', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: `{"initData": "${initDataRaw}"}`
+  })
+  .then(function(response) {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(function(userData) {
+    document.body.setAttribute('data-state', JSON.stringify(userData));
+    var event = document.createEvent('CustomEvent');
+    event.initCustomEvent('stateReceived', true, true, userData);
+    document.dispatchEvent(event);
+  })
+  .catch(function(error) {
+    console.error('Error:', error);
+  });
+
+// Usage example
+state.ready().then(function(userData) {
+  console.log('User data is ready:', userData);
+  // You can now access additional user data properties, e.g.:
+  // console.log('User ID:', userData.id);
+  // console.log('User Name:', userData.name);
+  // ... etc.
+});
+
+
+  </script>
+
 <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@700&display=swap" rel="stylesheet">
     <style>
 
@@ -122,6 +191,7 @@
     </style>
   </head>
   <body>
+    
     <div class="stars_420691337">
       <svg id="starField">
           <defs>
@@ -148,7 +218,6 @@
         <div id="root"></div>
       </div>
     </div>
-    
     <script>
       function distance(a, b) {
           return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
@@ -259,6 +328,8 @@
           generateStarField();
       });
   </script>
+  
     <script src="/src/index.tsx" type="module"></script>
+    
   </body>
 </html>

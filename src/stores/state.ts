@@ -7,36 +7,45 @@ import { initDataRaw } from "./telegram"
 import { ClickerState, initClicker, UPGRADES, LEVELS } from '@/services/websocket/clicker'
 
 import { ConnectionStatus } from '@/types/connectionStatus'
-
-
-
-
-export interface NotificationStore {
-  cursor: number
-  notifications: IngameNotification[]
-}
-
-import { IngameNotification } from '@/services/websocket/protocol'
-
-interface currentNotificationType extends IngameNotification {
-  read?: boolean
-}
-
-export const $currentNotification = atom<currentNotificationType | null>(null)
-
-
 export const $connectionStatus = atom<ConnectionStatus>('offline')
 
 
-if (!initDataRaw) throw new Error('No user provided');
-const transportUrl = new URL(import.meta.env.VITE_WS_URL);
-Object.entries({rawData: initDataRaw}).forEach(([key, value]) => transportUrl.searchParams.set(key, value));
 
-export const transport = new Transport(transportUrl.toString())
+interface CustomWindow extends Window {
+  state?: object | Promise<object>;
+}
+declare let window: CustomWindow;
 
-const clicker = initClicker()
+export interface InitStateData {
+  data: {
+    profile_image: string;
+    quarks: number;
+    level: number;
+    energyReset: number;
+    energyResetAt: number;
+    upgrades: Array<{
+      slug: string;
+      tier: number;
+      prices: number[];
+    }>;
+    joinedAt: string;
+    userId: string;
+    username: string;
+    fullName: string;
+    stars: number;
+    clicks: number;
+    isPremium: boolean;
+  }
+}
 
-// Stores
+export type InitState = Promise<InitStateData> | InitStateData;
+export const $initState = atom<InitState>(window.state as InitState);
+
+const initStateData = await $initState.get();
+const { quarks, stars, clicks, level } = initStateData.data
+const clicker = initClicker(quarks, stars, clicks, level);
+
+
 
 export const $gameState = atom<ClickerState>(clicker)
 
@@ -74,3 +83,32 @@ export const $accelerators = computed(
     })
   }
 )
+
+
+
+
+const transportUrl = new URL(import.meta.env.VITE_WS_URL);
+transportUrl.searchParams.set('rawData', initDataRaw);
+
+export const transport = new Transport(transportUrl.toString())
+
+
+
+
+
+
+export interface NotificationStore {
+  cursor: number
+  notifications: IngameNotification[]
+}
+
+import { IngameNotification } from '@/services/websocket/protocol'
+
+interface currentNotificationType extends IngameNotification {
+  read?: boolean
+}
+
+export const $currentNotification = atom<currentNotificationType | null>(null)
+
+
+

@@ -2,14 +2,14 @@ import { FC, useEffect, useMemo } from 'react'
 import { Navigate, Route, Router, Routes } from 'react-router-dom'
 import { styled } from '@/core/stitches.config'
 
-
+import { platform } from '@/stores/telegram'
 
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 
 import { useIntegration } from '@telegram-apps/react-router-integration'
-import { initNavigator, useLaunchParams } from '@telegram-apps/sdk-react'
+import { initNavigator } from '@telegram-apps/sdk-react'
 import { AppRoot, FixedLayout } from '@telegram-apps/telegram-ui'
 
 import { Header } from '@/components/Header/Header'
@@ -19,7 +19,6 @@ import { routes } from '@/core/Router'
 
 
 export const App: FC = () => {
-  const lp = useLaunchParams()
 
   // Navigator layer
   const navigator = useMemo(() => initNavigator('app-navigation-state'), [])
@@ -36,13 +35,14 @@ export const App: FC = () => {
   const Bottom = styled(FixedLayout, {
     zIndex: 100,
   })
-  const platform = ['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'
+
+  const ui = ['macos', 'ios'].includes(platform) ? 'ios' : 'base'
 
 
   return (
     <AppRoot
       appearance={'dark'}
-      platform={platform}>
+      platform={ui}>
       <Router location={location} navigator={reactNavigator}>
        <Top vertical="top" >
          <Header />

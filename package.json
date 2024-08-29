@@ -9,12 +9,7 @@
     "build": "tsc --noEmit && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "worker:dev": "wrangler dev src/worker/index.ts",
-    "worker:build": "esbuild src/worker/index.ts --bundle --outfile=dist/worker.js --format=esm",
-    "deploy": "npm run build && npm run worker:build && wrangler publish"
-
+    "preview": "vite preview"
   },
   "dependencies": {
     "@nanostores/i18n": "^0.12.2",

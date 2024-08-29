@@ -6,8 +6,6 @@ export const CONFIG = {
   TON_CONNECT_MANIFEST_URL: new URL('tonconnect-manifest.json', window.location.href).toString()
 }
 
-console.log('CONFIG', CONFIG)
-
 
 export const preloadImageURLs = [
     'https://bot-assets.fra1.cdn.digitaloceanspaces.com/messages/onboarding-1.webp',
