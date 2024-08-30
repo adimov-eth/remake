@@ -6,13 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { $storieIndex, $subscribeButton, $subscribed, $isNew } from '@/stores/state';
 import { useStore } from '@nanostores/react';
 import { createStory } from './BaseStory';
-import { JoinCommunityStory, Join } from "./JoinCommunity";
+import { JoinCommunityStory, Join } from './JoinCommunity';
 import { getStories } from './storyData';
 import { Root } from './StyledComponents';
-import { initUtils } from '@telegram-apps/sdk'
+import { initUtils } from '@telegram-apps/sdk';
 
 import bg6 from '@/assets/stories/bg6.jpg';
-
 
 const OnboardingStories: React.FC = () => {
   const navigate = useNavigate();
@@ -23,25 +22,19 @@ const OnboardingStories: React.FC = () => {
 
   const handleNext = () => {
     if (index === stories.length) {
-      return
+      return;
     } else {
       $storieIndex.set(index + 1);
     }
   };
 
-  const handleAllStoriesEnd = () => {
-    // $isNew.set(false);
-
-    // navigate('/');
-  };
-
   const handleStoryChange = (index: number) => {
-    $storieIndex.set(index)
+    $storieIndex.set(index);
   };
 
   const stories = getStories();
 
-  const storyComponents = stories.map((story) => 
+  const storyComponents = stories.map(story =>
     createStory({
       ...story,
       next: handleNext,
@@ -51,23 +44,29 @@ const OnboardingStories: React.FC = () => {
 
   const buttonState = useStore($subscribeButton);
   const utils = initUtils();
+
   const handleSubscribeButton = () => {
     if (buttonState === 'button') {
-      utils.openTelegramLink("https://t.me/tonstarsdao")
+      utils.openTelegramLink('https://t.me/tonstarsdao');
       $subscribeButton.set('clicked');
-      
-
     } else if (buttonState === 'clicked') {
+      if ($subscribed.get()) {
+        $isNew.set(false);
+        navigate('/');
+        return;
+      }
+
       $subscribeButton.set('loading');
       setTimeout(() => {
-        $isNew.set(false)
-        $subscribed.set(true)
-        navigate('/')
-      }, 2000);
+        $isNew.set(false);
+        $subscribed.set(true);
+        setTimeout(() => {
+          navigate('/');
+        }, 10);
+      }, 1000);
     }
-  }
+  };
 
-  
   // Add the join community story
   storyComponents.push({
     url: bg6,
@@ -75,7 +74,7 @@ const OnboardingStories: React.FC = () => {
     duration: Infinity,
     header: <JoinCommunityStory title={t('join.title')} description={t('join.description')} />,
     seeMore: <Join buttonText={t(`join.${buttonState}`)} />,
-    onSeeMoreClick: handleSubscribeButton
+    onSeeMoreClick: handleSubscribeButton,
   });
 
   return (
@@ -86,14 +85,13 @@ const OnboardingStories: React.FC = () => {
         height="100%"
         stories={storyComponents}
         onStoryChange={handleStoryChange}
-        onAllStoriesEnd={handleAllStoriesEnd}
+        // onAllStoriesEnd
         storyStyles={{
-          objectFit: 'cover'
+          objectFit: 'cover',
         }}
       />
     </Root>
   );
 };
-
 
 export default OnboardingStories;

@@ -89,7 +89,7 @@ export const preload = async (shouldPreload: boolean): Promise<void> => {
   }
 
   try {
-    const r = await Promise.all([loadAssets(getVideoFormat()), checkFontLoaded()]);
+    await Promise.all([loadAssets(getVideoFormat()), checkFontLoaded()]);
     $assetsLoaded.set(true);
   } catch (err) {
     console.error('Failed to load assets or fonts', err);

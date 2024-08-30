@@ -1,12 +1,15 @@
-import React, { useCallback, useMemo } from 'react'
-import * as S from "./Swap.style"
-import { useStore } from '@nanostores/react'
-import { initDataRaw } from '@/stores/telegram'
-import { queryClient } from '@/services/api/queryClient'
-import { useCreateSwap } from '@/services/api/swap/model'
-import { useGetUserData } from '@/services/api/user/model'
-import { $gameState } from '@/stores/state'
-import CurrencyInput from '@/components/CurrencyInput'
+import React, { useCallback, useMemo } from 'react';
+import * as S from './Swap.style';
+import { useStore } from '@nanostores/react';
+import { initDataRaw } from '@/stores/telegram';
+import { queryClient } from '@/services/api/queryClient';
+import { useCreateSwap } from '@/services/api/swap/model';
+import { useGetUserData } from '@/services/api/user/model';
+import { $gameState } from '@/stores/state';
+import CurrencyInput from '@/components/CurrencyInput';
+import { Loader } from '@/components/Loader/Loader';
+import { ClickerState } from '@/services/websocket/clicker';
+import { UserResponseData } from '@/services/api/user/types';
 
 import {
   $swapState,
@@ -15,38 +18,59 @@ import {
   updateSwapValues,
   toggleSwapDirection,
   setMaxFromValue,
-} from '@/stores/swap'
+} from '@/stores/swap';
 
+// Improved custom hook with proper typing
+const useSyncedValues = (
+  userData: UserResponseData | undefined,
+  gameState: ClickerState | null
+) => {
+  return useMemo(() => {
+    const getStateValue = (key: 'quarks' | 'stars'): number => {
+      const userValue = userData?.user?.clicker_state?.[key];
+      const gameStateValue = gameState?.[key].get();
+      return userValue ?? gameStateValue ?? 0;
+    };
+
+    return {
+      syncedQuarks: getStateValue('quarks'),
+      syncedStars: getStateValue('stars'),
+    };
+  }, [userData, gameState]);
+};
 
 const Swap: React.FC = () => {
-  const rawData = initDataRaw || ''
-  const { quarks, stars } = useStore($gameState)
-  const { fromValue, toValue, direction } = useStore($swapState)
+  const rawData = initDataRaw || '';
+  const gameState = useStore($gameState);
+  const { fromValue, toValue, direction } = useStore($swapState);
+  // const connectionStatus = useStore($connectionStatus);
 
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData({
     enabled: !!rawData,
     variables: { rawData },
-  })
+  });
 
-  const { mutateAsync: swapMutation, isPending: isSwapPending } = useCreateSwap()
+  const { syncedQuarks, syncedStars } = useSyncedValues(userData, gameState);
 
-  const syncedQuarks = userData?.user?.clicker_state?.quarks ?? quarks.get()
-  const syncedStars = userData?.user?.clicker_state?.stars ?? stars.get()
+  const { mutateAsync: swapMutation, isPending: isSwapPending } = useCreateSwap();
 
-  const currentPair = useMemo(() => SWAP_PAIRS[direction], [direction])
+  const currentPair = useMemo(() => SWAP_PAIRS[direction], [direction]);
 
-  const handleValueChange = useCallback((value: string, input: 'from' | 'to') => {
-    const maxValue = direction === SwapDirection.QuarkToStar ? syncedQuarks : syncedStars
-    updateSwapValues(value, input, maxValue)
-  }, [syncedQuarks, syncedStars, direction])
+  const handleValueChange = useCallback(
+    (value: string, input: 'from' | 'to') => {
+      const maxValue = direction === SwapDirection.QuarkToStar ? syncedQuarks : syncedStars;
+      updateSwapValues(value, input, maxValue);
+    },
+    [syncedQuarks, syncedStars, direction]
+  );
 
   const handleSwapDirectionToggle = useCallback(() => {
-    toggleSwapDirection()
-  }, [])
+    toggleSwapDirection();
+  }, []);
 
   const handleSwapClick = useCallback(async () => {
-    const amount = parseFloat(fromValue)
-    if (!amount) return
+    const amount = parseFloat(fromValue);
+    if (!amount) return;
 
     try {
       await swapMutation(
@@ -59,28 +83,36 @@ const Swap: React.FC = () => {
         },
         {
           onSuccess: () => {
-            updateSwapValues('', 'from', 0)
-            queryClient.invalidateQueries({ queryKey: ['get/missions'] })
+            updateSwapValues('', 'from', 0);
+            queryClient.invalidateQueries({ queryKey: ['get/missions'] });
           },
         }
-      )
+      );
     } catch (error) {
-      console.error('Error creating swap:', error)
+      console.error('Error creating swap:', error);
       // TODO: Implement proper error handling (e.g., show error message to user)
     }
-  }, [swapMutation, currentPair.from.symbol, fromValue, rawData])
+  }, [swapMutation, currentPair.from.symbol, fromValue, rawData]);
 
-  const isLoading = isUserDataLoading || isSwapPending
+  const isLoading = isUserDataLoading; //|| isSwapPending || connectionStatus !== 'online';
 
-  const INIDICATOR: Record<SwapDirection, string> = {
+  const INDICATOR: Record<SwapDirection, string> = {
     QuarkToStar: 'Quark to Star',
     StarToQuark: 'Star to Quark',
-  }
+  };
 
-  const [ top, bottom ] = useMemo( ()=> 
-    direction === SwapDirection.QuarkToStar ? 
-      [syncedQuarks, syncedStars] : [syncedStars, syncedQuarks], 
-  [direction, syncedQuarks, syncedStars])
+  const [top, bottom] = useMemo(
+    () =>
+      direction === SwapDirection.QuarkToStar
+        ? [syncedQuarks, syncedStars]
+        : [syncedStars, syncedQuarks],
+    [direction, syncedQuarks, syncedStars]
+  );
+
+  console.log('isSwapPending', isSwapPending);
+  if (isLoading) {
+    return <Loader speed="fast" />;
+  }
 
   return (
     <>
@@ -88,7 +120,7 @@ const Swap: React.FC = () => {
         <CurrencyInput
           label="Sell"
           value={fromValue}
-          onChange={(value) => handleValueChange(value, 'from')}
+          onChange={value => handleValueChange(value, 'from')}
           currency={currentPair.from}
           showMaxButton
           onMaxClick={() => setMaxFromValue(top)}
@@ -100,7 +132,7 @@ const Swap: React.FC = () => {
         <CurrencyInput
           label="Buy"
           value={toValue}
-          onChange={(value) => handleValueChange(value, 'to')}
+          onChange={value => handleValueChange(value, 'to')}
           currency={currentPair.to}
           max={bottom}
         />
@@ -108,17 +140,13 @@ const Swap: React.FC = () => {
       <S.SwapButton
         variant="gradientFilled"
         onClick={handleSwapClick}
-        disabled={isLoading || parseFloat(fromValue) === 0}
+        disabled={parseFloat(fromValue) === 0}
       >
-        {isLoading ? 'Loading...' : 'Swap'}
+        Swap
       </S.SwapButton>
-      <S.DirectionIndicator>
-        {INIDICATOR[direction]}
-      </S.DirectionIndicator>
+      <S.DirectionIndicator>{INDICATOR[direction]}</S.DirectionIndicator>
     </>
-  )
-}
+  );
+};
 
-
-
-export default Swap
+export default Swap;
