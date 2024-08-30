@@ -1,113 +1,71 @@
-import bg2 from '@/assets/stories/bg2.jpg';
-import bg3 from '@/assets/stories/bg3.jpg';
-import bg6 from '@/assets/stories/bg6.jpg';
-import { useNavigate } from 'react-router-dom'
-
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Stories from 'stories-react';
 import 'stories-react/dist/index.css';
+import { useTranslation } from 'react-i18next';
+// import { $isNew, $subscribed } from '@/stores/state';
+// import { useStore } from '@nanostores/react';
+import { createStory } from './BaseStory';
+import { JoinCommunityStory, Join } from "./JoinCommunity";
+import { getStories } from './storyData';
+import { Root } from './StyledComponents';
 
-import { styled } from '@/core/stitches.config';
-
-
-import { WelcomeStory } from './Welcome';
-import { EarnQuarksStory } from './EarnQuarks';
-import { ExploreMissionsStory } from './ExploreMissions';
-import { EnhancePowerStory } from './EnhancePower';
-import { SwapAndStakeStory } from './SwapAndStake';
-import { JoinCommunityStory } from './JoinCommunity';
-import { StoryContentProps } from './BaseStory';
-
-
-
-// Import the video files
-import videoMp4_1 from '@/assets/stories/on1.mp4';
-import videoMp4_4 from '@/assets/stories/on4.mp4';
-import videoMp4_5 from '@/assets/stories/on5.mp4';
-
+import bg6 from '@/assets/stories/bg6.jpg';
 
 const OnboardingStories: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  // const isNew = useStore($isNew);
+  // const subscribed = useStore($subscribed);
+  // const startIndex = (!isNew && !subscribed) ? 5 : 0;
+  const startIndex = 0;
+  const [currentIndex, setCurrentIndex] = useState(startIndex);
+  const { t } = useTranslation('stories');
 
-  const stories = [
-    {
-      url: videoMp4_1,
-      type: 'video',
-      duration: 5000,
-      header: (props: StoryContentProps) => (
-        <WelcomeStory
-          {...props}
-          
-        />
-      ),
-    },
-    {
-      type: 'image',
-      duration: 5000,
-      url: bg2,
-      header: (props: StoryContentProps) => (
-        <EarnQuarksStory
-          {...props}
-          
-        />
-      ),
-    },
-    {
-      type: 'image',
-      duration: 5000,
-      url: bg3,
-      header: (props: StoryContentProps) => (
-        <ExploreMissionsStory
-          {...props}
-          
-        />
-      ),
-    },
-    {
-      url: videoMp4_4,
-      type: 'video',
-      duration: 5000,
-      header: (props: StoryContentProps) => (
-        <EnhancePowerStory
-          {...props}
-          
-        />
-      ),
-    },
-    {
-      url: videoMp4_5,
-      type: 'video',
-      duration: 5000,
-      header: (props: StoryContentProps) => (
-        <SwapAndStakeStory
-          {...props}
-          
-        />
-      ),
-    },
-    {
-      type: 'image',
-      duration: 5000,
-      url: bg6,
-      header: (props: StoryContentProps) => (
-        <JoinCommunityStory
-          {...props}
-          
-        />
-      ),
-    },
-  ]
+  const handleNext = () => {
+    if (currentIndex === stories.length - 1) {
+      return
+    } else {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % stories.length);
+    }
+  };
 
   const handleAllStoriesEnd = () => {
+    // $isNew.set(false);
     navigate('/');
   };
+
+  const handleStoryChange = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  const stories = getStories();
+
+  const storyComponents = stories.map((story) => 
+    createStory({
+      ...story,
+      next: handleNext,
+      children: story.childrenComponent,
+    })
+  );
+
+  // Add the join community story
+  storyComponents.push({
+    url: bg6,
+    type: 'image',
+    duration: 5000,
+    header: <JoinCommunityStory title={t('join.title')} description={t('join.description')} />,
+    seeMore: <Join buttonText={t('join.button')} />,
+    onSeeMoreClick: handleNext
+  });
 
   return (
     <Root>
       <Stories
+        currentIndex={currentIndex}
         width="100%"
         height="100%"
-        stories={stories}
+        stories={storyComponents}
+        onStoryChange={handleStoryChange}
         onAllStoriesEnd={handleAllStoriesEnd}
         storyStyles={{
           objectFit: 'cover'
@@ -117,23 +75,5 @@ const OnboardingStories: React.FC = () => {
   );
 };
 
-
-const Root = styled('div', {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100%',
-  zIndex: 2000,
-  backgroundColor: 'rgba(11, 12, 20, 1)',
-
-  '& > div': {
-    backgroundColor: 'transparent',
-  },
-
-  '& video': {
-    height: '100% !important',
-  },
-});
 
 export default OnboardingStories;

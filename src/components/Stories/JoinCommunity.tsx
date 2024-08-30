@@ -1,48 +1,24 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { $locale } from '@/stores/state';
-
-type JoinCommunityStoryProps = Omit<StoryContentProps, 'story'>;
-
-import { StoryContainer, Title, Content, Button, Description,StoryContentProps } from './BaseStory';
-
-export const JoinCommunityStory: React.FC<JoinCommunityStoryProps> = ({ action }) => {
-  const { t } = useTranslation('onboarding', { useSuspense: false, lng: $locale.get() });
-
-  const title = t('joinCommunity.title', 'Join the TON Stars Community Now!');
-  const description = t('joinCommunity.description', 'Don\'t forget to follow our Telegram Channel and Invite friends to join TON Stars. As more people join, Star values increase, unlocking new partnerships and features');
-  const buttonText = t('joinCommunity.buttonText', 'Follow the Telegram Channel');
-
-  return (
-    <StoryContainer>
-      <Content>
-        <JoinTitle>{title}</JoinTitle>
-        <Description>{description}</Description >
-        <JoinButton onClick={() => action('next')}>
-          <ButtonIcon />
-          <span>{buttonText}</span>
-        </JoinButton>
-      </Content>
-    </StoryContainer>
-  );
-};
-
-
+import { StoryContainer, Content, Description, Title } from './BaseStory';
 import { styled } from '@/core/stitches.config';
+import { Button } from './BaseStory';
 import telegram from '@/assets/stories/tg.svg';
 
 const JoinTitle = styled(Title, {
-  fontSize: '2.2rem',
+  fontFamily: 'Tektur, sans-serif',
+  fontWeight: 'bold',
+  fontSize: '2rem',
   lineHeight: 1.2,
 });
 
-const JoinButton = styled(Button, {
+
+export const JoinButton = styled(Button, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
 });
 
-const ButtonIcon = styled('div', {
+export const ButtonIcon = styled('div', {
   width: '19px',
   height: '16px',
   backgroundImage: `url(${telegram})`,
@@ -51,3 +27,21 @@ const ButtonIcon = styled('div', {
   backgroundPosition: 'center',
   marginRight: '10px',
 });
+
+export const Join = ({buttonText}: {buttonText: string}) => (
+  <JoinButton><ButtonIcon />{buttonText}</JoinButton>
+)
+
+
+export const JoinCommunityStory: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+  
+  return (
+    <StoryContainer>
+      <Content>
+        <JoinTitle>{title}</JoinTitle>
+        <Description>{description}</Description>
+      </Content>
+    </StoryContainer>
+  );
+};
+

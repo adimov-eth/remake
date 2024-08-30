@@ -49,7 +49,10 @@ class Transport {
   }
 
   connect(url: string) {
-    if (this.isConnecting) return
+    if (this.isConnecting) return Promise.resolve()
+    //TODO verify
+    if ($connectionStatus.get() !== 'offline') return Promise.resolve()
+
     this.isConnecting = true
     $connectionStatus.set('connecting')
     this.socket = new ReconnectingWebSocket(url, undefined, {

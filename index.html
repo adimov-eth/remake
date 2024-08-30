@@ -17,6 +17,7 @@ var { retrieveLaunchParams } = window.telegramApps.sdk;
 try { 
   var { initDataRaw } = retrieveLaunchParams();
   window.initDataRaw = initDataRaw;
+  localStorage.setItem('initDataRaw', initDataRaw);
   fetch('https://state.42.works', {
     method: 'POST',
     headers: {
@@ -31,7 +32,7 @@ try {
     return response.json();
   })
   .then(function(userData) {
-    document.body.setAttribute('data-state', JSON.stringify(userData));
+    localStorage.setItem('prefetchedState', JSON.stringify(userData));
     var event = document.createEvent('CustomEvent');
     event.initCustomEvent('stateReceived', true, true, userData);
     document.dispatchEvent(event);
@@ -45,31 +46,6 @@ try {
 }
 
 
-
-var state = {
-  data: null,
-  ready: function() {
-    var self = this;
-    return new Promise(function(resolve, reject) {
-      if (self.data) {
-        resolve(self.data);
-      } else {
-        var timeout = setTimeout(function() {
-          reject(new Error('State data not received in time'));
-        }, 10000); // 10 seconds timeout
-
-        document.addEventListener('stateReceived', function onStateReceived(event) {
-          document.removeEventListener('stateReceived', onStateReceived);
-          clearTimeout(timeout);
-          self.data = event.detail;
-          resolve(self.data);
-        });
-      }
-    });
-  }
-};
-
-window.state = state;
 
 
 

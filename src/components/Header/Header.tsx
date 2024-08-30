@@ -6,7 +6,7 @@ import { UserInfo } from './UserInfo'
 import { ValueDisplay } from './ValueDisplay'
 import { SettingsButtons } from './SettingsButtons'
 import { ValueTooltip } from './ValueTooltip'
-import { $gameState, $pfp, user } from '@/stores/state'
+import { $gameState, $pfp, $user } from '@/stores/state'
 
 
 
@@ -28,17 +28,15 @@ const HeaderWrapper = styled('div', {
 export const Header: React.FC = () => {
   const location = useLocation()
   const gameState = useStore($gameState)
-
+  if (!gameState) return null
   const isProfilePage = location.pathname === '/profile'
   const showQuarks = location.pathname !== '/'
-
-  const { quarks, stars } = gameState
+  const quarks: number = useStore(gameState.quarks) 
+  const stars: number = useStore(gameState.stars)
+ 
   const currentRank = gameState.levelDef.get()
-  const telegramUser = useStore(user)
+  const telegramUser = useStore($user)
   const pfp = useStore($pfp)
-
-  console.log(pfp)
-
   return (
     <HeaderRoot>
       <HeaderWrapper>
@@ -51,14 +49,14 @@ export const Header: React.FC = () => {
           <SettingsButtons />
         ) : (
           <ValueDisplay
-            quarks={quarks.get()}
-            stars={stars.get()}
+            quarks={Number(quarks)}
+            stars={Number(stars)}
             showQuarks={showQuarks}
           />
         )}
       </HeaderWrapper>
-      <ValueTooltip value={quarks.get()} type="quarks" />
-      <ValueTooltip value={stars.get()} type="stars" />
+      <ValueTooltip value={Number(quarks)} type="quarks" />
+      <ValueTooltip value={Number(stars)} type="stars" />
     </HeaderRoot>
   )
 }

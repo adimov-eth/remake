@@ -1,83 +1,71 @@
-import Transport from '@/services/websocket/transport'
-
-import { atom, computed } from "nanostores"
-
-import { initDataRaw, initData } from "./telegram"
-
-import { ClickerState, initClicker, UPGRADES, LEVELS } from '@/services/websocket/clicker'
-
+import { atom, computed } from 'nanostores'
+import { persistentAtom } from '@nanostores/persistent'
+import { ClickerState, SerializedState, UPGRADES, LEVELS } from '@/services/websocket/clicker'
 import { ConnectionStatus } from '@/types/connectionStatus'
+import { IngameNotification } from '@/services/websocket/protocol'
+import Transport from '@/services/websocket/transport'
+import { User } from '@/stores/types'
+import { initDataRaw } from '@/stores/telegram'
+
+
+
+// Game State
+export const $gameState = atom<ClickerState | null>(null)
+export const $localState = persistentAtom<SerializedState | null>('localState', null, {
+  encode: JSON.stringify,
+  decode: JSON.parse,
+})
+
+// User State
+export const $isNew = persistentAtom<boolean>('isNew', true, {
+  encode: JSON.stringify,
+  decode: JSON.parse,
+})
+export const $subscribed = persistentAtom<boolean>('subscribed', false, {
+  encode: JSON.stringify,
+  decode: JSON.parse,
+})
+export const $user = persistentAtom<User | null>('user', null, {
+  encode: JSON.stringify,
+  decode: JSON.parse,
+})
+
+// Connection State
 export const $connectionStatus = atom<ConnectionStatus>('offline')
 
+// Notifications
+export const $ingameNotifications = atom({ notifications: [] as IngameNotification[], cursor: 0 })
+export const $currentNotification = atom<IngameNotification | null>(null)
 
+// Initialization State
+export const $initializationStep = atom<number>(0)
+export const $initializationError = atom<string | null>(null)
+export const $isInitialized = computed($initializationStep, (step) => step === 5)
 
-interface CustomWindow extends Window {
-  state?: object | Promise<object>;
-}
-declare let window: CustomWindow;
+// Transport
+const transportUrl = new URL(import.meta.env.VITE_WS_URL);
+transportUrl.searchParams.set('rawData', initDataRaw);
 
-export interface InitStateData {
-  data: {
-    profile_image: string;
-    quarks: number;
-    level: number;
-    energyReset: number;
-    energyResetAt: number;
-    upgrades: Array<{
-      slug: string;
-      tier: number;
-      prices: number[];
-    }>;
-    joinedAt: string;
-    userId: string;
-    username: string;
-    fullName: string;
-    stars: number;
-    clicks: number;
-    isPremium: boolean;
-  }
-}
+export const transport = new Transport(transportUrl.toString())
 
-export type InitState = Promise<InitStateData> | InitStateData;
-export const $initState = atom<InitState>(window.state as InitState);
+// Computed states
+export const $pfp = computed($user, (user) => user?.photoUrl || '')
 
-const initStateData = await $initState.get();
-
-
-const { quarks = 0, stars = 0, clicks = 0, level = 1, profile_image = '' } = initStateData?.data || {}
-const clicker = initClicker(quarks, stars, clicks, level);
-
-
-
-export const user = atom(initData.user);
-export const $pfp = computed(user, (user) => user?.photoUrl || profile_image);
-
-
-
-
-export const $gameState = atom<ClickerState>(clicker)
-
-//TODO fix this
-export const $level = computed($gameState, ({ level }) => {
-  const currentLevel = level.get();
-  
+export const $level = computed($gameState, (state) => {
+  if (!state) return 0;
+  const currentLevel = state.level.get();
   return currentLevel > LEVELS.length - 1 ? LEVELS.length - 1 : currentLevel;
 })
 
-export const $ingameNotifications = atom<NotificationStore>({ notifications: [], cursor: 0 })
-
-export const $isLoaded = atom<boolean>(false)
-export const $isOnboarding = atom<boolean>(true)
-
 export const $accelerators = computed(
   $gameState,
-  ({ level, energyLimit, upgrades }) => {
-    const currentLevel = level.get()
-    const currentEnergyLimit = energyLimit.get()
-    const currentUpgrades = upgrades.get()
+  (state) => {
+    if (!state) return [];
+    const currentLevel = state.level.get()
+    const currentEnergyLimit = state.energyLimit.get()
+    const currentUpgrades = state.upgrades.get()
 
     return Object.entries(UPGRADES).map(([slug, { name, description, price, isEnabled }]) => {
-      
       const { tier = 1 } = currentUpgrades.find(u => u.slug === slug) || {}
 
       return {
@@ -92,34 +80,16 @@ export const $accelerators = computed(
   }
 )
 
+// Other game-related states (if any)
+// ...
 
+// Export any other necessary states or computed values
 
+// Add this line
+export const $prefetchedState = atom<SerializedState | null>(null)
 
-const transportUrl = new URL(import.meta.env.VITE_WS_URL);
-transportUrl.searchParams.set('rawData', initDataRaw);
-
-export const transport = new Transport(transportUrl.toString())
-
-
-
-
-
-
-export interface NotificationStore {
-  cursor: number
-  notifications: IngameNotification[]
-}
-
-import { IngameNotification } from '@/services/websocket/protocol'
-
-interface currentNotificationType extends IngameNotification {
-  read?: boolean
-}
-
-export const $currentNotification = atom<currentNotificationType | null>(null)
-
-
-
-export const $canPlay = atom<boolean>(true)
-
-export const $locale = computed(user, (user) => user?.languageCode || 'en');
+// Language State
+export const $locale = persistentAtom<string>('locale', 'en', {
+  encode: JSON.stringify,
+  decode: JSON.parse,
+})

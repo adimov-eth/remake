@@ -5,66 +5,50 @@ import { useStore } from '@nanostores/react';
 import { App } from '@/core/App.tsx';
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ErrorBoundary } from '@/core/ErrorBoundary';
-import { $imagesLoaded, preload } from "@/stores/preload";
+import { $imagesLoaded } from "@/stores/preload";
 import { isDesktop } from "@/stores/telegram";
-import { $initState } from "@/stores/state";
 import { CONFIG } from './config';
 import WebBlocker from '@/components/WebBlocker'
-
+import '@/locale/i18n';
 import { queryClient } from '@/services/api/queryClient'
+import { $initializationStep, $initializationError } from '@/stores/state';
+import { initializeApp } from '@/stores/initialization';
+import { Loader } from '@/components/Loader/Loader';
+import { ErrorDisplay } from '@/components/ErrorDisplay';
 
 const Inner: FC = () => {
-  // SDK layer
   const debug = useLaunchParams().startParam === 'debug';
-  
+  const initializationStep = useStore($initializationStep);
+  const initializationError = useStore($initializationError);
+  const imagesLoaded = useStore($imagesLoaded);
 
-  // Enable debug mode to see all the methods sent and events received.
+  useEffect(() => {
+    initializeApp();
+  }, []);
+
   useEffect(() => {
     if (import.meta.env.DEV && debug) {
-      // Enable DEBUG CONSOLE on mobile/webview
       import('eruda').then((lib) => lib.default.init())
     }
   }, [debug])
+  if (initializationError) {
+    return <ErrorDisplay error={initializationError} />;
+  }
+  console.log('Initialization Step: ', initializationStep, imagesLoaded, initializationError)
 
-  // Todo refactor
-  useEffect(() => {
-    const initState = async () => {
-      const initStateData = await $initState.get();
-      const { clicks = 0 } = initStateData?.data || {};
-      preload(clicks > 0);
-    };
+  if (initializationStep < 3 || !imagesLoaded) {
+    return <Loader speed={'slow'} />; // Add the speed prop
+  }
 
-    initState();
-  }, [])
-  
-  
   return (
     <TonConnectUIProvider manifestUrl={CONFIG.TON_CONNECT_MANIFEST_URL}>
       <SDKProvider acceptCustomStyles debug={debug}>
         <QueryClientProvider client={queryClient}>
-          <PreloadAwareApp />
+          {isDesktop ? <WebBlocker /> : <App />}
         </QueryClientProvider>
       </SDKProvider>
     </TonConnectUIProvider>
   );
-};
-
-const PreloadAwareApp: FC = () => {
-  const imagesLoaded = useStore($imagesLoaded);
-
-  console.log('imagesLoaded', imagesLoaded)
-  useEffect(() => {
-    const loader = document.getElementById('initial-loader')
-    if (loader && imagesLoaded) {
-      loader.remove()
-    }
-  }, [imagesLoaded])
-
-  if (!imagesLoaded) {
-    return null; // or return a loading indicator
-  }
-
-  return isDesktop ? <WebBlocker /> : <App />;
 };
 
 export const Root: FC = () => (

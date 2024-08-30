@@ -1,9 +1,10 @@
 import '@/utils/mockEnv'
 
-import { retrieveLaunchParams} from '@telegram-apps/sdk-react'
+import { retrieveLaunchParams, User as $User} from '@telegram-apps/sdk-react'
 
 
 
+export type User = $User
 
 export const launchParams = retrieveLaunchParams();
 

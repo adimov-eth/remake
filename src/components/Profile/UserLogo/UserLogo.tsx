@@ -1,15 +1,15 @@
 import { useStore } from '@nanostores/react'
 
-import { user } from '@/stores/state'
+import { $user } from '@/stores/state'
 
 import { AutoSizeText } from '@/components/Header/AutoSizeText'
 
-import UserIcon from '@/assets/user.svg?react'
+import { UserIcon } from '@/assets/icons'
 
 import styles from './user-logo.module.css'
 
 export const UserLogo = () => {
-  const telegramUser = useStore(user)
+  const telegramUser = useStore($user)
 
   return (
     <div className={styles.root}>
