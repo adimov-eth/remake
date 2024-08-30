@@ -5,7 +5,7 @@ import { useStore } from '@nanostores/react';
 import { App } from '@/core/App.tsx';
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ErrorBoundary } from '@/core/ErrorBoundary';
-import { $imagesLoaded } from "@/stores/preload";
+import { $assetsLoaded } from "@/stores/preload";
 import { isDesktop } from "@/stores/telegram";
 import { CONFIG } from './config';
 import WebBlocker from '@/components/WebBlocker'
@@ -20,7 +20,7 @@ const Inner: FC = () => {
   const debug = useLaunchParams().startParam === 'debug';
   const initializationStep = useStore($initializationStep);
   const initializationError = useStore($initializationError);
-  const imagesLoaded = useStore($imagesLoaded);
+  const imagesLoaded = useStore($assetsLoaded);
 
   useEffect(() => {
     initializeApp();
