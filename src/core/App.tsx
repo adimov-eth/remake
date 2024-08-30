@@ -24,7 +24,7 @@ import { $isNew, $subscribed, $initializationStep, $isInitialized, $gameState } 
 export const App: FC = () => {
   const navigator = initNavigator('app-navigation-state')
   const [location, reactNavigator] = useIntegration(navigator);
-  const isNew = useStore($isNew);
+  const isNew = useStore($isNew) 
   const subscribed = useStore($subscribed);
   const initializationStep = useStore($initializationStep);
   const isInitialized = useStore($isInitialized);
@@ -38,14 +38,16 @@ export const App: FC = () => {
   const Bottom = styled(FixedLayout, { zIndex: 100 })
   const ui = ['macos', 'ios'].includes(platform) ? 'ios' : 'base'
 
-  console.log('App render: ', 'initialized', isInitialized, ', subscribed', subscribed, ',new: ', isNew, ', step: ', initializationStep, ', gameState: '  , $gameState.get())
-  if (isNew && initializationStep >= 3) {
-    return <Onboarding />;
-  }
+  console.log('App render: ', 'initialized', isInitialized, ', subscribed', subscribed, ', new: ', isNew, ', step: ', initializationStep, ', gameState: '  , $gameState.get())
+  // if (isNew && initializationStep >= 3) {
+  //   return <Onboarding />;
+  // }
 
   return (
     <AppRoot appearance={'dark'} platform={ui}>
       <Router location={location} navigator={reactNavigator}>
+      {(isNew && initializationStep >= 3) ? <Onboarding /> : (
+        <>
         <Top vertical="top">
           <Header />
         </Top>
@@ -71,6 +73,8 @@ export const App: FC = () => {
             margin: 'auto',
           }}
         />
+        </>
+      )}
       </Router>
     </AppRoot>
   )

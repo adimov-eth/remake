@@ -39,11 +39,16 @@ export const initializeApp = async () => {
     $prefetchedState.set(prefetchedState)
 
     // Determine if user is new
-    const isNew = !localState && !prefetchedState
-    $isNew.set(isNew)
+    // smart initialization is turned off in development
+    if (import.meta.env.DEV) {
+        $isNew.set(true)
+    } else {
+        const isNew = $isNew.get() || (!localState && !prefetchedState)
+        $isNew.set(isNew)
+    }   
 
     // Preload content if necessary
-    await preload(isNew)
+    await preload($isNew.get())
 
     // Step 3: Get user data from API
     $initializationStep.set(3)

@@ -1,41 +1,42 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Stories from 'stories-react';
 import 'stories-react/dist/index.css';
 import { useTranslation } from 'react-i18next';
-// import { $isNew, $subscribed } from '@/stores/state';
-// import { useStore } from '@nanostores/react';
+import { $storieIndex, $subscribeButton, $subscribed, $isNew } from '@/stores/state';
+import { useStore } from '@nanostores/react';
 import { createStory } from './BaseStory';
 import { JoinCommunityStory, Join } from "./JoinCommunity";
 import { getStories } from './storyData';
 import { Root } from './StyledComponents';
+import { initUtils } from '@telegram-apps/sdk'
 
 import bg6 from '@/assets/stories/bg6.jpg';
 
+
 const OnboardingStories: React.FC = () => {
   const navigate = useNavigate();
-  // const isNew = useStore($isNew);
-  // const subscribed = useStore($subscribed);
-  // const startIndex = (!isNew && !subscribed) ? 5 : 0;
-  const startIndex = 0;
-  const [currentIndex, setCurrentIndex] = useState(startIndex);
+
+  const index = useStore($storieIndex);
+
   const { t } = useTranslation('stories');
 
   const handleNext = () => {
-    if (currentIndex === stories.length - 1) {
+    if (index === stories.length) {
       return
     } else {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % stories.length);
+      $storieIndex.set(index + 1);
     }
   };
 
   const handleAllStoriesEnd = () => {
     // $isNew.set(false);
-    navigate('/');
+
+    // navigate('/');
   };
 
   const handleStoryChange = (index: number) => {
-    setCurrentIndex(index);
+    $storieIndex.set(index)
   };
 
   const stories = getStories();
@@ -48,20 +49,39 @@ const OnboardingStories: React.FC = () => {
     })
   );
 
+  const buttonState = useStore($subscribeButton);
+  const utils = initUtils();
+  const handleSubscribeButton = () => {
+    if (buttonState === 'button') {
+      utils.openTelegramLink("https://t.me/tonstarsdao")
+      $subscribeButton.set('clicked');
+      
+
+    } else if (buttonState === 'clicked') {
+      $subscribeButton.set('loading');
+      setTimeout(() => {
+        $isNew.set(false)
+        $subscribed.set(true)
+        navigate('/')
+      }, 2000);
+    }
+  }
+
+  
   // Add the join community story
   storyComponents.push({
     url: bg6,
     type: 'image',
-    duration: 5000,
+    duration: Infinity,
     header: <JoinCommunityStory title={t('join.title')} description={t('join.description')} />,
-    seeMore: <Join buttonText={t('join.button')} />,
-    onSeeMoreClick: handleNext
+    seeMore: <Join buttonText={t(`join.${buttonState}`)} />,
+    onSeeMoreClick: handleSubscribeButton
   });
 
   return (
     <Root>
       <Stories
-        currentIndex={currentIndex}
+        currentIndex={index}
         width="100%"
         height="100%"
         stories={storyComponents}

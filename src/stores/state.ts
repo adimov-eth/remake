@@ -7,28 +7,19 @@ import Transport from '@/services/websocket/transport'
 import { User } from '@/stores/types'
 import { initDataRaw } from '@/stores/telegram'
 
+const adapter = {
+  encode: JSON.stringify,
+  decode: JSON.parse,
+}
 
 
 // Game State
 export const $gameState = atom<ClickerState | null>(null)
-export const $localState = persistentAtom<SerializedState | null>('localState', null, {
-  encode: JSON.stringify,
-  decode: JSON.parse,
-})
+export const $localState = persistentAtom<SerializedState | null>('localState', null, adapter)
 
 // User State
-export const $isNew = persistentAtom<boolean>('isNew', true, {
-  encode: JSON.stringify,
-  decode: JSON.parse,
-})
-export const $subscribed = persistentAtom<boolean>('subscribed', false, {
-  encode: JSON.stringify,
-  decode: JSON.parse,
-})
-export const $user = persistentAtom<User | null>('user', null, {
-  encode: JSON.stringify,
-  decode: JSON.parse,
-})
+export const $isNew = persistentAtom<boolean>('isNew', true, adapter)
+export const $user = persistentAtom<User | null>('user', null, adapter)
 
 // Connection State
 export const $connectionStatus = atom<ConnectionStatus>('offline')
@@ -89,7 +80,13 @@ export const $accelerators = computed(
 export const $prefetchedState = atom<SerializedState | null>(null)
 
 // Language State
-export const $locale = persistentAtom<string>('locale', 'en', {
-  encode: JSON.stringify,
-  decode: JSON.parse,
-})
+export const $locale = persistentAtom<string>('locale', 'en', adapter)
+
+
+export const $storieIndex = persistentAtom<number>('storieIndex', 0, adapter)
+
+export const $subscribed = persistentAtom<boolean>('subscribed', false, adapter)
+
+
+
+export const $subscribeButton = atom<'button' | 'clicked' | 'loading'>('button')

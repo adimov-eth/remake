@@ -25,7 +25,9 @@
   "join": {
     "title": "Join the TON Stars Community Now!",
     "description": "Don't forget to follow our Telegram Channel and Invite friends to join TON Stars. As more people join, Star values increase, unlocking new partnerships and features",
-    "button": "Follow Telegram channel"
+    "button": "Follow Telegram channel",
+    "clicked": "Let's go!",
+    "loading": "Verifying subscription..."
   },
   "button": {
     "next": "Next"

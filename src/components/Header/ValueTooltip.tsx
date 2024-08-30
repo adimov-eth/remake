@@ -20,7 +20,7 @@ export const ValueTooltip: React.FC<ValueTooltipProps> = ({ value, type }) => (
       padding: '6px 10px',
     }}
   >
-    {type === 'quarks' ? formatNumberGroup(value) : value.toFixed(2)}
+    {type === 'quarks' ? formatNumberGroup(value) : Number(value).toFixed(2)}
   </Tooltip>
 )
 

@@ -13,7 +13,7 @@ import '@/locale/i18n';
 import { queryClient } from '@/services/api/queryClient'
 import { $initializationStep, $initializationError } from '@/stores/state';
 import { initializeApp } from '@/stores/initialization';
-import { Loader } from '@/components/Loader/Loader';
+// import { Loader } from '@/components/Loader/Loader';
 import { ErrorDisplay } from '@/components/ErrorDisplay';
 
 const Inner: FC = () => {
@@ -34,10 +34,10 @@ const Inner: FC = () => {
   if (initializationError) {
     return <ErrorDisplay error={initializationError} />;
   }
-  console.log('Initialization Step: ', initializationStep, imagesLoaded, initializationError)
+  console.log('Initialization Step: ', initializationStep, ', imagesLoaded: ', imagesLoaded, ', hasError: ', initializationError)
 
   if (initializationStep < 3 || !imagesLoaded) {
-    return <Loader speed={'slow'} />; // Add the speed prop
+    return //<Loader speed={'slow'} />; // Add the speed prop
   }
 
   return (
