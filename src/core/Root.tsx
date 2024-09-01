@@ -3,14 +3,14 @@ import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { type FC, useEffect } from 'react';
 import { useStore } from '@nanostores/react';
 import { App } from '@/core/App.tsx';
-import { QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/core/ErrorBoundary';
-import { $assetsLoaded } from "@/stores/preload";
-import { isDesktop } from "@/stores/telegram";
+import { $assetsLoaded } from '@/stores/preload';
+import { isDesktop } from '@/stores/telegram';
 import { CONFIG } from './config';
-import WebBlocker from '@/components/WebBlocker'
+import WebBlocker from '@/components/WebBlocker';
 import '@/locale/i18n';
-import { queryClient } from '@/services/api/queryClient'
+import { queryClient } from '@/services/api/queryClient';
 import { $initializationStep, $initializationError } from '@/stores/state';
 import { initializeApp } from '@/stores/initialization';
 // import { Loader } from '@/components/Loader/Loader';
@@ -28,18 +28,24 @@ const Inner: FC = () => {
 
   useEffect(() => {
     if (import.meta.env.DEV && debug) {
-      import('eruda').then((lib) => lib.default.init())
+      import('eruda').then(lib => lib.default.init());
     }
-  }, [debug])
+  }, [debug]);
   if (initializationError) {
     return <ErrorDisplay error={initializationError} />;
   }
-  console.log('Initialization Step: ', initializationStep, ', imagesLoaded: ', imagesLoaded, ', hasError: ', initializationError)
+  console.log(
+    'Initialization Step: ',
+    initializationStep,
+    ', imagesLoaded: ',
+    imagesLoaded,
+    ', hasError: ',
+    initializationError
+  );
 
   if (initializationStep < 3 || !imagesLoaded) {
-    return //<Loader speed={'slow'} />; // Add the speed prop
+    return; //<Loader speed={'slow'} />; // Add the speed prop
   }
-
   return (
     <TonConnectUIProvider manifestUrl={CONFIG.TON_CONNECT_MANIFEST_URL}>
       <SDKProvider acceptCustomStyles debug={debug}>
@@ -53,7 +59,7 @@ const Inner: FC = () => {
 
 export const Root: FC = () => (
   <ErrorBoundary fallback={ErrorBoundaryError}>
-    <Inner/>
+    <Inner />
   </ErrorBoundary>
 );
 
@@ -65,8 +71,8 @@ const ErrorBoundaryError: FC<{ error: Error | string | unknown }> = ({ error }) 
         {error instanceof Error
           ? error.message
           : typeof error === 'string'
-            ? error
-            : JSON.stringify(error)}
+          ? error
+          : JSON.stringify(error)}
       </code>
     </blockquote>
   </div>

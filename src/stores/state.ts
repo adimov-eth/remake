@@ -1,6 +1,12 @@
 import { atom, computed } from 'nanostores';
 import { persistentAtom } from '@nanostores/persistent';
-import { ClickerState, SerializedState, UPGRADES, LEVELS } from '@/services/websocket/clicker';
+import {
+  ClickerState,
+  SerializedState,
+  UPGRADES,
+  // LEVELS,
+  initClicker,
+} from '@/services/websocket/clicker';
 import { ConnectionStatus } from '@/types/connectionStatus';
 import { IngameNotification } from '@/services/websocket/protocol';
 import Transport from '@/services/websocket/transport';
@@ -13,7 +19,8 @@ const adapter = {
 };
 
 // Game State
-export const $gameState = atom<ClickerState | null>(null);
+export const $gameState = atom<ClickerState>(initClicker());
+
 export const $localState = persistentAtom<SerializedState | null>('localState', null, adapter);
 
 // User State
@@ -25,7 +32,7 @@ export const $connectionStatus = atom<ConnectionStatus>('offline');
 
 // Notifications
 export const $ingameNotifications = atom({ notifications: [] as IngameNotification[], cursor: 0 });
-export const $currentNotification = atom<IngameNotification | null>(null);
+// export const $currentNotification = atom<IngameNotification | null>(null);
 
 // Initialization State
 export const $initializationStep = atom<number>(0);
@@ -44,8 +51,35 @@ export const $pfp = computed($user, user => user?.photoUrl || '');
 export const $level = computed($gameState, state => {
   if (!state) return 0;
   const currentLevel = state.level.get();
-  return currentLevel > LEVELS.length - 1 ? LEVELS.length - 1 : currentLevel;
+  return currentLevel;
+  // return currentLevel > LEVELS.length - 1 ? LEVELS.length - 1 : currentLevel;
 });
+
+// const upgradeCards: IAcceleratorCard[] = Object.keys(UPGRADES).map(
+//   (upgradeSlug) => {
+//     const upgradeDef = UPGRADES[upgradeSlug] as UpgradeDefinition
+//     const currentUpgrade = currentUpgrades.find(
+//       (upgrade) => upgrade.slug === upgradeSlug
+//     )
+//     const upgradeMeta = {
+//       user: {
+//         level: clickerState.level.get(),
+//         energyLimit: clickerState.energyLimit.get(),
+//       },
+//       tier: currentUpgrade?.tier || 0,
+//     }
+
+//     return {
+//       slug: upgradeSlug,
+//       title: upgradeDef.name,
+//       description: upgradeDef.description,
+//       currency: 'quarks',
+//       cost: upgradeDef.price(upgradeMeta.user, upgradeMeta.tier + 1),
+//       disabled: !upgradeDef.isEnabled(upgradeMeta.user),
+//       tier: upgradeMeta.tier,
+//     }
+//   }
+// )
 
 export const $accelerators = computed($gameState, state => {
   if (!state) return [];
@@ -54,14 +88,14 @@ export const $accelerators = computed($gameState, state => {
   const currentUpgrades = state.upgrades.get();
 
   return Object.entries(UPGRADES).map(([slug, { name, description, price, isEnabled }]) => {
-    const { tier = 1 } = currentUpgrades.find(u => u.slug === slug) || {};
+    const { tier = 0 } = currentUpgrades.find(u => u.slug === slug) || {};
 
     return {
       slug,
       tier,
       name,
       description,
-      price: price({ level: currentLevel, energyLimit: currentEnergyLimit }, tier),
+      price: price({ level: currentLevel, energyLimit: currentEnergyLimit }, tier + 1),
       disabled: !isEnabled({ level: currentLevel }),
     };
   });
@@ -82,6 +116,14 @@ export const $storieIndex = persistentAtom<number>('storieIndex', 0, adapter);
 
 export const $subscribed = persistentAtom<boolean>('subscribed', false, adapter);
 
-export const $subscribeButton = atom<'button' | 'clicked' | 'loading'>(
+export type TSubscribeButtonState = 'button' | 'clicked' | 'loading';
+
+export const $subscribeButton = atom<TSubscribeButtonState>(
   $subscribed.get() ? 'clicked' : 'button'
 );
+
+interface currentNotificationType extends IngameNotification {
+  read?: boolean;
+}
+
+export const $currentNotification = atom<currentNotificationType | null>(null);

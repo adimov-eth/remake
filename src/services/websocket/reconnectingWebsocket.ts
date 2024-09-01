@@ -8,7 +8,7 @@
  * License MIT
  */
 export type TypedEventTarget<EventMap extends object> = {
-  new(): IntermediateEventTarget<EventMap>;
+  new (): IntermediateEventTarget<EventMap>;
 };
 
 // internal helper type
@@ -42,7 +42,6 @@ interface IntermediateEventTarget<EventMap> extends EventTarget {
   ): void;
 }
 
-
 if (!globalThis.EventTarget || !globalThis.Event) {
   console.error(`
   PartySocket requires a global 'EventTarget' class to be available!
@@ -59,7 +58,7 @@ export class ErrorEvent extends Event {
   public message: string;
   public error: Error;
   constructor(error: Error, target: any) {
-    super("error", target);
+    super('error', target);
     this.message = error.message;
     this.error = error;
   }
@@ -69,8 +68,8 @@ export class CloseEvent extends Event {
   public code: number;
   public reason: string;
   public wasClean = true;
-  constructor(code = 1000, reason = "", target: any) {
-    super("close", target);
+  constructor(code = 1000, reason = '', target: any) {
+    super('close', target);
     this.code = code;
     this.reason = reason;
   }
@@ -85,7 +84,7 @@ export interface WebSocketEventMap {
 const Events = {
   Event,
   ErrorEvent,
-  CloseEvent
+  CloseEvent,
 };
 
 function assert(condition: unknown, msg?: string): asserts condition {
@@ -99,23 +98,23 @@ function cloneEventBrowser(e: Event) {
 }
 
 function cloneEventNode(e: Event) {
-  if ("data" in e) {
+  if ('data' in e) {
     const evt = new MessageEvent(e.type, e);
     return evt;
   }
 
-  if ("code" in e || "reason" in e) {
+  if ('code' in e || 'reason' in e) {
     const evt = new CloseEvent(
       // @ts-expect-error we need to fix event/listener types
       (e.code || 1999) as number,
       // @ts-expect-error we need to fix event/listener types
-      (e.reason || "unknown reason") as string,
+      (e.reason || 'unknown reason') as string,
       e
     );
     return evt;
   }
 
-  if ("error" in e) {
+  if ('error' in e) {
     const evt = new ErrorEvent(e.error as Error, e);
     return evt;
   }
@@ -125,9 +124,9 @@ function cloneEventNode(e: Event) {
 }
 
 const isNode =
-  typeof process !== "undefined" &&
-  typeof process.versions?.node !== "undefined" &&
-  typeof document === "undefined";
+  typeof process !== 'undefined' &&
+  typeof process.versions?.node !== 'undefined' &&
+  typeof document === 'undefined';
 
 const cloneEvent = isNode ? cloneEventNode : cloneEventBrowser;
 
@@ -154,7 +153,7 @@ const DEFAULT = {
   maxRetries: Infinity,
   maxEnqueuedMessages: Infinity,
   startClosed: false,
-  debug: false
+  debug: false,
 };
 
 let didWarnAboutMissingWebSocket = false;
@@ -176,7 +175,7 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
   private _connectTimeout: ReturnType<typeof setTimeout> | undefined;
   private _shouldReconnect = true;
   private _connectLock = false;
-  private _binaryType: BinaryType = "blob";
+  private _binaryType: BinaryType = 'blob';
   private _closeCalled = false;
   private _messageQueue: Message[] = [];
 
@@ -186,11 +185,7 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
   protected _protocols?: ProtocolsProvider;
   protected _options: Options;
 
-  constructor(
-    url: UrlProvider,
-    protocols?: ProtocolsProvider,
-    options: Options = {}
-  ) {
+  constructor(url: UrlProvider, protocols?: ProtocolsProvider, options: Options = {}) {
     super();
     this._url = url;
     this._protocols = protocols;
@@ -256,7 +251,7 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
    */
   get bufferedAmount(): number {
     const bytes = this._messageQueue.reduce((acc, message) => {
-      if (typeof message === "string") {
+      if (typeof message === 'string') {
         acc += message.length; // not byte size
       } else if (message instanceof Blob) {
         acc += message.size;
@@ -273,7 +268,7 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
    * extensions as negotiated by the connection
    */
   get extensions(): string {
-    return this._ws ? this._ws.extensions : "";
+    return this._ws ? this._ws.extensions : '';
   }
 
   /**
@@ -282,7 +277,7 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
    * WebSocket object
    */
   get protocol(): string {
-    return this._ws ? this._ws.protocol : "";
+    return this._ws ? this._ws.protocol : '';
   }
 
   /**
@@ -301,7 +296,7 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
    * The URL as resolved by the constructor
    */
   get url(): string {
-    return this._ws ? this._ws.url : "";
+    return this._ws ? this._ws.url : '';
   }
 
   /**
@@ -341,11 +336,11 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
     this._shouldReconnect = false;
     this._clearTimeouts();
     if (!this._ws) {
-      this._debug("close enqueued: no ws instance");
+      this._debug('close enqueued: no ws instance');
       return;
     }
     if (this._ws.readyState === this.CLOSED) {
-      this._debug("close: already closed");
+      this._debug('close: already closed');
       return;
     }
     this._ws.close(code, reason);
@@ -372,13 +367,12 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
    */
   public send(data: Message) {
     if (this._ws && this._ws.readyState === this.OPEN) {
-      this._debug("send", data);
+      this._debug('send', data);
       this._ws.send(data);
     } else {
-      const { maxEnqueuedMessages = DEFAULT.maxEnqueuedMessages } =
-        this._options;
+      const { maxEnqueuedMessages = DEFAULT.maxEnqueuedMessages } = this._options;
       if (this._messageQueue.length < maxEnqueuedMessages) {
-        this._debug("enqueue", data);
+        this._debug('enqueue', data);
         this._messageQueue.push(data);
       }
     }
@@ -386,16 +380,16 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
 
   private _debug(...args: unknown[]) {
     if (this._options.debug) {
-      this._debugLogger("RWS>", ...args);
+      this._debugLogger('RWS>', ...args);
     }
   }
   private _getNextDelay() {
     const {
       // reconnectionDelayGrowFactor = DEFAULT.reconnectionDelayGrowFactor,
       minReconnectionDelay = DEFAULT.minReconnectionDelay,
-      maxReconnectionDelay = DEFAULT.maxReconnectionDelay
+      maxReconnectionDelay = DEFAULT.maxReconnectionDelay,
     } = this._options;
-    
+
     const delay = minReconnectionDelay * Math.pow(2, this._retryCount);
     return Math.min(delay, maxReconnectionDelay);
   }
@@ -420,7 +414,7 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
   // }
 
   private _wait(): Promise<void> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(resolve, this._getNextDelay());
     });
   }
@@ -430,18 +424,15 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
   ): Promise<string | string[] | null> {
     if (!protocolsProvider) return Promise.resolve(null);
 
-    if (
-      typeof protocolsProvider === "string" ||
-      Array.isArray(protocolsProvider)
-    ) {
+    if (typeof protocolsProvider === 'string' || Array.isArray(protocolsProvider)) {
       return Promise.resolve(protocolsProvider);
     }
 
-    if (typeof protocolsProvider === "function") {
+    if (typeof protocolsProvider === 'function') {
       const protocols = protocolsProvider();
       if (!protocols) return Promise.resolve(null);
 
-      if (typeof protocols === "string" || Array.isArray(protocols)) {
+      if (typeof protocols === 'string' || Array.isArray(protocols)) {
         return Promise.resolve(protocols);
       }
 
@@ -451,16 +442,16 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
       }
     }
 
-    throw Error("Invalid protocols");
+    throw Error('Invalid protocols');
   }
 
   private _getNextUrl(urlProvider: UrlProvider): Promise<string> {
-    if (typeof urlProvider === "string") {
+    if (typeof urlProvider === 'string') {
       return Promise.resolve(urlProvider);
     }
-    if (typeof urlProvider === "function") {
+    if (typeof urlProvider === 'function') {
       const url = urlProvider();
-      if (typeof url === "string") {
+      if (typeof url === 'string') {
         return Promise.resolve(url);
       }
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -471,7 +462,7 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
 
       // return url;
     }
-    throw Error("Invalid URL");
+    throw Error('Invalid URL');
   }
 
   private _connect() {
@@ -480,28 +471,23 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
     }
     this._connectLock = true;
 
-    const {
-      maxRetries = DEFAULT.maxRetries,
-      connectionTimeout = DEFAULT.connectionTimeout
-    } = this._options;
+    const { maxRetries = DEFAULT.maxRetries, connectionTimeout = DEFAULT.connectionTimeout } =
+      this._options;
 
     if (this._retryCount >= maxRetries) {
-      this._debug("max retries reached", this._retryCount, ">=", maxRetries);
+      this._debug('max retries reached', this._retryCount, '>=', maxRetries);
       return;
     }
 
     this._retryCount++;
 
-    this._debug("connect", this._retryCount);
+    this._debug('connect', this._retryCount);
 
     this._removeListeners();
 
     this._wait()
       .then(() =>
-        Promise.all([
-          this._getNextUrl(this._url),
-          this._getNextProtocols(this._protocols || null)
-        ])
+        Promise.all([this._getNextUrl(this._url), this._getNextProtocols(this._protocols || null)])
       )
       .then(([url, protocols]) => {
         // close could be called before creating the ws
@@ -511,7 +497,7 @@ export default class ReconnectingWebSocket extends (EventTarget as TypedEventTar
         }
         if (
           !this._options.WebSocket &&
-          typeof WebSocket === "undefined" &&
+          typeof WebSocket === 'undefined' &&
           !didWarnAboutMissingWebSocket
         ) {
           console.error(`‼️ No WebSocket implementation available. You should define options.WebSocket.
@@ -531,7 +517,7 @@ const partysocket = new PartySocket({
           didWarnAboutMissingWebSocket = true;
         }
         const WS: typeof WebSocket = this._options.WebSocket || WebSocket;
-        this._debug("connect", { url, protocols });
+        this._debug('connect', { url, protocols });
         // new WebSocket
         this._ws = protocols ? new WS(url, protocols) : new WS(url);
 
@@ -539,21 +525,18 @@ const partysocket = new PartySocket({
         this._connectLock = false;
         this._addListeners();
 
-        this._connectTimeout = setTimeout(
-          () => this._handleTimeout(),
-          connectionTimeout
-        );
+        this._connectTimeout = setTimeout(() => this._handleTimeout(), connectionTimeout);
       })
       // via https://github.com/pladaria/reconnecting-websocket/pull/166
-      .catch((err) => {
+      .catch(err => {
         this._connectLock = false;
         this._handleError(new Events.ErrorEvent(Error(err.message), this));
       });
   }
 
   private _handleTimeout() {
-    this._debug("timeout event");
-    this._handleError(new Events.ErrorEvent(Error("TIMEOUT"), this));
+    this._debug('timeout event');
+    this._handleError(new Events.ErrorEvent(Error('TIMEOUT'), this));
   }
 
   private _disconnect(code = 1000, reason?: string) {
@@ -571,23 +554,23 @@ const partysocket = new PartySocket({
   }
 
   private _acceptOpen() {
-    this._debug("accept open");
+    this._debug('accept open');
     this._retryCount = 0;
   }
 
   private _handleOpen = (event: Event) => {
-    this._debug("open event");
+    this._debug('open event');
     const { minUptime = DEFAULT.minUptime } = this._options;
 
     clearTimeout(this._connectTimeout);
     this._uptimeTimeout = setTimeout(() => this._acceptOpen(), minUptime);
 
-    assert(this._ws, "WebSocket is not defined");
+    assert(this._ws, 'WebSocket is not defined');
 
     this._ws.binaryType = this._binaryType;
 
     // send enqueued messages (messages sent before websocket open event)
-    this._messageQueue.forEach((message) => this._ws?.send(message));
+    this._messageQueue.forEach(message => this._ws?.send(message));
     this._messageQueue = [];
 
     if (this.onopen) {
@@ -597,7 +580,7 @@ const partysocket = new PartySocket({
   };
 
   private _handleMessage = (event: MessageEvent) => {
-    this._debug("message event", event);
+    this._debug('message event', event);
 
     if (this.onmessage) {
       this.onmessage(event);
@@ -606,23 +589,20 @@ const partysocket = new PartySocket({
   };
 
   private _handleError = (event: ErrorEvent) => {
-    this._debug("error event", event.message);
-    this._disconnect(
-      undefined,
-      event.message === "TIMEOUT" ? "timeout" : undefined
-    );
+    this._debug('error event', event.message);
+    this._disconnect(undefined, event.message === 'TIMEOUT' ? 'timeout' : undefined);
 
     if (this.onerror) {
       this.onerror(event);
     }
-    this._debug("exec error listeners");
+    this._debug('exec error listeners');
     this.dispatchEvent(cloneEvent(event));
 
     this._connect();
   };
 
   private _handleClose = (event: CloseEvent) => {
-    this._debug("close event");
+    this._debug('close event');
     this._clearTimeouts();
 
     if (this._shouldReconnect) {
@@ -639,24 +619,24 @@ const partysocket = new PartySocket({
     if (!this._ws) {
       return;
     }
-    this._debug("removeListeners");
-    this._ws.removeEventListener("open", this._handleOpen);
-    this._ws.removeEventListener("close", this._handleClose);
-    this._ws.removeEventListener("message", this._handleMessage);
+    this._debug('removeListeners');
+    this._ws.removeEventListener('open', this._handleOpen);
+    this._ws.removeEventListener('close', this._handleClose);
+    this._ws.removeEventListener('message', this._handleMessage);
     // @ts-expect-error we need to fix event/listerner types
-    this._ws.removeEventListener("error", this._handleError);
+    this._ws.removeEventListener('error', this._handleError);
   }
 
   private _addListeners() {
     if (!this._ws) {
       return;
     }
-    this._debug("addListeners");
-    this._ws.addEventListener("open", this._handleOpen);
-    this._ws.addEventListener("close", this._handleClose);
-    this._ws.addEventListener("message", this._handleMessage);
+    this._debug('addListeners');
+    this._ws.addEventListener('open', this._handleOpen);
+    this._ws.addEventListener('close', this._handleClose);
+    this._ws.addEventListener('message', this._handleMessage);
     // @ts-expect-error we need to fix event/listener types
-    this._ws.addEventListener("error", this._handleError);
+    this._ws.addEventListener('error', this._handleError);
   }
 
   private _clearTimeouts() {

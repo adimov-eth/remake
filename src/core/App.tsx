@@ -36,9 +36,11 @@ export const App: FC = () => {
   const initializationStep = useStore($initializationStep);
   const isInitialized = useStore($isInitialized);
   const connectionStatus = useStore($connectionStatus);
+
+  //TODO: check why this cause redirect
   useEffect(() => {
-    navigator.attach();
-    return () => navigator.detach();
+    // navigator.attach();
+    // return () => navigator.detach();
   }, [navigator]);
 
   const Top = styled(FixedLayout, { zIndex: 100 });

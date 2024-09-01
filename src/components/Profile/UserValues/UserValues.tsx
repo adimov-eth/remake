@@ -1,40 +1,39 @@
-import { useStore } from '@nanostores/react'
-import { useEffect } from 'react'
-import { ValueTooltip } from '@/components/Header/ValueTooltip'
-import { initDataRaw } from '@/stores/telegram'
-import { $gameState } from '@/stores/state'
+import { useStore } from '@nanostores/react';
+import { useEffect } from 'react';
+import { ValueTooltip } from '@/components/Header/ValueTooltip';
+import { initDataRaw } from '@/stores/telegram';
+import { $gameState } from '@/stores/state';
 
-import { $completedMissionsCount, $missions } from '@/stores/missions'
+import { $completedMissionsCount, $missions } from '@/stores/missions';
 
-import { Link } from '@/components/Link'
-import { useAllMissions } from '@/services/api/missions/model'
-import { formatNumber } from '@/utils/formatters'
+import { Link } from '@/components/Link';
+import { useAllMissions } from '@/services/api/missions/model';
+import { formatNumber } from '@/utils/formatters';
 
-import QuarkIcon from '@/assets/quark.svg?react'
-import StarIcon from '@/assets/star.svg?react'
-import UserIcon from '@/assets/user.svg?react'
+import QuarkIcon from '@/assets/quark.svg?react';
+import StarIcon from '@/assets/star.svg?react';
+import UserIcon from '@/assets/user.svg?react';
 
-import styles from './user-values.module.css'
+import styles from './user-values.module.css';
 
 export const UserValues = () => {
-  const clickerState = $gameState.get()
+  const clickerState = $gameState.get();
 
-  if (!initDataRaw) return null
-  const { data: fetchedMissions = [], isLoading } = useAllMissions(initDataRaw)
+  if (!initDataRaw) return null;
+  const { data: fetchedMissions = [], isLoading } = useAllMissions(initDataRaw);
 
   useEffect(() => {
     if (fetchedMissions.length > 0) {
-      $missions.set(fetchedMissions)
+      $missions.set(fetchedMissions);
     }
-  }, [fetchedMissions])
+  }, [fetchedMissions]);
 
+  const actualMissions = useStore($completedMissionsCount);
 
-  const actualMissions = useStore($completedMissionsCount)
+  const quarks = useStore(clickerState.quarks);
+  const stars = useStore(clickerState.stars);
 
-  const quarks = useStore(clickerState.quarks)
-  const stars = useStore(clickerState.stars)
-  
-  if (isLoading) return null
+  if (isLoading) return null;
   return (
     <div className={styles.root}>
       <a className={styles.card} id="quarks">
@@ -61,5 +60,5 @@ export const UserValues = () => {
       <ValueTooltip value={quarks} type="quarks" />
       <ValueTooltip value={stars} type="stars" />
     </div>
-  )
-}
+  );
+};

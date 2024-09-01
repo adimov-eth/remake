@@ -1,33 +1,35 @@
-import { FC, useCallback, useState } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
+import { FC, useCallback, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { initDataRaw } from '@/stores/telegram'
-import { Avatar } from '@/components/Avatar'
-import { formatNumber } from '@/utils/formatters'
+import { initDataRaw } from '@/stores/telegram';
+import { Avatar } from '@/components/Avatar';
+import { formatNumber } from '@/utils/formatters';
 
-import {ArrowIcon, CloseIcon as CloseIconSVG, DoneIcon, QuarkIcon, StarIcon  } from '@/assets/icons'
+import {
+  ArrowIcon,
+  CloseIcon as CloseIconSVG,
+  DoneIcon,
+  QuarkIcon,
+  StarIcon,
+} from '@/assets/icons';
 
+import { useClaimMissionReward, useCheckMissionStatus } from '@/services/api/missions/model';
+import { Mission } from '@/services/api/missions/types';
+import { ResolvedMission, MissionProgressStatus } from '@/stores/missions';
+import { useClickNotification } from '@/hooks';
 
-
-import { useClaimMissionReward, useCheckMissionStatus } from '@/services/api/missions/model'
-import { Mission } from '@/services/api/missions/types'
-import { ResolvedMission, 
-  MissionProgressStatus 
-} from '@/stores/missions'
-import { useClickNotification } from '@/hooks'
-
-import { MissionModal } from '@/components/Missions/MissionModal'
+import { MissionModal } from '@/components/Missions/MissionModal';
 
 import {
   AchievementNotification,
   InformationNotification,
-} from '@/components/Notification/Notification'
+} from '@/components/Notification/Notification';
 
 type MissionCardProps = {
-  mission: ResolvedMission
-}
+  mission: ResolvedMission;
+};
 
-export const MissionCard: FC<MissionCardProps> = ({mission}) => {
+export const MissionCard: FC<MissionCardProps> = ({ mission }) => {
   const {
     id,
     name,
@@ -37,35 +39,33 @@ export const MissionCard: FC<MissionCardProps> = ({mission}) => {
     progress_status,
     icon_url,
     requirements,
-    resolved_status
-  } = mission
+    resolved_status,
+  } = mission;
 
-  const { notifyUser } = useClickNotification('')
-  const queryClient = useQueryClient()
-  const rawData = initDataRaw || ''
+  const { notifyUser } = useClickNotification('');
+  const queryClient = useQueryClient();
+  const rawData = initDataRaw || '';
 
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const [modalOpen, setModalOpen] = useState(false)
-
- 
   const claimRewardMutation = useClaimMissionReward({
-    onError: (error) => {
-      console.error('Error claiming mission reward:', error)
+    onError: error => {
+      console.error('Error claiming mission reward:', error);
     },
-  })
+  });
 
   const checkStatusMutation = useCheckMissionStatus({
-    onSuccess: (updatedMission) => {
+    onSuccess: updatedMission => {
       queryClient.setQueryData(['missions', rawData], (oldData: Mission[] | undefined) => {
         if (!oldData) return [updatedMission];
-        return oldData.map((mission) => 
+        return oldData.map(mission =>
           mission.id === updatedMission.id ? updatedMission : mission
         );
       });
-      InformationNotification('Mission started')
-      setModalOpen(false)
+      InformationNotification('Mission started');
+      setModalOpen(false);
     },
-    onError: (error) => {
+    onError: error => {
       console.error('Error checking mission status:', error);
     },
   });
@@ -74,7 +74,7 @@ export const MissionCard: FC<MissionCardProps> = ({mission}) => {
     notifyUser();
     switch (resolved_status) {
       case 'complete':
-        handleCompleteMission(); 
+        handleCompleteMission();
         break;
       case 'not_started':
         checkStatusMutation.mutate({ missionId: id, rawData });
@@ -92,47 +92,40 @@ export const MissionCard: FC<MissionCardProps> = ({mission}) => {
   };
 
   const updateMissionStatus = useCallback(() => {
-    queryClient.setQueryData<Mission[]>(
-      ['missions', rawData],
-      (oldData) => {
-        if (!oldData) return oldData;
-        return oldData
-        .map((mission) =>
-          mission.id === id
-            ? { ...mission, progress_status: 'claimed' as MissionProgressStatus }
-            : mission
-        );
-      }
-    );
+    queryClient.setQueryData<Mission[]>(['missions', rawData], oldData => {
+      if (!oldData) return oldData;
+      return oldData.map(mission =>
+        mission.id === id
+          ? { ...mission, progress_status: 'claimed' as MissionProgressStatus }
+          : mission
+      );
+    });
   }, [queryClient, rawData, id]);
 
   const getIcon = () => {
     switch (resolved_status) {
-      case 'overdue': return <CloseIcon/>
-      case 'claimed_reward': return <DoneIcon />
-      case 'in_progress': return <ArrowIcon />
+      case 'overdue':
+        return <CloseIcon />;
+      case 'claimed_reward':
+        return <DoneIcon />;
+      case 'in_progress':
+        return <ArrowIcon />;
       default:
-        return null
+        return null;
     }
-  }
+  };
   return (
     <>
-      <Card
-        status={ resolved_status }
-        onClick={handleOverlayClick}
-      >
+      <Card status={resolved_status} onClick={handleOverlayClick}>
         <Info>
-          <Avatar
-            src={icon_url || ''}
-            size={40}
-          />
+          <Avatar src={icon_url || ''} size={40} />
           <Texts>
             <Title>{name}</Title>
             <Reward>
-                <Currency>
-                  {reward_quarks ? <QuarkIcon /> : <StarIcon />}
-                  <Value>{formatNumber(reward_quarks || reward_stars)}</Value>
-                </Currency>
+              <Currency>
+                {reward_quarks ? <QuarkIcon /> : <StarIcon />}
+                <Value>{formatNumber(reward_quarks || reward_stars)}</Value>
+              </Currency>
             </Reward>
           </Texts>
         </Info>
@@ -143,29 +136,25 @@ export const MissionCard: FC<MissionCardProps> = ({mission}) => {
         )}
       </Card>
       <MissionModal
-          open={modalOpen}
-          icon={icon_url}
-          onClose={() => {
-            setModalOpen(false)
-          }}
-          title={name}
-          description={description}
-          reward_quarks={reward_quarks}
-          reward_stars={reward_stars}
-          onButtonClick={handleOverlayClick}
-          status={progress_status}
-          loading={
-            claimRewardMutation.isPending || checkStatusMutation.isPending
-          }
-          requirements={requirements}
-        />
+        open={modalOpen}
+        icon={icon_url}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+        title={name}
+        description={description}
+        reward_quarks={reward_quarks}
+        reward_stars={reward_stars}
+        onButtonClick={handleOverlayClick}
+        status={progress_status}
+        loading={claimRewardMutation.isPending || checkStatusMutation.isPending}
+        requirements={requirements}
+      />
     </>
-  )
-}
-
+  );
+};
 
 import { styled, shineAnimation } from '@/core/stitches.config';
-
 
 export const Card = styled('div', {
   position: 'relative',

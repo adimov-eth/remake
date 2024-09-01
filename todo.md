@@ -1,0 +1,3 @@
+- [ ] Verify onboarding flow
+- [ ] Check accelerator card
+- [ ] Refactor modals, popups, and notifications

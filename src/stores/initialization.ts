@@ -41,7 +41,7 @@ export const initializeApp = async () => {
     // Determine if user is new
     // smart initialization is turned off in development
     if (import.meta.env.DEV) {
-      $isNew.set(true);
+      $isNew.set(false);
     } else {
       const isNew = $isNew.get() || (!localState && !prefetchedState);
       $isNew.set(isNew);

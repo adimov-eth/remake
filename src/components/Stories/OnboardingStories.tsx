@@ -3,7 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import Stories from 'stories-react';
 import 'stories-react/dist/index.css';
 import { useTranslation } from 'react-i18next';
-import { $storieIndex, $subscribeButton, $subscribed, $isNew } from '@/stores/state';
+import {
+  $storieIndex,
+  $subscribeButton,
+  $subscribed,
+  $isNew,
+  TSubscribeButtonState,
+} from '@/stores/state';
 import { useStore } from '@nanostores/react';
 import { createStory } from './BaseStory';
 import { JoinCommunityStory, Join } from './JoinCommunity';
@@ -42,7 +48,7 @@ const OnboardingStories: React.FC = () => {
     })
   );
 
-  const buttonState = useStore($subscribeButton);
+  const buttonState = useStore($subscribeButton) as TSubscribeButtonState;
   const utils = initUtils();
 
   const handleSubscribeButton = () => {
@@ -67,13 +73,17 @@ const OnboardingStories: React.FC = () => {
     }
   };
 
+  const buttonTexts = ['button', 'clicked', 'loading'].reduce((acc, state) => {
+    acc[state as TSubscribeButtonState] = t('join.' + state);
+    return acc;
+  }, {} as Record<TSubscribeButtonState, string>);
   // Add the join community story
   storyComponents.push({
     url: bg6,
     type: 'image',
     duration: Infinity,
     header: <JoinCommunityStory title={t('join.title')} description={t('join.description')} />,
-    seeMore: <Join buttonText={t(`join.${buttonState}`)} />,
+    seeMore: <Join buttonText={buttonTexts[buttonState as TSubscribeButtonState]} />,
     onSeeMoreClick: handleSubscribeButton,
   });
 
