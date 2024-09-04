@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Stories from './stories-react/index';
-import 'stories-react/dist/index.css';
+import './stories-react/styles.module.css';
 import { useTranslation } from 'react-i18next';
 import {
   $storieIndex,
