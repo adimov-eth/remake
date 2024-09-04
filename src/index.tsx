@@ -1,9 +1,7 @@
 import ReactDOM from 'react-dom/client';
-import { postEvent } from '@telegram-apps/sdk';
-
+import { postEvent } from '@telegram-apps/sdk-react';
 
 import { Root } from '@/core/Root';
-
 
 // Uncomment this import in case, you would like to develop the application even outside
 // the Telegram application, just in your browser.
@@ -14,4 +12,4 @@ import './index.css';
 
 postEvent('web_app_expand');
 
-ReactDOM.createRoot(document.getElementById('root')!).render(<Root/>);
+ReactDOM.createRoot(document.getElementById('root')!).render(<Root />);

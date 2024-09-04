@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Stories from 'stories-react';
+import Stories from './stories-react/index';
 import 'stories-react/dist/index.css';
 import { useTranslation } from 'react-i18next';
 import {
@@ -15,7 +15,7 @@ import { createStory } from './BaseStory';
 import { JoinCommunityStory, Join } from './JoinCommunity';
 import { getStories } from './storyData';
 import { Root } from './StyledComponents';
-import { initUtils } from '@telegram-apps/sdk';
+import { initUtils } from '@telegram-apps/sdk-react';
 
 import bg6 from '@/assets/stories/bg6.jpg';
 
@@ -96,9 +96,6 @@ const OnboardingStories: React.FC = () => {
         stories={storyComponents}
         onStoryChange={handleStoryChange}
         // onAllStoriesEnd
-        storyStyles={{
-          objectFit: 'cover',
-        }}
       />
     </Root>
   );
