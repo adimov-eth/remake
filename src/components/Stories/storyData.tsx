@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { useTranslation } from 'react-i18next';
 import bg2 from '@/assets/stories/bg2.jpg';
 import bg3 from '@/assets/stories/bg3.jpg';
@@ -6,17 +6,22 @@ import bg3 from '@/assets/stories/bg3.jpg';
 import videoMp4_1 from '@/assets/stories/on1.mp4';
 import videoMp4_4 from '@/assets/stories/on4.mp4';
 import videoMp4_5 from '@/assets/stories/on5.mp4';
-import { StarIcon } from '@/assets/icons';
 
-import { CTA, BottomDescription, StarIconWrapper, Swap, BottomDescriptionBackdrop } from './StyledComponents';
+import {
+  CTA,
+  BottomDescription,
+  // StarIconWrapper,
+  Swap,
+  BottomDescriptionBackdrop,
+} from './StyledComponents';
 
-const StarIcons: React.FC = () => (
-  <StarIconWrapper>
-    <StarIcon />
-    <StarIcon />
-    <StarIcon />
-  </StarIconWrapper>
-);
+// const StarIcons: React.FC = () => (
+//   <StarIconWrapper>
+//     <StarIcon />
+//     <StarIcon />
+//     <StarIcon />
+//   </StarIconWrapper>
+// );
 
 export const getStories = () => {
   const { t } = useTranslation('stories');
@@ -37,7 +42,7 @@ export const getStories = () => {
       title: t('earn.title'),
       description: t('earn.description'),
       actionText: t('button.next'),
-      childrenComponent: <StarIcons />,
+      // childrenComponent: <StarIcons />,
     },
     {
       url: bg3,
@@ -66,6 +71,6 @@ export const getStories = () => {
       description: t('swap.description'),
       actionText: t('button.next'),
       childrenComponent: <Swap />,
-    }
+    },
   ];
 };

@@ -1,6 +1,6 @@
 import { styled } from '@/core/stitches.config';
-import {star,quark, swapCurrency} from '@/assets';
-
+import { star, quark } from '@/assets';
+import { SwapCurrencyIcon } from '@/assets/icons';
 
 export const Root = styled('div', {
   position: 'fixed',
@@ -35,7 +35,6 @@ export const CTA = styled('div', {
 
 /* Rectangle 115 */
 
-
 export const BottomDescription = styled('p', {
   fontFamily: 'SF Pro Display, sans-serif',
   fontSize: '1rem',
@@ -56,8 +55,6 @@ export const BottomDescriptionBackdrop = styled('div', {
   filter: 'blur(20px)',
   zIndex: -1,
 });
-
-
 
 export const StarIconWrapper = styled('div', {
   position: 'relative',
@@ -88,9 +85,6 @@ export const StarIconWrapper = styled('div', {
   },
 });
 
-
-
-
 export const Swap = () => (
   <SwapInterface>
     <Frame>
@@ -106,7 +100,7 @@ export const Swap = () => (
         </CurrencyFrame>
       </AmountFrame>
     </Frame>
-    <SwapIcon></SwapIcon>
+    <SwapIcon />
     <Frame>
       <FrameTitle>Buy</FrameTitle>
       <AmountFrame>
@@ -121,10 +115,7 @@ export const Swap = () => (
       </AmountFrame>
     </Frame>
   </SwapInterface>
-)
-       
-
-
+);
 
 const SwapInterface = styled('div', {
   position: 'absolute',
@@ -142,7 +133,6 @@ const Frame = styled('div', {
   marginBottom: '10px',
   padding: '20px 16px',
 });
-
 
 export const FrameTitle = styled('div', {
   fontFamily: 'SF Pro, sans-serif',
@@ -215,15 +205,12 @@ export const CurrencyName = styled('span', {
   color: 'rgba(255, 255, 255, 1)',
 });
 
-export const SwapIcon = styled('div', {
+const SwapIcon = styled(SwapCurrencyIcon, {
   position: 'absolute',
-  left: '50%',
   top: '50%',
+  left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '40px',
-  height: '40px',
-  backgroundColor: 'rgba(255, 255, 255, 1)',
-  mask: `url(${swapCurrency}) no-repeat center / contain`,
+  width: '40px !important',
+  height: '40px !important',
+  fill: 'rgba(255, 255, 255, 1)',
 });
-  
-
