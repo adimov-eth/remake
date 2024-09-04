@@ -58,6 +58,10 @@ export const initializeApp = async () => {
     $initializationStep.set(4);
     const gameState = initializeGameState(localState, prefetchedState, userData);
     $gameState.set(gameState);
+    const initialLoader = document.getElementById('initial-loader');
+    if (initialLoader) {
+      initialLoader.remove();
+    }
 
     // Update local state
     $localState.set(gameState.serialize());
@@ -74,11 +78,6 @@ export const initializeApp = async () => {
     transportUrl.searchParams.set('rawData', initDataRaw);
 
     await transport.connect(transportUrl.toString());
-
-    const initialLoader = document.getElementById('initial-loader');
-    if (initialLoader) {
-      initialLoader.remove();
-    }
 
     // Initialization complete
     $initializationError.set(null);
