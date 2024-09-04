@@ -43,7 +43,6 @@
     "react-router-dom": "^6.26.1",
     "react-toastify": "^10.0.5",
     "react-tooltip": "^5.28.0",
-    "stories-react": "^1.1.2",
     "usehooks-ts": "^3.1.0",
     "vite-plugin-svgr": "^4.2.0"
   },
