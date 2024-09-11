@@ -14,6 +14,7 @@ import {
   transport,
   $user,
   $subscribed,
+  $subscribeButton,
 } from '@/stores/state';
 import { User } from '@/stores/types';
 
@@ -68,8 +69,14 @@ export const initializeApp = async () => {
 
     // Update user state
     $user.set(mapUserResponseToUser(userData.user));
-    // $subscribed.set(userData.user.can_play)
-    $subscribed.set(true);
+
+    if (userData.user.can_play) {
+      $subscribeButton.set('clicked');
+      $subscribed.set(true);
+      $isNew.set(false);
+    } else {
+      $subscribed.set(false);
+    }
 
     // Step 5: Connect to WebSocket
     $initializationStep.set(5);

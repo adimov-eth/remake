@@ -112,7 +112,6 @@ class Transport {
               `${JSON.stringify(this.clk)} < ${JSON.stringify(event.clk)}`
           );
           $gameState.get()?.deserialize(event.state);
-          queryClient.invalidateQueries({ queryKey: ['get/userData'] });
         }
 
         // update the clock

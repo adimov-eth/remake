@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Stories from './stories-react/index';
 import './stories-react/styles.module.css';
@@ -10,6 +10,9 @@ import {
   $isNew,
   TSubscribeButtonState,
 } from '@/stores/state';
+
+import { queryClient } from '@/services/api/queryClient';
+
 import { useStore } from '@nanostores/react';
 import { createStory } from './BaseStory';
 import { JoinCommunityStory, Join } from './JoinCommunity';
@@ -18,11 +21,18 @@ import { Root } from './StyledComponents';
 import { initUtils } from '@telegram-apps/sdk-react';
 
 import bg6 from '@/assets/stories/bg6.jpg';
+import { useGetUserData } from '@/services/api/user/model';
+import { initDataRaw } from '@/stores/telegram';
 
 const OnboardingStories: React.FC = () => {
   const navigate = useNavigate();
 
   const index = useStore($storieIndex);
+  const rawData = initDataRaw || '';
+  const { data: userResponseData } = useGetUserData({
+    enabled: !!rawData,
+    variables: { rawData },
+  });
 
   const { t } = useTranslation('stories');
 
@@ -51,25 +61,42 @@ const OnboardingStories: React.FC = () => {
   const buttonState = useStore($subscribeButton) as TSubscribeButtonState;
   const utils = initUtils();
 
-  const handleSubscribeButton = () => {
+
+  useEffect(() => {
+    if (buttonState === 'loading') {
+      setTimeout(() => {
+        queryClient.refetchQueries({ queryKey: ['get/userData'] }, { cancelRefetch: false }).then(() => {
+          console.log('refetch done');
+          if (userResponseData && userResponseData.user && userResponseData.user.can_play) {
+            $subscribeButton.set('clicked');
+            $subscribed.set(true);
+            $isNew.set(false);
+            navigate('/');
+          } else {
+            if ($isNew.get()) {
+              $subscribeButton.set('button');
+            } else {
+              $subscribeButton.set('button');
+              $subscribeButton.set('loading');
+            }
+            $subscribed.set(false);
+          }
+        })
+      }, 8000);
+    }
+  }, [buttonState]);
+
+  const handleSubscribeButton = async () => {
     if (buttonState === 'button') {
       utils.openTelegramLink('https://t.me/tonstarsdao');
-      $subscribeButton.set('clicked');
-    } else if (buttonState === 'clicked') {
-      if ($subscribed.get()) {
-        $isNew.set(false);
-        navigate('/');
-        return;
-      }
-
       $subscribeButton.set('loading');
-      setTimeout(() => {
-        $isNew.set(false);
-        $subscribed.set(true);
-        setTimeout(() => {
-          navigate('/');
-        }, 10);
-      }, 1000);
+    } else {
+      if ($subscribed.get()) {
+        console.log('loading click', $subscribed.get());
+        navigate('/');
+      } else {
+        $subscribeButton.set('button');
+      }
     }
   };
 
