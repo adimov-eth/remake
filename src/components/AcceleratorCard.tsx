@@ -76,13 +76,13 @@ const Card: React.FC<Card> = ({ disabled, slug, name, tier, description, price, 
   };
 
   return (
-    <$Card disabled={disabled}>
+    <$Card disabled={disabled} onClick={handlePurchaseClick}>
       <Icon image={slug} />
       <Title>{name}</Title>
       <Tier>{toRoman(tier)}</Tier>
       <Description>{description}</Description>
       <Divider />
-      <Price onClick={handlePurchaseClick}>
+      <Price>
         <CurrencyIcon currency={currency} />
         <Value price={price} />
       </Price>
