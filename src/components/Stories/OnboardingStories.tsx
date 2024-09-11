@@ -9,6 +9,7 @@ import {
   $subscribed,
   $isNew,
   TSubscribeButtonState,
+  $subCheckRetry,
 } from '@/stores/state';
 
 import { queryClient } from '@/services/api/queryClient';
@@ -28,6 +29,7 @@ const OnboardingStories: React.FC = () => {
   const navigate = useNavigate();
 
   const index = useStore($storieIndex);
+  const subCheckRetry = useStore($subCheckRetry);
   const rawData = initDataRaw || '';
   const { data: userResponseData } = useGetUserData({
     enabled: !!rawData,
@@ -62,6 +64,7 @@ const OnboardingStories: React.FC = () => {
   const utils = initUtils();
 
 
+
   useEffect(() => {
     if (buttonState === 'loading') {
       setTimeout(() => {
@@ -70,25 +73,26 @@ const OnboardingStories: React.FC = () => {
           if (userResponseData && userResponseData.user && userResponseData.user.can_play) {
             $subscribeButton.set('clicked');
             $subscribed.set(true);
-            $isNew.set(false);
             navigate('/');
           } else {
-            if ($isNew.get()) {
-              $subscribeButton.set('button');
-            } else {
-              $subscribeButton.set('button');
-              $subscribeButton.set('loading');
-            }
+            $subscribeButton.set('button');
             $subscribed.set(false);
+            if (subCheckRetry < 3) {
+              $subCheckRetry.set(subCheckRetry + 1);
+              setTimeout(() => {
+                $subscribeButton.set('loading');
+              }, 1000);
+            }
           }
         })
-      }, 8000);
+      }, 3000);
     }
   }, [buttonState]);
 
   const handleSubscribeButton = async () => {
     if (buttonState === 'button') {
       utils.openTelegramLink('https://t.me/tonstarsdao');
+      $subCheckRetry.set(0);
       $subscribeButton.set('loading');
     } else {
       if ($subscribed.get()) {

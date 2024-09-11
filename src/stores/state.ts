@@ -114,6 +114,8 @@ export const $locale = persistentAtom<string>('locale', 'en', adapter);
 
 export const $storieIndex = persistentAtom<number>('storieIndex', 0, adapter);
 
+export const $subCheckRetry = persistentAtom<number>('subCheckRetry', 0, adapter);
+
 export const $subscribed = persistentAtom<boolean>('subscribed', false, adapter);
 
 export type TSubscribeButtonState = 'button' | 'clicked' | 'loading';
