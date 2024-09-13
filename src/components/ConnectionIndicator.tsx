@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { ConnectionStatus } from '@/types/connectionStatus'
 
 interface Props {
@@ -10,11 +11,13 @@ export const ConnectionIndicator: React.FC<Props> = ({ status }) => {
 
   if (status === 'online') return null
 
+  const { t } = useTranslation('global');
+
   return (
     <div className={`connection-indicator ${status}`}>
-      {status === 'offline' && 'Offline Mode'}
-      {status === 'connecting' && 'Connecting...'}
-      {status === 'reconnecting' && 'Reconnecting...'}
+      {status === 'offline' && t('offline_mode')}
+      {status === 'connecting' && t('connecting')}
+      {status === 'reconnecting' && t('reconnecting')}
     </div>
   )
 }

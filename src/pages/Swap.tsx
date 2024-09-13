@@ -10,6 +10,7 @@ import CurrencyInput from '@/components/CurrencyInput';
 import { Loader } from '@/components/Loader/Loader';
 import { ClickerState } from '@/services/websocket/clicker';
 import { UserResponseData } from '@/services/api/user/types';
+import { useTranslation } from 'react-i18next';
 
 import {
   $swapState,
@@ -44,6 +45,9 @@ const Swap: React.FC = () => {
   const gameState = useStore($gameState);
   const { fromValue, toValue, direction } = useStore($swapState);
   // const connectionStatus = useStore($connectionStatus);
+
+  const { t: tPages } = useTranslation('pages');
+  const { t: tGlobal } = useTranslation('global');
 
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData({
     enabled: !!rawData,
@@ -97,8 +101,8 @@ const Swap: React.FC = () => {
   const isLoading = isUserDataLoading; //|| isSwapPending || connectionStatus !== 'online';
 
   const INDICATOR: Record<SwapDirection, string> = {
-    QuarkToStar: 'Quark to Star',
-    StarToQuark: 'Star to Quark',
+    QuarkToStar: tPages('swap.exchange_quark'),
+    StarToQuark: tPages('swap.exchange_star'),
   };
 
   const [top, bottom] = useMemo(
@@ -109,7 +113,6 @@ const Swap: React.FC = () => {
     [direction, syncedQuarks, syncedStars]
   );
 
-  console.log('isSwapPending', isSwapPending);
   if (isLoading) {
     return <Loader speed="fast" />;
   }
@@ -118,7 +121,7 @@ const Swap: React.FC = () => {
     <>
       <S.Inputs>
         <CurrencyInput
-          label="Sell"
+          label={tGlobal('sell')}
           value={fromValue}
           onChange={value => handleValueChange(value, 'from')}
           currency={currentPair.from}
@@ -126,11 +129,11 @@ const Swap: React.FC = () => {
           onMaxClick={() => setMaxFromValue(top)}
           max={top}
         />
-        <S.ToggleButton onClick={handleSwapDirectionToggle} aria-label="Toggle swap direction">
+        <S.ToggleButton onClick={handleSwapDirectionToggle}>
           <S.SwapIcon />
         </S.ToggleButton>
         <CurrencyInput
-          label="Buy"
+          label={tGlobal('buy')}
           value={toValue}
           onChange={value => handleValueChange(value, 'to')}
           currency={currentPair.to}
@@ -142,7 +145,7 @@ const Swap: React.FC = () => {
         onClick={handleSwapClick}
         disabled={parseFloat(fromValue) === 0}
       >
-        Swap
+        {tGlobal('swap')}
       </S.SwapButton>
       <S.DirectionIndicator>{INDICATOR[direction]}</S.DirectionIndicator>
     </>

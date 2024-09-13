@@ -3,22 +3,27 @@ import { styled, keyframes } from '@/core/stitches.config';
 import { Page, Banner, Content, Gradient, Title } from '@/components/Page';
 import FriendsList from '@/components/FriendsList';
 import { friends1, friends2 } from '@/assets';
+import { useTranslation } from 'react-i18next';
 
-const Friends: React.FC = () => (
-  <Page>
+const Friends: React.FC = () => {
+  const { t } = useTranslation('pages');
+
+  return (
+    <Page>
     <Banner>
       <Gradient color="blue" />
       <Illustration>
-        <FriendImage src={friends2} alt="Friends" position="close" />
-        <FriendImage src={friends1} alt="Friends" position="far" />
+        <FriendImage src={friends2} alt={t('friends.title')} position="close" />
+        <FriendImage src={friends1} alt={t('friends.title')} position="far" />
       </Illustration>
     </Banner>
-    <Title>Friends</Title>
+    <Title>{t('friends.title')}</Title>
     <Content>
       <FriendsList />
     </Content>
-  </Page>
-);
+    </Page>
+  );
+};
 
 export default Friends;
 

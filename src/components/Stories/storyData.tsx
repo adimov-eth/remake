@@ -10,18 +10,9 @@ import videoMp4_5 from '@/assets/stories/on5.mp4';
 import {
   CTA,
   BottomDescription,
-  // StarIconWrapper,
   Swap,
   BottomDescriptionBackdrop,
 } from './StyledComponents';
-
-// const StarIcons: React.FC = () => (
-//   <StarIconWrapper>
-//     <StarIcon />
-//     <StarIcon />
-//     <StarIcon />
-//   </StarIconWrapper>
-// );
 
 export const getStories = () => {
   const { t } = useTranslation('stories');
@@ -42,7 +33,6 @@ export const getStories = () => {
       title: t('earn.title'),
       description: t('earn.description'),
       actionText: t('button.next'),
-      // childrenComponent: <StarIcons />,
     },
     {
       url: bg3,

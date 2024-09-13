@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useLocation, Link } from 'react-router-dom'
 
 import Home from '@/assets/home.svg?react'
@@ -11,28 +12,29 @@ import Upgrades from '@/assets/upgrades.svg?react'
 import { styled } from '@/core/stitches.config';
 
 export const Navigation: FC = () => {
+  const { t } = useTranslation('navigation')
   const location = useLocation()
   const [activeIndex, setActiveIndex] = useState(-1)
 
   const navItems = [
     {
       path: '/',
-      label: 'Home',
+      label: t('home'),
       icon: <Home className="icon" />,
     },
     {
       path: '/accelerators',
-      label: 'Accelerators',
+      label: t('accelerators'),
       icon: <Upgrades className="icon" />,
     },
     {
       path: '/missions',
-      label: 'Missions',
+      label: t('missions'),
       icon: <Tasks className="icon" />,
     },
     {
       path: '/friends',
-      label: 'Friends',
+      label: t('friends'),
       icon: <Leaders className="icon" />,
     },
   ]

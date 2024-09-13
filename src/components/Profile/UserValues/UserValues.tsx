@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { ValueTooltip } from '@/components/Header/ValueTooltip';
 import { initDataRaw } from '@/stores/telegram';
 import { $gameState } from '@/stores/state';
+import { useTranslation } from 'react-i18next';
 
 import { $completedMissionsCount, $missions } from '@/stores/missions';
 
@@ -17,6 +18,8 @@ import UserIcon from '@/assets/user.svg?react';
 import styles from './user-values.module.css';
 
 export const UserValues = () => {
+  const { t } = useTranslation('global');
+
   const clickerState = $gameState.get();
 
   if (!initDataRaw) return null;
@@ -41,21 +44,21 @@ export const UserValues = () => {
           <QuarkIcon />
         </div>
         <div className={styles.value}>{formatNumber(quarks)}</div>
-        <div className={styles.title}>Quarks</div>
+        <div className={styles.title}>{t('quarks')}</div>
       </a>
       <a className={styles.card} id="stars">
         <div className={styles.icon}>
           <StarIcon />
         </div>
         <div className={styles.value}>{formatNumber(stars)}</div>
-        <div className={styles.title}>Stars</div>
+        <div className={styles.title}>{t('stars')}</div>
       </a>
       <Link to="/missions" className={styles.card}>
         <div className={styles.icon}>
           <UserIcon />
         </div>
         <div className={styles.value}>{actualMissions || 0}</div>
-        <div className={styles.title}>Missions</div>
+        <div className={styles.title}>{t('missions')}</div>
       </Link>
       <ValueTooltip value={quarks} type="quarks" />
       <ValueTooltip value={stars} type="stars" />

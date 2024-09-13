@@ -1,6 +1,6 @@
 import { FC, useCallback, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-
+import { useTranslation } from 'react-i18next';
 import { initDataRaw } from '@/stores/telegram';
 import { Avatar } from '@/components/Avatar';
 import { formatNumber } from '@/utils/formatters';
@@ -42,6 +42,7 @@ export const MissionCard: FC<MissionCardProps> = ({ mission }) => {
     resolved_status,
   } = mission;
 
+  const { t } = useTranslation('global');
   const { notifyUser } = useClickNotification('');
   const queryClient = useQueryClient();
   const rawData = initDataRaw || '';
@@ -62,7 +63,7 @@ export const MissionCard: FC<MissionCardProps> = ({ mission }) => {
           mission.id === updatedMission.id ? updatedMission : mission
         );
       });
-      InformationNotification('Mission started');
+      InformationNotification(t('mission_started'));
       setModalOpen(false);
     },
     onError: error => {
@@ -87,7 +88,7 @@ export const MissionCard: FC<MissionCardProps> = ({ mission }) => {
   const handleCompleteMission = () => {
     claimRewardMutation.mutate({ missionId: id, rawData });
     updateMissionStatus();
-    AchievementNotification('Reward claimed successfully!');
+    AchievementNotification(t('reward_claimed'));
     setModalOpen(false);
   };
 

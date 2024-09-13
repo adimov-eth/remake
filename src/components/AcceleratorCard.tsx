@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { styled } from '@/core/stitches.config';
 import { formatNumberGroup, toRoman } from '@/utils/formatters.ts';
 import acceleratorIcons from '@/assets/accelerators/index.ts';
@@ -23,6 +24,8 @@ type Card = {
 };
 
 const Card: React.FC<Card> = ({ disabled, slug, name, tier, description, price, currency }) => {
+  const { t } = useTranslation('global');
+
   if (disabled) slug = 'locked';
 
   const gameState = useStore($gameState);
@@ -87,8 +90,8 @@ const Card: React.FC<Card> = ({ disabled, slug, name, tier, description, price, 
         <Value price={price} />
       </Price>
       <ConfirmDialog
-        title="Sorry..."
-        description={`${formatNumberGroup(price - currentBalance)} quarks isn't enough to upgrade`}
+        title={t('sorry')}
+        description={t('not_enough_quarks', { quarks: formatNumberGroup(price - currentBalance) })}
         icon={
           <div>
             <img src={purpleMoonPng} width={94} height={94} />
@@ -99,10 +102,12 @@ const Card: React.FC<Card> = ({ disabled, slug, name, tier, description, price, 
         onClose={() => setDialogState(prev => ({ ...prev, notEnoughQuarks: false }))}
       />
       <ConfirmDialog
-        description={`Are you sure you want to purchase ${name} for ${formatNumberGroup(
-          price
-        )} ${currency}?`}
-        buttonText="Yes"
+        description={t('are_you_sure', { 
+          name: name, 
+          price: formatNumberGroup(price),
+          currency: currency,
+        })}
+        buttonText={t('yes')}
         onButtonClick={confirmUpgrade}
         isOpen={dialogState.confirmUpgrade}
         onClose={() => setDialogState(prev => ({ ...prev, confirmUpgrade: false }))}

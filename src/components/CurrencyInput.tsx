@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 // Define the Currency type
 import { Currency } from '@/stores/swap';
 
@@ -25,10 +26,13 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   showMaxButton,
   onMaxClick,
   max,
-}) => (
-  <InputRow>
-    <Label>{label}</Label>
-    <InputContainer>
+}) => {
+  const { t } = useTranslation('global');
+
+  return (
+    <InputRow>
+      <Label>{label}</Label>
+      <InputContainer>
       <Input
         type="text"
         value={value}
@@ -36,14 +40,15 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
         placeholder="0"
         max={max}
       />
-      {showMaxButton && <MaxButton onClick={onMaxClick}>Max</MaxButton>}
+      {showMaxButton && <MaxButton onClick={onMaxClick}>{t('max')}</MaxButton>}
       <CurrencyBlock>
         <IconWrapper>{<img src={currency.icon} />}</IconWrapper>
         <span>{S[currency.symbol]}</span>
       </CurrencyBlock>
     </InputContainer>
-  </InputRow>
-);
+    </InputRow>
+  )
+};
 
 export default CurrencyInput;
 

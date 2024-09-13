@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { useStore } from '@nanostores/react'
 import { useUtils } from '@telegram-apps/sdk-react'
@@ -7,19 +8,18 @@ import { $user } from '@/stores/state'
 
 const APP_URL = import.meta.env.VITE_APP_URL
 
-const useShareRefferalLink = (
-  text = 'Join me in this awesome clicker game!'
-) => {
+const useShareRefferalLink = (text: string) => {
   const utils = useUtils()
   const telegramUser = useStore($user)
   const buildShareUrl = useCallback(() => {
     if (!telegramUser) return
     return `${APP_URL}?startapp=refid${telegramUser.id}`
   }, [telegramUser])
+  const { t } = useTranslation('global');
 
   const handleShare = useCallback(() => {
     const botStartUrlWithRefId = buildShareUrl()
-    const shareUrl = `https://t.me/share/url?url=${botStartUrlWithRefId}&text=${text}`
+    const shareUrl = `https://t.me/share/url?url=${botStartUrlWithRefId}&text=${text || t('join_me')}`
     utils.openTelegramLink(shareUrl)
   }, [telegramUser, utils])
 

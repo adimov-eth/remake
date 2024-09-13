@@ -5,6 +5,7 @@
 import React, { useRef } from 'react';
 import { styled } from '@stitches/react';
 import { useCopyToClipboard } from 'usehooks-ts';
+import { useTranslation } from 'react-i18next';
 
 import FriendCard from "@/components/FriendCard";
 
@@ -23,8 +24,9 @@ const getCurrentRank = (level: number) => {
 }
 
 const FriendsList: React.FC = () => {
+  const { t } = useTranslation('global');
   const rawData = initDataRaw
-  if (!rawData) return <div>Loading...</div>
+  if (!rawData) return <div>{t('loading')}</div>
   const { data: userData, isLoading } = useGetUserData({
     enabled: !!rawData,
     variables: { rawData },
@@ -49,11 +51,11 @@ const FriendsList: React.FC = () => {
   const refUrl = buildShareUrl() || ''
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>{t('loading')}</div>
   }
 
   if (!userData) {
-    return <div>No user data available</div>
+    return <div>{t('no_user_data')}</div>
   }
   
   const {
@@ -70,14 +72,14 @@ const FriendsList: React.FC = () => {
   return (
         <FriendsContainer>
           <FriendsTitle>
-            Friends ({joined_count} joined)
+            {t('friends_joined', { count: joined_count })}
           </FriendsTitle>
           <FriendsDesc>
-            Earned: +{quarksReward.toLocaleString('en-US')} Quarks, +{starsReward} Stars
+            {t('earned', { quarks: quarksReward.toLocaleString('en-US'), stars: starsReward })}
           </FriendsDesc>
           <ReferralLink>
             <div style={{ flex: 1 }} onClick={handleShare}>
-              <ReferralLinkTitle>Invite friends</ReferralLinkTitle>
+              <ReferralLinkTitle>{t('invite_friends')}</ReferralLinkTitle>
               <ReferralLinkInput
                 readOnly
                 ref={referralInputRef}

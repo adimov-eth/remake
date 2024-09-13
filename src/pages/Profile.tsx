@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next';
 
 import { DayRewardsModal } from '@/components/DayRewardsModal/DayRewardsModal'
 
@@ -25,7 +26,8 @@ const Wrapper = styled('div',{
 
 const Profile: React.FC = () => {
   const [dailyOpen, setDailyOpen] = useState(false)
-
+  const { t } = useTranslation('pages')
+  
   return (
     <Page>
       <Content>
@@ -35,7 +37,7 @@ const Profile: React.FC = () => {
           <LevelsSlider />
           <UserValues />
           <Button variant="purpleGradient" onClick={() => setDailyOpen(true)}>
-            Daily Rewards
+            {t('profile.daily_rewards')}
           </Button>
           <DayRewardsModal open={dailyOpen} onClose={() => setDailyOpen(false)} />
 

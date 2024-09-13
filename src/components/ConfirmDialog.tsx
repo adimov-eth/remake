@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react'
-// import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { styled } from '@/core/stitches.config'
 import { Button } from '@/components/Button'
 import { Dialog } from '@/components/Dialog'
@@ -86,7 +86,8 @@ const ConfirmDialog: FC<ConfirmModalProps> = ({
   onButtonClick,
   enableCancelButton,
 }) => {
-  const t = (v: string) => v;
+  const { t } = useTranslation('global');
+
   return (
     <Dialog isOpen={isOpen} confirm={true} onClose={onClose}>
       <Content>
@@ -101,7 +102,7 @@ const ConfirmDialog: FC<ConfirmModalProps> = ({
               variant="gradientOutline"
               onClick={onClose}
             >
-              Cancel
+              {t('cancel')}
             </StyledButton>
           )}
           <StyledButton

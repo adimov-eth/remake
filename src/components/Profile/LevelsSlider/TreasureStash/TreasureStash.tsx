@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import cn from 'classnames'
 
@@ -22,6 +23,7 @@ export const TreasureStash: React.FC<TreasureStashProps> = ({ string }) => {
   const [isOpen, openModal, closeModal] = useModal()
   const [isGlitching, setIsGlitching] = useState(false)
   const rawData = initDataRaw || ''
+  const { t } = useTranslation('global')
 
   const { data, refetch } = useGetMissions({
     enabled: !!rawData,
@@ -80,6 +82,8 @@ export const TreasureStash: React.FC<TreasureStashProps> = ({ string }) => {
     progress_status !== 'claimed_reward' &&
     status !== 'unavailable'
 
+  // TODO: How insert "Black Hole" from translates?
+
   return (
     <>
       {isShowMission ? (
@@ -97,8 +101,8 @@ export const TreasureStash: React.FC<TreasureStashProps> = ({ string }) => {
           <ConfirmDialog
             onClose={handleClose}
             isOpen={isOpen}
-            description={`You just earned ${reward_quarks} quarks for completing the 'Secret Stash' Secret Mission`}
-            title="Congratulations!"
+            description={t('secret_stash', { reward_quarks: reward_quarks })}
+            title={t('congratulations')}
             icon={<ChestIcon />}
           />
         </>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 
 import { useStore } from '@nanostores/react'
 import cn from 'classnames'
@@ -23,6 +24,7 @@ export const LevelsSlider = () => {
   const { name: currentLevelName } = useStore(clickerState.levelDef)
   const quarks = useStore(clickerState.quarks)
   const [selectedLevel, setSelectedLevel] = useState<number>(0)
+  const { t } = useTranslation('global');
 
   useEffect(() => {
     setSelectedLevel(currentLevel)
@@ -55,7 +57,7 @@ export const LevelsSlider = () => {
           <img
             src={ArrowIcon}
             className={cn(styles.arrowIcon, styles.arrowIconLeft)}
-            alt="Previous"
+            alt={t('previous')}
           />
         </button>
         <div className={styles.level}>
@@ -71,7 +73,7 @@ export const LevelsSlider = () => {
           onClick={handleNextClick}
           disabled={selectedLevel === LEVELS.length}
         >
-          <img src={ArrowIcon} className={styles.arrowIcon} alt="Next" />
+          <img src={ArrowIcon} className={styles.arrowIcon} alt={t('next')} />
         </button>
       </div>
       <ClickerProgressBar

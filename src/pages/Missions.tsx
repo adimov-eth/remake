@@ -3,6 +3,7 @@ import { FC, useEffect } from 'react'
 import { styled, keyframes } from '@/core/stitches.config';
 import { useStore } from '@nanostores/react'
 import {Page, Banner, Content, Gradient, Title} from '@/components/Page'
+import { useTranslation } from 'react-i18next';
 
 import MissionsIcon from '@/assets/cosmo.webp'
 
@@ -17,10 +18,11 @@ import { initDataRaw } from '@/stores/telegram'
 
 
 export const Missions: FC = () => {
-
   if (!initDataRaw) return null
   const { data: fetchedMissions = [], isLoading } = useAllMissions(initDataRaw)
   const sortedMissions = useStore($filteredAndSortedMissions) as ResolvedMission[]
+
+  const { t } = useTranslation('pages');
 
   useEffect(() => {
     if (fetchedMissions.length > 0) {
@@ -41,10 +43,10 @@ export const Missions: FC = () => {
         <Banner>
           <Gradient color="purple"/>
           <Illustration>
-            <img src={MissionsIcon} alt="Missions" width={146} height={160}/>
+            <img src={MissionsIcon} alt={t('missions.title')} width={146} height={160}/>
           </Illustration>
         </Banner>
-        <Title>Missions</Title>
+        <Title>{t('missions.title')}</Title>
         <Content>
           <MissionsContainer>
             <MissionCards>

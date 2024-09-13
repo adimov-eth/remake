@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { styled } from '@stitches/react'
 import AppQR from '@/assets/qr/app.svg'
 
@@ -27,8 +28,9 @@ const QRCode = styled('div', {
 })
 
 const WebBlocker: React.FC = () => {
-  const text = 'Please play on your mobile telegram App'
-  const tgUsername = 'TONStarsDAObot'
+  const { t } = useTranslation('global')
+  const text = t('play_on_mobile')
+  const tgUsername = t('telegram_username')
   const tgLinkPostfix = '/app'
   const tgLink = `https://t.me/${tgUsername}${tgLinkPostfix}`
 
@@ -37,7 +39,7 @@ const WebBlocker: React.FC = () => {
       <Text>{text}</Text>
       <QRCodeLink href={tgLink}>
         <QRCode>
-          <img src={AppQR} alt="QR Code" />
+          <img src={AppQR} alt={t('qr_code')} />
         </QRCode>
       </QRCodeLink>
       <Text as="a" href={tgLink}>

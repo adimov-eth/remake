@@ -1,40 +1,40 @@
 {
   "welcome": {
-    "title": "Welcome\nto TON Stars",
-    "description": "Our game is built on Telegram and combines strategy with community gameplay.\nEarn rewards by making smart decisions\nand working together with other players!",
-    "cta": "Are you ready to get on\nthe board?",
-    "button": "Start now!"
+    "title": "Добро пожаловать\nв TON Stars",
+    "description": "Наша игра построена на Telegram и сочетает стратегию с командным геймплеем.\nЗарабатывайте награды, принимая умные решения\nи работая вместе с другими игроками!",
+    "cta": "Вы готовы присоединиться\nк игре?",
+    "button": "Начать сейчас!"
   },
   "earn": {
-    "title": "Earn Quarks\nby Tapping",
-    "description": "Tap to earn Quarks effortlessly. Keep tapping regularly to earn Quarks faster. Make it a fun routine and watch your Quarks turn into valuable Stars!"
+    "title": "Зарабатывайте Кварки\nнажатиями",
+    "description": "Нажимайте, чтобы легко зарабатывать Кварки. Продолжайте нажимать регулярно, чтобы зарабатывать Кварки быстрее. Сделайте это веселой привычкой и наблюдайте, как ваши Кварки превращаются в ценные Звезды!"
   },
   "missions": {
-    "title": "Explore Missions",
-    "description": "Complete missions and discover exciting new ways to earn Quarks. Each mission brings you closer to finding the universe's greatest secret!"
+    "title": "Исследуйте Миссии",
+    "description": "Выполняйте миссии и открывайте для себя новые захватывающие способы заработка Кварков. Каждая миссия приближает вас к раскрытию величайшей тайны вселенной!"
   },
   "accelerators": {
-    "title": "Enhance Your Power with Accelerators",
+    "title": "Усильте Свою Мощь с Ускорителями",
     "description": "",
-    "bottomDescription": "Boost your gameplay by spending Quarks on upgrades that enhance your click power, energy capacity, and more. Choose wisely, as not all boosters will benefit you equally.\n\nThese enhancements will help you earn more Quarks in the long run, allowing you to progress faster and achieve greater rewards\nin TON Stars."
+    "bottomDescription": "Улучшите свой геймплей, тратя Кварки на апгрейды, которые увеличивают силу вашего клика, емкость энергии и многое другое. Выбирайте мудро, так как не все бустеры будут одинаково полезны для вас.\n\nЭти улучшения помогут вам зарабатывать больше Кварков в долгосрочной перспективе, позволяя прогрессировать быстрее и достигать больших наград\nв TON Stars."
   },
   "swap": {
-    "title": "Swap and Stake",
-    "description": "Swap your Quarks for rare Stars on the Swap page. Use our dual token system to maximize your rewards and advance quickly in TON Stars. Remember to stake your Stars, You will surely need them later!"
+    "title": "Обмен и Стейкинг",
+    "description": "Обменивайте свои Кварки на редкие Звезды на странице Обмена. Используйте нашу систему двойных токенов, чтобы максимизировать свои награды и быстро продвигаться в TON Stars. Не забывайте стейкать свои Звезды, они обязательно пригодятся вам позже!"
   },
   "join": {
-    "title": "Join the TON Stars Community Now!",
-    "description": "Don't forget to follow our Telegram Channel and Invite friends to join TON Stars. As more people join, Star values increase, unlocking new partnerships and features",
-    "button": "Follow Telegram channel",
-    "clicked": "Let's go!",
-    "loading": "Verifying subscription..."
+    "title": "Присоединяйтесь к Сообществу TON Stars Сейчас!",
+    "description": "Не забудьте подписаться на наш Telegram-канал и пригласить друзей присоединиться к TON Stars. Чем больше людей присоединяется, тем выше становится ценность Звезд, открывая новые партнерства и функции",
+    "button": "Подписаться на Telegram-канал",
+    "clicked": "Поехали!",
+    "loading": "Проверка подписки..."
   },
   "button": {
-    "next": "Next"
+    "next": "Далее"
   },
   "modal": {
-    "title": "Congratulations on joining {{appName}} community",
-    "description": "You've earned {{reward_quarks}} quarks for joining our {{appName}} community",
-    "confirm": "Confirm"
+    "title": "Поздравляем с присоединением к сообществу {{appName}}",
+    "description": "Вы заработали {{reward_quarks}} кварков за присоединение к нашему сообществу {{appName}}",
+    "confirm": "Подтвердить"
   }
 }

@@ -15,6 +15,7 @@ import { $initializationStep, $initializationError } from '@/stores/state';
 import { initializeApp } from '@/stores/initialization';
 // import { Loader } from '@/components/Loader/Loader';
 import { ErrorDisplay } from '@/components/ErrorDisplay';
+import { useTranslation } from 'react-i18next';
 
 const Inner: FC = () => {
   const debug = useLaunchParams().startParam === 'debug';
@@ -63,17 +64,21 @@ export const Root: FC = () => (
   </ErrorBoundary>
 );
 
-const ErrorBoundaryError: FC<{ error: Error | string | unknown }> = ({ error }) => (
-  <div>
-    <p>An unhandled error occurred:</p>
-    <blockquote>
-      <code>
-        {error instanceof Error
-          ? error.message
-          : typeof error === 'string'
-          ? error
-          : JSON.stringify(error)}
-      </code>
-    </blockquote>
-  </div>
-);
+const ErrorBoundaryError: FC<{ error: Error | string | unknown }> = ({ error }) => {
+  const { t } = useTranslation('global')
+
+  return (
+    <div>
+      <p>{t('unhandled_error')}:</p>
+      <blockquote>
+        <code>
+          {error instanceof Error
+            ? error.message
+            : typeof error === 'string'
+            ? error
+            : JSON.stringify(error)}
+        </code>
+      </blockquote>
+    </div>
+  );
+}

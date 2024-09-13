@@ -1,6 +1,7 @@
 import React from 'react';
 import { styled, keyframes } from '@/core/stitches.config';
 import Rocket from "@/assets/accelerators.png"
+import { useTranslation } from 'react-i18next';
 
 import { Page, Banner, Content, Gradient, Title } from '@/components/Page';    
 import Card from '@/components/AcceleratorCard';
@@ -9,6 +10,7 @@ import { useStore } from '@nanostores/react'
 import { $accelerators } from '@/stores/state'
 
 const Accelerators: React.FC = () => {
+    const { t } = useTranslation('pages');
 
     const accelerators = useStore($accelerators)
 
@@ -19,7 +21,7 @@ const Accelerators: React.FC = () => {
                 <Illustration image={Rocket} />
             </Banner>
         
-            <Title>Accelerators</Title>
+            <Title>{t('accelerators.title')}</Title>
             <Content>
                 <Cards>
                     {accelerators.map((card, i) => (
@@ -32,10 +34,6 @@ const Accelerators: React.FC = () => {
 };
   
 export default Accelerators;
-
-
-
-
 
 
 const Cards = styled('div', {
@@ -69,8 +67,12 @@ const IllustrationWrapper = styled('div', {
     }
 });
 
-const Illustration: React.FC<{ image: string }> = ({ image }) => (
-    <IllustrationWrapper>
-        <img src={image} alt="Accelerators" width="146" height="160" />
-    </IllustrationWrapper>
-);
+const Illustration: React.FC<{ image: string }> = ({ image }) => {
+    const { t } = useTranslation('pages');
+
+    return (
+        <IllustrationWrapper>
+            <img src={image} alt={t('accelerators.title')} width="146" height="160" />
+        </IllustrationWrapper>
+    );
+}

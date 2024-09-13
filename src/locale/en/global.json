@@ -1,5 +1,59 @@
 {
   "confirm": "Confirm",
   "easter_egg": "You just earned {{reward_quarks}} quarks for completing the ”Easter Egg Hunter” Secret Mission",
-  "congratulations": "Congratulations!"
+  "congratulations": "Congratulations!",
+
+  "claimed_successfully": "Claimed successfully!",
+  "something_went_wrong": "Something went wrong",
+  "daily_rewards": "Daily Rewards",
+  "daily_rewards_description": "Collect coins for daily entry into the game without passes. The &ldquo;Collect&rdquo; button must be pressed daily, otherwise the day counter will start over.",
+  "receiving_daily_rewards": "Receiving Daily Rewards...",
+  "loading": "Loading...",
+  "get_award_tomorrow": "Get your award tomorrow",
+  "collect": "Collect",
+
+  "chest": "Chest",
+  "sell": "Sell",
+  "buy": "Buy",
+  "swap": "Swap",
+  "energy": "Energy",
+  "coming_soon": "Coming Soon",
+
+  "mission_started": "Mission started",
+  "reward_claimed": "Reward claimed successfully!",
+
+  "previous": "Previous",
+  "next": "Next",
+
+  "secret_stash": "You just earned {{reward_quarks}} quarks for completing the 'Secret Stash' Secret Mission",
+
+  "quarks": "Quarks",
+  "stars": "Stars",
+  "missions": "Missions",
+
+  "sorry": "Sorry...",
+  "not_enough_quarks": "{{quarks}} quarks isn't enough to upgrade",
+  "are_you_sure": "Are you sure you want to purchase {{name}} for {{price}} {{currency}}?",
+  "yes": "Yes",
+  "cancel": "Cancel",
+
+  "offline_mode": "Offline Mode",
+  "connecting": "Connecting...",
+  "reconnecting": "Reconnecting...",
+
+  "max": "Max",
+
+  "error": "An error occurred",
+  "unhandled_error": "An unhandled error occurred",
+
+  "no_user_data": "No user data available",
+  "friends_joined": "Friends ({{count}} joined)",
+  "earned": "Earned: +{{quarks}} Quarks, +{{stars}} Stars",
+  "invite_friends": "Invite friends",
+
+  "play_on_mobile": "Please play on your mobile telegram App",
+  "telegram_username": "TONStarsDAObot",
+  "qr_code": "QR Code",
+
+  "join_me": "Join me in this awesome clicker game!"
 }

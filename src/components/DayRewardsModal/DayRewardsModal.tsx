@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { useTranslation } from 'react-i18next'
+
 import { useQueryClient } from '@tanstack/react-query';
 import cn from 'classnames';
 
@@ -22,6 +24,7 @@ export const DayRewardsModal = ({ open, onClose }: { open: boolean; onClose: () 
   const { notifyUser } = useClickNotification('');
   const rawData = initDataRaw || '';
   const queryClient = useQueryClient();
+  const { t } = useTranslation('global');
 
   const { data: rewards, isLoading } = useGetDailyRewards({
     enabled: !!rawData,
@@ -30,12 +33,12 @@ export const DayRewardsModal = ({ open, onClose }: { open: boolean; onClose: () 
 
   const { mutateAsync: claimReward, isPending: claimRewardLoading } = useClaimMissionReward({
     onSuccess: () => {
-      AchievementNotification('Claimed successfully!');
+      AchievementNotification(t('claimed_successfully'));
       setRewardIsClaimed(true);
       queryClient.invalidateQueries({ queryKey: ['get/dailyRewards'] });
     },
     onError: error => {
-      ErrorNotification('Something went wrong');
+      ErrorNotification(t('something_went_wrong'));
       console.error('Error claim reward:', error);
     },
   });
@@ -66,18 +69,15 @@ export const DayRewardsModal = ({ open, onClose }: { open: boolean; onClose: () 
 
   return (
     <Modal open={open} onClose={onClose}>
-      <div className={styles.title}>Daily Reward</div>
-      <div className={styles.description}>
-        Collect coins for daily entry into the game without passes. The &ldquo;Collect&rdquo; button
-        must be pressed daily, otherwise the day counter will start over.
-      </div>
+      <div className={styles.title}>{t('daily_rewards')}</div>
+      <div className={styles.description}>{t('daily_rewards_description')}</div>
       {isLoading ? (
         <>
           <br />
           <br />
           <br />
           <Loader speed="slow" />
-          <h1 className={cn(styles.title, styles.textCenter)}>Receiving Daily Rewards...</h1>
+          <h1 className={cn(styles.title, styles.textCenter)}>{t('receiving_daily_rewards')}</h1>
         </>
       ) : (
         <>
@@ -92,10 +92,10 @@ export const DayRewardsModal = ({ open, onClose }: { open: boolean; onClose: () 
             onClick={handleCollectReward}
           >
             {claimRewardLoading
-              ? 'Loading...'
+              ? t('loading')
               : !currentCompleteReward || rewardIsClaimed
-              ? 'Come get your award tomorrow'
-              : 'Collect'}
+              ? t('get_award_tomorrow')
+              : t('collect')}
           </Button>
         </>
       )}
