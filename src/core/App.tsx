@@ -25,8 +25,15 @@ import {
   $isInitialized,
   $gameState,
   $connectionStatus,
+  $currentNotification,
 } from '@/stores/state';
-// import { Loader } from '@/components/Loader/Loader'
+
+import {
+  AchievementNotification,
+  ErrorNotification,
+  InformationNotification,
+  SuccessNotification,
+} from '@/components/Notification/Notification'
 
 export const App: FC = () => {
   const navigator = initNavigator('app-navigation-state');
@@ -36,6 +43,7 @@ export const App: FC = () => {
   const initializationStep = useStore($initializationStep);
   const isInitialized = useStore($isInitialized);
   const connectionStatus = useStore($connectionStatus);
+  const currentNotification = useStore($currentNotification)
 
   //TODO: check why this cause redirect
   useEffect(() => {
@@ -62,6 +70,27 @@ export const App: FC = () => {
     ', connectionStatus: ',
     connectionStatus
   );
+
+  useEffect(() => {
+    if (currentNotification && !currentNotification.read) {
+      switch (currentNotification.type) {
+        case 'success':
+          SuccessNotification(currentNotification.message)
+          break
+        case 'error':
+          ErrorNotification(currentNotification.message)
+          break
+        case 'info':
+          InformationNotification(currentNotification.message)
+          break
+        default:
+          AchievementNotification(currentNotification.message)
+          break
+      }
+
+      $currentNotification.set({ ...currentNotification, read: true })
+    }
+  }, [currentNotification])
 
   return (
     <AppRoot appearance={'dark'} platform={ui}>

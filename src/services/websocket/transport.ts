@@ -20,8 +20,6 @@ import {
 } from '@/services/websocket/protocol';
 
 import ReconnectingWebSocket from '@/services/websocket/reconnectingWebsocket';
-import { queryClient } from '@/services/api/queryClient';
-
 const PING_INTERVAL = 2000;
 const PING_LEEWAY = 2000;
 

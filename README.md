@@ -1,24 +1,10 @@
-# Telegram Mini Apps React Template
-
-This template demonstrates how developers can implement a single-page application on the Telegram
-Mini Apps platform using the following technologies and libraries:
-
-- [React](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview)
-- [@telegram-apps SDK](https://docs.telegram-mini-apps.com/packages/telegram-apps-sdk)
-- [Telegram UI](https://github.com/Telegram-Mini-Apps/TelegramUI)
-- [Vite](https://vitejs.dev/)
-
-> The template was created using [npm](https://www.npmjs.com/). Therefore, it is required to use
-> it for this project as well. Using other package managers, you will receive a corresponding error.
+# Project Setup
 
 ## Install Dependencies
 
-If you have just cloned this template, you should install the project dependencies using the
-command:
+If you have just cloned this template, you should install the project dependencies using the command:
 
-```Bash
+```bash
 npm install
 ```
 
@@ -26,32 +12,24 @@ npm install
 
 This project contains the following scripts:
 
-- `dev`. Runs the application in development mode.
-- `build`. Builds the application for production.
-- `lint`. Runs [eslint](https://eslint.org/) to ensure the code quality meets the required
-  standards.
-- `deploy`. Deploys the application to GitHub Pages.
+- `dev`: Runs the application in development mode.
+- `build`: Builds the application for production.
+- `lint`: Runs [eslint](https://eslint.org/) to ensure the code quality meets the required standards.
 
 To run a script, use the `npm run` command:
 
-```Bash
+```bash
 npm run {script}
 # Example: npm run build
 ```
 
-## Create Bot and Mini App
+## Configuring
 
-Before you start, make sure you have already created a Telegram Bot. Here is
-a [comprehensive guide](https://docs.telegram-mini-apps.com/platform/creating-new-app) on how to
-do it.
+Copy `.env.development.example` to `.env.development` in the app root directory for VITE:
 
 ## Run
 
-Although Mini Apps are designed to be opened
-within [Telegram applications](https://docs.telegram-mini-apps.com/platform/about#supported-applications),
-you can still develop and test them outside of Telegram during the development process.
-
-To run the application in the development mode, use the `dev` script:
+Once the application is created successfully, run it using the `dev` script:
 
 ```bash
 npm run dev
@@ -60,174 +38,104 @@ npm run dev
 After this, you will see a similar message in your terminal:
 
 ```bash
-VITE v5.2.12  ready in 237 ms
+VITE ready in 275 ms
 
-➜  Local:   http://localhost:5173/reactjs-template
-➜  Network: http://172.18.16.1:5173/reactjs-template
-➜  Network: http://172.19.32.1:5173/reactjs-template
-➜  Network: http://192.168.0.171:5173/reactjs-template
+➜  Local:   https://localhost:5173
+➜  Network: https://192.168.0.1:5173
 ➜  press h + enter to show help
 ```
 
-Here, you can see the `Local` link, available locally, and `Network` links accessible to all
-devices in the same network with the current device.
+From here, u can use the app with mock user locally. Otherwise, you need to make a tunnel to your app and pass it to telegram bot.
 
-To view the application, you need to open the `Local`
-link (`http://localhost:5173/reactjs-template` in this example) in your browser:
+## Tunnel Setup for Development
 
-![Application](assets/application.png)
+You must be member of the organization (ask admin) to setup CF tunnel on `*.tonstarsdao.xyz`.
+Or you can use your own tunnel provider(but you must ask backend developer to include your domain in CORS)
 
-It is important to note that some libraries in this template, such as `@telegram-apps/sdk`, are not
-intended for use outside of Telegram.
+### 1. Install Cloudflare CLI
 
-Nevertheless, they appear to function properly. This is because the `src/mockEnv.ts` file, which is
-imported in the application's entry point (`src/index.ts`), employs the `mockTelegramEnv` function
-to simulate the Telegram environment. This trick convinces the application that it is running in a
-Telegram-based environment. Therefore, be cautious not to use this function in production mode
-unless you fully understand its implications.
-
-### Run Inside Telegram
-
-Although it is possible to run the application outside of Telegram, it is recommended to develop it
-within Telegram for the most accurate representation of its real-world functionality.
-
-To run the application inside Telegram, [@BotFather](https://t.me/botfather) requires an HTTPS link.
-
-This template already provides a solution.
-
-Navigate to the `vite.config.ts` file and uncomment the usage of the `basicSsl` function. This
-function utilizes
-the [@vitejs/plugin-basic-ssl](https://www.npmjs.com/package/@vitejs/plugin-basic-ssl) plugin, which
-enables the creation of an HTTPS link. Note that this plugin generates a self-signed certificate,
-which browsers will recognize as unsafe, resulting in a warning when accessing the app.
-
-After uncommenting the function, run the `dev` script again and observe the output in your terminal:
+Install the Cloudflare CLI using Homebrew:
 
 ```bash
-VITE v5.2.12  ready in 265 ms
-
-➜  Local:   https://localhost:5173/reactjs-template
-➜  Network: https://172.18.16.1:5173/reactjs-template
-➜  Network: https://172.19.32.1:5173/reactjs-template
-➜  Network: https://192.168.0.171:5173/reactjs-template
-➜  press h + enter to show help
+brew install cloudflared
 ```
 
-Visiting the `Local` link (`https://localhost:5173/reactjs-template` in this example) in your
-browser, you will see the following warning:
+### 2. Authenticate to Cloudflare
 
-![SSL Warning](assets/ssl-warning.png)
+Authenticate to your Cloudflare account:
 
-This browser warning is normal and can be safely ignored as long as the site is secure. Click
-the `Proceed to localhost (unsafe)` button to continue and view the application.
+```bash
+cloudflared tunnel login
+```
 
-Once the application is displayed correctly, submit one of the `Network` links as the Mini App link
-to [@BotFather](https://t.me/botfather). Then, navigate
-to [https://web.telegram.org/k/](https://web.telegram.org/k/), find your bot, and launch the
-Telegram Mini App. This approach provides the full development experience.
+### 3. Create a Tunnel
 
-> **Important**
->
-> Because we are using self-signed SSL certificates, the Android and iOS Telegram applications will
-> not be able to display the application. These operating systems enforce stricter security
-> measures, preventing the Mini App from loading. To address this issue, refer
-> to [this guide](https://docs.telegram-mini-apps.com/platform/getting-app-link#remote).
+Create a tunnel and give it a name:
+
+```bash
+cloudflared tunnel create frontend_tunnel
+```
+
+This will respond with a configuration ID:
+
+```bash
+Tunnel credentials written to /Users/**/.cloudflared/52879019-f747-4703-b865-1e71b5a9309d.json. cloudflared chose this file based on where your origin certificate was found. Keep this file secret. To revoke these credentials, delete the tunnel.
+Created tunnel frontend_tunnel with id 52879019-f747-4703-b865-1e71b5a9309d
+```
+
+### 4. Create a Configuration File
+
+#### 4.1 Run the provided script:
+
+```bash
+./setup.sh
+```
+
+This script will automatically:
+
+- Retrieve the ID and name of your most recently created tunnel
+- Create a configuration file at `~/.cloudflared/config_frontend.yml`
+- Use the correct paths for your user account
+- Display information about the tunnel being used
+
+The output will look something like this:
+
+```
+Cloudflared config file created at /Users/yourusername/.cloudflared/config_frontend.yml
+Using tunnel: yourtunnelname (ID: your-tunnel-id)
+```
+
+If you need to use a specific tunnel instead of the most recent one, you can manually edit the generated configuration file or contact the development team for assistance.
+
+#### 4.2 Assign a CNAME record that points traffic to your tunnel subdomain:
+
+```bash
+# cloudflared tunnel route dns <UUID or NAME> <hostname>
+cloudflared tunnel route dns tunnel_id custom_subdomain
+```
+
+### 5. Run the Tunnel
+
+Replace `tunnel_id` with your actual tunnel ID, for example `60ebbc4b-337d-46a7-b824-fd18c917551b`.
+Replace `**` with your mac username(user folder name)
+
+```bash
+cloudflared tunnel --config /Users/**/.cloudflared/config_frontend.yml run tunnel_id
+```
+
+For more details, refer to the [Cloudflare documentation](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-local-tunnel/).
+
+## Create Bot and Mini App
+
+Here is the [comprehensive guide](https://docs.telegram-mini-apps.com/platform/creating-new-app) on how to do it.
+After this, change your VITE_APP_URL in .env.development to your telegram app url.
+Pass your tunnel url to mini app web url like on the picture below
+
+<img width="528" alt="Screenshot 2024-06-07 at 20 44 50" src="https://github.com/adimov-eth/tonstars_frontend/assets/17579509/ef31eaab-e2c2-4ee6-be16-6691859b0f39">
+
+(you must send your actual tunnel url not `clicker.42.works`)
 
 ## Deploy
 
-This boilerplate uses GitHub Pages as the way to host the application externally. GitHub Pages
-provides a CDN which will let your users receive the application rapidly. Alternatively, you could
-use such services as [Heroku](https://www.heroku.com/) or [Vercel](https://vercel.com).
-
-### Manual Deployment
-
-This boilerplate uses the [gh-pages](https://www.npmjs.com/package/gh-pages) tool, which allows
-deploying your application right from your PC.
-
-#### Configuring
-
-Before running the deployment process, ensure that you have done the following:
-
-1. Replaced the `homepage` value in `package.json`. The GitHub Pages deploy tool uses this value to
-   determine the related GitHub project.
-2. Replaced the `base` value in `vite.config.ts` and have set it to the name of your GitHub
-   repository. Vite will use this value when creating paths to static assets.
-
-For instance, if your GitHub username is `telegram-mini-apps` and the repository name
-is `is-awesome`, the value in the `homepage` field should be the following:
-
-```json
-{
-  "homepage": "https://telegram-mini-apps.github.io/is-awesome"
-}
-```
-
-And `vite.config.ts` should have this content:
-
-```ts
-export default defineConfig({
-  base: '/is-awesome/',
-  // ...
-});
-```
-
-You can find more information on configuring the deployment in the `gh-pages`
-[docs](https://github.com/tschaub/gh-pages?tab=readme-ov-file#github-pages-project-sites).
-
-#### Before Deploying
-
-Before deploying the application, make sure that you've built it and going to deploy the fresh
-static files:
-
-```bash
-npm run build
-```
-
-Then, run the deployment process, using the `deploy` script:
-
-```Bash
-npm run deploy
-```
-
-After the deployment completed successfully, visit the page with data according to your
-username and repository name. Here is the page link example using the data mentioned above:
-https://telegram-mini-apps.github.io/is-awesome
-
-### GitHub Workflow
-
-To simplify the deployment process, this template includes a
-pre-configured [GitHub workflow](.github/workflows/github-pages-deploy.yml) that automatically
-deploys the project when changes are pushed to the `master` branch.
-
-To enable this workflow, create a new environment (or edit the existing one) in the GitHub
-repository settings and name it `github-pages`. Then, add the `master` branch to the list of
-deployment branches.
-
-You can find the environment settings using this
-URL: `https://github.com/{username}/{repository}/settings/environments`.
-
-![img.png](.github/deployment-branches.png)
-
-In case, you don't want to do it automatically, or you don't use GitHub as the project codebase,
-remove the `.github` directory.
-
-### GitHub Web Interface
-
-Alternatively, developers can configure automatic deployment using the GitHub web interface. To do
-this, follow the link: `https://github.com/{username}/{repository}/settings/pages`.
-
-## TON Connect
-
-This boilerplate utilizes the [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview)
-project to demonstrate how developers can integrate functionality related to TON cryptocurrency.
-
-The TON Connect manifest used in this boilerplate is stored in the `public` folder, where all
-publicly accessible static files are located. Remember
-to [configure](https://docs.ton.org/develop/dapps/ton-connect/manifest) this file according to your
-project's information.
-
-## Useful Links
-
-- [Platform documentation](https://docs.telegram-mini-apps.com/)
-- [@telegram-apps/sdk-react documentation](https://docs.telegram-mini-apps.com/packages/telegram-apps-sdk-react)
-- [Telegram developers community chat](https://t.me/devs)
+- production - Automated from the `production` branch in Cloudflare Actions
+- staging - Automated from the `staging` branch in Cloudflare Actions

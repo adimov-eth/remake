@@ -7,7 +7,6 @@ import {
   $storieIndex,
   $subscribeButton,
   $subscribed,
-  $isNew,
   TSubscribeButtonState,
   $subCheckRetry,
 } from '@/stores/state';
