@@ -1,4 +1,5 @@
 import { ReactNode, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useCopyToClipboard } from 'usehooks-ts'
 import { Modal } from '@/components/Modal/Modal'
@@ -61,16 +62,18 @@ export const MissionModal = ({
     }
   }
 
+  const { t } = useTranslation('global')
+
   const getButtonText = useMemo(() => {
     switch (status) {
       case MissionProgressStatus.NOT_STARTED:
-        return 'Start Mission'
+        return t('start_mission')
       case MissionProgressStatus.IN_PROGRESS:
-        return "Let's Go!"
+        return t('lets_go')
       case MissionProgressStatus.COMPLETE:
-        return 'Claim'
+        return t('claim')
       default:
-        return 'Claimed'
+        return t('claimed')
     }
   }, [status])
 
@@ -135,7 +138,7 @@ export const MissionModal = ({
           )}
         </Reward>
         <Button onClick={handleButtonClick} disabled={loading}>
-          {loading ? 'Loading...' : getButtonText}
+          {loading ? t('loading') : getButtonText}
         </Button>
       </Content>
     </Modal>

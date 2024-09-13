@@ -56,7 +56,7 @@ const Swap: React.FC = () => {
 
   const { syncedQuarks, syncedStars } = useSyncedValues(userData, gameState);
 
-  const { mutateAsync: swapMutation, isPending: isSwapPending } = useCreateSwap();
+  const { mutateAsync: swapMutation } = useCreateSwap();
 
   const currentPair = useMemo(() => SWAP_PAIRS[direction], [direction]);
 

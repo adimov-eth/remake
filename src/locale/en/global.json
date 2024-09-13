@@ -55,5 +55,10 @@
   "telegram_username": "TONStarsDAObot",
   "qr_code": "QR Code",
 
-  "join_me": "Join me in this awesome clicker game!"
+  "join_me": "Join me in this awesome clicker game!",
+
+  "start_mission": "Start Mission",
+  "lets_go": "Let's Go!",
+  "claim": "Claim",
+  "claimed": "Claimed"
 }

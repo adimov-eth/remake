@@ -8,7 +8,7 @@ import { $user } from '@/stores/state'
 
 const APP_URL = import.meta.env.VITE_APP_URL
 
-const useShareRefferalLink = (text: string) => {
+const useShareRefferalLink = (text = '') => {
   const utils = useUtils()
   const telegramUser = useStore($user)
   const buildShareUrl = useCallback(() => {
