@@ -68,7 +68,7 @@ export const initializeApp = async () => {
     $localState.set(gameState.serialize());
 
     // Update user state
-    $user.set(mapUserResponseToUser(userData.user));
+    if (userData && userData.user) $user.set(mapUserResponseToUser(userData.user));
 
     if (userData.user.can_play) {
       $subscribeButton.set('clicked');
