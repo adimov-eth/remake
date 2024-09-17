@@ -1,7 +1,22 @@
 #!/bin/bash
 
 # Get the last created tunnel ID and name
-TUNNEL_INFO=$(cloudflared tunnel list | tail -n 1 | awk '{print $1 " " $2}')
+TUNNEL_INFO=$(cloudflared tunnel list | awk '
+    NR>2 { 
+        split($3, dt, "T");
+        split(dt[1], d, "-");
+        split(dt[2], t, ":");
+        timestamp = d[1]*10000+d[2]*100+d[3] t[1]*10000+t[2]*100+t[3];
+        if(timestamp > max) {
+            max = timestamp;
+            id = $1;
+            name = $2;
+        }
+    }
+    END {
+        print id, name
+    }
+')
 TUNNEL_ID=$(echo $TUNNEL_INFO | cut -d' ' -f1)
 TUNNEL_NAME=$(echo $TUNNEL_INFO | cut -d' ' -f2)
 
