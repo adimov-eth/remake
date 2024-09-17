@@ -7,7 +7,7 @@ import SuccessIcon from '@shared/assets/done.svg?react'
 import InfoIcon from '@shared/assets/info.svg?react'
 import StarIcon from '@shared/assets/star.svg?react'
 
-import styles from './notification.module.css'
+import styles from './Notification.module.css'
 
 type NotificationProps = {
   message: string
