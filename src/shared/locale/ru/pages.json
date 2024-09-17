@@ -1,0 +1,20 @@
+{
+  "friends": {
+    "title": "Друзья",
+    "description": "Пригласите своих друзей присоединиться к TON Stars и зарабатывайте награды вместе!",
+    "button": "Пригласить друзей"
+  },
+  "accelerators": {
+    "title": "Ускорители"
+  },
+  "missions": {
+    "title": "Миссии"
+  },
+  "swap": {
+    "exchange_quark": "Кварк в Звезду",
+    "exchange_star": "Звезда в Кварк"
+  },
+  "profile": {
+    "daily_rewards": "Ежедневные награды"
+  }
+}

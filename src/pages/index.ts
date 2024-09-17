@@ -1,9 +1,10 @@
-import Home from '@/pages/Home'
-import Accelerators from '@/pages/Accelerators'
-import Missions from '@/pages/Missions'
-import Friends from '@/pages/Friends'
-import Swap from '@/pages/Swap'
-import Profile from '@/pages/Profile'
+import { Home } from './home'
+import { Accelerators } from './accelerators'
+import { Missions } from './missions'
+import { Friends } from './friends'
+import { Swap } from './swap'
+import { Profile } from './profile'
+import { Settings } from './settings'
 
 
-export { Home, Accelerators, Missions, Friends, Swap, Profile }
+export { Home, Accelerators, Missions, Friends, Swap, Profile, Settings }

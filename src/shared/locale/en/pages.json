@@ -1,0 +1,20 @@
+{
+  "friends": {
+    "title": "Friends",
+    "description": "Invite your friends to join TON Stars and earn rewards together!",
+    "button": "Invite friends"
+  },
+  "accelerators": {
+    "title": "Accelerators"
+  },
+  "missions": {
+    "title": "Missions"
+  },
+  "swap": {
+    "exchange_quark": "Quark to Star",
+    "exchange_star": "Star to Quark"
+  },
+  "profile": {
+    "daily_rewards": "Daily Rewards"
+  }
+}
