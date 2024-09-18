@@ -20,12 +20,12 @@ import { User } from './types';
 
 // Add this mapper function
 const mapUserResponseToUser = (userResponse: UserResponse): User => ({
-  firstName: userResponse.tg_fullname.split(' ')[0], // Assuming the first name is the first part of the full name
-  lastName: userResponse.tg_fullname.split(' ').slice(1).join(' '), // The rest is the last name
-  id: parseInt(userResponse.tg_uid),
-  username: userResponse.tg_username,
+  firstName: userResponse.tg_fullname?.split(' ')[0] ?? '', // Assuming the first name is the first part of the full name
+  lastName: userResponse.tg_fullname?.split(' ').slice(1).join(' ') ?? '', // The rest is the last name
+  id: parseInt(userResponse.tg_uid) ?? 0,
+  username: userResponse.tg_username ?? '',
   languageCode: 'en', // Set a default or get it from somewhere else if available
-  photoUrl: userResponse.tg_profile_image || undefined,
+  photoUrl: userResponse.tg_profile_image ?? undefined,
 });
 
 export const initializeApp = async () => {
