@@ -1,15 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import * as S from './Swap.style';
 import { useStore } from '@nanostores/react';
-import { initDataRaw } from '@app/stores/telegram';
-import { queryClient } from '@shared/services/api/queryClient';
-import { useCreateSwap } from '@shared/services/api/swap/model';
-import { useGetUserData } from '@shared/services/api/user/model';
-import { $gameState } from '@app/stores/state';
-import CurrencyInput from '@shared/ui/CurrencyInput';
-import { Loader } from '@shared/ui/Loader/Loader';
-import { ClickerState } from '@shared/services/websocket/clicker';
-import { UserResponseData } from '@shared/services/api/user/types';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -20,6 +10,18 @@ import {
   toggleSwapDirection,
   setMaxFromValue,
 } from '@app/stores/swap';
+import { initDataRaw } from '@app/stores/telegram';
+import { $gameState } from '@app/stores/state';
+
+import { queryClient } from '@shared/services/api/queryClient';
+import { useCreateSwap } from '@shared/services/api/swap/model';
+import { useGetUserData } from '@shared/services/api/user/model';
+import { ClickerState } from '@shared/services/websocket/clicker';
+import { UserResponseData } from '@shared/services/api/user/types';
+
+import { Loader } from '@shared/ui/Loader/Loader';
+import { CurrencyInput } from '@shared/ui/CurrencyInput';
+import * as S from './Swap.style';
 
 // Improved custom hook with proper typing
 const useSyncedValues = (

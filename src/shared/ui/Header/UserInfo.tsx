@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@stitches/react';
-import { Link } from '@/shared/ui/Link';
+import { Link } from '@/shared/ui/Link/ui/Link';
 import { Avatar } from '@/shared/ui/Avatar';
 import { AutoSizeText } from './AutoSizeText';
 import { User } from '@telegram-apps/sdk-react';

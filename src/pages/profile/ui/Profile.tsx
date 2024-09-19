@@ -8,9 +8,10 @@ import { LevelsSlider } from '@/shared/ui/Profile/LevelsSlider/LevelsSlider'
 import { UserLogo } from '@/shared/ui/Profile/UserLogo/UserLogo'
 import { UserValues } from '@/shared/ui/Profile/UserValues/UserValues'
 
-import FriendsList from '@/shared/ui/FriendsList'
+import { FriendsList } from '@/shared/ui/FriendsList'
 
-import { Page, Content, Header } from '@/shared/ui/Page'
+import { Page } from '@shared/ui/Page';
+import { Content } from '@shared/ui/Content';
 
 import { Button } from '@/shared/ui/Button'
 
@@ -31,7 +32,6 @@ export const Profile: React.FC = () => {
   return (
     <Page>
       <Content>
-        <Header></Header>
         <Wrapper>
           <UserLogo />
           <LevelsSlider />

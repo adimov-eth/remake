@@ -15,7 +15,7 @@ import { LEVELS } from '@shared/services/websocket/clicker'
 import ArrowIcon from '@shared/assets/arrow.svg'
 
 import styles from './levels-slider.module.css'
-import TreasureStash from './TreasureStash/TreasureStash'
+import { TreasureStash } from './TreasureStash/TreasureStash'
 
 export const LevelsSlider = () => {
   const clickerState = $gameState.get()
@@ -60,14 +60,16 @@ export const LevelsSlider = () => {
             alt={t('previous')}
           />
         </button>
+
         <div className={styles.level}>
           <div className={styles.levelName}>
-            {name === 'Black Hole' ? <TreasureStash string={name} /> : name}
+            {name === 'black_hole' ? <TreasureStash string={t(`levels.${name}`)} /> : t(`levels.${name}`)}
           </div>
           <div
             className={styles.quarksToUpgrade}
           >{`${formatNumberGroup(quarks)}/${formatNumberGroup(selectedLevelDef.quarksToUpgrade)}`}</div>
         </div>
+
         <button
           className={styles.arrow}
           onClick={handleNextClick}

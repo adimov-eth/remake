@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import { $completedMissionsCount, $missions } from '@app/stores/missions';
 
-import { Link } from '@shared/ui/Link';
+import { Link } from '@/shared/ui/Link/ui/Link';
 import { useAllMissions } from '@shared/services/api/missions/model';
 import { formatNumber } from '@shared/utils/formatters';
 
@@ -21,6 +21,8 @@ export const UserValues = () => {
   const { t } = useTranslation('global');
 
   const clickerState = $gameState.get();
+
+  console.log('clickerState', clickerState);
 
   if (!initDataRaw) return null;
   const { data: fetchedMissions = [], isLoading } = useAllMissions(initDataRaw);

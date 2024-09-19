@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {Page, Content, Header } from '@/shared/ui/Page'
+import { Page } from '@shared/ui/Page';
+import { Content } from '@shared/ui/Content';
 import Clicker from '@/shared/ui/Clicker/Clicker/Clicker'
 
 export const Home: React.FC = () => {
   return (
     <Page>
       <Content>
-          <Header></Header>
         <Clicker />
       </Content>
     </Page>

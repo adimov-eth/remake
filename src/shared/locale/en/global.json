@@ -60,5 +60,18 @@
   "start_mission": "Start Mission",
   "lets_go": "Let's Go!",
   "claim": "Claim",
-  "claimed": "Claimed"
+  "claimed": "Claimed",
+
+  "levels": {
+    "protostar": "Protostar",
+    "brown_dwarf": "Brown Dwarf",
+    "red_dwarf": "Red Dwarf",
+    "white_dwarf": "White Dwarf",
+    "red_giant": "Red Giant",
+    "blue_giant": "Blue Giant",
+    "blue_supergiant": "Blue Supergiant",
+    "neutron_star": "Neutron Star",
+    "supernova": "Supernova",
+    "black_hole": "Black Hole"
+  }
 }

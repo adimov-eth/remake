@@ -1,6 +1,8 @@
 {
   "home": "Home",
   "accelerators": "Accelerators",
+  "boosts": "Boosts",
+  "swap": "Swap",
   "missions": "Missions",
   "friends": "Friends"
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@stitches/react';
-import { Link } from '@shared/ui/Link';
+import { Link } from '@/shared/ui/Link/ui/Link';
 import InfoIcon from '@shared/assets/info.svg?react';
 import SettingsIcon from '@shared/assets/settings.svg?react';
 import { $isNew, $storieIndex } from '@app/stores/state';

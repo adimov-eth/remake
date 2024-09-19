@@ -18,8 +18,8 @@ import { $initializationStep, $initializationError } from './stores/state';
 import { initializeApp } from './stores/initialization';
 
 // import { Loader } from '@/components/Loader/Loader';
-import { ErrorDisplay } from '@/shared/ui/ErrorDisplay.tsx';
-import WebBlocker from '@/shared/ui/WebBlocker.tsx';
+import { ErrorDisplay } from '@shared/ui/ErrorDisplay';
+import { WebBlocker } from '@shared/ui/WebBlocker';
 
 const Inner: FC = () => {
   const debug = useLaunchParams().startParam === 'debug';
