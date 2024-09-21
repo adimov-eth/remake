@@ -7,7 +7,7 @@ import { Page } from '@shared/ui/Page';
 import { Banner } from '@shared/ui/Banner';
 import { Content } from '@shared/ui/Content';
 import { Title } from '@shared/ui/Title';
-import { RadiantBackdrop } from '@shared/ui/RadiantBackdrop';
+import { BlurBackdrop } from '@shared/ui/BlurBackdrop';
 import { AcceleratorCard } from '@shared/ui/AcceleratorCard';
 
 import Rocket from "@shared/assets/accelerators.png"
@@ -21,10 +21,10 @@ export const Accelerators: React.FC = () => {
     return (
         <Page>
             <Banner>
-                <RadiantBackdrop variant="pink">
+                <BlurBackdrop variant="pink">
                     <Illustration image={Rocket} />
                     <Title>{t('accelerators.title')}</Title>
-                </RadiantBackdrop>
+                </BlurBackdrop>
             </Banner>
         
             <Content>

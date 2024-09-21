@@ -1,0 +1,1 @@
+export { DayRewardsModal } from './ui/DayRewardsModal/DayRewardsModal'

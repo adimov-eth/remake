@@ -2,11 +2,11 @@ import React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-import { DayRewardsModal } from '@/shared/ui/DayRewardsModal/DayRewardsModal'
+import { DayRewardsModal } from '@shared/ui/DayRewardsModal'
 
-import { LevelsSlider } from '@/shared/ui/Profile/LevelsSlider/LevelsSlider'
-import { UserLogo } from '@/shared/ui/Profile/UserLogo/UserLogo'
-import { UserValues } from '@/shared/ui/Profile/UserValues/UserValues'
+import { LevelsSlider } from '@/shared/ui/ProfileLevelsSlider'
+import { UserLogo } from '@shared/ui/UserLogo'
+import { UserValues } from '@shared/ui/ProfileUserValues'
 
 import { FriendsList } from '@/shared/ui/FriendsList'
 
@@ -15,15 +15,7 @@ import { Content } from '@shared/ui/Content';
 
 import { Button } from '@/shared/ui/Button'
 
-import { styled } from '@/app/stitches.config'
-
-const Wrapper = styled('div',{
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    gap: '16px',
-})
+import * as S from './Profile.styles'
 
 export const Profile: React.FC = () => {
   const [dailyOpen, setDailyOpen] = useState(false)
@@ -32,7 +24,7 @@ export const Profile: React.FC = () => {
   return (
     <Page>
       <Content>
-        <Wrapper>
+        <S.Root>
           <UserLogo />
           <LevelsSlider />
           <UserValues />
@@ -42,8 +34,8 @@ export const Profile: React.FC = () => {
           <DayRewardsModal open={dailyOpen} onClose={() => setDailyOpen(false)} />
 
           <FriendsList />
-          </Wrapper>
-        </Content>
+        </S.Root>
+      </Content>
     </Page>
   )
 }

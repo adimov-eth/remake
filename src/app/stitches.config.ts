@@ -444,3 +444,13 @@ export const floatFarAnimation = keyframes({
   '80%': { transform: 'translate(0px, 4px) rotate(-1deg)' },
   '90%': { transform: 'translate(6px, 0px) rotate(2deg)' },
 });
+
+export const slideUp = keyframes({
+  '0%': { transform: 'translateY(100%)' },
+  '100%': { transform: 'translateY(0)' },
+})
+
+export const slideDown = keyframes({
+  '0%': { transform: 'translateY(0)' },
+  '100%': { transform: 'translateY(100%)' },
+})

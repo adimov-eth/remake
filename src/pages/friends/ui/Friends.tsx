@@ -5,7 +5,7 @@ import { Page } from '@shared/ui/Page';
 import { Banner } from '@shared/ui/Banner';
 import { Content } from '@shared/ui/Content';
 import { Title } from '@shared/ui/Title';
-import { RadiantBackdrop } from '@shared/ui/RadiantBackdrop';
+import { BlurBackdrop } from '@shared/ui/BlurBackdrop';
 import { FriendsList } from '@shared/ui/FriendsList';
 import { friends1, friends2 } from '@shared/assets';
 
@@ -17,13 +17,13 @@ export const Friends: React.FC = () => {
   return (
     <Page>
     <Banner>
-        <RadiantBackdrop variant="blue">
+        <BlurBackdrop variant="blue">
           <S.Illustration>
             <S.FriendImage src={friends2} alt={t('friends.title')} position="close" />
             <S.FriendImage src={friends1} alt={t('friends.title')} position="far" />
           </S.Illustration>
           <Title>{t('friends.title')}</Title>
-        </RadiantBackdrop>
+        </BlurBackdrop>
       </Banner>
       <Content>
         <FriendsList />

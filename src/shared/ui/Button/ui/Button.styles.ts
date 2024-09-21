@@ -22,7 +22,10 @@ export const Button = styled('button', {
           '&::before': {
             content: '""',
             position: 'absolute',
-            inset: 0,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
             borderRadius: '14px',
             padding: '3px',
             background: 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',

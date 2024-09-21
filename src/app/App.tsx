@@ -11,7 +11,8 @@ import { platform } from './stores/telegram';
 
 import Onboarding from '@/shared/ui/Stories/OnboardingStories';
 import { AppRoot, FixedLayout } from '@telegram-apps/telegram-ui';
-import { Header } from '@/shared/ui/Header/Header';
+import { UserStatusBar } from '@shared/ui/UserStatusBar';
+import { Header } from '@shared/ui/Header';
 import { Navigation } from '@/shared/ui/Navigation';
 
 import {
@@ -22,7 +23,7 @@ import {
   Profile,
   Settings,
   Swap
-} from '@/pages'
+} from '@pages'
 
 import {
   $isNew,
@@ -39,7 +40,7 @@ import {
   ErrorNotification,
   InformationNotification,
   SuccessNotification,
-} from '@/shared/ui/Notification/Notification'
+} from '@shared/ui/Notification'
 
 export const App: FC = () => {
   const navigator = initNavigator('app-navigation-state');
@@ -61,21 +62,16 @@ export const App: FC = () => {
   const Bottom = styled(FixedLayout, { zIndex: 100 });
   const ui = ['macos', 'ios'].includes(platform) ? 'ios' : 'base';
 
-  console.log(
-    'App render: ',
-    'initialized',
-    isInitialized,
-    ', subscribed',
+  const debugInfo = {
+    initialized: isInitialized,
     subscribed,
-    ', new: ',
     isNew,
-    ', step: ',
     initializationStep,
-    ', gameState: ',
-    $gameState.get(),
-    ', connectionStatus: ',
-    connectionStatus
-  );
+    gameState: JSON.stringify($gameState.get()),
+    connectionStatus,
+  };
+
+  console.table(debugInfo);
 
   useEffect(() => {
     if (currentNotification && !currentNotification.read) {
@@ -106,7 +102,7 @@ export const App: FC = () => {
         ) : (
           <>
             <Top vertical="top">
-              <Header />
+              <UserStatusBar />
             </Top>
             <Main>
               <Routes>
@@ -121,7 +117,9 @@ export const App: FC = () => {
               </Routes>
             </Main>
             <Bottom vertical="bottom">
-              <Navigation />
+              <Header>
+                <Navigation />
+              </Header>
             </Bottom>
             <ToastContainer
               toastStyle={{

@@ -7,13 +7,13 @@ import { $missions, $filteredAndSortedMissions, ResolvedMission } from '@app/sto
 import { useAllMissions } from '@shared/services/api/missions/model'
 import { initDataRaw } from '@app/stores/telegram'
 
-import { Loader } from '@shared/ui/Loader/Loader'
-import { MissionCard } from "@shared/ui/Missions/MissionCard"
+import { Loader } from '@shared/ui/Loader'
+import { MissionCard } from "@shared/ui/MissionCard"
 import { Page } from '@shared/ui/Page';
 import { Banner } from '@shared/ui/Banner';
 import { Content } from '@shared/ui/Content';
 import { Title } from '@shared/ui/Title';
-import { RadiantBackdrop } from '@shared/ui/RadiantBackdrop';
+import { BlurBackdrop } from '@shared/ui/BlurBackdrop'
 import MissionsIcon from '@shared/assets/cosmo.webp'
 
 import * as S from './Missions.styles'
@@ -36,12 +36,12 @@ export const Missions: React.FC = () => {
   return (
     <Page>
         <Banner>
-          <RadiantBackdrop variant="purple">
+          <BlurBackdrop variant="purple">
             <Illustration>
               <img src={MissionsIcon} alt={t('missions.title')} width={146} height={160}/>
             </Illustration>
             <Title>{t('missions.title')}</Title>
-          </RadiantBackdrop>
+          </BlurBackdrop>
         </Banner>
         <Content>
           <S.MissionsContainer>

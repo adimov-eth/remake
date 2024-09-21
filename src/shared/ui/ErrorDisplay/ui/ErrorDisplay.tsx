@@ -13,8 +13,8 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error }) => {
 
   return (
     <S.ErrorDisplay>
-      <h2>{t('error')}</h2>
-      <p>{errorMessage}</p>
+      <S.ErrorDisplayTitle>{t('error')}</S.ErrorDisplayTitle>
+      <S.ErrorDisplayMessage>{errorMessage}</S.ErrorDisplayMessage>
     </S.ErrorDisplay>
   );
 };

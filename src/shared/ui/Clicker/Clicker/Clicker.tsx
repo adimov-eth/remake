@@ -6,7 +6,7 @@ import Coin from '@/shared/ui/Clicker/ClickerCoin/ClickerCoin';
 import ClickerCounter from '@/shared/ui/Clicker/ClickerCounter/ClickerCounter';
 import { ClickerEnergy } from '@/shared/ui/Clicker/ClickerEnergy/ClickerEnergy';
 import { ClickerProgressBar } from '@/shared/ui/Clicker/ClickerProgressBar/ClickerProgressBar';
-import { Loader } from '@/shared/ui/Loader/Loader';
+import { Loader } from '@shared/ui/Loader';
 import useDeviceTier from '@/shared/hooks/useDeviceTier';
 import { useClickNotification, useMultiTouch } from '@/shared/hooks';
 

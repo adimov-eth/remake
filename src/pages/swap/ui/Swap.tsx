@@ -19,7 +19,7 @@ import { useGetUserData } from '@shared/services/api/user/model';
 import { ClickerState } from '@shared/services/websocket/clicker';
 import { UserResponseData } from '@shared/services/api/user/types';
 
-import { Loader } from '@shared/ui/Loader/Loader';
+import { Loader } from '@shared/ui/Loader';
 import { CurrencyInput } from '@shared/ui/CurrencyInput';
 import * as S from './Swap.style';
 
