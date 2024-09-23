@@ -1,0 +1,1 @@
+export { HighTierCoin } from './ui/HighTierCoin'

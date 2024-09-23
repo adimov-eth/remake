@@ -1,1 +1,0 @@
-export { UserValueDisplay } from './ui/UserValueDisplay'

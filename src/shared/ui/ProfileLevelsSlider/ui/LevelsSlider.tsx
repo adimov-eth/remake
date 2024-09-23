@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useStore } from '@nanostores/react'
 import cn from 'classnames'
 
-import { ClickerProgressBar } from '@/shared/ui/Clicker/ClickerProgressBar/ClickerProgressBar'
+import { ProgressBar } from '@shared/ui/ProgressBar'
 
 import { $gameState, $level } from '@app/stores/state'
 
@@ -78,7 +78,7 @@ export const LevelsSlider = () => {
           <img src={ArrowIcon} className={styles.arrowIcon} alt={t('next')} />
         </button>
       </div>
-      <ClickerProgressBar
+      <ProgressBar
         levelProgress={(quarks / selectedLevelDef.quarksToUpgrade) * 100}
       />
     </div>

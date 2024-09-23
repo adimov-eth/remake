@@ -1,11 +1,10 @@
 import { FC, useState, useEffect, useCallback } from 'react'
-import UserIcon from '@shared/assets/user.svg?react'
-
 import { calculateProgress, formatRemainingTime, isTimeUp } from '@shared/utils/missions'
 
+import UserIcon from '@shared/assets/user.svg?react'
 import * as S from './Avatar.styles'
 
-interface AvatarProps {
+interface IAvatarProps {
   src?: string
   size?: number
   alt?: string
@@ -14,7 +13,7 @@ interface AvatarProps {
   end_date?: string | null
 }
 
-export const Avatar: FC<AvatarProps> = ({
+export const Avatar: FC<IAvatarProps> = ({
   src,
   size = 40,
   alt = 'User Profile',

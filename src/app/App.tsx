@@ -11,7 +11,7 @@ import { platform } from './stores/telegram';
 
 import Onboarding from '@/shared/ui/Stories/OnboardingStories';
 import { AppRoot, FixedLayout } from '@telegram-apps/telegram-ui';
-import { UserStatusBar } from '@shared/ui/UserStatusBar';
+import { UserStatusBar } from '@widgets/UserStatusBar';
 import { Header } from '@shared/ui/Header';
 import { Navigation } from '@/shared/ui/Navigation';
 

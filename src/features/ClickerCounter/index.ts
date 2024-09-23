@@ -1,0 +1,1 @@
+export { ClickerCounter } from './ui/ClickerCounter';

@@ -8,7 +8,7 @@ import { Banner } from '@shared/ui/Banner';
 import { Content } from '@shared/ui/Content';
 import { Title } from '@shared/ui/Title';
 import { BlurBackdrop } from '@shared/ui/BlurBackdrop';
-import { AcceleratorCard } from '@shared/ui/AcceleratorCard';
+import { AcceleratorCard } from '@features/AcceleratorCard';
 
 import Rocket from "@shared/assets/accelerators.png"
 import * as S from './Accelerators.styles';

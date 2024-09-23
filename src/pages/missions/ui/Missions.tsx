@@ -7,8 +7,8 @@ import { $missions, $filteredAndSortedMissions, ResolvedMission } from '@app/sto
 import { useAllMissions } from '@shared/services/api/missions/model'
 import { initDataRaw } from '@app/stores/telegram'
 
+import { MissionCard } from "@widgets/MissionCard"
 import { Loader } from '@shared/ui/Loader'
-import { MissionCard } from "@shared/ui/MissionCard"
 import { Page } from '@shared/ui/Page';
 import { Banner } from '@shared/ui/Banner';
 import { Content } from '@shared/ui/Content';
@@ -48,7 +48,7 @@ export const Missions: React.FC = () => {
             <S.MissionCards>
 
               {sortedMissions.map((mission: ResolvedMission) => (
-                <MissionCard key={mission.id} mission={mission} />
+                <MissionCard key={mission.id} {...mission} />
               ))}
 
             </S.MissionCards>
