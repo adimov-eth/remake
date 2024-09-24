@@ -11,58 +11,65 @@ export type LevelDefinition = {
   quarksPerClick: number;
 };
 
+// TODO Уровни должны приходить из бэка
+
 export const LEVELS: LevelDefinition[] = [
-  { name: 'Protostar', energy: 500, quarksToUpgrade: 1000, quarksPerClick: 1 },
+  { 
+    name: 'protostar', 
+    energy: 500, 
+    quarksToUpgrade: 1000, 
+    quarksPerClick: 1 
+  },
   {
-    name: 'Brown Dwarf',
+    name: 'brown_dwarf',
     energy: 750,
     quarksToUpgrade: 5000,
     quarksPerClick: 2,
   },
   {
-    name: 'Red Dwarf',
+    name: 'red_dwarf',
     energy: 1000,
     quarksToUpgrade: 10000,
     quarksPerClick: 2,
   },
   {
-    name: 'White Dwarf',
+    name: 'white_dwarf',
     energy: 1500,
     quarksToUpgrade: 50000,
     quarksPerClick: 3,
   },
   {
-    name: 'Red Giant',
+    name: 'red_giant',
     energy: 2000,
     quarksToUpgrade: 100000,
     quarksPerClick: 4,
   },
   {
-    name: 'Blue Giant',
+    name: 'blue_giant',
     energy: 2500,
     quarksToUpgrade: 500000,
     quarksPerClick: 5,
   },
   {
-    name: 'Blue Supergiant',
+    name: 'blue_supergiant',
     energy: 3000,
     quarksToUpgrade: 1000000,
     quarksPerClick: 6,
   },
   {
-    name: 'Neutron Star',
+    name: 'neutron_star',
     energy: 3500,
     quarksToUpgrade: 5000000,
     quarksPerClick: 7,
   },
   {
-    name: 'Supernova',
+    name: 'supernova',
     energy: 4000,
     quarksToUpgrade: 10000000,
     quarksPerClick: 8,
   },
   {
-    name: 'Black Hole',
+    name: 'black_hole',
     energy: 5000,
     quarksToUpgrade: 100000000,
     quarksPerClick: 10,

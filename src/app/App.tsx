@@ -1,143 +1,79 @@
-import { FC, useEffect } from 'react';
-import { Navigate, Route, Router, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import { useIntegration } from '@telegram-apps/react-router-integration';
-import { initNavigator } from '@telegram-apps/sdk-react';
+import { type FC, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { TonConnectUIProvider } from '@tonconnect/ui-react';
+import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
 import { useStore } from '@nanostores/react';
-import 'react-toastify/dist/ReactToastify.css';
+import { QueryClientProvider } from '@tanstack/react-query';
+import '@shared/locale/index.ts';
 
-import { styled } from './stitches.config';
-import { platform } from './stores/telegram';
+import { Router } from '@app/router'
+import { ErrorProvider } from './providers/ErrorProvider';
+import { CONFIG } from './config';
 
-import Onboarding from '@/shared/ui/Stories/OnboardingStories';
-import { AppRoot, FixedLayout } from '@telegram-apps/telegram-ui';
-import { Header } from '@/shared/ui/Header/Header';
-import { Navigation } from '@/shared/ui/Navigation';
+import { queryClient } from '@shared/services/api/queryClient';
 
-import {
-  Accelerators,
-  Friends,
-  Home,
-  Missions,
-  Profile,
-  Settings,
-  Swap
-} from '@/pages'
+import { $assetsLoaded } from './stores/preload';
+import { isDesktop } from './stores/telegram';
+import { $initializationStep, $initializationError } from './stores/state';
+import { initializeApp } from './stores/initialization';
 
-import {
-  $isNew,
-  $subscribed,
-  $initializationStep,
-  $isInitialized,
-  $gameState,
-  $connectionStatus,
-  $currentNotification,
-} from './stores/state';
+// import { Loader } from '@/components/Loader/Loader';
+import { ErrorDisplay } from '@shared/ui/ErrorDisplay';
+import { WebBlocker } from '@features/WebBlocker/index.ts';
 
-import {
-  AchievementNotification,
-  ErrorNotification,
-  InformationNotification,
-  SuccessNotification,
-} from '@/shared/ui/Notification/Notification'
+const ErrorBoundary: FC<{ error: Error | string | unknown }> = ({ error }) => {
+    const { t } = useTranslation('global')
 
-export const App: FC = () => {
-  const navigator = initNavigator('app-navigation-state');
-  const [location, reactNavigator] = useIntegration(navigator);
-  const isNew = useStore($isNew);
-  const subscribed = useStore($subscribed);
-  const initializationStep = useStore($initializationStep);
-  const isInitialized = useStore($isInitialized);
-  const connectionStatus = useStore($connectionStatus);
-  const currentNotification = useStore($currentNotification)
+    let title = t('unhandled_error');
 
-  //TODO: check why this cause redirect
-  useEffect(() => {
-    // navigator.attach();
-    // return () => navigator.detach();
-  }, [navigator]);
+    return <ErrorDisplay title={title} error={error}/>
+}
 
-  const Top = styled(FixedLayout, { zIndex: 100 });
-  const Bottom = styled(FixedLayout, { zIndex: 100 });
-  const ui = ['macos', 'ios'].includes(platform) ? 'ios' : 'base';
-
-  console.log(
-    'App render: ',
-    'initialized',
-    isInitialized,
-    ', subscribed',
-    subscribed,
-    ', new: ',
-    isNew,
-    ', step: ',
-    initializationStep,
-    ', gameState: ',
-    $gameState.get(),
-    ', connectionStatus: ',
-    connectionStatus
-  );
-
-  useEffect(() => {
-    if (currentNotification && !currentNotification.read) {
-      switch (currentNotification.type) {
-        case 'success':
-          SuccessNotification(currentNotification.message)
-          break
-        case 'error':
-          ErrorNotification(currentNotification.message)
-          break
-        case 'info':
-          InformationNotification(currentNotification.message)
-          break
-        default:
-          AchievementNotification(currentNotification.message)
-          break
+const Inner: FC = () => {
+    const debug = useLaunchParams().startParam === 'debug';
+    const initializationStep = useStore($initializationStep);
+    const initializationError = useStore($initializationError);
+    const imagesLoaded = useStore($assetsLoaded);
+  
+    useEffect(() => {
+      initializeApp();
+    }, []);
+  
+    useEffect(() => {
+      if (import.meta.env.DEV && debug) {
+        import('eruda').then(lib => lib.default.init());
       }
-
-      $currentNotification.set({ ...currentNotification, read: true })
+    }, [debug]);
+    if (initializationError) {
+      return <ErrorDisplay error={initializationError} />;
     }
-  }, [currentNotification])
-
-  return (
-    <AppRoot appearance={'dark'} platform={ui}>
-      <Router location={location} navigator={reactNavigator}>
-        {isNew && initializationStep >= 3 ? (
-          <Onboarding />
-        ) : (
-          <>
-            <Top vertical="top">
-              <Header />
-            </Top>
-            <Main>
-              <Routes>
-                <Route path="/" Component={Home} />
-                <Route path="friends" Component={Friends} />
-                <Route path="/accelerators" Component={Accelerators} />
-                <Route path="/missions" Component={Missions} />
-                <Route path="/swap" Component={Swap} />
-                <Route path="/profile" Component={Profile} />
-                <Route path="/settings" Component={Settings} />
-                <Route path="*" element={<Navigate to="/" />} />
-              </Routes>
-            </Main>
-            <Bottom vertical="bottom">
-              <Navigation />
-            </Bottom>
-            <ToastContainer
-              toastStyle={{
-                backgroundColor: 'transparent',
-                width: 'fit-content',
-                margin: 'auto',
-              }}
-            />
-          </>
-        )}
-      </Router>
-    </AppRoot>
-  );
+    console.log(
+      'Initialization Step: ',
+      initializationStep,
+      ', imagesLoaded: ',
+      imagesLoaded,
+      ', hasError: ',
+      initializationError
+    );
+  
+    if (initializationStep < 3 || !imagesLoaded) {
+      return; //<Loader speed={'slow'} />; // Add the speed prop
+    }
+    return (
+      <TonConnectUIProvider manifestUrl={CONFIG.TON_CONNECT_MANIFEST_URL}>
+        <SDKProvider acceptCustomStyles debug={debug}>
+          <QueryClientProvider client={queryClient}>
+            {isDesktop ? <WebBlocker /> : <Router />}
+          </QueryClientProvider>
+        </SDKProvider>
+      </TonConnectUIProvider>
+    );
 };
 
-const Main = styled('main', {
-  padding: '110px 16px 114px',
-  overflowY: 'auto',
-});
+export const App: FC = () => {
+    return (
+        <ErrorProvider fallback={ErrorBoundary}>
+            <Inner />
+        </ErrorProvider>
+    )
+}

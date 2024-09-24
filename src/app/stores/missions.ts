@@ -1,5 +1,5 @@
 import { atom, computed } from 'nanostores'
-import { isAfter, isBefore, isValid, parseISO } from 'date-fns'
+import { isAfter, isBefore, parseISO } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
 import { initDataRaw } from './telegram'
 
@@ -22,7 +22,7 @@ export type MissionCompleteStatus = StatusMap[keyof StatusMap];
   
 // Legacy
 export const magicStatusResolver = (mission: Mission): string => {
-  const { status, progress_status, start_date } = mission
+  const { status, progress_status } = mission
   // Mission is overdue
   if (status === MS.OVERDUE) return 'overdue'
 
@@ -37,8 +37,6 @@ export const magicStatusResolver = (mission: Mission): string => {
 
   // Mission is not started
   if (progress_status === 'not_started') {
-    // Mission is available to start
-    if (start_date && isAfter(currentZonedDate(), parseISO(start_date))) return 'available'
     // Mission is not yet available to start
     return 'unavailable'
   }
@@ -96,13 +94,7 @@ export const $completedMissionsCount = computed($resolvedMissions, (missions: Re
 const available = (mission: Mission): boolean => {
 
   if (mission.status === MS.UNAVAILABLE) return false;
-  const { start_date, mission_type, progress_status, slug } = mission;
-  if (start_date) {
-    const parsedStartDate = parseISO(start_date);
-    if (!isValid(parsedStartDate) || !isAfter(currentZonedDate(), parsedStartDate)) {
-      return false;
-    }
-  }
+  const { mission_type, progress_status, slug } = mission;
   if (mission_type === MissionType.SECRET &&
       progress_status !== MPS.COMPLETE &&
       progress_status !== MPS.CLAIMED_REWARD) {

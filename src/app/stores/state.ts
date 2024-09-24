@@ -125,8 +125,8 @@ export const $subscribeButton = atom<TSubscribeButtonState>(
   $subscribed.get() ? 'clicked' : 'button'
 );
 
-interface currentNotificationType extends IngameNotification {
+interface ICurrentNotificationType extends IngameNotification {
   read?: boolean;
 }
 
-export const $currentNotification = atom<currentNotificationType | null>(null);
+export const $currentNotification = atom<ICurrentNotificationType | null>(null);
