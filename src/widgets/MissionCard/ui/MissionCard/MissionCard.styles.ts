@@ -54,9 +54,12 @@ export const Card = styled('div', {
           color: '#971313',
         },
       },
+      available: {},
       unavailable: {
         display: 'none',
       },
+      not_started: {},
+      complete: {},
     },
   },
 });
