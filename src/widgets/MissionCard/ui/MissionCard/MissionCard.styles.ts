@@ -42,6 +42,7 @@ export const Card = styled('div', {
       unavailable: {
         display: 'none',
       },
+      not_started: {},
       participated_once: {
         opacity: 0.5,
         pointerEvents: 'none',
