@@ -12,22 +12,26 @@ import { Avatar } from '@/shared/ui/Avatar';
 import { MissionModal } from '../MissionModal/MissionModal';
 import { AchievementNotification, InformationNotification } from '@shared/ui/Notification';
 
-import {
-  ArrowIcon,
-  CloseIcon,
-  DoneIcon,
-} from '@shared/assets/icons';
+import { ArrowIcon, CloseIcon, DoneIcon } from '@shared/assets/icons';
 
 import * as S from './MissionCard.styles'
 
-const iconsMap = {
-  'overdue': <CloseIcon />,
-  'participated_once': <CloseIcon />,
-  'claimed_reward': <DoneIcon />,
-  'in_progress': <ArrowIcon />,
+import { MissionCompleteStatus } from '@app/stores/missions';
+
+type IconsMapType = {
+  [key in MissionCompleteStatus]: React.ReactNode;
 };
 
-// TODO: добавить цвет иконкам
+const iconsMap: IconsMapType = {
+  'in_progress': <S.CardIcon as={ArrowIcon}/>,
+  'claimed_reward': <S.CardIcon as={DoneIcon}/>,
+  'overdue': <S.CardIcon as={CloseIcon}/>,
+  'participated_once': <S.CardIcon as={CloseIcon}/>,
+  'available': null,
+  'unavailable': null,
+  'not_started': null,
+  'complete': null,
+};
 
 export const MissionCard: FC<ResolvedMission> = ({ 
   id,
@@ -98,13 +102,13 @@ export const MissionCard: FC<ResolvedMission> = ({
       if (!oldData) return oldData;
       return oldData.map(mission =>
         mission.id === id
-          ? { ...mission, progress_status: 'claimed' as MissionProgressStatus }
+          ? { ...mission, progress_status: 'claimed_reward' as MissionProgressStatus }
           : mission
       );
     });
   }, [queryClient, rawData, id]);
 
-  const Icon = iconsMap[resolved_status as keyof typeof iconsMap] || null;
+  const Icon = iconsMap[resolved_status] || null;
 
   const isShowQuarks = amountQuarks > 0;
   const isShowStars = amountStars > 0;
@@ -114,30 +118,26 @@ export const MissionCard: FC<ResolvedMission> = ({
       <S.Card status={resolved_status} onClick={handleOverlayClick}>
         <S.Info>
           <Avatar src={icon_url || ''} size={40} />
-          <S.Texts>
+          <S.Content>
             <S.Title>{name}</S.Title>
-            <S.Reward>
-              <BalanceDisplay
-                quarks={amountQuarks}
-                stars={amountStars}
-                showQuarks={isShowQuarks}
-                showStars={isShowStars}
-              />
-            </S.Reward>
-          </S.Texts>
+            <BalanceDisplay
+              variant="ghost"
+              quarks={amountQuarks}
+              stars={amountStars}
+              showQuarks={isShowQuarks}
+              showStars={isShowStars}
+            />
+          </S.Content>
         </S.Info>
-        {progress_status === 'complete' ? (
-          <S.CompleteRight>Complete</S.CompleteRight> // TODO: translate
-        ) : (
-          <S.Open>{Icon}</S.Open>
-        )}
+        {progress_status === 'complete' 
+          ? <S.LabelComplete>{t('complete')}</S.LabelComplete>
+          : <S.LabelAvailable>{Icon}</S.LabelAvailable>
+        }
       </S.Card>
       <MissionModal
         open={modalOpen}
         icon={icon_url}
-        onClose={() => {
-          setModalOpen(false);
-        }}
+        onClose={() => setModalOpen(false)}
         title={name}
         description={description}
         amountQuarks={amountQuarks}
