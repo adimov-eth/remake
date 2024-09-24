@@ -28,6 +28,7 @@ export const UserStatusBar: React.FC = () => {
   const telegramUser = useStore($user)
   const pfp = useStore($pfp)
   const rankName = t(`levels.${currentRank.name}`)
+  console.log('UserStatusBar', { quarks, stars, currentRank, telegramUser, pfp, rankName })
   return (
     <S.Root>
       <UserInfo
@@ -42,6 +43,7 @@ export const UserStatusBar: React.FC = () => {
           quarks={Number(quarks)}
           stars={Number(stars)}
           showQuarks={showQuarks}
+          showStars={true}
         />
       )}
       <ValueTooltip value={Number(quarks)} type="quarks" />
