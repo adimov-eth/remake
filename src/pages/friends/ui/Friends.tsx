@@ -6,7 +6,7 @@ import { Banner } from '@shared/ui/Banner';
 import { Content } from '@shared/ui/Content';
 import { Title } from '@shared/ui/Title';
 import { BlurBackdrop } from '@shared/ui/BlurBackdrop';
-import { FriendsList } from '@shared/ui/FriendsList';
+import { FriendsList } from '@widgets/FriendsList';
 import { friends1, friends2 } from '@shared/assets';
 
 import * as S from './Friends.styles';

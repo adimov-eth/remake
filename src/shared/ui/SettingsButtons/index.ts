@@ -1,1 +1,0 @@
-export { SettingsButtons } from './SettingsButtons'

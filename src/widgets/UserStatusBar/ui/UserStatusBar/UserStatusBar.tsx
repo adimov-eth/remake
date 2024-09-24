@@ -5,7 +5,7 @@ import { $gameState, $pfp, $user } from '@app/stores/state'
 
 import { UserInfo } from '../UserInfo/UserInfo'
 import { BalanceDisplay } from '@features/BalanceDisplay'
-import { SettingsButtons } from '@shared/ui/SettingsButtons'
+import { SettingsButtons } from '@features/SettingsButtons'
 import { ValueTooltip } from '@shared/ui/ValueTooltip'
 
 import * as S from './UserStatusBar.styles'

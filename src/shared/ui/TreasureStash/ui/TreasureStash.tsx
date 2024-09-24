@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGetMissions, claimMissionReward } from '@shared/services/api/missions/model'
 import { useModal } from '@shared/hooks'
@@ -82,7 +82,7 @@ export const TreasureStash: React.FC<TreasureStashProps> = ({ string }) => {
     progress_status !== 'claimed_reward' &&
     status !== 'unavailable'
 
-  // if (!isMissionAvailable) return string;
+  if (!isMissionAvailable) return string;
 
   const renderTextWithGlitch = (text: string, wordNumber: number, letterNumber: number) => {
     const words = text.split(' ');
