@@ -102,7 +102,7 @@ export const MissionCard: FC<ResolvedMission> = ({
       if (!oldData) return oldData;
       return oldData.map(mission =>
         mission.id === id
-          ? { ...mission, progress_status: 'claimed' as MissionProgressStatus }
+          ? { ...mission, progress_status: 'claimed_reward' as MissionProgressStatus }
           : mission
       );
     });
