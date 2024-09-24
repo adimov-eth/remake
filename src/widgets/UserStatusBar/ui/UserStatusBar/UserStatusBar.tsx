@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useStore } from '@nanostores/react'
 import { $gameState, $pfp, $user } from '@app/stores/state'
 
@@ -16,6 +17,7 @@ export const UserStatusBar: React.FC = () => {
   if (!gameState) return null
   
   const location = useLocation()
+  const { t } = useTranslation('global');
   const isProfilePage = location.pathname === '/profile'
   const showQuarks = location.pathname !== '/'
   
@@ -25,12 +27,12 @@ export const UserStatusBar: React.FC = () => {
   const currentRank = gameState.levelDef.get()
   const telegramUser = useStore($user)
   const pfp = useStore($pfp)
-
+  const rankName = t(`levels.${currentRank.name}`)
   return (
     <S.Root>
       <UserInfo
         user={telegramUser}
-        rank={currentRank.name}
+        rank={rankName}
         avatar={pfp}
       />
       {isProfilePage ? (

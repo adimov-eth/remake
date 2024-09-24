@@ -16,11 +16,6 @@ import { FriendCard } from "@features/FriendCard";
 import * as S from './FriendsList.styles'
 
 
-const getCurrentRank = (level: number) => {
-  const lvl = Math.min(Math.max(level - 1, 0), LEVELS.length - 1)
-  return LEVELS[lvl].name
-}
-
 export const FriendsList: React.FC = () => {
   const { t } = useTranslation('global');
   const rawData = initDataRaw
@@ -30,6 +25,12 @@ export const FriendsList: React.FC = () => {
     variables: { rawData },
   })
 
+
+  const getCurrentRank = (level: number) => {
+    const lvl = Math.min(Math.max(level - 1, 0), LEVELS.length - 1)
+    const rankName = LEVELS[lvl].name
+    return t(`levels.${rankName}`)
+  }
   const referralInputRef = useRef<HTMLInputElement>(null)
   const { handleShare, buildShareUrl } = useShareRefferalLink()
   const { notifyUser } = useClickNotification('')
