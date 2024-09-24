@@ -37,8 +37,6 @@ export const magicStatusResolver = (mission: Mission): string => {
 
   // Mission is not started
   if (progress_status === 'not_started') {
-    // Mission is available to start
-    if (start_date && isAfter(currentZonedDate(), parseISO(start_date))) return 'available'
     // Mission is not yet available to start
     return 'unavailable'
   }

@@ -39,9 +39,13 @@ export const Card = styled('div', {
         pointerEvents: 'none',
       },
       available: {},
-      unavailable: {},
-      not_started: {},
-      participated_once: {},
+      unavailable: {
+        display: 'none',
+      },
+      participated_once: {
+        opacity: 0.5,
+        pointerEvents: 'none',
+      },
     },
   },
 });
