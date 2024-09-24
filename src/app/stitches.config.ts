@@ -35,8 +35,8 @@ export const { styled, css, globalCss, keyframes, getCssText, theme, createTheme
       semiBold: 600,
     },
     radii: {
-      small: '16px',
-      medium: '27px',
+      small: '1rem',
+      medium: '1.6875rem',
     },
     space: {
       1: '4px',
