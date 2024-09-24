@@ -22,6 +22,7 @@ import * as S from './MissionCard.styles'
 
 const iconsMap = {
   'overdue': <CloseIcon />,
+  'participated_once': <CloseIcon />,
   'claimed_reward': <DoneIcon />,
   'in_progress': <ArrowIcon />,
 };
@@ -76,6 +77,9 @@ export const MissionCard: FC<ResolvedMission> = ({
         break;
       case 'not_started':
         checkStatusMutation.mutate({ missionId: id, rawData });
+        break;
+      case 'participated_once':
+        console.warn(' MISSION participated_once'); //TODO показать информацию о том, что миссия одноразовая и уже была начата 
         break;
       default:
         setModalOpen(true);
