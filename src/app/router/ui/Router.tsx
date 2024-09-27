@@ -57,16 +57,14 @@ export default () => {
 
   const ui = ['macos', 'ios'].includes(platform) ? 'ios' : 'base';
 
-  const debugInfo = {
-    initialized: isInitialized,
+  console.table({
+    isInitialized,
     subscribed,
     isNew,
     initializationStep,
     gameState: JSON.stringify($gameState.get()),
     connectionStatus,
-  };
-
-  console.table(debugInfo);
+  });
 
   useEffect(() => {
     if (currentNotification && !currentNotification.read) {
