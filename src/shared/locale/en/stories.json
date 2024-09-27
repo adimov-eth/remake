@@ -27,7 +27,13 @@
     "description": "Don't forget to follow our Telegram Channel and Invite friends to join TON Stars. As more people join, Star values increase, unlocking new partnerships and features",
     "follow": "Follow Telegram channel",
     "go": "Let's go!",
-    "verifying": "Verifying subscription..."
+    "verifying": "Verifying subscription...",
+    "failedTitle": "Subscription check failed",
+    "failedDescription": "Failed to check your subscription, please try again",
+    "failedButton": "Try again",
+    "successTitle": "Subscription check succesful",
+    "successDescription": "Your cosmic adventure on TON Stars begins now!",
+    "successButton": "Start now!"
   },
   "button": {
     "next": "Next"
