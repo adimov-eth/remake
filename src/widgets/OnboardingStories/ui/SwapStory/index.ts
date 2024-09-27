@@ -1,0 +1,1 @@
+export { swapStoryConfig } from './SwapStory';
