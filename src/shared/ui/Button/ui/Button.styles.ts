@@ -1,19 +1,42 @@
-import { styled } from '@/app/stitches.config'
+import { styled, keyframes } from '@/app/stitches.config'
+
+const pulse = keyframes({
+  '0%': { opacity: 1 },
+  '50%': { opacity: 0.5 },
+  '100%': { opacity: 1 },
+});
+
 
 export const Button = styled('button', {
     position: 'relative',
-    border: 'none',
-    width: '100%',
-    minHeight: '54px',
-    borderRadius: '14px',
-    fontSize: '14px',
-    fontWeight: 600,
-    display: 'flex',
+    display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
+    border: 'none',
+    width: '100%',
+    minWidth: '2.5rem',
+    minHeight: '2.5rem',
+    borderRadius: '0.875rem',
+    fontWeight: 600,
     cursor: 'pointer',
-  
+    '&:disabled': {
+      opacity: 0.8,
+      cursor: 'not-allowed',
+    },
+    '&:active': {
+      opacity: 0.9,
+    },
     variants: {
+      loading: {
+        true: {
+          animation: `${pulse} 1.5s ease-in-out infinite`,
+        },
+        false: {},
+      },
+      shine: {
+        true: {},
+        false: {},
+      },
       variant: {
         gradientOutline: {
           color: '#1CE7FD',
@@ -45,5 +68,28 @@ export const Button = styled('button', {
           fontFamily: 'var(--font-pro-display)',
         },
       },
+      size: {
+        small: {
+          fontSize: '1rem',
+          padding: '0.5rem',
+        },
+        medium: {
+          fontSize: '1.25rem',
+          padding: '0.625rem',
+        },
+        large: {
+          fontSize: '1.5rem',
+          padding: '0.75rem',
+        },
+      },
     },
+    compoundVariants: [
+      {
+        variant: 'gradientFilled',
+        shine: true,
+        css: {
+          boxShadow: '0px 0px 15px 0px rgba(42, 158, 241, 1)',
+        },
+      },
+    ],
   })
