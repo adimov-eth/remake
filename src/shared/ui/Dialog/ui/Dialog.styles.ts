@@ -6,14 +6,14 @@ export const ModalOverlay = styled('div', {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 228,
+    zIndex: 9999,
     opacity: 0,
     animation: `${fadeInAnimation} 0.3s forwards`,
-    borderRadius: '16px',
+    borderRadius: '1rem',
     border: '1px solid rgba(255, 255, 255, 0.02)',
-    background: 'rgba(43, 46, 69, 0.3)',
+    background: 'rgba(5, 6, 10, 0.7)',
     boxShadow: '0px 4px 24px 0px rgba(0, 0, 0, 0.25)',
-    backdropFilter: 'blur(12px)',
+    backdropFilter: 'blur(0.75rem)',
   
     variants: {
       fadeOut: {
@@ -27,20 +27,17 @@ export const ModalOverlay = styled('div', {
 export const ModalContent = styled('div', {
     background: 'rgba(43, 46, 69, 0.3)',
     boxShadow: '0px 4px 24px 0px rgba(0, 0, 0, 0.25)',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
     border: '1px solid rgba(255, 255, 255, 0.02)',
-    padding: '16px',
-    borderRadius: '16px',
+    padding: '1rem',
+    borderRadius: '1rem',
     width: '300px',
-    color: '#ffffff',
+    color: '#fff',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    zIndex: 50,
+    zIndex: 9999,
     opacity: 0,
     animation: `${modalOpenAnimation} 0.3s forwards`,
-  
     variants: {
       fadeOut: {
         true: {
@@ -49,8 +46,8 @@ export const ModalContent = styled('div', {
       },
       confirm: {
         true: {
-          padding: '30px',
-          width: '300px !important',
+          padding: '1.875rem',
+          width: '18.75rem',
           fontFamily: 'var(--font-pro-display)',
         }
       }

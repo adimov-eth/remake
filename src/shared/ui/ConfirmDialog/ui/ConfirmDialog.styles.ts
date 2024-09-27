@@ -1,61 +1,47 @@
 import { styled } from '@app/stitches.config'
-import { Button } from '@shared/ui/Button'
 
 export const Content = styled('div', {
-  width: '240px',
+  maxWidth: '15rem',
 })
   
 export const IconWrapper = styled('div', {
-  marginBottom: '10px',
+  marginBottom: '0.625rem',
   textAlign: 'center',
 })
   
 export const Title = styled('div', {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: '24px',
-    fontStyle: 'normal',
-    fontWeight: 700,
-    lineHeight: '30px',
-    marginBottom: '16px',
+  color: 'rgba(255, 255, 255, 1)',
+  textAlign: 'center',
+  fontSize: '1.5rem',
+  fontStyle: 'normal',
+  fontWeight: 700,
+  lineHeight: '1.875rem',
 })
   
 export const Description = styled('div', {
-    marginBottom: '30px',
-    fontSize: '16px',
-    color: '#67718c',
-    textAlign: 'center',
-    fontStyle: 'normal',
-    fontWeight: 400,
-    lineHeight: '20px',
-  
-    variants: {
-      withoutTitle: {
-        true: {
-          fontSize: '20px',
-          fontWeight: 400,
-          color: 'white',
-        },
+  fontSize: '1rem',
+  color: 'rgba(149, 164, 211, 1)',
+  textAlign: 'center',
+  fontStyle: 'normal',
+  fontWeight: 400,
+  lineHeight: '1.25rem',
+  marginTop: '1rem',
+  variants: {
+    withoutTitle: {
+      true: {
+        fontSize: '1.25rem',
+        fontWeight: 400,
+        color: 'white',
       },
     },
+  },
 })
   
 export const ButtonsWrapper = styled('div', {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '16px',
-    width: '100%',
-})
-  
-export const ConfirmDialogButton = styled(Button, {
-    color: '#fff',
-    fontSize: '14px',
-    fontStyle: 'normal',
-    fontWeight: 590,
-    display: 'flex',
-    padding: '15px 16px',
-    width: '96px',
-    minHeight: 0,
-    height: '40px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '1rem',
+  width: '100%',
+  marginTop: '1.875rem',
 })
