@@ -16,13 +16,9 @@ interface TreasureStashProps {
 }
 
 const MISSION_SLUG = 'secret_stash'
-// const GLITCH_MIN_DELAY = 7000
-// const GLITCH_MAX_DELAY = 30000
-// const GLITCH_DURATION = 3000
 
 export const TreasureStash: React.FC<TreasureStashProps> = ({ string }) => {
   const [isOpen, openModal, closeModal] = useModal()
-  // const [isGlitching, setIsGlitching] = useState(false)
   const { t } = useTranslation('global')
   const rawData = initDataRaw || ''
 
@@ -45,37 +41,6 @@ export const TreasureStash: React.FC<TreasureStashProps> = ({ string }) => {
     refetch()
     closeModal()
   }
-
-  // TODO fix animation
-
-  // const applyGlitchEffect = useCallback(() => {
-  //   console.log('Applying glitch effect')
-
-  //   setIsGlitching(true)
-  //   setTimeout(() => {
-  //     console.log('Removing glitch effect')
-
-  //     setIsGlitching(false)
-  //   }, GLITCH_DURATION)
-  // }, [])
-
-  // useEffect(() => {
-  //   console.log('Setting up glitch effect');
-
-  //   const applyGlitchWithInterval = () => {
-  //     const delay = Math.floor(Math.random() * (GLITCH_MAX_DELAY - GLITCH_MIN_DELAY + 1)) + GLITCH_MIN_DELAY;
-  //     console.log(`Scheduling next glitch in ${delay}ms`)
-  //     applyGlitchEffect();
-  //     return delay;
-  //   }
-
-  //   const intervalId = setInterval(applyGlitchWithInterval, applyGlitchWithInterval());
-
-  //   return () => {
-  //     console.log('Cleaning up glitch effect');
-  //     clearInterval(intervalId);
-  //   }
-  // }, [applyGlitchEffect])
 
   const isMissionAvailable =
     foundMission &&
@@ -104,7 +69,7 @@ export const TreasureStash: React.FC<TreasureStashProps> = ({ string }) => {
     return (
       <>
         {before}{beforeLetter}
-        <GlitchyText onClick={handleClick} >{letter}</GlitchyText>  
+        <GlitchyText onClick={handleClick}>{letter}</GlitchyText>  
         {afterLetter}{after}
       </>
     )
