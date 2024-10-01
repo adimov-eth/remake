@@ -10,7 +10,7 @@ export const DailyRewards = () => {
 
     return (
         <>
-            <Button variant="purpleGradient" onClick={() => setDailyOpen(true)}>
+            <Button variant="primary" size='medium' onClick={() => setDailyOpen(true)}>
                 {t('profile.daily_rewards')}
             </Button>
             <DailyRewardsModal open={dailyOpen} onClose={() => setDailyOpen(false)} />

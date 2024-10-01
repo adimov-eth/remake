@@ -143,7 +143,7 @@ export const SwapForm: React.FC = () => {
         />
       </S.Inputs>
       <S.SwapButton
-        variant="gradientFilled"
+        variant="primary"
         onClick={handleSwapClick}
         disabled={parseFloat(fromValue) === 0}
       >

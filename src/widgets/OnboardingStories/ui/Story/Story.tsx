@@ -26,7 +26,7 @@ export const StoryHeader: React.FC<IStoryProps> = ({
 };
 
 export const StorySeeMore: React.FC<IButtonProps> = ({
-    variant = 'gradientFilled',
+    variant = 'primary',
     size = 'medium',
     shine = true,
     children = null,

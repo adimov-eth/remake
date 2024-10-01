@@ -2,22 +2,24 @@ import React, { ButtonHTMLAttributes } from 'react'
 
 import * as S from './Button.styles'
 
-export type ButtonVariantType = 'gradientOutline' | 'gradientFilled' | 'purpleGradient'
+export type ButtonVariantType = 'primary'
 
 export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: ButtonVariantType
     size?: 'small' | 'medium' | 'large'
     shine?: boolean
+    outline?: boolean
     loading?: boolean
     children: React.ReactNode
     as?: React.ElementType
 }
 
 export const Button: React.FC<IButtonProps> = ({
-  variant = 'gradientFilled',
-  size = 'small',
+  variant = 'primary',
+  size = 'medium',
   shine = false,
   loading = false,
+  outline = false,
   type = 'button',
   children,
   as = 'button',
@@ -29,11 +31,14 @@ export const Button: React.FC<IButtonProps> = ({
         size={size}
         shine={shine}
         loading={loading}
+        outline={outline}
         type={type}
         as={as}
         {...props}
     >
-      {children}
+      <S.ButtonContent>
+        {children}
+      </S.ButtonContent>
     </S.Button>
   )
 }

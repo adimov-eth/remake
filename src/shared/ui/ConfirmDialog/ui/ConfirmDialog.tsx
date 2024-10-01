@@ -29,6 +29,11 @@ export const ConfirmDialog: FC<ConfirmModalProps> = ({
 }) => {
   const { t } = useTranslation('global');
 
+  const handleConfirm = () => {
+    onButtonClick && onButtonClick()
+    onClose()
+  }
+
   return (
     <Dialog isOpen={isOpen} confirm={true} onClose={onClose}>
       <S.Content>
@@ -40,18 +45,16 @@ export const ConfirmDialog: FC<ConfirmModalProps> = ({
         <S.ButtonsWrapper>
           {enableCancelButton && (
             <Button
-              variant="gradientOutline"
+              variant="primary"
+              outline
               onClick={onClose}
             >
               {t('cancel')}
             </Button>
           )}
           <Button
-            variant="gradientFilled"
-            onClick={() => {
-              onButtonClick && onButtonClick()
-              onClose()
-            }}
+            variant="primary"
+            onClick={handleConfirm}
           >
             {buttonText || t('confirm')}
           </Button>
