@@ -107,18 +107,31 @@ export const LowTierCoin: React.FC<CoinProps> = ({ touchAreaRef }) => {
     if (!canvas || !image) return
 
     const ctx = canvas.getContext('2d')
+
     if (!ctx) return
 
-    const { width, height } = canvas
-    const size = Math.min(width, height) * 0.8
+    const touchArea = touchAreaRef.current;
 
-    ctx.clearRect(0, 0, width, height)
-    ctx.drawImage(image, (width - size) / 2, (height - size) / 2, size, size)
+    if (!touchArea) return;
+
+    const parentRect = touchArea.getBoundingClientRect();
+    const size = Math.min(parentRect.width, parentRect.height) * 1.1;
+    const x = parentRect.left + (parentRect.width - size) / 2;
+    const y = parentRect.top + (parentRect.height - size) / 2;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.drawImage(image, x, y, size, size)
   }, [])
 
   useEffect(() => {
-    if (loaded) {
-      renderCoin()
+    if (loaded) renderCoin()
+  
+    return () => {
+      const image = imageRef.current
+      if (image) {
+        image.onload = null
+        image.onerror = null
+      }
     }
   }, [loaded, renderCoin])
 
@@ -128,6 +141,7 @@ export const LowTierCoin: React.FC<CoinProps> = ({ touchAreaRef }) => {
       onCanvasInited={handleCanvasInited}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
+      onResize={renderCoin}
       style={{ transition: 'all 200ms ease-in-out' }}
     />
   )

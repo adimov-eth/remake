@@ -10,7 +10,7 @@ interface ICanvasProps {
   onResize?: (width: number, height: number) => void;
   onMouseDown?: (event: TouchEvent) => void;
   onMouseUp?: () => void;
-  style: object;
+  style?: object;
 }
 
 type isTouchInAreaType = (touch: Touch, touchArea: React.RefObject<HTMLElement>) => boolean;
@@ -55,7 +55,8 @@ export const Canvas: React.FC<ICanvasProps> = ({
 
   const performClickAnimation = useCallback(
     (x: number, y: number) => {
-      const newAnimation = document.createElement(S.QuarkNotifier.toString());
+      const newAnimation = document.createElement('div');
+      Object.assign(newAnimation.style, S.QuarkNotifier);
       newAnimation.style.top = `${y}px`;
       newAnimation.style.left = `${x}px`;
       newAnimation.textContent = `+${quarksPerClick}`;

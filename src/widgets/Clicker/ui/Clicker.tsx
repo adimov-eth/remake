@@ -64,13 +64,15 @@ export const Clicker: FC = () => {
   const deviceTier = useDeviceTier();
   const levelProgress = gameState?.levelProgress.get() ?? 0;
 
-  if (connectionStatus !== 'online') return <Loader speed="fast" />;
+  if (connectionStatus !== 'online') return <S.Root><Loader speed="fast" /></S.Root>;
 
   return (
     <S.Root>
-      <ClickerCounter />
-      <ProgressBar levelProgress={levelProgress} />
-      <S.TouchAreaWrapper>
+      <S.TopArea>
+        <ClickerCounter />
+        <ProgressBar levelProgress={levelProgress} />
+      </S.TopArea>
+      <S.MiddleArea>
         <S.TouchArea ref={touchAreaRef}>
           {deviceTier === 'low' ? (
             <LowTierCoin touchAreaRef={touchAreaRef} />
@@ -78,8 +80,10 @@ export const Clicker: FC = () => {
             <HighTierCoin touchAreaRef={touchAreaRef} />
           )}
         </S.TouchArea>
-      </S.TouchAreaWrapper>
-      <ClickerEnergy />
+      </S.MiddleArea>
+      <S.BottomArea>
+        <ClickerEnergy />
+      </S.BottomArea>
     </S.Root>
   );
 };
