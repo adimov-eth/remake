@@ -50,12 +50,10 @@ export default () => {
   const currentNotification = useStore($currentNotification)
 
   //TODO: check why this cause redirect
-  useEffect(() => {
-    // navigator.attach();
-    // return () => navigator.detach();
-  }, [navigator]);
-
-  const ui = ['macos', 'ios'].includes(platform) ? 'ios' : 'base';
+  // useEffect(() => {
+  //   navigator.attach();
+  //   return () => navigator.detach();
+  // }, [navigator]);
 
   console.table({
     isInitialized,
@@ -88,13 +86,13 @@ export default () => {
   }, [currentNotification])
 
   return (
-    <S.Root appearance={'dark'} platform={ui}>
+    <S.Root>
       <Router location={location} navigator={reactNavigator}>
         {isNew && initializationStep >= 3 ? (
           <OnboardingStories />
         ) : (
           <>
-            <S.Top vertical="top">
+            <S.Top>
               <UserStatusBar />
             </S.Top>
             <S.Main>
@@ -109,7 +107,7 @@ export default () => {
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </S.Main>
-            <S.Bottom vertical="bottom">
+            <S.Bottom>
               <Header />
             </S.Bottom>
             <ToastContainer
