@@ -5,7 +5,6 @@ import { useIntegration } from '@telegram-apps/react-router-integration';
 import { initNavigator } from '@telegram-apps/sdk-react';
 import { useStore } from '@nanostores/react';
 import 'react-toastify/dist/ReactToastify.css';
-import { platform } from '@app/stores/telegram';
 import {
   $isNew,
   $subscribed,

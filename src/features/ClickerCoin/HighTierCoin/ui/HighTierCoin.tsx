@@ -296,7 +296,6 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
 
       TweenLite.to(this.state.conf, 2, {
         radius: 10,
-        //@ts-expect-error  TweenLite deprecated
         onComplete: () => {
           const touchAreaSize = this.getTouchAreaSize();
           if (touchAreaSize) {
