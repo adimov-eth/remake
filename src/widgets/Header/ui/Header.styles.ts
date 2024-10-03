@@ -1,10 +1,6 @@
 import { styled } from '@app/stitches.config';
 
 export const Header = styled('header', {
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    right: 0,
     paddingTop: '0.25rem',
     paddingLeft: '0.75rem',
     paddingRight: '0.75rem',

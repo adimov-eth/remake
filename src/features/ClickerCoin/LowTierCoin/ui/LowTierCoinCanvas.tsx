@@ -55,7 +55,8 @@ export const LowTierCoinCanvas: React.FC<ICanvasProps> = ({
 
   const performClickAnimation = useCallback(
     (x: number, y: number) => {
-      const newAnimation = document.createElement(S.QuarkNotifier.toString())
+      const newAnimation = document.createElement('div')
+      Object.assign(newAnimation.style, S.QuarkNotifier)
       newAnimation.style.top = `${y}px`
       newAnimation.style.left = `${x}px`
       newAnimation.textContent = `+${quarksPerClick}`

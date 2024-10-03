@@ -1,0 +1,1 @@
+export { welcomeStoryConfig } from './WelcomeStory';

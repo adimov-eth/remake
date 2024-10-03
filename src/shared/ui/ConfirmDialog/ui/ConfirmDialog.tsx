@@ -2,6 +2,7 @@ import { FC, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dialog } from '@/shared/ui/Dialog'
 
+import { Button } from '@/shared/ui/Button'
 import * as S from './ConfirmDialog.styles'
 
 
@@ -28,6 +29,11 @@ export const ConfirmDialog: FC<ConfirmModalProps> = ({
 }) => {
   const { t } = useTranslation('global');
 
+  const handleConfirm = () => {
+    onButtonClick && onButtonClick()
+    onClose()
+  }
+
   return (
     <Dialog isOpen={isOpen} confirm={true} onClose={onClose}>
       <S.Content>
@@ -38,22 +44,20 @@ export const ConfirmDialog: FC<ConfirmModalProps> = ({
         </S.Description>
         <S.ButtonsWrapper>
           {enableCancelButton && (
-            <S.ConfirmDialogButton
-              variant="gradientOutline"
+            <Button
+              variant="primary"
+              outline
               onClick={onClose}
             >
               {t('cancel')}
-            </S.ConfirmDialogButton>
+            </Button>
           )}
-          <S.ConfirmDialogButton
-            variant="gradientFilled"
-            onClick={() => {
-              onButtonClick && onButtonClick()
-              onClose()
-            }}
+          <Button
+            variant="primary"
+            onClick={handleConfirm}
           >
             {buttonText || t('confirm')}
-          </S.ConfirmDialogButton>
+          </Button>
         </S.ButtonsWrapper>
       </S.Content>
     </Dialog>

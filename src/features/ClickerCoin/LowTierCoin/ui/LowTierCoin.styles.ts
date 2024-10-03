@@ -38,7 +38,7 @@ export const Canvas = styled('canvas', {
     height: '100%',
 })
 
-export const QuarkNotifier = styled('div', {
+export const QuarkNotifier = {
     position: 'fixed',
     zIndex: 9999,
     color: '#ffffff',
@@ -59,4 +59,4 @@ export const QuarkNotifier = styled('div', {
     ].join(', '),
     transform: 'rotate(15deg)',
     pointerEvents: 'none',
-})
+}

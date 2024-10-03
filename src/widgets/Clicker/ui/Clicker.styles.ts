@@ -3,23 +3,36 @@ import { styled } from '@app/stitches.config'
 export const Root = styled('div', {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    paddingBottom: '1.875rem',
     height: '100%',
+    maxWidth: '18.75rem',
+    margin: '0 auto',
 })
 
-export const TouchAreaWrapper = styled('div', {
+export const TopArea = styled('div', {
+    width: '100%',
+    marginBottom: '1.25rem',
+})
+
+export const MiddleArea = styled('div', {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    flexGrow: 1,
+    maxHeight: '18.75rem',
     width: '100%',
-    height: '50vh',
+    // backgroundColor: 'green',
+})
+
+export const BottomArea = styled('div', {
+    marginTop: '1.25rem',
 })
 
 export const TouchArea = styled('div', {
-    width: '18.75rem',
-    height: '18.75rem',
+    height: '100%',
+    aspectRatio: '1/1',
     cursor: 'pointer',
-    position: 'relative',
-    zIndex: 1,
+    // backgroundColor: 'blue',
 })

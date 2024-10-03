@@ -34,7 +34,7 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
       center: { x: 0, y: 0 },
       conf: { radius: 150, tha: 0 },
       attractionBehaviours: [],
-      offsetY: 40,
+      offsetY: 0,
       speedMultiplier: 0.6,
     }
 
@@ -45,11 +45,25 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
     this.handleMouseUp = this.handleMouseUp.bind(this)
   }
 
-  handleCanvasInited(canvas: HTMLCanvasElement) {
-    this.setState({ attractionBehaviours: [] }, () => {
-      this.createProton(canvas)
-      RAFManager.add(this.renderProton)
-    })
+  getTouchAreaCenter(): { centerX: number; centerY: number } | null {
+    const touchArea = this.props.touchAreaRef.current;
+
+    if (!touchArea) return null;
+
+    const parentRect = touchArea.getBoundingClientRect();
+    const centerX = parentRect.left + parentRect.width / 2;
+    const centerY = parentRect.top + parentRect.height / 2;
+
+    return { centerX, centerY };
+  }
+
+  getTouchAreaSize(): { width: number; height: number } | null {
+    const touchArea = this.props.touchAreaRef.current;
+
+    if (!touchArea) return null;
+
+    const parentRect = touchArea.getBoundingClientRect();
+    return { width: parentRect.width, height: parentRect.height };
   }
 
   componentWillUnmount() {
@@ -68,19 +82,50 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
     }
   }
 
+  updateProtonSize = (callback?: () => void) => {
+    const touchAreaSize = this.getTouchAreaSize();
+    const touchAreaCenter = this.getTouchAreaCenter();
+    if (!touchAreaSize || !touchAreaCenter) return;
+
+    const { width: touchAreaWidth, height: touchAreaHeight } = touchAreaSize;
+    const { centerX, centerY } = touchAreaCenter;
+    const radius = Math.min(touchAreaWidth, touchAreaHeight) / 2.5;
+
+    this.setState(
+      (prevState) => ({
+        conf: {
+          ...prevState.conf,
+          radius,
+        },
+        center: { x: centerX, y: centerY },
+      }),
+      () => {
+        if (this.state.proton) {
+          this.updateEmittersPosition();
+        }
+        if (callback) callback();
+      }
+    );
+  };
+
+
   createProton(canvas: HTMLCanvasElement) {
+    const { center, conf } = this.state;
+    const { x: centerX, y: centerY } = center;
+    const { radius } = conf;
+
     const proton = new Proton()
     const emitter1 = this.createImageEmitter({
       canvas,
-      x: canvas.width / 2 + this.state.conf.radius,
-      y: canvas.height / 2,
+      x: centerX + radius,
+      y: centerY,
       startColor: '#4F1500',
       endColor: '#0029FF',
     })
     const emitter2 = this.createImageEmitter({
       canvas,
-      x: canvas.width / 2 - this.state.conf.radius,
-      y: canvas.height / 2,
+      x: centerX - radius,
+      y: centerY,
       startColor: '#004CFE',
       endColor: '#6600FF',
     })
@@ -92,6 +137,24 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
     proton.addRenderer(renderer)
 
     this.setState({ proton, canvas, renderer })
+  }
+
+  updateEmittersPosition() {
+    const { proton, conf, center } = this.state;
+    if (!proton) return;
+
+    const emitter1 = proton.emitters[0];
+    const emitter2 = proton.emitters[1];
+
+    if (emitter1) {
+      emitter1.p.x = center.x + conf.radius;
+      emitter1.p.y = center.y;
+    }
+
+    if (emitter2) {
+      emitter2.p.x = center.x - conf.radius;
+      emitter2.p.y = center.y;
+    }
   }
 
   createImageEmitter({
@@ -143,24 +206,14 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
   }
 
   emitterMove() {
-    const { proton, canvas, conf, offsetY, speedMultiplier } = this.state
-    if (!proton || !canvas) return
+    const { proton, conf, center, speedMultiplier } = this.state
+    if (!proton) return
+
+    const { x: centerX, y: centerY } = center;
+    const { radius } = conf;
 
     const emitter1 = proton.emitters[0]
     const emitter2 = proton.emitters[1]
-    const { width, height } = canvas
-
-    const centerX = width / 2
-    const centerY = height / 2 + offsetY
-    const maxRadius = Math.min(centerX, centerY)
-    const radius = maxRadius / 2.5
-
-    this.setState({
-      conf: {
-        ...conf,
-        radius,
-      },
-    })
 
     if (emitter1) {
       this.coordinateRotation({
@@ -209,27 +262,32 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
     }
   }
 
+  handleCanvasInited(canvas: HTMLCanvasElement) {
+    this.setState({ attractionBehaviours: [] }, () => {
+      this.updateProtonSize(() => {
+        this.createProton(canvas);
+        RAFManager.add(this.renderProton);
+      });
+    });
+  }
+
   handleResize(width: number, height: number) {
     const { renderer } = this.state
+
     if (renderer) {
       renderer.resize(width, height)
-      this.setState({
-        conf: {
-          ...this.state.conf,
-          radius: Math.min(width, height) / 4,
-        },
-      })
     }
+    
+    this.updateProtonSize();
   }
 
   handleMouseDown() {
-    const { canvas, attractionBehaviours, offsetY } = this.state
-    if (!canvas) return
+    const { attractionBehaviours, offsetY } = this.state
+    const touchAreaCenter = this.getTouchAreaCenter();
+    if (!touchAreaCenter) return;
 
-    const center = {
-      x: canvas.width / 2,
-      y: canvas.height / 2 + offsetY,
-    }
+    const { centerX, centerY } = touchAreaCenter;
+    const center = { x: centerX, y: centerY + offsetY };
 
     this.setState({ center }, () => {
       for (let i = 0; i < 2; i++) {
@@ -238,12 +296,15 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
 
       TweenLite.to(this.state.conf, 2, {
         radius: 10,
-        //@ts-expect-error  TweenLite deprecated
-        onComplete: () =>
-          TweenLite.to(this.state.conf, 1, {
-            radius:
-              Math.min(this.state.canvas!.width, this.state.canvas!.height) / 4,
-          }),
+        onComplete: () => {
+          const touchAreaSize = this.getTouchAreaSize();
+          if (touchAreaSize) {
+            const { width, height } = touchAreaSize;
+            TweenLite.to(this.state.conf, 1, {
+              radius: Math.min(width, height) / 5,
+            });
+          }
+        },
       })
     })
   }

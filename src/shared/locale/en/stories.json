@@ -15,8 +15,8 @@
   },
   "accelerators": {
     "title": "Enhance Your Power with Accelerators",
-    "description": "",
-    "bottomDescription": "Boost your gameplay by spending Quarks on upgrades that enhance your click power, energy capacity, and more. Choose wisely, as not all boosters will benefit you equally.\n\nThese enhancements will help you earn more Quarks in the long run, allowing you to progress faster and achieve greater rewards\nin TON Stars."
+    "description": "Boost your gameplay by spending Quarks on upgrades that enhance your click power, energy capacity, and more. Choose wisely, as not all boosters will benefit you equally.",
+    "bottomDescription": "These enhancements will help you earn more Quarks in the long run, allowing you to progress faster and achieve greater rewards in TON Stars."
   },
   "swap": {
     "title": "Swap and Stake",
@@ -25,9 +25,15 @@
   "join": {
     "title": "Join the TON Stars Community Now!",
     "description": "Don't forget to follow our Telegram Channel and Invite friends to join TON Stars. As more people join, Star values increase, unlocking new partnerships and features",
-    "button": "Follow Telegram channel",
-    "clicked": "Let's go!",
-    "loading": "Verifying subscription..."
+    "follow": "Follow Telegram channel",
+    "go": "Let's go!",
+    "verifying": "Verifying subscription...",
+    "failedTitle": "Subscription check failed",
+    "failedDescription": "Failed to check your subscription, please try again",
+    "failedButton": "Try again",
+    "successTitle": "Subscription check succesful",
+    "successDescription": "Your cosmic adventure on TON Stars begins now!",
+    "successButton": "Start now!"
   },
   "button": {
     "next": "Next"

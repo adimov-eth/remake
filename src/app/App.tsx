@@ -47,14 +47,12 @@ const Inner: FC = () => {
     if (initializationError) {
       return <ErrorDisplay error={initializationError} />;
     }
-    console.log(
-      'Initialization Step: ',
+
+    console.table({
       initializationStep,
-      ', imagesLoaded: ',
       imagesLoaded,
-      ', hasError: ',
-      initializationError
-    );
+      initializationError,
+    })
   
     if (initializationStep < 3 || !imagesLoaded) {
       return; //<Loader speed={'slow'} />; // Add the speed prop

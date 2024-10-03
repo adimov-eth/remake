@@ -1,1 +1,1 @@
-export { OnboardingStories } from './OnboardingStories';
+export { OnboardingStories } from './ui/OnboardingStories';

@@ -1,0 +1,1 @@
+export { missionsStoryConfig } from './MissionsStory';

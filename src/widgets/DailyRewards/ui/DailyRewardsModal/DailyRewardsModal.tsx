@@ -81,7 +81,7 @@ export const DailyRewardsModal = ({ open, onClose }: { open: boolean; onClose: (
           </S.Rewards>
           <Button
             disabled={!currentCompleteReward || rewardIsClaimed || claimRewardLoading || !rawData}
-            variant="gradientFilled"
+            variant="primary"
             onClick={handleCollectReward}
           >
             {claimRewardLoading

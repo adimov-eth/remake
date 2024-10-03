@@ -1,0 +1,1 @@
+export { enhanceStoryConfig } from './EnhanceStory';

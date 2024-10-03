@@ -5,7 +5,6 @@ import { useIntegration } from '@telegram-apps/react-router-integration';
 import { initNavigator } from '@telegram-apps/sdk-react';
 import { useStore } from '@nanostores/react';
 import 'react-toastify/dist/ReactToastify.css';
-import { platform } from '@app/stores/telegram';
 import {
   $isNew,
   $subscribed,
@@ -50,23 +49,19 @@ export default () => {
   const currentNotification = useStore($currentNotification)
 
   //TODO: check why this cause redirect
-  useEffect(() => {
-    // navigator.attach();
-    // return () => navigator.detach();
-  }, [navigator]);
+  // useEffect(() => {
+  //   navigator.attach();
+  //   return () => navigator.detach();
+  // }, [navigator]);
 
-  const ui = ['macos', 'ios'].includes(platform) ? 'ios' : 'base';
-
-  const debugInfo = {
-    initialized: isInitialized,
+  console.table({
+    isInitialized,
     subscribed,
     isNew,
     initializationStep,
     gameState: JSON.stringify($gameState.get()),
     connectionStatus,
-  };
-
-  console.table(debugInfo);
+  });
 
   useEffect(() => {
     if (currentNotification && !currentNotification.read) {
@@ -90,13 +85,13 @@ export default () => {
   }, [currentNotification])
 
   return (
-    <S.Root appearance={'dark'} platform={ui}>
+    <S.Root>
       <Router location={location} navigator={reactNavigator}>
         {isNew && initializationStep >= 3 ? (
           <OnboardingStories />
         ) : (
           <>
-            <S.Top vertical="top">
+            <S.Top>
               <UserStatusBar />
             </S.Top>
             <S.Main>
@@ -111,7 +106,7 @@ export default () => {
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </S.Main>
-            <S.Bottom vertical="bottom">
+            <S.Bottom>
               <Header />
             </S.Bottom>
             <ToastContainer

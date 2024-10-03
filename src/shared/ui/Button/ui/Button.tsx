@@ -2,24 +2,43 @@ import React, { ButtonHTMLAttributes } from 'react'
 
 import * as S from './Button.styles'
 
-type ButtonVariant = 'gradientOutline' | 'gradientFilled' | 'purpleGradient'
+export type ButtonVariantType = 'primary'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant: ButtonVariant
+export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+    variant?: ButtonVariantType
+    size?: 'small' | 'medium' | 'large'
+    shine?: boolean
+    outline?: boolean
+    loading?: boolean
     children: React.ReactNode
+    as?: React.ElementType
 }
 
-export const Button: React.FC<ButtonProps> = ({
-  variant,
+export const Button: React.FC<IButtonProps> = ({
+  variant = 'primary',
+  size = 'medium',
+  shine = false,
+  loading = false,
+  outline = false,
+  type = 'button',
   children,
+  as = 'button',
   ...props
 }) => {
   return (
     <S.Button
-      variant={variant}
-      {...props}
+        variant={variant}
+        size={size}
+        shine={shine}
+        loading={loading}
+        outline={outline}
+        type={type}
+        as={as}
+        {...props}
     >
-      {children}
+      <S.ButtonContent>
+        {children}
+      </S.ButtonContent>
     </S.Button>
   )
 }

@@ -1,0 +1,1 @@
+export { joinStoryConfig } from './JoinStory';
