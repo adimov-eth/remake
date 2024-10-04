@@ -1,47 +1,39 @@
-import { FC, ReactNode } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Dialog } from '@/shared/ui/Dialog'
+import { FC, ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Dialog } from '@/shared/ui/Dialog';
 
-import { Button } from '@/shared/ui/Button'
-import * as S from './ConfirmDialog.styles'
+import { Button } from '@/shared/ui/Button';
+import * as S from './ConfirmDialog.styles';
 
 
 interface ConfirmModalProps {
   isOpen: boolean
   onClose: () => void
-  icon?: ReactNode
-  title?: string
-  description: string
   buttonText?: string
   onButtonClick?: () => void
   enableCancelButton?: boolean
+  children?: ReactNode
 }
 
 export const ConfirmDialog: FC<ConfirmModalProps> = ({
   isOpen,
   onClose,
-  icon,
-  title,
-  description,
   buttonText,
   onButtonClick,
   enableCancelButton,
+  children,
 }) => {
   const { t } = useTranslation('global');
 
   const handleConfirm = () => {
-    onButtonClick && onButtonClick()
-    onClose()
-  }
+    onButtonClick && onButtonClick();
+    onClose();
+  };
 
   return (
     <Dialog isOpen={isOpen} confirm={true} onClose={onClose}>
       <S.Content>
-        {icon && <S.IconWrapper>{icon}</S.IconWrapper>}
-        {title && <S.Title>{title}</S.Title>}
-        <S.Description withoutTitle={!title}>
-          {description}
-        </S.Description>
+        {children}
         <S.ButtonsWrapper>
           {enableCancelButton && (
             <Button
@@ -61,5 +53,5 @@ export const ConfirmDialog: FC<ConfirmModalProps> = ({
         </S.ButtonsWrapper>
       </S.Content>
     </Dialog>
-  )
-}
+  );
+};

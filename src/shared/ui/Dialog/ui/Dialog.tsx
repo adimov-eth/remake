@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 
-import * as S from './Dialog.styles'
+import * as S from './Dialog.styles';
 
 interface IDialogProps {
   isOpen: boolean
@@ -17,23 +17,22 @@ export const Dialog: React.FC<IDialogProps> = ({
   onClose,
   confirm = false,
 }) => {
-  const [visible, setVisible] = useState(isOpen)
+  const [visible, setVisible] = useState(isOpen);
 
   useEffect(() => {
     if (isOpen) {
-      setVisible(true)
+      setVisible(true);
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   const handleAnimationEnd = () => {
     if (!isOpen) {
-      setVisible(false)
+      setVisible(false);
     }
-  }
+  };
 
   const modalContent = visible && (
     <S.ModalOverlay
-      className={'overlay'}
       fadeOut={!isOpen}
       onClick={onClose}
       onAnimationEnd={handleAnimationEnd}
@@ -46,10 +45,10 @@ export const Dialog: React.FC<IDialogProps> = ({
         {children}
       </S.ModalContent>
     </S.ModalOverlay>
-  )
+  );
 
   return ReactDOM.createPortal(
     modalContent,
     document.body
-  )
-}
+  );
+};

@@ -1,51 +1,43 @@
-import { styled } from "@app/stitches.config";
+import { styled } from '@app/stitches.config';
 
 export const Root = styled('div', {
-    display: 'flex',
-    alignItems: 'center',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
     gap: '0.75rem',
     width: '100%',
 })
 
 export const Card = styled('div', {
     position: 'relative',
-    background: '#14151E80',
-    padding: '1rem',
-    borderRadius: '1rem',
-    backdropFilter: 'blur(1.5rem)',
-    WebkitBackdropFilter: 'blur(1.5rem)',
-    textAlign: 'center',
-    color: 'white',
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: 0,
+    padding: '1rem',
+    borderRadius: '1rem',
+    background: 'rgba(20, 21, 30, 0.5)',
+    fontFamily: 'var(--font-pro-display)',
+    textAlign: 'center',
 })
 
 export const CardIcon = styled('div', {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: '0.625rem',
+    display: 'inline-block',
+    width: '2.5rem',
+    height: '2.5rem',
 })
 
 export const CardValue = styled('span', {
     display: 'block',
-    fontFamily: 'var(--font-pro-display)',
-    fontSize: '16px',
+    fontSize: '1rem',
     fontWeight: 600,
-    textAlign: 'center',
-    marginBottom: '12px',
-    color: '#ffffff !important',
+    color: '#fff',
+    marginTop: '0.625rem',
+    marginBottom: '0.75rem',
 })
 
 export const CardTitle = styled('span', {
-    display: 'block',
-    fontFamily: 'var(--font-pro-display)',
-    fontSize: '14px',
-    color: '#67718C',
+    display: 'inline-block',
+    fontSize: '0.875rem',
+    color: 'rgba(103, 113, 140, 1)',
 })
 
 export const CardLink = styled('a', {

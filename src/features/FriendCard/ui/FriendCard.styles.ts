@@ -1,44 +1,67 @@
-import {styled} from '@/app/stitches.config'
+import { styled } from '@/app/stitches.config'
 
 export const Root = styled('div', {
     background: '#14151E',
-    borderRadius: '16px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: '32px',
-    padding: '16px',
+    gap: '0.625rem',
+    borderRadius: '1rem',
+    padding: '1rem',
+    minWidth: 0,
 });
 
 export const Info = styled('div', {
     display: 'flex',
     alignItems: 'center',
-    gap: '10px',
+    gap: '0.625rem',
+    minWidth: 0,
+    flex: 1,
 });
 
-export const Texts = styled('div', {
+export const Content = styled('div', {
     display: 'flex',
     flexDirection: 'column',
-    gap: '12px',
+    gap: '0.75rem',
+    minWidth: 0,
+    flex: 1,
 });
 
 export const Name = styled('div', {
     fontFamily: 'var(--font-pro-display)',
-    fontSize: '16px',
+    fontSize: '1rem',
     fontWeight: 600,
-    color: 'white',
+    color: '#fff',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    minWidth: 0,
 });
 
 export const Rank = styled('div', {
     fontFamily: 'var(--font-pro-display)',
-    fontSize: '14px',
+    fontSize: '0.875rem',
     fontWeight: 400,
     color: '#67718C',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    minWidth: 0,
 });
 
 export const Balance = styled('div', {
-    color: 'white',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.5rem',
     fontFamily: 'var(--font-mono)',
-    fontSize: '14px',
+    fontSize: '0.875rem',
     fontWeight: 600,
+    color: '#fff',
+    flexShrink: 0,
+});
+
+export const BalanceIcon = styled('div', {
+    width: '1.5rem',
+    height: '1.5rem',
+    flexShrink: 0,
 });

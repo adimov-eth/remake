@@ -1,9 +1,9 @@
-import { useStore } from '@nanostores/react';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useStore } from '@nanostores/react';
 import { ValueTooltip } from '@shared/ui/ValueTooltip';
 import { initDataRaw } from '@app/stores/telegram';
 import { $gameState } from '@app/stores/state';
-import { useTranslation } from 'react-i18next';
 import { $completedMissionsCount, $missions } from '@app/stores/missions';
 
 import { Link } from '@/shared/ui/Link/ui/Link';
@@ -43,26 +43,20 @@ export const UserStats = () => {
   return (
     <S.Root>
       <S.Card id="quarks">
-        <S.CardIcon>
-          <QuarkIcon />
-        </S.CardIcon>
+        <S.CardIcon as={QuarkIcon} />
         <S.CardValue>{formatNumber(quarks)}</S.CardValue>
         <S.CardTitle>{t('quarks')}</S.CardTitle>
       </S.Card>
       <S.Card id="stars">
-        <S.CardIcon>
-          <StarIcon />
-        </S.CardIcon>
+        <S.CardIcon as={StarIcon} />
         <S.CardValue>{formatNumber(stars)}</S.CardValue>
         <S.CardTitle>{t('stars')}</S.CardTitle>
       </S.Card>
       <S.Card>
-        <S.CardIcon>
-          <UserIcon />
-        </S.CardIcon>
-          <S.CardValue>{actualMissions || 0}</S.CardValue>
+        <S.CardIcon as={UserIcon} />
+        <S.CardValue>{actualMissions || 0}</S.CardValue>
         <S.CardTitle>{t('missions')}</S.CardTitle>
-        <S.CardLink as={Link} to="/missions"/>
+        <S.CardLink as={Link} to="/missions" />
       </S.Card>
       <ValueTooltip value={quarks} type="quarks" />
       <ValueTooltip value={stars} type="stars" />

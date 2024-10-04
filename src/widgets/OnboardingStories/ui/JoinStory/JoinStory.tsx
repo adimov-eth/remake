@@ -9,7 +9,7 @@ import { useGetUserData } from '@shared/services/api/user/model';
 import { initDataRaw } from '@app/stores/telegram';
 
 import { StoryHeader, StorySeeMore } from '../Story';
-import { ConfirmDialog } from '@/shared/ui/ConfirmDialog'
+import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
 import * as S from './JoinStory.styles';
 import moonPng from '@shared/assets/stories/moon.png';
 import happyAstronautPng from '@shared/assets/stories/happy-astronaut.png';
@@ -35,7 +35,7 @@ const FollowButton: React.FC = () => {
   const ctxFollow = () => {
     setButtonText(t('join.follow'));
     setLoading(false);
-  }
+  };
 
   const ctxVerifying = () => {
     setButtonText(t('join.verifying'));
@@ -43,12 +43,12 @@ const FollowButton: React.FC = () => {
 
     utils.openTelegramLink('https://t.me/tonstarsdao');
     runSubscriptionVerification();
-  }
+  };
 
   const ctxGo = () => {
     setButtonText(t('join.go'));
     setLoading(false);
-  }
+  };
 
   const handleSuccessfulSubscription = () => {
     retryCountRef.current = 0;
@@ -62,7 +62,7 @@ const FollowButton: React.FC = () => {
     $subscribed.set(false);
     ctxFollow();
     setIsConfirmOpen(true);
-  }
+  };
 
   const runSubscriptionVerification = () => {
     retryCountRef.current++;
@@ -76,14 +76,14 @@ const FollowButton: React.FC = () => {
           return setTimeout(() => runSubscriptionVerification(), 3000);
 
         handleSuccessfulSubscription();
-      })
-  }
+      });
+  };
 
   const handleClick = () => {
     subscriptionStatus
       ? navigate('/')
       : ctxVerifying();
-  }
+  };
 
   const handleConfirmClose = () => {
     setIsConfirmOpen(false);
@@ -91,19 +91,22 @@ const FollowButton: React.FC = () => {
     subscriptionStatus
       ? navigate('/')
       : ctxVerifying();
-  }
+  };
 
   return (
     <>
       <StorySeeMore style={{ pointerEvents: 'auto', zIndex: 2, marginTop: '2.5rem' }} as="button" disabled={loading} loading={loading} onClick={handleClick}><S.Icon />{buttonText}</StorySeeMore>
       <ConfirmDialog
-        icon={<img src={confirmImg} width={140} height={140} />}
-        title={confirmTitle}
-        description={confirmDescription}
         buttonText={confirmButtonText}
         isOpen={isConfirmOpen}
         onClose={handleConfirmClose}
-      />
+      >
+        <S.ConfirmContent>
+          <img src={confirmImg} width={140} height={140} />
+          <S.ConfirmTitle>{confirmTitle}</S.ConfirmTitle>
+          <S.ConfirmDescription>{confirmDescription}</S.ConfirmDescription>
+        </S.ConfirmContent>
+      </ConfirmDialog>
     </>
   );
 };

@@ -1,77 +1,68 @@
 import { styled } from '@stitches/react';
-import CopyIconSVG from '@shared/assets/copy.svg?react'
 
-export const FriendsContainer = styled('div', {
+export const Root = styled('div', {
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-});
-  
-export const FriendsTitle = styled('div', {
     fontFamily: 'var(--font-pro-display)',
-    fontSize: '16px',
+    color: '#fff',
+});
+
+export const Title = styled('div', {
+    fontSize: '1rem',
     fontWeight: 600,
-    color: 'white',
-    marginBottom: '5px',
 });
-  
-export const FriendsDesc = styled('div', {
-    fontFamily: 'var(--font-pro-display)',
-    fontSize: '10px',
+
+export const Description = styled('div', {
+    fontSize: '0.75rem',
     fontWeight: 400,
-    color: 'white',
-    marginBottom: '10px',
+    letterSpacing: '0.015rem',
+    margin: '0.625rem 0'
 });
-  
-export const ReferralLink = styled('div', {
-    background: '#14151E',
-    borderRadius: '16px',
-    display: 'flex',
+
+export const Card = styled('div', {
+    display: 'grid',
+    gridTemplateColumns: '1fr auto',
     alignItems: 'center',
-    padding: '16px',
-    gap: '10px',
-    marginBottom: '12px',
+    padding: '0.625rem 1rem',
+    gap: '1rem',
+    borderRadius: '1rem',
+    background: '#14151E',
 });
-  
-export const ReferralLinkTitle = styled('div', {
-    fontFamily: 'var(--font-pro-display)',
-    fontSize: '14px',
-    fontWeight: 400,
-    lineHeight: '16px',
-    color: '#67718C',
-    marginBottom: '12px',
-});
-  
-export const ReferralLinkInput = styled('input', {
-    background: 'transparent',
-    border: 'none',
-    fontFamily: 'var(--font-pro-display)',
-    fontSize: '16px',
-    fontWeight: 500,
-    color: 'white',
-    width: '100%',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    pointerEvents: 'none',
-});
-  
-export const CopyButton = styled('div', {
-    padding: '10px',
-    background: '#1C1F30',
-    borderRadius: '16px',
-});
-  
-export const MembersContainer = styled('div', {
+
+export const CardContent = styled('div', {
+    flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
-    gap: '12px',
+    gap: '0.75rem',
+    overflow: 'hidden',
 });
-  
-export const CopyIcon = styled(CopyIconSVG, {
-    width: '28px',
-    height: '28px',
-    '& path': {
-      fill: '#333D5B',
-    },
+
+export const CardLabel = styled('span', {
+    display: 'inline-block',
+    color: '#fff',
+    fontSize: '1rem',
+    fontWeight: 600,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+});
+
+export const CardDescription = styled('div', {
+    color: '#67718C',
+    fontSize: '0.875rem',
+    fontWeight: 400,
+    lineHeight: '1rem',
+});
+
+export const Container = styled('div', {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+});
+
+export const CopyIcon = styled('div', {
+    width: '1.75rem',
+    height: '1.75rem',
+    color: 'rgba(89, 92, 122, 1)',
 });

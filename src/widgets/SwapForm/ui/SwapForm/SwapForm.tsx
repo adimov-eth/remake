@@ -21,7 +21,9 @@ import { UserResponseData } from '@shared/services/api/user/types';
 
 import { Loader } from '@shared/ui/Loader';
 import { SwapFormInput } from '../SwapFormInput/SwapFormInput';
+import { Button } from '@/shared/ui/Button';
 import * as S from './SwapForm.style';
+import SwapIcon from '@shared/assets/swap-currency.svg?react';
 
 // Improved custom hook with proper typing
 const useSyncedValues = (
@@ -132,7 +134,9 @@ export const SwapForm: React.FC = () => {
           max={top}
         />
         <S.ToggleButton onClick={handleSwapDirectionToggle}>
-          <S.SwapIcon />
+          <Button rounded="full" shine>
+            <S.Icon as={SwapIcon} />
+          </Button>
         </S.ToggleButton>
         <SwapFormInput
           label={tGlobal('buy')}

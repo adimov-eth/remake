@@ -1,6 +1,7 @@
-import { styled, keyframes } from '@stitches/react'
+import { styled, keyframes } from '@stitches/react';
+import bg from '@shared/assets/notification-bg.svg';
 
-export const Notification = styled( 'div', {
+export const Notification = styled('div', {
     '--notification-icon-color': '#fff',
     '--notification-padding': '0.5625rem',
 
@@ -29,9 +30,9 @@ export const Notification = styled( 'div', {
             },
         }
     }
-})
+});
 
-export const NotificationIcon = styled( 'div', {
+export const NotificationIcon = styled('div', {
     flexShrink: 0,
     width: '2.625rem',
     height: '2.625rem',
@@ -42,40 +43,43 @@ export const NotificationIcon = styled( 'div', {
     padding: 'var(--notification-padding)',
     color: 'var(--notification-icon-color)',
     backgroundColor: 'var(--notification-icon-background)',
-})
+});
 
 export const slideInAnimation = keyframes({
-    '0%': { 
+    '0%': {
         maxWidth: '0px',
         opacity: '0',
     },
-    '100%': { 
-        maxWidth: '18.75rem',
+    '100%': {
+        maxWidth: '20rem',
         opacity: '1',
     },
-})
+});
 
 export const slideOutAnimation = keyframes({
-    '0%': { 
+    '0%': {
         maxWidth: '18.75rem',
         opacity: '1',
     },
-    '100%': { 
-        maxWidth: '0px', 
+    '100%': {
+        maxWidth: '0px',
         opacity: '0',
     },
-})
+});
 
-export const NotificationMessage = styled( 'div', {
+export const NotificationMessage = styled('div', {
     display: 'flex',
     alignItems: 'center',
     maxWidth: '0',
     opacity: 0,
     animation: `${slideInAnimation} 0.5s ease-out forwards, ${slideOutAnimation} 0.5s ease-in 2.5s forwards`,
     whiteSpace: 'nowrap',
-})
+    backgroundImage: `url(${bg})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+});
 
-export const NotificationMessageText = styled( 'div', {
+export const NotificationMessageText = styled('div', {
     fontFamily: '$proDisplay',
     padding: 'var(--notification-padding) 1rem var(--notification-padding) var(--notification-padding)',
     fontSize: '1rem',
@@ -84,4 +88,4 @@ export const NotificationMessageText = styled( 'div', {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-})
+});

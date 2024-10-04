@@ -12,8 +12,8 @@ export const InputRow = styled('div', {
 
 export const Label = styled('span', {
   color: '#9ca3af',
-  fontSize: '16px',
-  marginBottom: '8px',
+  fontSize: '1rem',
+  marginBottom: '0.5rem',
 });
 
 export const InputContainer = styled('div', {
@@ -28,8 +28,8 @@ export const Input = styled('input', {
   background: 'none',
   border: 'none',
   color: '#fff',
-  fontSize: '24px',
-  marginRight: '8px',
+  fontSize: '1.5rem',
+  marginRight: '0.5rem',
 
   '&::placeholder': {
     color: '#9ca3af',
@@ -40,33 +40,8 @@ export const Input = styled('input', {
   },
 });
 
-export const MaxButton = styled('button', {
-  backgroundColor: '#365ae5',
-  color: '#fff',
-  border: 'none',
-  borderRadius: '8px',
-  padding: '4px 12px',
-  cursor: 'pointer',
-  fontSize: '14px',
-  marginRight: '8px',
-});
-
 export const CurrencyBlock = styled('div', {
   display: 'flex',
   alignItems: 'center',
-  backgroundColor: 'rgba(43, 46, 69, 0.7)',
-  padding: '4px 14px 4px 8px',
-  borderRadius: '9999px',
-  maxWidth: '30%',
-  width: 'max-content',
-
-  '& span': {
-    color: 'white',
-  },
-});
-
-export const IconWrapper = styled('span', {
-  marginRight: '4px',
-  width: '24px',
-  height: '24px',
+  gap: '0.5rem',
 });

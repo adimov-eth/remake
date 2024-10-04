@@ -1,19 +1,42 @@
-import { styled } from '@app/stitches.config'
+import { styled } from '@app/stitches.config';
+import bg from '@shared/assets/reward-bg.svg';
 
-export const Root = styled('div', {
+export const Root = styled('button', {
+  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'space-around',
-  padding: '16px 0px',
-  borderRadius: '16px',
-  background: '#14151e',
-  height: '108px',
-  width: '82px',
+  justifyContent: 'space-between',
+  padding: '1rem',
+  borderRadius: '1rem',
+  background: 'rgba(20, 21, 30, 1)',
   textAlign: 'center',
+  fontFamily: 'var(--font-mono)',
+  fontSize: '0.875rem',
+  fontWeight: '600',
+  color: '#fff',
+  border: 'none',
+  height: '6.75rem',
+  '&:disabled': {
+    opacity: 0.4,
+    cursor: 'not-allowed',
+  },
   '&:last-child': {
     background: 'radial-gradient(64.81% 64.81% at 50% 50%, #121e45 0%, #5634cb 100%)',
     boxShadow: '0px 0px 8px 0px #473bbb',
+    '&:before': {
+      content: '',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderRadius: '1rem',
+      backgroundImage: `url(${bg})`,
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      pointerEvents: 'none',
+    },
   },
   variants: {
     progressStatus: {
@@ -22,7 +45,6 @@ export const Root = styled('div', {
       },
       complete: {
         position: 'relative',
-        border: 'none',
         background: '#14151e',
         '&::before': {
           content: '',
@@ -31,8 +53,8 @@ export const Root = styled('div', {
           left: 0,
           right: 0,
           bottom: 0,
-          borderRadius: '14px',
-          padding: '3px',
+          borderRadius: '1rem',
+          padding: '0.1875rem',
           background: 'linear-gradient(88.72deg, #264dd0 0%, #5931ae 102.05%)',
           '-webkit-mask': 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
@@ -42,34 +64,28 @@ export const Root = styled('div', {
       },
     },
   },
-})
-
-export const Title = styled('div', {
-  fontFamily: 'var(--font-mono)',
-  fontSize: '14px',
-  fontWeight: '600',
-  color: '#fff',
-})
-
-export const Icon = styled('div', {
-  svg: {
-    width: '24px',
-    height: '24px',
-  },
-})
+});
 
 export const Value = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '3px',
-  fontFamily: 'var(--font-mono)',
-  fontSize: '14px',
-  fontWeight: '600',
-  color: '#fff',
-})
+  textTransform: 'uppercase',
+});
 
-export const BottomQuarkIcon = styled('div', {
-  height: '12px',
-  width: '12px',
-  transform: 'scale(2.5)',
-})
+export const Icon = styled('div', {
+  margin: '0.375rem 0',
+  variants: {
+    size: {
+      small: {
+        width: '1rem',
+        height: '1rem',
+      },
+      medium: {
+        width: '1.5rem',
+        height: '1.5rem',
+      },
+      large: {
+        width: '2.5rem',
+        height: '2.5rem',
+      },
+    },
+  },
+});
