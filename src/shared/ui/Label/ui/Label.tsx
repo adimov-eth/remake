@@ -1,21 +1,19 @@
 import * as S from './Label.styles';
 
-export interface ILabelProps {
+export interface ILabelProps extends React.HTMLAttributes<HTMLSpanElement | HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'ghost'
     size?: 'small' | 'medium' | 'large'
     as?: 'span' | 'button'
-    type?: 'button' | 'submit' | 'reset'
-    onClick?: () => void
-    children: React.ReactNode
-    props?: React.HTMLAttributes<HTMLButtonElement | HTMLSpanElement>
+    type?: 'button'
+    children: React.ReactNode | string
 }
 
 export const Label = ({
     variant = 'primary',
     size = 'medium',
     children,
-    as = 'span',
     type = 'button',
+    as = 'span',
     ...props
 }: ILabelProps) => {
     return (

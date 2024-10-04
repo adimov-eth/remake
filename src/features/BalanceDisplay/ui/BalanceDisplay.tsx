@@ -7,7 +7,7 @@ import * as S from './BalanceDisplay.styles';
 import QuarkIcon from '@shared/assets/quark.svg?react';
 import StarIcon from '@shared/assets/star-gradient.svg?react';
 
-interface IBalanceDisplayProps extends ILabelProps {
+interface IBalanceDisplayProps extends Omit<ILabelProps, 'children'> {
   quarks?: number
   stars?: number
   showQuarks?: boolean

@@ -47,7 +47,7 @@ export const SwapFormInput: React.FC<ISwapFormInputInputProps> = ({
           max={max}
         />
         <S.CurrencyBlock>
-          {showMaxButton && <Label as="button" type="button" onClick={onMaxClick}>{t('max')}</Label>}
+          {showMaxButton && <Label as="button" onClick={onMaxClick}>{t('max')}</Label>}
           <Label variant='secondary'>
             <img src={currency.icon} width={18} height={18} />
             <span>{currencyMap[currency.symbol]}</span>
