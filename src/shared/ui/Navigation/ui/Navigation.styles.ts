@@ -1,5 +1,5 @@
 import { styled } from '@app/stitches.config';
-import { Link } from '@/shared/ui/Link/ui/Link'
+import { Link } from '@shared/ui/Link';
 
 export const Nav = styled('nav', {
     display: 'flex',
@@ -44,20 +44,20 @@ export const NavLinkText = styled('span', {
     fontSize: '0.75rem',
     fontWeight: '400',
     marginTop: '0.3125rem',
-})
+});
 
 export const Icon = styled('div', {
-  width: '1.75rem',
-  height: '1.75rem',
+    width: '1.75rem',
+    height: '1.75rem',
 });
 
 export const SwapButton = styled(Link, {
-  background: 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',
-  minWidth: '4.375rem',
-  minHeight: '4.375rem',
-  borderRadius: '9999px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#fff',
+    background: 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',
+    minWidth: '4.375rem',
+    minHeight: '4.375rem',
+    borderRadius: '9999px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#fff',
 });
