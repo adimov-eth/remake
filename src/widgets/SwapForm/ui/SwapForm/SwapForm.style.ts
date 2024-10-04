@@ -25,7 +25,7 @@ export const Icon = styled('div', {
 
 export const DirectionIndicator = styled('div', {
   textAlign: 'center',
-  margin: '625rem 0',
+  margin: '0.625rem 0',
   color: '#9ca3af',
   fontSize: '0.875rem',
 });
