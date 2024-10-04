@@ -39,6 +39,8 @@ export const Button = styled('button', {
     zIndex: 0,
   },
   '&:disabled': {
+    '--before-bg': 'none',
+    '--before-mask': 'none',
     background: 'rgba(68, 79, 106, 1)',
     color: 'rgba(138, 150, 180, 1)',
     cursor: 'not-allowed',
