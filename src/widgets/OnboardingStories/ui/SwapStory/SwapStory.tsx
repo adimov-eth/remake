@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { StoryHeader, StorySeeMore } from '../Story';
 
-import QuarkIcon from '@shared/assets/quark.svg?react'
-import StarIcon from '@shared/assets/star-gradient.svg?react'
+import QuarkIcon from '@shared/assets/quark.svg?react';
+import StarIcon from '@shared/assets/star-gradient.svg?react';
 import videoMp4_5 from '@shared/assets/stories/on5.mp4';
 
 import * as S from './SwapStory.styles';
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
             <S.InputValue>29840,56</S.InputValue>
             <S.InputPostfix>
               <S.Currency>
-                <S.Icon as={QuarkIcon}/>
+                <S.Icon as={QuarkIcon} />
                 <S.CurrencyName>QRK</S.CurrencyName>
               </S.Currency>
             </S.InputPostfix>
@@ -32,7 +32,7 @@ const Header: React.FC = () => {
             <S.InputValue>42,3</S.InputValue>
             <S.InputPostfix>
               <S.Currency>
-                <S.Icon as={StarIcon}/>
+                <S.Icon as={StarIcon} />
                 <S.CurrencyName>STR</S.CurrencyName>
               </S.Currency>
             </S.InputPostfix>

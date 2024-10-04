@@ -1,10 +1,10 @@
 
 import { styled } from '@/app/stitches.config'
 
-export const Root = styled('div',{
+export const Root = styled('div', {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
-    gap: '16px',
+    gap: '1.25rem',
 })

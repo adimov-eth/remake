@@ -1,39 +1,39 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useStore } from '@nanostores/react'
-import { $gameState, $level } from '@app/stores/state'
-import { formatNumberGroup } from '@shared/utils/formatters'
-import { LEVELS } from '@shared/services/websocket/clicker'
+import { useStore } from '@nanostores/react';
+import { $gameState, $level } from '@app/stores/state';
+import { formatNumberGroup } from '@shared/utils/formatters';
+import { LEVELS } from '@shared/services/websocket/clicker';
 
-import { ProgressBar } from '@shared/ui/ProgressBar'
-import { TreasureStash } from '../../../shared/ui/TreasureStash/ui/TreasureStash'
+import { ProgressBar } from '@shared/ui/ProgressBar';
+import { TreasureStash } from '../../../shared/ui/TreasureStash/ui/TreasureStash';
 
-import * as S from './LevelsSlider.styles'
+import * as S from './LevelsSlider.styles';
 
 export const LevelsSlider = () => {
-  const clickerState = $gameState.get()
+  const clickerState = $gameState.get();
   // TODO fix this hotfix
-  const currentLevel = useStore($level)
-  const { name: currentLevelName } = useStore(clickerState.levelDef)
-  const quarks = useStore(clickerState.quarks)
-  const [selectedLevel, setSelectedLevel] = useState<number>(0)
+  const currentLevel = useStore($level);
+  const { name: currentLevelName } = useStore(clickerState.levelDef);
+  const quarks = useStore(clickerState.quarks);
+  const [selectedLevel, setSelectedLevel] = useState<number>(0);
   const { t } = useTranslation('global');
 
   useEffect(() => {
-    setSelectedLevel(currentLevel)
-  }, [currentLevelName])
+    setSelectedLevel(currentLevel);
+  }, [currentLevelName]);
 
   const handleClickBtnPrev = () => {
     if (selectedLevel > 1) {
-      setSelectedLevel((prev) => prev - 1)
+      setSelectedLevel((prev) => prev - 1);
     }
-  }
+  };
 
   const handleClickBtnNext = () => {
     if (selectedLevel < LEVELS.length) {
-      setSelectedLevel((prev) => prev + 1)
+      setSelectedLevel((prev) => prev + 1);
     }
-  }
+  };
 
   const selectedLevelDef = LEVELS[selectedLevel - 1] || 0;
   const { name } = selectedLevelDef;
@@ -43,7 +43,7 @@ export const LevelsSlider = () => {
   const levelProgress = (quarks / selectedLevelDef.quarksToUpgrade) * 100;
 
   // TODO вынести кнопки слайдера в компонент кнопки
-  
+
   return (
     <S.Root>
       <S.LevelsSlider>
@@ -64,7 +64,7 @@ export const LevelsSlider = () => {
           <S.LevelsSliderNavButtonIcon />
         </S.LevelsSliderNavButton>
       </S.LevelsSlider>
-      <ProgressBar levelProgress={levelProgress}/>
+      <ProgressBar levelProgress={levelProgress} />
     </S.Root>
-  )
-}
+  );
+};

@@ -1,33 +1,28 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Page } from '@shared/ui/Page';
 import { Banner } from '@shared/ui/Banner';
-import { Content } from '@shared/ui/Content';
 import { Title } from '@shared/ui/Title';
 import { BlurBackdrop } from '@shared/ui/BlurBackdrop';
 import { FriendsList } from '@widgets/FriendsList';
-import { friends1, friends2 } from '@shared/assets';
 
 import * as S from './Friends.styles';
+import Preview from '@shared/assets/spaceman-friends.png';
 
 export const Friends: React.FC = () => {
   const { t } = useTranslation('pages');
 
   return (
-    <Page>
-    <Banner>
+    <>
+      <Banner>
         <BlurBackdrop variant="blue">
           <S.Illustration>
-            <S.FriendImage src={friends2} alt={t('friends.title')} position="close" />
-            <S.FriendImage src={friends1} alt={t('friends.title')} position="far" />
+            <img src={Preview} width={150} height={160} />
           </S.Illustration>
           <Title>{t('friends.title')}</Title>
         </BlurBackdrop>
       </Banner>
-      <Content>
-        <FriendsList />
-      </Content>
-    </Page>
+      <FriendsList />
+    </>
   );
 };

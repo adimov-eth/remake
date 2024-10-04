@@ -1,7 +1,7 @@
-import { ReactNode, useEffect, useState } from 'react'
-import CloseIcon from '@shared/assets/close.svg?react'
+import { ReactNode, useEffect, useState } from 'react';
+import CloseIcon from '@shared/assets/close.svg?react';
 
-import * as S from './Modal.styles'
+import * as S from './Modal.styles';
 
 export const Modal = ({
   open,
@@ -12,15 +12,15 @@ export const Modal = ({
   onClose: () => void
   children: ReactNode
 }) => {
-  const [animate, setAnimate] = useState(false)
+  const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
     if (open) {
-      setAnimate(true)
+      setAnimate(true);
     } else {
-      setTimeout(() => setAnimate(false), 50)
+      setTimeout(() => setAnimate(false), 50);
     }
-  }, [open])
+  }, [open]);
 
   return (
     <S.ModalRoot open={animate}>
@@ -32,5 +32,5 @@ export const Modal = ({
         <S.Scroll>{children}</S.Scroll>
       </S.Inner>
     </S.ModalRoot>
-  )
-}
+  );
+};

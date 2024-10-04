@@ -1,4 +1,4 @@
-import { styled, keyframes } from '@/app/stitches.config'
+import { styled, keyframes } from '@/app/stitches.config';
 
 const pulse = keyframes({
   '0%': { opacity: 1 },
@@ -7,6 +7,10 @@ const pulse = keyframes({
 });
 
 export const Button = styled('button', {
+  '--before-bg': 'none',
+  '--before-mask': 'none',
+  '--rounded': '0.875rem',
+
   position: 'relative',
   display: 'inline-flex',
   alignItems: 'center',
@@ -14,10 +18,11 @@ export const Button = styled('button', {
   width: '100%',
   minWidth: '2.5rem',
   minHeight: '2.5rem',
-  borderRadius: '0.875rem',
+  fontFamily: 'var(--font-pro)',
   fontWeight: 600,
   cursor: 'pointer',
   border: 'none',
+  borderRadius: 'var(--rounded)',
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -26,15 +31,16 @@ export const Button = styled('button', {
     right: '0',
     bottom: '0',
     padding: '0.125rem',
-    borderRadius: '0.875rem',
-    background: 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',
-    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+    borderRadius: 'var(--rounded)',
+    background: 'var(--before-bg)',
+    WebkitMask: 'var(--before-mask)',
     WebkitMaskComposite: 'xor',
     maskComposite: 'exclude',
     zIndex: 0,
   },
   '&:disabled': {
-    opacity: 0.8,
+    background: 'rgba(68, 79, 106, 1)',
+    color: 'rgba(138, 150, 180, 1)',
     cursor: 'not-allowed',
   },
   '&:active': {
@@ -57,11 +63,39 @@ export const Button = styled('button', {
       },
       false: {},
     },
+    rounded: {
+      sm: {},
+      md: {
+        '--rounded': '0.875rem',
+      },
+      lg: {},
+      full: {
+        '--rounded': '9999px',
+      },
+    },
     variant: {
       primary: {
+        '--before-bg': 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',
+        '--before-mask': 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+
         background: 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',
-        color: 'white',
-        fontFamily: 'var(--font-pro)',
+        color: '#fff',
+      },
+      secondary: {
+        '--before-bg': '#282A3A',
+        '--before-mask': 'none',
+
+        background: '#282A3A',
+        color: '#fff',
+      },
+      danger: {
+        background: 'rgba(181, 58, 58, 1)',
+        color: '#fff',
+      },
+      ghost: {
+        background: 'transparent',
+        color: '#fff',
+        borderColor: '#4E567E'
       },
     },
     size: {
@@ -94,10 +128,20 @@ export const Button = styled('button', {
         color: '#1CE7FD',
       },
     },
+    {
+      variant: 'secondary',
+      outline: true,
+      css: {
+        color: '#fff',
+      },
+    },
   ],
-})
+});
 
 export const ButtonContent = styled('span', {
   position: 'relative',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   zIndex: 1,
-})
+});

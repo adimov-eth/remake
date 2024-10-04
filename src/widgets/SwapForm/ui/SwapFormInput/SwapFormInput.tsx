@@ -2,7 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Currency } from '@app/stores/swap';
 
-import * as S from './SwapFormInput.styles'
+import { Label } from '@shared/ui/Label';
+import * as S from './SwapFormInput.styles';
 
 interface ISwapFormInputInputProps {
   label: string;
@@ -31,26 +32,28 @@ export const SwapFormInput: React.FC<ISwapFormInputInputProps> = ({
   const { t } = useTranslation('global');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value)
+    onChange(e.target.value);
   };
 
   return (
     <S.InputRow>
       <S.Label>{label}</S.Label>
       <S.InputContainer>
-      <S.Input
-        type="text"
-        value={value}
-        onChange={handleChange}
-        placeholder="0"
-        max={max}
-      />
-      {showMaxButton && <S.MaxButton onClick={onMaxClick}>{t('max')}</S.MaxButton>}
-      <S.CurrencyBlock>
-        <S.IconWrapper>{<img src={currency.icon} />}</S.IconWrapper>
-        <span>{currencyMap[currency.symbol]}</span>
-      </S.CurrencyBlock>
-    </S.InputContainer>
+        <S.Input
+          type="text"
+          value={value}
+          onChange={handleChange}
+          placeholder="0"
+          max={max}
+        />
+        <S.CurrencyBlock>
+          {showMaxButton && <Label as="button" type="button" onClick={onMaxClick}>{t('max')}</Label>}
+          <Label variant='secondary'>
+            <img src={currency.icon} width={18} height={18} />
+            <span>{currencyMap[currency.symbol]}</span>
+          </Label>
+        </S.CurrencyBlock>
+      </S.InputContainer>
     </S.InputRow>
-  )
+  );
 };

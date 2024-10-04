@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { initDataRaw } from '@app/stores/telegram';
@@ -14,7 +14,7 @@ import { Modal } from '@shared/ui/Modal';
 import { AchievementNotification, ErrorNotification } from '@shared/ui/Notification';
 import { RewardCard } from '@features/RewardCard';
 
-import * as S from './DailyRewardsModal.styles'
+import * as S from './DailyRewardsModal.styles';
 
 export const DailyRewardsModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const { notifyUser } = useClickNotification('');

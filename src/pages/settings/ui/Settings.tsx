@@ -1,10 +1,7 @@
-import React from 'react'
-import { Page } from '@/shared/ui/Page'
+import React from 'react';
 
-import { ComingSoon } from '@widgets/ComingSoon'
+import { ComingSoon } from '@widgets/ComingSoon';
 
-export const Settings: React.FC = () => (
-  <Page>
-    <ComingSoon />
-  </Page>
-)
+export const Settings: React.FC = () => {
+  return <ComingSoon />;
+};

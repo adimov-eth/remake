@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useStore } from '@nanostores/react';
 import { transport, $gameState } from '@app/stores/state';
 
-import { formatNumberGroup, toRoman } from '@/shared/utils/formatters';
+import { formatNumberGroup } from '@/shared/utils/formatters';
 import { purpleMoonPng } from '@shared/assets';
-import acceleratorIcons from '@shared/assets/accelerators';
 import { SerializedUpgrade } from '@shared/services/websocket/clicker';
 import { AchievementNotification } from '@shared/ui/Notification';
 import { ConfirmDialog } from '@shared/ui/ConfirmDialog';
 import { BalanceDisplay } from '@features/BalanceDisplay';
 
 import * as S from './AcceleratorCard.styles';
+import acceleratorIcons from '@shared/assets/accelerators';
 
 interface IAcceleratorCard {
   disabled: boolean;
@@ -21,15 +21,15 @@ interface IAcceleratorCard {
   description: string;
   price: number;
   currency: 'QRK' | 'STR';
-};
+}
 
-export const AcceleratorCard: React.FC<IAcceleratorCard> = ({ 
-  disabled, 
-  slug, 
-  name, 
-  tier, 
-  description, 
-  price, 
+export const AcceleratorCard: React.FC<IAcceleratorCard> = ({
+  disabled,
+  slug,
+  name,
+  tier,
+  description,
+  price,
   currency,
 }) => {
   const { t } = useTranslation('global');
@@ -38,7 +38,7 @@ export const AcceleratorCard: React.FC<IAcceleratorCard> = ({
 
   const gameState = useStore($gameState);
   const currentBalance = gameState?.quarks.get() ?? 0;
-  
+
   const [dialogState, setDialogState] = useState({
     notEnoughQuarks: false,
     confirmUpgrade: false,
@@ -78,12 +78,9 @@ export const AcceleratorCard: React.FC<IAcceleratorCard> = ({
   };
 
   const confirmUpgrade = () => {
-    if (currentBalance < price) {
-      return;
-    }
-    if (!disabled) {
-      transport.upgrade(slug);
-    }
+    if (currentBalance < price) return;
+    if (!disabled) transport.upgrade(slug);
+
     setDialogState(prev => ({ ...prev, confirmUpgrade: false }));
   };
 
@@ -91,43 +88,40 @@ export const AcceleratorCard: React.FC<IAcceleratorCard> = ({
   const isShowQuarks = price > 0;
 
   return (
-    <S.Card disabled={disabled} onClick={handlePurchaseClick}>
-      <S.Icon>
-        <img src={imagePath} width="48" height="48" />
-      </S.Icon>
-      <S.Title>{name}</S.Title>
-      <S.Tier>{toRoman(tier)}</S.Tier>
-      <S.Description>{description}</S.Description>
-      <S.Divider />
-      <BalanceDisplay
-        quarks={price}
-        showQuarks={isShowQuarks}
-        variant="ghost"
-      />
+    <S.Card type="button" disabled={disabled} onClick={handlePurchaseClick}>
+      <S.Icon><img src={imagePath} width="30" height="30" /></S.Icon>
+      <S.Content>
+        <S.Title>{name}</S.Title>
+        <S.Description>{description}</S.Description>
+        <S.Price>
+          <BalanceDisplay variant="ghost" quarks={price} showQuarks={isShowQuarks} />
+        </S.Price>
+      </S.Content>
       <ConfirmDialog
-        title={t('sorry')}
-        description={t('not_enough_quarks', { quarks: formatNumberGroup(price - currentBalance) })}
-        icon={
-          <div>
-            <img src={purpleMoonPng} width={94} height={94} />
-          </div>
-        }
         onButtonClick={() => toggleDialog('notEnoughQuarks')}
         isOpen={dialogState.notEnoughQuarks}
         onClose={() => setDialogState(prev => ({ ...prev, notEnoughQuarks: false }))}
-      />
+      >
+        <S.ConfirmContent>
+          <S.ConfirmImg><img src={purpleMoonPng} width={140} height={140} /></S.ConfirmImg>
+          <S.ConfirmTitle>{t('sorry')}</S.ConfirmTitle>
+          <S.ConfirmDescription>{t('not_enough_quarks', { quarks: formatNumberGroup(price - currentBalance) })}</S.ConfirmDescription>
+        </S.ConfirmContent>
+      </ConfirmDialog>
       <ConfirmDialog
-        description={t('are_you_sure', { 
-          name: name, 
-          price: formatNumberGroup(price),
-          currency: currency,
-        })}
         buttonText={t('yes')}
         onButtonClick={confirmUpgrade}
         isOpen={dialogState.confirmUpgrade}
         onClose={() => setDialogState(prev => ({ ...prev, confirmUpgrade: false }))}
         enableCancelButton
-      />
+      >
+        <S.ConfirmContent>
+          <S.ConfirmImg><img src={imagePath} width="40" height="40" /></S.ConfirmImg>
+          <S.ConfirmTitle>{name}</S.ConfirmTitle>
+          <S.ConfirmDescription>{description}</S.ConfirmDescription>
+          <S.ConfirmFooter>{t('are_you_sure', { name, price: formatNumberGroup(price), currency })}</S.ConfirmFooter>
+        </S.ConfirmContent>
+      </ConfirmDialog>
     </S.Card>
   );
 };

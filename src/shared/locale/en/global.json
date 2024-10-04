@@ -6,7 +6,7 @@
   "claimed_successfully": "Claimed successfully!",
   "something_went_wrong": "Something went wrong",
   "daily_rewards": "Daily Rewards",
-  "daily_rewards_description": "Collect coins for daily entry into the game without passes. The &ldquo;Collect&rdquo; button must be pressed daily, otherwise the day counter will start over.",
+  "daily_rewards_description": "Collect coins for daily entry into the game without passes. The \"Collect\" button must be pressed daily, otherwise the day counter will start over.",
   "receiving_daily_rewards": "Receiving Daily Rewards...",
   "loading": "Loading...",
   "get_award_tomorrow": "Get your award tomorrow",
@@ -74,5 +74,7 @@
     "neutron_star": "Neutron Star",
     "supernova": "Supernova",
     "black_hole": "Black Hole"
-  }
+  },
+
+  "day": "Day {{day}}"
 }

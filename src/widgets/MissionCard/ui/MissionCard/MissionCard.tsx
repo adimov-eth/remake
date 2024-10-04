@@ -7,14 +7,14 @@ import { Mission } from '@shared/services/api/missions/types';
 import { ResolvedMission, MissionProgressStatus } from '@app/stores/missions';
 import { useClickNotification } from '@shared/hooks';
 
-import { BalanceDisplay } from '@features/BalanceDisplay'
+import { BalanceDisplay } from '@features/BalanceDisplay';
 import { Avatar } from '@/shared/ui/Avatar';
 import { MissionModal } from '../MissionModal/MissionModal';
 import { AchievementNotification, InformationNotification } from '@shared/ui/Notification';
 
 import { ArrowIcon, CloseIcon, DoneIcon } from '@shared/assets/icons';
 
-import * as S from './MissionCard.styles'
+import * as S from './MissionCard.styles';
 
 import { MissionCompleteStatus } from '@app/stores/missions';
 
@@ -23,17 +23,17 @@ type IconsMapType = {
 };
 
 const iconsMap: IconsMapType = {
-  'in_progress': <S.CardIcon as={ArrowIcon}/>,
-  'claimed_reward': <S.CardIcon as={DoneIcon}/>,
-  'overdue': <S.CardIcon as={CloseIcon}/>,
-  'participated_once': <S.CardIcon as={CloseIcon}/>,
+  'in_progress': <S.CardIcon as={ArrowIcon} />,
+  'claimed_reward': <S.CardIcon as={DoneIcon} />,
+  'overdue': <S.CardIcon as={CloseIcon} />,
+  'participated_once': <S.CardIcon as={CloseIcon} />,
   'available': null,
   'unavailable': null,
   'not_started': null,
   'complete': null,
 };
 
-export const MissionCard: FC<ResolvedMission> = ({ 
+export const MissionCard: FC<ResolvedMission> = ({
   id,
   name,
   reward_quarks: amountQuarks,
@@ -42,7 +42,7 @@ export const MissionCard: FC<ResolvedMission> = ({
   progress_status,
   icon_url,
   requirements,
-  resolved_status, 
+  resolved_status,
 }) => {
   const { t } = useTranslation('global');
   const { notifyUser } = useClickNotification('');
@@ -129,7 +129,7 @@ export const MissionCard: FC<ResolvedMission> = ({
             />
           </S.Content>
         </S.Info>
-        {progress_status === 'complete' 
+        {progress_status === 'complete'
           ? <S.LabelComplete>{t('complete')}</S.LabelComplete>
           : <S.LabelAvailable>{Icon}</S.LabelAvailable>
         }

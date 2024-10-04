@@ -1,86 +1,103 @@
 import { styled } from '@app/stitches.config';
 
-export const Title = styled('div', {
-    fontFamily: '$proDisplay',
-    fontSize: '16px',
-    lineHeight: 1,
-    fontWeight: 600,
-    textAlign: 'center',
-    color: 'white',
-});
-
-export const Tier = styled('div', {
-    fontFamily: '$proDisplay',
-    fontSize: '12px',
-    lineHeight: 1,
-    minHeight: '12px',
-    fontWeight: 400,
-    color: '#67718C',
-    textAlign: 'center',
-    margin: '4px auto 12px auto',
-});
-
-export const Description = styled('div', {
-    fontFamily: '$proDisplay',
-    fontSize: '14px',
-    fontWeight: 400,
-    minHeight: '48px',
-    color: '#67718C',
-    textAlign: 'center',
-});
-
-export const Divider = styled('div', {
-    width: '100%',
-    height: '1px',
-    backgroundColor: '$grey200',
-    margin: '16px 0',
-});
-
-export const Icon = styled('div', {
-    background: '#1C1F30',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '48px',
-    height: '48px',
-    borderRadius: '16px',
-    marginBottom: '10px',
-});
-  
-export const Value = styled('div', {
-    fontFamily: '$mono',
-    fontSize: '14px',
-    fontWeight: '500',
-    color: '$textActive',
-});
-
-
-//Todo move modals to portal
-
-export const Card = styled('div', {
-    backgroundColor: '#14151E',
-    borderRadius: '16px',
+export const Card = styled('button', {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '24px 16px 16px 16px',
-  
-    //   background: 'rgba(43, 46, 69, 0.3)',
-    //   boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25)',
-    //   backdropFilter: 'blur(24px)',
-  
-    variants: {
-      disabled: {
-        true: {
-          opacity: 0.5,
-          pointerEvents: 'none',
-        },
-      },
+    textAlign: 'center',
+    padding: '1rem',
+    backgroundColor: 'rgba(20, 21, 30, 1)',
+    borderRadius: '1rem',
+    border: 'none',
+    '&:disabled': {
+        opacity: 0.5,
+        pointerEvents: 'none',
+        cursor: 'not-allowed',
     },
 });
-  
-export const CurrencyIcon = styled('div', {
-    width: '16px',
-    height: '16px',
-    backgroundColor: '$gray-200',
+
+export const Icon = styled('div', {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '3rem',
+    height: '3rem',
+    padding: '0.5rem',
+    borderRadius: '1rem',
+    background: 'rgba(37, 40, 59, 1)',
+    color: '#fff',
+});
+
+export const Content = styled('div', {
+    display: 'grid',
+    marginTop: '0.625rem',
+    textAlign: 'center',
+});
+
+export const Title = styled('div', {
+    fontSize: '1rem',
+    fontWeight: 600,
+    color: '#fff',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+});
+
+export const Description = styled('div', {
+    fontSize: '0.875rem',
+    fontWeight: 400,
+    color: 'rgba(103, 113, 140, 1)',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    marginTop: '0.625rem',
+    paddingBottom: '1.25rem',
+    marginBottom: '0.5rem',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.11)',
+});
+
+export const Price = styled('div', {
+    margin: '0 auto',
+});
+
+export const ConfirmContent = styled('div', {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '0.625rem',
+});
+
+export const ConfirmImg = styled('div', {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '0.625rem',
+});
+
+export const ConfirmTitle = styled('span', {
+    display: 'inlie-block',
+    fontSize: '1.5rem',
+    fontWeight: 700,
+    color: '#fff',
+    marginTop: '0.625rem',
+});
+
+export const ConfirmDescription = styled('span', {
+    display: 'inlie-block',
+    fontSize: '1rem',
+    fontWeight: 400,
+    color: 'rgba(149, 162, 197, 1)',
+    marginTop: '1rem',
+});
+
+export const ConfirmFooter = styled('div', {
+    fontSize: '1rem',
+    fontWeight: 400,
+    lineHeight: '1.5rem',
+    textAlign: 'center',
+    paddingTop: '1rem',
+    marginTop: '1rem',
+    color: '#fff',
+    borderTop: '1px solid rgba(255, 255, 255, 0.11)',
 });

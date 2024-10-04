@@ -1,4 +1,4 @@
-import { useEffect, useRef, ReactNode } from 'react'
+import { useEffect, useRef, ReactNode } from 'react';
 
 interface AutoSizeTextProps {
   className?: string
@@ -12,36 +12,36 @@ export const AutoSizeText = ({
   initialFontSize,
   children,
 }: AutoSizeTextProps) => {
-  const textRef = useRef<HTMLDivElement | null>(null)
+  const textRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     function adjustFontSize() {
-      const textElement = textRef.current
-      if (!textElement) return
+      const textElement = textRef.current;
+      if (!textElement) return;
 
-      const parentElement = textElement.parentElement
-      const parentWidth = parentElement ? parentElement.offsetWidth : 0
-      let fontSize = initialFontSize
+      const parentElement = textElement.parentElement;
+      const parentWidth = parentElement ? parentElement.offsetWidth : 0;
+      let fontSize = initialFontSize;
 
-      textElement.style.fontSize = fontSize + 'px'
+      textElement.style.fontSize = fontSize + 'px';
 
       while (textElement.scrollWidth > parentWidth && fontSize > 0) {
-        fontSize -= 0.5
-        textElement.style.fontSize = fontSize + 'px'
+        fontSize -= 0.5;
+        textElement.style.fontSize = fontSize + 'px';
       }
     }
 
-    adjustFontSize()
-    window.addEventListener('resize', adjustFontSize)
+    adjustFontSize();
+    window.addEventListener('resize', adjustFontSize);
 
     return () => {
-      window.removeEventListener('resize', adjustFontSize)
-    }
-  }, [children, initialFontSize])
+      window.removeEventListener('resize', adjustFontSize);
+    };
+  }, [children, initialFontSize]);
 
   return (
     <div className={className} ref={textRef}>
       {children}
     </div>
-  )
-}
+  );
+};

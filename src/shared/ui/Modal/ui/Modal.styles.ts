@@ -1,5 +1,5 @@
-import { styled } from '@app/stitches.config'
-import { slideUp, slideDown } from '@app/stitches.config'
+import { styled } from '@app/stitches.config';
+import { slideUp, slideDown } from '@app/stitches.config';
 
 export const ModalRoot = styled('div', {
   zIndex: 105,
@@ -21,7 +21,7 @@ export const ModalRoot = styled('div', {
       },
     },
   },
-})
+});
 
 export const Overlay = styled('div', {
   background: '#06070bb2',
@@ -31,7 +31,7 @@ export const Overlay = styled('div', {
   top: 0,
   position: 'absolute',
   zIndex: 105,
-})
+});
 
 export const Inner = styled('div', {
   background: 'rgba(37, 41, 60, 0.84)',
@@ -55,7 +55,7 @@ export const Inner = styled('div', {
       },
     },
   },
-})
+});
 
 export const Scroll = styled('div', {
   maxHeight: 'calc(100vh - 64px)',
@@ -65,7 +65,7 @@ export const Scroll = styled('div', {
   msOverflowStyle: 'none',
   padding: '40px 16px 20px',
   scrollbarWidth: 'none',
-})
+});
 
 export const Close = styled('div', {
   position: 'absolute',
@@ -80,4 +80,4 @@ export const Close = styled('div', {
   '& svg path': {
     fill: 'white',
   },
-})
+});

@@ -1,35 +1,35 @@
-import { SwapIcon as SwapIconSvg } from '@/shared/assets/icons'
-import { styled } from '@/app/stitches.config'
-import { Button } from '@/shared/ui/Button'
+import { styled } from '@/app/stitches.config';
+import { Button } from '@/shared/ui/Button';
 
 export const Inputs = styled('div', {
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
-  marginTop: '40px'
-})
-  
+  marginTop: '2.5rem'
+});
+
 export const ToggleButton = styled('div', {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  cursor: 'pointer',
-})
-  
-export const SwapIcon = styled(SwapIconSvg, {
+  width: '2.75rem',
+  height: '2.75rem',
+});
+
+export const Icon = styled('div', {
   fill: '#fff',
-  width: '24px',
-  height: '24px',
+  width: '1.5rem',
+  height: '1.5rem',
 });
 
 export const DirectionIndicator = styled('div', {
   textAlign: 'center',
-  margin: '10px 0',
+  margin: '625rem 0',
   color: '#9ca3af',
-  fontSize: '14px',
+  fontSize: '0.875rem',
 });
 
 export const SwapButton = styled(Button, {
-  margin: "20px 0"
-})
+  margin: '1.25rem 0'
+});

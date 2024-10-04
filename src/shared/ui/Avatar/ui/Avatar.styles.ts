@@ -7,37 +7,38 @@ export const AvatarWrapper = styled('div', {
     justifyContent: 'center',
     overflow: 'visible',
     position: 'relative',
-  });
-  
+    borderRadius: '1rem',
+});
+
 export const AvatarContainer = styled('div', {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-    backgroundColor: '$background',
-    borderRadius: '40%',
+    backgroundColor: 'rgba(28, 31, 48, 1)',
+    borderRadius: '1rem',
     position: 'relative',
 });
-  
+
 export const ProfileImage = styled('img', {
     objectFit: 'cover',
-    borderRadius: '40%',
+    borderRadius: '1rem',
 });
-  
+
 export const ProgressBar = styled('div', {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    borderRadius: '40%',
+    borderRadius: '1rem',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     animation: `${progressBarAnimation} 2s ease-out forwards`,
 });
-  
+
 export const ProgressBarInner = styled('div', {
     backgroundColor: 'transparent',
-    borderRadius: '40%',
+    borderRadius: '1rem',
     width: '100%',
     height: '100%',
     display: 'flex',
@@ -45,7 +46,7 @@ export const ProgressBarInner = styled('div', {
     justifyContent: 'center',
     boxSizing: 'border-box',
 });
-  
+
 export const TimeDisplay = styled('div', {
     position: 'absolute',
     bottom: '0px',
@@ -55,5 +56,5 @@ export const TimeDisplay = styled('div', {
     fontWeight: 500,
     borderRadius: '3px',
     padding: '3px',
-    color: 'white',
+    color: '#fff',
 });

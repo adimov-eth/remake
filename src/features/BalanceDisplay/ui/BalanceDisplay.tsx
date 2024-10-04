@@ -1,21 +1,21 @@
-import React from 'react'
+import React from 'react';
 
-import { formatNumber } from '@/shared/utils/formatters'
-import QuarkIcon from '@shared/assets/quark.svg?react'
-import StarIcon from '@shared/assets/star-gradient.svg?react'
+import { formatNumber } from '@/shared/utils/formatters';
+import { Label, ILabelProps } from '@shared/ui/Label';
 
-import * as S from './BalanceDisplay.styles'
+import * as S from './BalanceDisplay.styles';
+import QuarkIcon from '@shared/assets/quark.svg?react';
+import StarIcon from '@shared/assets/star-gradient.svg?react';
 
-interface IBalanceDisplayProps {
-  variant?: 'default' | 'ghost'
+interface IBalanceDisplayProps extends ILabelProps {
   quarks?: number
   stars?: number
   showQuarks?: boolean
   showStars?: boolean
 }
 
-export const BalanceDisplay: React.FC<IBalanceDisplayProps> = ({ 
-  variant = 'default',
+export const BalanceDisplay: React.FC<IBalanceDisplayProps> = ({
+  variant = 'secondary',
   quarks = 0,
   stars = 0,
   showQuarks = true,
@@ -23,16 +23,16 @@ export const BalanceDisplay: React.FC<IBalanceDisplayProps> = ({
 }) => (
   <S.Root>
     {showQuarks && (
-      <S.BalanceValue id="quarks" variant={variant}>
+      <Label id="quarks" variant={variant} size="large">
         <S.Icon as={QuarkIcon} />
-        <S.Value>{formatNumber(Math.round(quarks))}</S.Value>
-      </S.BalanceValue>
+        {formatNumber(Math.round(quarks))}
+      </Label>
     )}
     {showStars && (
-      <S.BalanceValue id="stars" variant={variant}>
+      <Label id="stars" variant={variant} size="large">
         <S.Icon as={StarIcon} />
-        <S.Value>{stars}</S.Value>
-      </S.BalanceValue>
+        {stars}
+      </Label>
     )}
   </S.Root>
-)
+);

@@ -1,29 +1,26 @@
 import { styled } from '@stitches/react';
 import { Link } from '@shared/ui/Link/ui/Link';
-import { AutoSizeText } from '@shared/ui/AutoSizeText';
 
-export const UserLink = styled(Link, {
+export const Root = styled(Link, {
   display: 'flex',
   alignItems: 'center',
-  gap: '10px',
 });
 
-export const UserInfoWrapper = styled('div', {
+export const UserInfo = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '4px',
+  marginLeft: '0.625rem',
 });
 
-export const UserName = styled(AutoSizeText, {
-  fontFamily: 'var(--font-pro)',
-  fontSize: '12px',
-  fontWeight: 590,
-  color: 'white',
+export const UserName = styled('span', {
+  fontSize: '0.75rem',
+  fontWeight: 600,
+  color: '#fff',
 });
 
-export const UserRank = styled('div', {
-  fontFamily: 'var(--font-pro)',
-  fontSize: '12px',
-  fontWeight: 590,
-  color: '#3B4660',
+export const UserRank = styled('span', {
+  fontSize: '0.75rem',
+  fontWeight: 500,
+  color: 'rgba(81, 94, 128, 1)',
+  marginTop: '0.5rem',
 });
