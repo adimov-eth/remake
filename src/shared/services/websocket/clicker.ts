@@ -182,16 +182,6 @@ export interface Action {
   payload: Record<string, string | number>;
 }
 
-export type LeaderboardEntry = {
-  userId: string;
-  fullName: string;
-  quarks: number;
-  profile_image?: string;
-};
-
-export interface Leaderboard {
-  [key: string]: LeaderboardEntry[];
-}
 export interface SerializedUpgrade {
   slug: string;
   tier: number;
@@ -222,7 +212,6 @@ export const initClicker = (
   const $stars = atom<number>(stars);
   const $level = atom<number>(level);
   const $upgrades = atom<SerializedUpgrade[]>([]);
-  const $leaders = map<Leaderboard>({});
   const $levelDef = computed($level, level => {
     const lvl = Math.min(Math.max(level - 1, 0), LEVELS.length - 1);
 
@@ -419,11 +408,6 @@ export const initClicker = (
     return false; // state was not changed
   };
 
-  const handleLeaders = (leaders: Leaderboard) => {
-    Object.keys(leaders).map(level => {
-      $leaders.setKey(level, leaders[level]);
-    });
-  };
 
   const deserialize = (state: Partial<SerializedState>) => {
     if (state.profile_image !== undefined) {
@@ -479,11 +463,9 @@ export const initClicker = (
     energyReset: $energyReset,
     energyResetAt: $energyResetAt,
     upgrades: $upgrades,
-    leaders: $leaders,
     profileImage: $proifle_image,
     // methods
     handleAction,
-    handleLeaders,
     serialize,
     deserialize,
   };

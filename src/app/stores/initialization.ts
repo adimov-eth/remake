@@ -29,6 +29,10 @@ const mapUserResponseToUser = (userResponse: UserResponse): User => ({
 });
 
 export const initializeApp = async () => {
+  const initialLoader = document.getElementById('initial-loader');
+  if (initialLoader) {
+    initialLoader.remove();
+  }
   try {
     // Step 1: Load local state
     $initializationStep.set(1);
@@ -41,12 +45,8 @@ export const initializeApp = async () => {
 
     // Determine if user is new
     // smart initialization is turned off in development
-    if (import.meta.env.DEV) {
-      $isNew.set(true);
-    } else {
-      const isNew = $isNew.get() || (!localState && !prefetchedState);
-      $isNew.set(isNew);
-    }
+    const isNew = $isNew.get() || (!localState && !prefetchedState);
+    $isNew.set(isNew);
 
     // Preload content if necessary
     await preload($isNew.get());
@@ -59,10 +59,6 @@ export const initializeApp = async () => {
     $initializationStep.set(4);
     const gameState = initializeGameState(localState, prefetchedState, userData);
     $gameState.set(gameState);
-    const initialLoader = document.getElementById('initial-loader');
-    if (initialLoader) {
-      initialLoader.remove();
-    }
 
     // Update local state
     $localState.set(gameState.serialize());

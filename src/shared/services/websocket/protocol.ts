@@ -1,6 +1,6 @@
 // This code shared with backend
 
-import { Action, SerializedState, Leaderboard } from './clicker';
+import { Action, SerializedState } from './clicker';
 
 export const PROTOCOL_VERSION = '1.0.0';
 
@@ -29,54 +29,46 @@ export const updateClock = ([s1, c1]: VectorClock, [s2, c2]: VectorClock): Vecto
 export type ChannelClientEvent =
   // the first message sent by the client (handshake)
   | {
-      evt: 'hi';
-      ver: string;
-      time: number;
-    }
+    evt: 'hi';
+    ver: string;
+    time: number;
+  }
   // perform an action (update)
   | {
-      evt: 'action';
-      act: Action;
-      clk: VectorClock;
-    }
+    evt: 'action';
+    act: Action;
+    clk: VectorClock;
+  }
   // client asks to save the updates to the permanent storage
   | {
-      evt: 'commit';
-    }
+    evt: 'commit';
+  }
   | {
-      evt: 'notification';
-      notification: IngameNotification;
-    }
+    evt: 'notification';
+    notification: IngameNotification;
+  }
   | {
-      evt: 'ping';
-    }
-  | {
-      evt: 'leaders';
-      level: number;
-    };
+    evt: 'ping';
+  };
 
 export type ACKErrorCode = 'RATE_LTD' | 'INV_ACTION';
 
 export type ChannelServerEvent =
   | {
-      evt: 'hi';
-      ver: string;
-      time: number;
-      state: SerializedState;
-    }
+    evt: 'hi';
+    ver: string;
+    time: number;
+    state: SerializedState;
+  }
   | {
-      evt: 'ack';
-      clk: VectorClock;
-      err?: ACKErrorCode | undefined;
-      state: SerializedState;
-    }
+    evt: 'ack';
+    clk: VectorClock;
+    err?: ACKErrorCode | undefined;
+    state: SerializedState;
+  }
   | {
-      evt: 'pong';
-    }
-  | {
-     evt: 'leaders';
-     leaders: Leaderboard;
-    }
+    evt: 'pong';
+  }
   | {
     evt: 'notification';
     notification: IngameNotification;
