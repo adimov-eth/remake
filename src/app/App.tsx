@@ -17,7 +17,6 @@ import { isDesktop } from './stores/telegram';
 import { $initializationStep, $initializationError } from './stores/state';
 import { initializeApp } from './stores/initialization';
 
-// import { Loader } from '@/components/Loader/Loader';
 import { ErrorDisplay } from '@shared/ui/ErrorDisplay';
 import { WebBlocker } from '@features/WebBlocker/index.ts';
 
@@ -54,9 +53,6 @@ const Inner: FC = () => {
       initializationError,
     })
   
-    if (initializationStep < 3 || !imagesLoaded) {
-      return; //<Loader speed={'slow'} />; // Add the speed prop
-    }
     return (
       <TonConnectUIProvider manifestUrl={CONFIG.TON_CONNECT_MANIFEST_URL}>
         <SDKProvider acceptCustomStyles debug={debug}>
