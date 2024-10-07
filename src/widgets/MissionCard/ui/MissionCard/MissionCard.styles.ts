@@ -77,7 +77,7 @@ export const Content = styled('div', {
 });
 
 export const Title = styled('div', {
-  fontFamily: '$proDisplay',
+  fontFamily: 'var(--font-pro-display)',
   fontSize: '1rem',
   fontWeight: '600',
   color: '$white',
@@ -97,7 +97,7 @@ export const LabelComplete = styled('div', {
   background: '$navBackground',
   boxShadow: '0px 0px 17px 0px $colors $swapGradientEnd',
   padding: '0.875rem',
-  fontFamily: '$proDisplay',
+  fontFamily: 'var(--font-pro-display)',
   fontSize: '0.875rem',
   fontWeight: '500',
   borderRadius: '$medium',

@@ -1,5 +1,4 @@
 :root {
-    --font-pro: ui-sans-serif, "SF Pro", "Inter", "Noto Sans SC", "PingFang SC", "SF Pro Icons", "Arial", sans-serif;
     --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "IBM Plex Mono", "Fira Code", "Roboto Mono", "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono", monospace;
     --font-pro-display: "SF Pro Display", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }

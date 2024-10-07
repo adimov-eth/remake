@@ -18,7 +18,7 @@ export const Button = styled('button', {
   width: '100%',
   minWidth: '2.5rem',
   minHeight: '2.5rem',
-  fontFamily: 'var(--font-pro)',
+  fontFamily: 'var(--font-pro-display)',
   fontWeight: 600,
   cursor: 'pointer',
   border: 'none',

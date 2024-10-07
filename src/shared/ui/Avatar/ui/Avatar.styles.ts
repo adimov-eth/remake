@@ -51,7 +51,7 @@ export const TimeDisplay = styled('div', {
     position: 'absolute',
     bottom: '0px',
     right: '-6px',
-    fontFamily: '$proDisplay',
+    fontFamily: 'var(--font-pro-display)',
     fontSize: '10px',
     fontWeight: 500,
     borderRadius: '3px',
