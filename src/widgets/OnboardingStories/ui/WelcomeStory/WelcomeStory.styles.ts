@@ -10,4 +10,4 @@ export const Subtitle = styled('h2', {
     fontStyle: 'normal',
     fontWeight: 700,
     lineHeight: '1.875rem',
-})
+});

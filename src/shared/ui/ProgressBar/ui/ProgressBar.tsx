@@ -1,4 +1,4 @@
-import * as S from './ProgressBar.styles'
+import * as S from './ProgressBar.styles';
 
 export const ProgressBar = ({
   levelProgress,
@@ -9,5 +9,5 @@ export const ProgressBar = ({
     <S.Root>
       <S.ProgressFill style={{ width: `${levelProgress}%`}}/>
     </S.Root>
-  )
-}
+  );
+};

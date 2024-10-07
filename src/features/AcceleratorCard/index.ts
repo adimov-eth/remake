@@ -1,1 +1,1 @@
-export { AcceleratorCard } from './ui/AcceleratorCard'
+export { AcceleratorCard } from './ui/AcceleratorCard';

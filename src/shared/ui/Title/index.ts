@@ -1,1 +1,1 @@
-export { Title } from './ui/Title'
+export { Title } from './ui/Title';

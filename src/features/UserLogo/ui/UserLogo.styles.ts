@@ -1,6 +1,6 @@
 import { styled } from '@stitches/react';
-import { AutoSizeText } from '@shared/ui/AutoSizeText'
-import { UserIcon } from '@shared/assets/icons'
+import { AutoSizeText } from '@shared/ui/AutoSizeText';
+import { UserIcon } from '@shared/assets/icons';
 
 export const UserLogoRoot = styled('div', {
     maxWidth: '132px',
@@ -8,7 +8,7 @@ export const UserLogoRoot = styled('div', {
     borderRadius: '32px',
     padding: '18px 28px 27px',
     marginBottom: '8px',
-})
+});
 
 export const UserLogoWrapper = styled('div', {
     display: 'flex',

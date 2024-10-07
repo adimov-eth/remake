@@ -1,2 +1,2 @@
-export { HighTierCoin } from './HighTierCoin'
-export { LowTierCoin } from './LowTierCoin'
+export { HighTierCoin } from './HighTierCoin';
+export { LowTierCoin } from './LowTierCoin';

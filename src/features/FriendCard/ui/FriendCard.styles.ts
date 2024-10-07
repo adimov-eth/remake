@@ -1,4 +1,4 @@
-import { styled } from '@/app/stitches.config'
+import { styled } from '@/app/stitches.config';
 
 export const Root = styled('div', {
     background: '#14151E',

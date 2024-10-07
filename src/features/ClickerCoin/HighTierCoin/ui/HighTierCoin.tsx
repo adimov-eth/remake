@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, RefObject } from 'react'
+import { Component, RefObject } from 'react';
 
-import { TweenLite } from 'gsap'
-import Proton from 'proton-engine'
-import RAFManager from "raf-manager"
+import { TweenLite } from 'gsap';
+import Proton from 'proton-engine';
+import RAFManager from 'raf-manager';
 
-import { Canvas } from "./HighTierCoinCanvas"
+import { Canvas } from './HighTierCoinCanvas';
 
 interface CoinProps {
   touchAreaRef: RefObject<HTMLDivElement>
@@ -27,7 +27,7 @@ const particleImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAY
 
 export class HighTierCoin extends Component<CoinProps, CoinState> {
   constructor(props: CoinProps) {
-    super(props)
+    super(props);
 
     this.state = {
       loaded: false,
@@ -36,13 +36,13 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
       attractionBehaviours: [],
       offsetY: 0,
       speedMultiplier: 0.6,
-    }
+    };
 
-    this.renderProton = this.renderProton.bind(this)
-    this.handleCanvasInited = this.handleCanvasInited.bind(this)
-    this.handleResize = this.handleResize.bind(this)
-    this.handleMouseDown = this.handleMouseDown.bind(this)
-    this.handleMouseUp = this.handleMouseUp.bind(this)
+    this.renderProton = this.renderProton.bind(this);
+    this.handleCanvasInited = this.handleCanvasInited.bind(this);
+    this.handleResize = this.handleResize.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
   }
 
   getTouchAreaCenter(): { centerX: number; centerY: number } | null {
@@ -68,17 +68,17 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
 
   componentWillUnmount() {
     try {
-      RAFManager.remove(this.renderProton)
-      const { proton } = this.state
+      RAFManager.remove(this.renderProton);
+      const { proton } = this.state;
       if (proton) {
-        const emitter1 = proton.emitters[0]
-        const emitter2 = proton.emitters[1]
-        emitter1.destroy()
-        emitter2.destroy()
-        proton.destroy()
+        const emitter1 = proton.emitters[0];
+        const emitter2 = proton.emitters[1];
+        emitter1.destroy();
+        emitter2.destroy();
+        proton.destroy();
       }
     } catch (e) {
-      console.log('unmount error', e)
+      console.log('unmount error', e);
     }
   }
 
@@ -114,29 +114,29 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
     const { x: centerX, y: centerY } = center;
     const { radius } = conf;
 
-    const proton = new Proton()
+    const proton = new Proton();
     const emitter1 = this.createImageEmitter({
       canvas,
       x: centerX + radius,
       y: centerY,
       startColor: '#4F1500',
       endColor: '#0029FF',
-    })
+    });
     const emitter2 = this.createImageEmitter({
       canvas,
       x: centerX - radius,
       y: centerY,
       startColor: '#004CFE',
       endColor: '#6600FF',
-    })
-    proton.addEmitter(emitter1)
-    proton.addEmitter(emitter2)
+    });
+    proton.addEmitter(emitter1);
+    proton.addEmitter(emitter2);
 
-    const renderer = new Proton.WebGlRenderer(canvas)
-    renderer.blendFunc('SRC_ALPHA', 'ONE')
-    proton.addRenderer(renderer)
+    const renderer = new Proton.WebGlRenderer(canvas);
+    renderer.blendFunc('SRC_ALPHA', 'ONE');
+    proton.addRenderer(renderer);
 
-    this.setState({ proton, canvas, renderer })
+    this.setState({ proton, canvas, renderer });
   }
 
   updateEmittersPosition() {
@@ -170,50 +170,50 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
     startColor: string
     endColor: string
   }) {
-    const emitter = new Proton.Emitter()
+    const emitter = new Proton.Emitter();
     emitter.rate = new Proton.Rate(
       new Proton.Span(5, 7),
       new Proton.Span(0.01, 0.02)
-    )
+    );
 
-    emitter.addInitialize(new Proton.Mass(1))
-    emitter.addInitialize(new Proton.Life(1))
-    emitter.addInitialize(new Proton.Body([particleImage], 32))
-    emitter.addInitialize(new Proton.Radius(20))
+    emitter.addInitialize(new Proton.Mass(1));
+    emitter.addInitialize(new Proton.Life(1));
+    emitter.addInitialize(new Proton.Body([particleImage], 32));
+    emitter.addInitialize(new Proton.Radius(20));
 
-    emitter.addBehaviour(new Proton.Alpha(1, 0))
-    emitter.addBehaviour(new Proton.Color(startColor, endColor))
-    emitter.addBehaviour(new Proton.Scale(2.5, 0.5))
+    emitter.addBehaviour(new Proton.Alpha(1, 0));
+    emitter.addBehaviour(new Proton.Color(startColor, endColor));
+    emitter.addBehaviour(new Proton.Scale(2.5, 0.5));
     emitter.addBehaviour(
       new Proton.CrossZone(
         new Proton.RectZone(0, 0, canvas.width, canvas.height),
         'dead'
       )
-    )
-    const attractionBehaviour = new Proton.Attraction(this.state.center, 0, 0)
-    emitter.addBehaviour(attractionBehaviour)
+    );
+    const attractionBehaviour = new Proton.Attraction(this.state.center, 0, 0);
+    emitter.addBehaviour(attractionBehaviour);
     this.setState((prevState) => ({
       attractionBehaviours: [
         ...prevState.attractionBehaviours,
         attractionBehaviour,
       ],
-    }))
-    emitter.p.x = x
-    emitter.p.y = y
-    emitter.emit()
+    }));
+    emitter.p.x = x;
+    emitter.p.y = y;
+    emitter.emit();
 
-    return emitter
+    return emitter;
   }
 
   emitterMove() {
-    const { proton, conf, center, speedMultiplier } = this.state
-    if (!proton) return
+    const { proton, conf, center, speedMultiplier } = this.state;
+    if (!proton) return;
 
     const { x: centerX, y: centerY } = center;
     const { radius } = conf;
 
-    const emitter1 = proton.emitters[0]
-    const emitter2 = proton.emitters[1]
+    const emitter1 = proton.emitters[0];
+    const emitter2 = proton.emitters[1];
 
     if (emitter1) {
       this.coordinateRotation({
@@ -222,7 +222,7 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
         centerY,
         radius,
         tha: Math.PI / 2,
-      })
+      });
     }
 
     if (emitter2) {
@@ -232,7 +232,7 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
         centerY,
         radius,
         tha: -Math.PI / 2,
-      })
+      });
     }
 
     this.setState((prevState) => ({
@@ -240,7 +240,7 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
         ...prevState.conf,
         tha: prevState.conf.tha + 0.1 * speedMultiplier,
       },
-    }))
+    }));
   }
 
   coordinateRotation({
@@ -257,8 +257,8 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
     tha: number
   }) {
     if (emitter) {
-      emitter.p.x = centerX + radius * Math.sin(tha + this.state.conf.tha)
-      emitter.p.y = centerY + radius * Math.cos(tha + this.state.conf.tha)
+      emitter.p.x = centerX + radius * Math.sin(tha + this.state.conf.tha);
+      emitter.p.y = centerY + radius * Math.cos(tha + this.state.conf.tha);
     }
   }
 
@@ -272,17 +272,17 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
   }
 
   handleResize(width: number, height: number) {
-    const { renderer } = this.state
+    const { renderer } = this.state;
 
     if (renderer) {
-      renderer.resize(width, height)
+      renderer.resize(width, height);
     }
     
     this.updateProtonSize();
   }
 
   handleMouseDown() {
-    const { attractionBehaviours, offsetY } = this.state
+    const { attractionBehaviours, offsetY } = this.state;
     const touchAreaCenter = this.getTouchAreaCenter();
     if (!touchAreaCenter) return;
 
@@ -291,7 +291,7 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
 
     this.setState({ center }, () => {
       for (let i = 0; i < 2; i++) {
-        attractionBehaviours[i].reset(this.state.center, 120, 200)
+        attractionBehaviours[i].reset(this.state.center, 120, 200);
       }
 
       TweenLite.to(this.state.conf, 2, {
@@ -305,22 +305,22 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
             });
           }
         },
-      })
-    })
+      });
+    });
   }
 
   handleMouseUp() {
     setTimeout(() => {
-      const { attractionBehaviours } = this.state
+      const { attractionBehaviours } = this.state;
       for (let i = 0; i < 2; i++) {
-        attractionBehaviours[i].reset(this.state.center, 0, 0)
+        attractionBehaviours[i].reset(this.state.center, 0, 0);
       }
-    }, 1000)
+    }, 1000);
   }
 
   renderProton() {
-    this.emitterMove()
-    this.state.proton?.update()
+    this.emitterMove();
+    this.state.proton?.update();
   }
 
   render() {
@@ -333,6 +333,6 @@ export class HighTierCoin extends Component<CoinProps, CoinState> {
         onResize={this.handleResize}
         style={{}}
       />
-    )
+    );
   }
 }

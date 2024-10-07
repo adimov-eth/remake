@@ -1,1 +1,1 @@
-export { ConnectionIndicator } from './ui/ConnectionIndicator'
+export { ConnectionIndicator } from './ui/ConnectionIndicator';

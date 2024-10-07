@@ -1,16 +1,16 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-import AppQR from '@shared/assets/qr/app.svg'
+import AppQR from '@shared/assets/qr/app.svg';
 
-import * as S from './WebBlocker.styles'
+import * as S from './WebBlocker.styles';
 
 export const WebBlocker: React.FC = () => {
-  const { t } = useTranslation('global')
-  const text = t('play_on_mobile')
-  const tgUsername = t('telegram_username')
-  const tgLinkPostfix = '/app'
-  const tgLink = `https://t.me/${tgUsername}${tgLinkPostfix}`
+  const { t } = useTranslation('global');
+  const text = t('play_on_mobile');
+  const tgUsername = t('telegram_username');
+  const tgLinkPostfix = '/app';
+  const tgLink = `https://t.me/${tgUsername}${tgLinkPostfix}`;
 
   return (
     <S.Container>
@@ -24,5 +24,5 @@ export const WebBlocker: React.FC = () => {
         @{tgUsername}
       </S.Text>
     </S.Container>
-  )
-}
+  );
+};

@@ -65,33 +65,35 @@ export const DailyRewardsModal = ({ open, onClose }: { open: boolean; onClose: (
 
   return (
     <Modal open={open} onClose={onClose}>
-      <S.Title>{t('daily_rewards')}</S.Title>
-      <S.Description>{t('daily_rewards_description')}</S.Description>
-      {isLoading ? (
-        <>
-          <Loader speed="slow" />
-          <S.Title>{t('receiving_daily_rewards')}</S.Title>
-        </>
-      ) : (
-        <>
-          <S.Rewards>
-            {sortedRewards?.map((reward, i) => (
-              <RewardCard key={i} {...reward} day={i + 1} />
-            ))}
-          </S.Rewards>
-          <Button
-            disabled={!currentCompleteReward || rewardIsClaimed || claimRewardLoading || !rawData}
-            variant="primary"
-            onClick={handleCollectReward}
-          >
-            {claimRewardLoading
-              ? t('loading')
-              : !currentCompleteReward || rewardIsClaimed
-                ? t('get_award_tomorrow')
-                : t('collect')}
-          </Button>
-        </>
-      )}
+      <S.Root>
+        <S.Title>{t('daily_rewards')}</S.Title>
+        <S.Description>{t('daily_rewards_description')}</S.Description>
+        {isLoading ? (
+          <>
+            <Loader speed="slow" />
+            <S.Title>{t('receiving_daily_rewards')}</S.Title>
+          </>
+        ) : (
+          <>
+            <S.Rewards>
+              {sortedRewards?.map((reward, i) => (
+                <RewardCard key={i} {...reward} day={i + 1} />
+              ))}
+            </S.Rewards>
+            <Button
+              disabled={!currentCompleteReward || rewardIsClaimed || claimRewardLoading || !rawData}
+              variant="primary"
+              onClick={handleCollectReward}
+            >
+              {claimRewardLoading
+                ? t('loading')
+                : !currentCompleteReward || rewardIsClaimed
+                  ? t('get_award_tomorrow')
+                  : t('collect')}
+            </Button>
+          </>
+        )}
+      </S.Root>
     </Modal>
   );
 };

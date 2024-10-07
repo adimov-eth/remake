@@ -1,8 +1,8 @@
-import React, { useRef, useCallback, useEffect } from 'react'
-import { $gameState } from '@app/stores/state'
-import { useMultiTouch } from '@shared/hooks'
+import React, { useRef, useCallback, useEffect } from 'react';
+import { $gameState } from '@app/stores/state';
+import { useMultiTouch } from '@shared/hooks';
 
-import * as S from './LowTierCoin.styles'
+import * as S from './LowTierCoin.styles';
 
 interface ICanvasProps {
   touchAreaRef: React.RefObject<HTMLDivElement>
@@ -21,15 +21,15 @@ const isTouchInArea: isTouchInAreaType = (
   touch: Touch,
   touchArea: React.RefObject<HTMLElement>
 ) => {
-  if (!touchArea.current) return false
-  const touchAreaRect = touchArea.current.getBoundingClientRect()
+  if (!touchArea.current) return false;
+  const touchAreaRect = touchArea.current.getBoundingClientRect();
   return (
     touch.clientX >= touchAreaRect.left &&
     touch.clientX <= touchAreaRect.right &&
     touch.clientY >= touchAreaRect.top &&
     touch.clientY <= touchAreaRect.bottom
-  )
-}
+  );
+};
 
 export const LowTierCoinCanvas: React.FC<ICanvasProps> = ({
   touchAreaRef,
@@ -39,56 +39,56 @@ export const LowTierCoinCanvas: React.FC<ICanvasProps> = ({
   onMouseUp,
   style,
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const clickerState = $gameState.get()
-  const currentEnergy =  clickerState.energy.get()
-  const quarksPerClick =  clickerState.quarksPerClick.get()
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const clickerState = $gameState.get();
+  const currentEnergy =  clickerState.energy.get();
+  const quarksPerClick =  clickerState.quarksPerClick.get();
 
   const performCanvasAnimation = useCallback(
     (event: TouchEvent) => {
-      const touch = event.touches[0]
-      console.log('touch', event.touches[0])
-      onMouseDown && onMouseDown(touch)
+      const touch = event.touches[0];
+      console.log('touch', event.touches[0]);
+      onMouseDown && onMouseDown(touch);
     },
     [onMouseDown, onMouseUp]
-  )
+  );
 
   const performClickAnimation = useCallback(
     (x: number, y: number) => {
-      const newAnimation = document.createElement('div')
-      Object.assign(newAnimation.style, S.QuarkNotifier)
-      newAnimation.style.top = `${y}px`
-      newAnimation.style.left = `${x}px`
-      newAnimation.textContent = `+${quarksPerClick}`
+      const newAnimation = document.createElement('div');
+      Object.assign(newAnimation.style, S.QuarkNotifier);
+      newAnimation.style.top = `${y}px`;
+      newAnimation.style.left = `${x}px`;
+      newAnimation.textContent = `+${quarksPerClick}`;
 
-      document.body.appendChild(newAnimation)
+      document.body.appendChild(newAnimation);
 
       setTimeout(() => {
-        newAnimation.remove()
-      }, 1000)
+        newAnimation.remove();
+      }, 1000);
     },
     [quarksPerClick]
-  )
+  );
 
   const handleTouchStart = useCallback(
     (event: TouchEvent, numberOfTouches: number) => {
-      console.log(`Touch start with ${numberOfTouches} fingers`)
+      console.log(`Touch start with ${numberOfTouches} fingers`);
       if (currentEnergy < quarksPerClick) {
-        return
+        return;
       }
 
       if (touchAreaRef.current) {
         const isAnyTouchInArea = Array.from(event.touches).some((touch) =>
           isTouchInArea(touch, touchAreaRef)
-        )
-        if (!isAnyTouchInArea) return
+        );
+        if (!isAnyTouchInArea) return;
 
-        performCanvasAnimation(event)
+        performCanvasAnimation(event);
         Array.from(event.touches).forEach((touch) => {
           if (isTouchInArea(touch, touchAreaRef)) {
-            performClickAnimation(touch.clientX, touch.clientY)
+            performClickAnimation(touch.clientX, touch.clientY);
           }
-        })
+        });
       }
     },
     [
@@ -98,36 +98,36 @@ export const LowTierCoinCanvas: React.FC<ICanvasProps> = ({
       performCanvasAnimation,
       performClickAnimation,
     ]
-  )
+  );
 
-  useMultiTouch(canvasRef, handleTouchStart, (e) => e.preventDefault())
+  useMultiTouch(canvasRef, handleTouchStart, (e) => e.preventDefault());
 
   useEffect(() => {
-    const canvas = canvasRef.current as HTMLCanvasElement
-    if (!canvas) return
-    const { width, height } = canvas.getBoundingClientRect()
-    canvas.width = width
-    canvas.height = height
-    onCanvasInited && onCanvasInited(canvas)
+    const canvas = canvasRef.current as HTMLCanvasElement;
+    if (!canvas) return;
+    const { width, height } = canvas.getBoundingClientRect();
+    canvas.width = width;
+    canvas.height = height;
+    onCanvasInited && onCanvasInited(canvas);
 
     const resize = () => {
-      const { width, height } = canvas.getBoundingClientRect()
-      canvas.width = width
-      canvas.height = height
-      onResize && onResize(width, height)
-    }
+      const { width, height } = canvas.getBoundingClientRect();
+      canvas.width = width;
+      canvas.height = height;
+      onResize && onResize(width, height);
+    };
 
-    window.addEventListener('resize', resize)
+    window.addEventListener('resize', resize);
 
     return () => {
-      window.removeEventListener('resize', resize)
-    }
-  }, [onCanvasInited, onResize])
+      window.removeEventListener('resize', resize);
+    };
+  }, [onCanvasInited, onResize]);
 
   return (
     <S.Canvas
       style={style}
       ref={canvasRef}
     />
-  )
-}
+  );
+};

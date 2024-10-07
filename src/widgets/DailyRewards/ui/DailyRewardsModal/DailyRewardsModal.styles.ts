@@ -1,4 +1,12 @@
-import { styled } from '@app/stitches.config'
+import { styled } from '@app/stitches.config';
+
+export const Root = styled('div', {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+});
 
 export const Title = styled('div', {
     fontFamily: 'var(--font-pro-display)',
@@ -7,7 +15,7 @@ export const Title = styled('div', {
     textAlign: 'center',
     color: '#fff',
     marginBottom: '30px',
-})
+});
 
 export const Description = styled('div', {
     fontFamily: 'var(--font-pro-display)',
@@ -15,12 +23,13 @@ export const Description = styled('div', {
     textAlign: 'center',
     color: '#95A2C5',
     marginBottom: '32px',
-})
+});
 
 export const Rewards = styled('div', {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: '9px',
-    marginBottom: '40px',
-})
+    gap: '0.625rem',
+    overflowY: 'auto',
+    marginBottom: '1.875rem',
+});

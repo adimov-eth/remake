@@ -44,13 +44,13 @@ const prepareStories = (): IStoryProps[] => {
     const defOpts = {
         duration: 5000,
         onSeeMoreClick: handleSeeMoreClick,
-    }
+    };
 
     return storyConfigs.map(story => ({
         ...defOpts,
         ...story,
     }));
-}
+};
 
 export const OnboardingStories = () => {
     const index = useStore($storieIndex);

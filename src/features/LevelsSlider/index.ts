@@ -1,1 +1,1 @@
-export { LevelsSlider } from './ui/LevelsSlider'
+export { LevelsSlider } from './ui/LevelsSlider';

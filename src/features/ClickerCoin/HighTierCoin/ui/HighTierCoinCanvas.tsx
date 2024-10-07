@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useEffect } from 'react';
 import { $gameState } from '@app/stores/state';
 import { useMultiTouch } from '@shared/hooks';
 
-import * as S from './HighTierCoin.styles'
+import * as S from './HighTierCoin.styles';
 
 interface ICanvasProps {
   touchAreaRef: React.RefObject<HTMLDivElement>;

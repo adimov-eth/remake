@@ -1,11 +1,11 @@
-import { atom, computed } from 'nanostores'
-import { isAfter, isBefore, parseISO } from 'date-fns'
-import { toZonedTime } from 'date-fns-tz'
-import { initDataRaw } from './telegram'
+import { atom, computed } from 'nanostores';
+import { isAfter, isBefore, parseISO } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
+import { initDataRaw } from './telegram';
 
-import { Mission, MissionProgressStatus as MPS, MissionStatus as MS, MissionType, missionTypeOrder } from '@shared/services/api/missions/types'
-import { MissionStatus, MissionProgressStatus } from '@shared/services/api/missions/types'
-import { useAllMissions } from '@shared/services/api/missions/model'
+import { Mission, MissionProgressStatus as MPS, MissionStatus as MS, MissionType, missionTypeOrder } from '@shared/services/api/missions/types';
+import { MissionStatus, MissionProgressStatus } from '@shared/services/api/missions/types';
+import { useAllMissions } from '@shared/services/api/missions/model';
 
 export type StatusMap = {
     [MissionStatus.OVERDUE]: 'overdue';
@@ -22,43 +22,43 @@ export type MissionCompleteStatus = StatusMap[keyof StatusMap];
   
 // Legacy
 export const magicStatusResolver = (mission: Mission): string => {
-  const { status, progress_status } = mission
+  const { status, progress_status } = mission;
   // Mission is overdue
-  if (status === MS.OVERDUE) return 'overdue'
+  if (status === MS.OVERDUE) return 'overdue';
 
   // Mission reward has been claimed
-  if (progress_status === 'claimed_reward') return 'claimed_reward'
+  if (progress_status === 'claimed_reward') return 'claimed_reward';
 
   // Mission is complete but reward not yet claimed
-  if (progress_status === 'complete') return 'complete'
+  if (progress_status === 'complete') return 'complete';
 
   // Mission is currently in progress
-  if (progress_status === 'in_progress') return 'in_progress'
+  if (progress_status === 'in_progress') return 'in_progress';
 
   // Mission is not started
   if (progress_status === 'not_started') {
     // Mission is not yet available to start
-    return 'unavailable'
+    return 'unavailable';
   }
   // User has participated in the mission once (specific to certain mission types)
-  if (progress_status === 'participated_once') return 'participated_once'
+  if (progress_status === 'participated_once') return 'participated_once';
 
   // Mission is available but not started   
-  if (status === 'available') return 'available'
+  if (status === 'available') return 'available';
   
   // Mission is not available
-  if (status === 'unavailable') return 'unavailable'
+  if (status === 'unavailable') return 'unavailable';
 
   // Default case or error handling
-  return 'unknown'
-}
+  return 'unknown';
+};
 
 
 
 
-export const $missions = atom<Mission[]>([])
+export const $missions = atom<Mission[]>([]);
 
-const currentZonedDate = () => toZonedTime(new Date(), 'Europe/Moscow')
+const currentZonedDate = () => toZonedTime(new Date(), 'Europe/Moscow');
 
 
 const getProgressStatusOrder = (status: MPS | MS): number => {
@@ -71,9 +71,9 @@ const getProgressStatusOrder = (status: MPS | MS): number => {
     [MS.AVAILABLE]: 0,
     [MS.UNAVAILABLE]: 0,
     [MPS.PARTICIPATED_ONCE]: 0,
-  }
-  return orderMap[status] ?? 0
-}
+  };
+  return orderMap[status] ?? 0;
+};
 
 export type ResolvedMission = Mission & {
   resolved_status: MissionCompleteStatus
@@ -84,11 +84,11 @@ export const $resolvedMissions = computed($missions, (missions: Mission[]): Reso
       ...mission,
       resolved_status: magicStatusResolver(mission) as MissionCompleteStatus
     }))
-  )
+  );
 
 export const $completedMissionsCount = computed($resolvedMissions, (missions: ResolvedMission[]): number => 
   missions.filter(mission => mission.resolved_status === 'claimed_reward').length
-)
+);
 
 
 const available = (mission: Mission): boolean => {
@@ -105,7 +105,7 @@ const available = (mission: Mission): boolean => {
     return false;
   }
   return true;
-}
+};
 
 
 
@@ -114,68 +114,68 @@ export const sortMissions = (missions: Mission[], order: MissionType[]) => {
   return missions.sort((a, b) => {
     const progressOrderA = getProgressStatusOrder(
       a.status === MS.OVERDUE ? a.status : a.progress_status
-    )
+    );
     const progressOrderB = getProgressStatusOrder(
       b.status === MS.OVERDUE ? b.status : b.progress_status
-    )
+    );
 
     if (progressOrderA !== progressOrderB) {
-      return progressOrderB - progressOrderA
+      return progressOrderB - progressOrderA;
     }
 
-    return order.indexOf(a.mission_type) - order.indexOf(b.mission_type)
-  })
-}
+    return order.indexOf(a.mission_type) - order.indexOf(b.mission_type);
+  });
+};
 
 export const $filteredAndSortedMissions = computed($resolvedMissions, missions => 
   sortMissions(
     missions.filter(available),
     missionTypeOrder
   )
-)
+);
 
 
 
 
 
 export const calculateProgress = (startDateISO: string | null, endDateISO: string | null): number | undefined => {
-  if (!startDateISO || !endDateISO) return undefined
+  if (!startDateISO || !endDateISO) return undefined;
 
-  const startDate = parseISO(startDateISO)
-  const endDate = parseISO(endDateISO)
-  const currentDate = currentZonedDate()
+  const startDate = parseISO(startDateISO);
+  const endDate = parseISO(endDateISO);
+  const currentDate = currentZonedDate();
 
-  if (isBefore(currentDate, startDate)) return 0
-  if (isAfter(currentDate, endDate)) return 100
+  if (isBefore(currentDate, startDate)) return 0;
+  if (isAfter(currentDate, endDate)) return 100;
 
-  const totalDuration = endDate.getTime() - startDate.getTime()
-  const elapsedDuration = currentDate.getTime() - startDate.getTime()
-  return (elapsedDuration / totalDuration) * 100
-}
+  const totalDuration = endDate.getTime() - startDate.getTime();
+  const elapsedDuration = currentDate.getTime() - startDate.getTime();
+  return (elapsedDuration / totalDuration) * 100;
+};
 
 export const formatRemainingTime = (endDate: string): string => {
-  const now = new Date()
-  const end = new Date(endDate)
-  const diff = end.getTime() - now.getTime()
+  const now = new Date();
+  const end = new Date(endDate);
+  const diff = end.getTime() - now.getTime();
 
-  const hours = Math.floor(diff / (1000 * 60 * 60))
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
-  return hours > 0 ? `${hours}h` : `${minutes}m`
-}
+  return hours > 0 ? `${hours}h` : `${minutes}m`;
+};
 
-export const isTimeUp = (endDate: string): boolean => new Date() >= new Date(endDate)
+export const isTimeUp = (endDate: string): boolean => new Date() >= new Date(endDate);
 
 
-export { MissionProgressStatus }
+export { MissionProgressStatus };
 
 export const fetchMissions = async () => {
-  if (!initDataRaw) return
-  const { data: fetchedMissions, error } = await useAllMissions(initDataRaw)
+  if (!initDataRaw) return;
+  const { data: fetchedMissions, error } = await useAllMissions(initDataRaw);
   if (fetchedMissions) {
-    $missions.set(fetchedMissions)
+    $missions.set(fetchedMissions);
   } else if (error) {
-    console.error('Error fetching missions:', error)
+    console.error('Error fetching missions:', error);
     // Optionally, you can set an error state here
   }
-}
+};

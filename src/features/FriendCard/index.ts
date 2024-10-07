@@ -1,1 +1,1 @@
-export { FriendCard } from './ui/FriendCard'
+export { FriendCard } from './ui/FriendCard';

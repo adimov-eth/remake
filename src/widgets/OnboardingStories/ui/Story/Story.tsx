@@ -1,5 +1,5 @@
 import { Button, IButtonProps } from '@shared/ui/Button';
-import * as S from './Story.styles'
+import * as S from './Story.styles';
 
 interface IStoryProps {
     title?: React.ReactNode | string;
@@ -36,4 +36,4 @@ export const StorySeeMore: React.FC<IButtonProps> = ({
     return (
         <Button style={{ position: 'relative', zIndex: 2, margin: '0 1rem' }} {...props} as={as} variant={variant} size={size} shine={shine}>{children}</Button>
     );
-}
+};

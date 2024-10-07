@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import * as S from './GlitchyText.styles'
+import * as S from './GlitchyText.styles';
 
 interface IGlitchyTextProps extends React.HTMLAttributes<HTMLSpanElement> {
     delay?: number;
@@ -17,11 +17,11 @@ export const GlitchyText: React.FC<IGlitchyTextProps> = ({
 
     const handleAnimationEnd = () => {
         setIsAnimationEnabled(false);
-    }
+    };
 
     const switchGlitchAnimation = () => {
         setIsAnimationEnabled(prev => !prev);
-    }
+    };
 
     useEffect(() => {
         const interval = setInterval(switchGlitchAnimation, delay);
@@ -39,4 +39,4 @@ export const GlitchyText: React.FC<IGlitchyTextProps> = ({
             <S.Content>{children}</S.Content>
         </S.Root>
     );
-}
+};

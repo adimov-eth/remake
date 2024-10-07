@@ -11,7 +11,7 @@ export const createSwap = ({
   rawData: string;
   body: CreateSwapPayload;
 }): Promise<SwapResponse> => {
-  return instance.post(`/swap_transaction/swap`, body, { params: { rawData } }).then(res => {
+  return instance.post('/swap_transaction/swap', body, { params: { rawData } }).then(res => {
     return res.data;
   });
 };

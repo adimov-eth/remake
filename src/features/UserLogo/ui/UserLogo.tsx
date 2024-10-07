@@ -1,10 +1,10 @@
-import { useStore } from '@nanostores/react'
-import { $user } from '@app/stores/state'
+import { useStore } from '@nanostores/react';
+import { $user } from '@app/stores/state';
 
-import * as S from './UserLogo.styles'
+import * as S from './UserLogo.styles';
 
 export const UserLogo = () => {
-  const telegramUser = useStore($user)
+  const telegramUser = useStore($user);
 
   return (
     <S.UserLogoRoot>
@@ -19,5 +19,5 @@ export const UserLogo = () => {
         </S.UserLogoUsername>
       </S.UserLogoWrapper>
     </S.UserLogoRoot>
-  )
-}
+  );
+};

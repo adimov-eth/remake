@@ -324,7 +324,7 @@ const movementAnimation = keyframes({
 
 export const Content = styled('span', {
     animation: 'var(--content-animation, none)',
-})
+});
 
 export const Root = styled('span', {
     position: 'relative',
@@ -379,4 +379,4 @@ export const Root = styled('span', {
             }
         },
     }
-})
+});

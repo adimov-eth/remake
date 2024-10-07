@@ -1,4 +1,4 @@
-import { styled } from '@app/stitches.config'
+import { styled } from '@app/stitches.config';
 
 export const BlurBackdrop = styled('div', {
     position: 'relative',
@@ -37,9 +37,9 @@ export const BlurBackdrop = styled('div', {
     defaultVariants: {
         variant: 'pink',
     },
-})
+});
 
 export const BlurBackdropContent = styled('div', {
     position: 'relative',
     zIndex: 1,
-})
+});

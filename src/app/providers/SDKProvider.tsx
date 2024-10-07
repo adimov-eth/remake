@@ -1,10 +1,10 @@
-import { createContext, useContext, FC, ReactNode } from 'react'
+import { createContext, useContext, FC, ReactNode } from 'react';
 import {
   SDKProvider as TelegramSDKProvider,
   useLaunchParams,
   useMiniApp,
   useViewport,
-} from '@telegram-apps/sdk-react'
+} from '@telegram-apps/sdk-react';
 
 interface SDKContextType {
   lp: ReturnType<typeof useLaunchParams>
@@ -12,12 +12,12 @@ interface SDKContextType {
   viewport: ReturnType<typeof useViewport>
 }
 
-const SDKContext = createContext<SDKContextType | undefined>(undefined)
+const SDKContext = createContext<SDKContextType | undefined>(undefined);
 
 export const SDKProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const lp = useLaunchParams()
-  const miniApp = useMiniApp()
-  const viewport = useViewport()
+  const lp = useLaunchParams();
+  const miniApp = useMiniApp();
+  const viewport = useViewport();
 
   return (
     <TelegramSDKProvider>
@@ -25,13 +25,13 @@ export const SDKProvider: FC<{ children: ReactNode }> = ({ children }) => {
         {children}
       </SDKContext.Provider>
     </TelegramSDKProvider>
-  )
-}
+  );
+};
 
 export const useTelegramApp = () => {
-  const context = useContext(SDKContext)
+  const context = useContext(SDKContext);
   if (context === undefined) {
-    throw new Error('useTelegramApp must be used within an SDKProvider')
+    throw new Error('useTelegramApp must be used within an SDKProvider');
   }
-  return context
-}
+  return context;
+};

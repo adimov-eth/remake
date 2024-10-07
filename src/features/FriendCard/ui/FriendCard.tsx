@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Avatar } from '@shared/ui/Avatar'
+import { Avatar } from '@shared/ui/Avatar';
 
-import * as S from './FriendCard.styles'
-import QuarksIcon from '@shared/assets/quark.svg?react'
+import * as S from './FriendCard.styles';
+import QuarksIcon from '@shared/assets/quark.svg?react';
 
 export interface FriendCardProps {
   username: string;
@@ -35,4 +35,4 @@ export const FriendCard: React.FC<FriendCardProps> = ({
       </S.Balance>
     </S.Root>
   );
-}
+};

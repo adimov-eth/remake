@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Survey } from 'posthog-js'
+import { Survey } from 'posthog-js';
 
 export interface DailyReward {
   id: string
@@ -85,4 +85,4 @@ export const missionTypeOrder: MissionType[] = [
   MissionType.MILESTONE,
   MissionType.SPECIAL,
   MissionType.SECRET,
-]
+];

@@ -5,7 +5,7 @@ import InfoIcon from '@shared/assets/info.svg?react';
 import SettingsIcon from '@shared/assets/settings.svg?react';
 import { $isNew, $storieIndex } from '@app/stores/state';
 
-import * as S from './SettingsButtons.styles'
+import * as S from './SettingsButtons.styles';
 
 const handleInfoClick = () => {
   $isNew.set(true);

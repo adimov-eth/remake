@@ -22,5 +22,5 @@ export const ClickerEnergy: FC = () => {
       </S.Inner>
       <S.Title>{t('energy')}</S.Title>
     </S.Root>
-  )
-}
+  );
+};

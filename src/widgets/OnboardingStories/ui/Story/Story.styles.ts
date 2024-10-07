@@ -27,7 +27,7 @@ export const Root = styled('div', {
             },
         }
     }
-})
+});
 
 export const Title = styled('h1', {
     position: 'relative',
@@ -66,4 +66,4 @@ export const Subtitle = styled('h2', {
     fontWeight: 700,
     lineHeight: '1.875rem',
     pointerEvents: 'none',
-})
+});

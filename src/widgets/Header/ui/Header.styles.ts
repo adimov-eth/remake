@@ -12,4 +12,4 @@ export const Header = styled('header', {
     borderImageSource: 'linear-gradient(181.98deg, $navBorderGradientStart 1.46%, $navBorderGradientEnd 98.13%)',
     backdropFilter: 'blur(1.5rem)',
     WebkitBackdropFilter: 'blur(1.5rem)',
-})
+});

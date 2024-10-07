@@ -1,1 +1,1 @@
-export { Clicker } from './ui/Clicker'
+export { Clicker } from './ui/Clicker';

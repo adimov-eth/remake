@@ -1,6 +1,6 @@
-import { atom } from "nanostores"
-import { CurrencyEnum } from '@shared/services/api/swap/types'
-import { quark, star } from "@shared/assets"
+import { atom } from 'nanostores';
+import { CurrencyEnum } from '@shared/services/api/swap/types';
+import { quark, star } from '@shared/assets';
 
 // Currency types and constants
 export type Currency = {
@@ -36,7 +36,7 @@ export const SWAP_PAIRS: Record<SwapDirection, { from: Currency; to: Currency }>
     from: STAR_CURRENCY,
     to: QUARK_CURRENCY,
   },
-}
+};
 
 
 type SwapRate = {
@@ -47,9 +47,9 @@ type SwapRate = {
 export const SWAP_RATES: SwapRate = {
     [SwapDirection.QuarkToStar]: 0.001,
     [SwapDirection.StarToQuark]: 1000,
-}
+};
 
-export const $swapRates = atom<SwapRate>(SWAP_RATES)
+export const $swapRates = atom<SwapRate>(SWAP_RATES);
 
 export interface SwapState {
   fromValue: string;
@@ -61,12 +61,12 @@ export const $swapState = atom<SwapState>({
   fromValue: '',
   toValue: '',
   direction: SwapDirection.QuarkToStar,
-})
+});
 
 const convertCurrency = (amount: number, direction: SwapDirection): number => {
   const rate = $swapRates.get()[direction];
   return Number((amount * rate).toFixed(6));
-}
+};
 
 export const updateSwapValues = (value: string, input: 'from' | 'to', max: number) => {
   const { direction } = $swapState.get();
@@ -88,7 +88,7 @@ export const updateSwapValues = (value: string, input: 'from' | 'to', max: numbe
     fromValue: fromValue.toString(),
     toValue: toValue.toString(),
   });
-}
+};
 
 export const toggleSwapDirection = () => {
   const currentState = $swapState.get();
@@ -101,11 +101,11 @@ export const toggleSwapDirection = () => {
     toValue: currentState.fromValue,
     direction: newDirection,
   });
-}
+};
 
 export const setMaxFromValue = (maxValue: number) => {
   if (maxValue < 0) {
-    throw new Error("Max value cannot be negative");
+    throw new Error('Max value cannot be negative');
   }
   
   const { direction } = $swapState.get();
@@ -116,4 +116,4 @@ export const setMaxFromValue = (maxValue: number) => {
     fromValue: maxValue.toString(),
     toValue: convertedValue.toString(),
   });
-}
+};

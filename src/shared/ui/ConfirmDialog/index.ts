@@ -1,1 +1,1 @@
-export { ConfirmDialog } from './ui/ConfirmDialog'
+export { ConfirmDialog } from './ui/ConfirmDialog';

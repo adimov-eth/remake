@@ -1,4 +1,4 @@
-import { styled } from '@/app/stitches.config'
+import { styled } from '@/app/stitches.config';
 
 export const Banner = styled('div', {
     display: 'flex',
@@ -6,4 +6,4 @@ export const Banner = styled('div', {
     alignItems: 'center',
     paddingBottom: '1.875rem',
     position: 'relative',
-  })
+  });

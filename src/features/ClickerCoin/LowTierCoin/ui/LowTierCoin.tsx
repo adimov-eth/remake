@@ -1,19 +1,19 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 
-import CoinPNG from '@shared/assets/main-page-coin.png'
-import CoinWebP from '@shared/assets/main-page-coin.webp'
+import CoinPNG from '@shared/assets/main-page-coin.png';
+import CoinWebP from '@shared/assets/main-page-coin.webp';
 
-import { LowTierCoinCanvas } from './LowTierCoinCanvas'
+import { LowTierCoinCanvas } from './LowTierCoinCanvas';
 
 interface CoinProps {
   touchAreaRef: React.RefObject<HTMLDivElement>
 }
 
 export const LowTierCoin: React.FC<CoinProps> = ({ touchAreaRef }) => {
-  const [loaded, setLoaded] = useState(false)
-  const [isActive, setIsActive] = useState(false)
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const imageRef = useRef<HTMLImageElement | null>(null)
+  const [loaded, setLoaded] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const imageRef = useRef<HTMLImageElement | null>(null);
 
   const map = (
     val: number,
@@ -22,93 +22,93 @@ export const LowTierCoin: React.FC<CoinProps> = ({ touchAreaRef }) => {
     minB: number,
     maxB: number
   ) => {
-    return minB + ((val - minA) * (maxB - minB)) / (maxA - minA)
-  }
+    return minB + ((val - minA) * (maxB - minB)) / (maxA - minA);
+  };
 
   const applyCard3DEffect = useCallback((x: number, y: number) => {
-    const canvas = canvasRef.current
-    const image = imageRef.current
-    if (!canvas || !image) return
+    const canvas = canvasRef.current;
+    const image = imageRef.current;
+    if (!canvas || !image) return;
 
-    const rect = canvas.getBoundingClientRect()
-    const width = rect.width
-    const height = rect.height
-    const mouseX = x - rect.left
-    const mouseY = y - rect.top
-    const rotateY = map(mouseX, 0, width, -30, 30)
-    const rotateX = map(mouseY, 0, height, 30, -30)
-    const brightness = map(mouseY, 0, height, 1.5, 0.5)
+    const rect = canvas.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = x - rect.left;
+    const mouseY = y - rect.top;
+    const rotateY = map(mouseX, 0, width, -30, 30);
+    const rotateX = map(mouseY, 0, height, 30, -30);
+    const brightness = map(mouseY, 0, height, 1.5, 0.5);
 
-    canvas.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
-    canvas.style.filter = `brightness(${brightness})`
-  }, [])
+    canvas.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    canvas.style.filter = `brightness(${brightness})`;
+  }, []);
 
   const resetCardEffect = useCallback(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    canvas.style.transform = 'rotateX(0deg) rotateY(0deg)'
-    canvas.style.filter = 'brightness(1)'
-  }, [])
+    canvas.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    canvas.style.filter = 'brightness(1)';
+  }, []);
 
   const toggleCardEffect = useCallback(
     (event: Touch) => {
-      setIsActive((prev) => !prev)
+      setIsActive((prev) => !prev);
       if (!isActive) {
-        applyCard3DEffect(event.clientX, event.clientY)
+        applyCard3DEffect(event.clientX, event.clientY);
       } else {
-        resetCardEffect()
+        resetCardEffect();
       }
     },
     [isActive, applyCard3DEffect, resetCardEffect]
-  )
+  );
 
   const handleMouseDown = useCallback(
     (event: Touch) => {
-      const canvas = canvasRef.current
-      if (!canvas) return
-      canvas.style.transform = 'scale(1.03)'
-      toggleCardEffect(event)
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      canvas.style.transform = 'scale(1.03)';
+      toggleCardEffect(event);
     },
     [toggleCardEffect]
-  )
+  );
 
   const handleMouseUp = useCallback(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    canvas.style.transform = 'scale(1)'
-  }, [])
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    canvas.style.transform = 'scale(1)';
+  }, []);
 
   const handleCanvasInited = useCallback((canvas: HTMLCanvasElement) => {
-    canvasRef.current = canvas
-    const image = new Image()
+    canvasRef.current = canvas;
+    const image = new Image();
 
     // Try loading WebP first
-    image.src = CoinWebP
+    image.src = CoinWebP;
 
     image.onload = () => {
-      imageRef.current = image
-      setLoaded(true)
-    }
+      imageRef.current = image;
+      setLoaded(true);
+    };
 
     image.onerror = () => {
       // If WebP fails, fallback to PNG
-      image.src = CoinPNG
+      image.src = CoinPNG;
       image.onload = () => {
-        imageRef.current = image
-        setLoaded(true)
-      }
-    }
-  }, [])
+        imageRef.current = image;
+        setLoaded(true);
+      };
+    };
+  }, []);
 
   const renderCoin = useCallback(() => {
-    const canvas = canvasRef.current
-    const image = imageRef.current
-    if (!canvas || !image) return
+    const canvas = canvasRef.current;
+    const image = imageRef.current;
+    if (!canvas || !image) return;
 
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d');
 
-    if (!ctx) return
+    if (!ctx) return;
 
     const touchArea = touchAreaRef.current;
 
@@ -119,21 +119,21 @@ export const LowTierCoin: React.FC<CoinProps> = ({ touchAreaRef }) => {
     const x = parentRect.left + (parentRect.width - size) / 2;
     const y = parentRect.top + (parentRect.height - size) / 2;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.drawImage(image, x, y, size, size)
-  }, [])
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(image, x, y, size, size);
+  }, []);
 
   useEffect(() => {
-    if (loaded) renderCoin()
+    if (loaded) renderCoin();
   
     return () => {
-      const image = imageRef.current
+      const image = imageRef.current;
       if (image) {
-        image.onload = null
-        image.onerror = null
+        image.onload = null;
+        image.onerror = null;
       }
-    }
-  }, [loaded, renderCoin])
+    };
+  }, [loaded, renderCoin]);
 
   return (
     <LowTierCoinCanvas
@@ -144,5 +144,5 @@ export const LowTierCoin: React.FC<CoinProps> = ({ touchAreaRef }) => {
       onResize={renderCoin}
       style={{ transition: 'all 200ms ease-in-out' }}
     />
-  )
-}
+  );
+};

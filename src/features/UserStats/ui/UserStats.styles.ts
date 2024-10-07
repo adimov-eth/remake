@@ -5,7 +5,7 @@ export const Root = styled('div', {
     gridTemplateColumns: 'repeat(3, 1fr)',
     gap: '0.75rem',
     width: '100%',
-})
+});
 
 export const Card = styled('div', {
     position: 'relative',
@@ -17,13 +17,13 @@ export const Card = styled('div', {
     background: 'rgba(20, 21, 30, 0.5)',
     fontFamily: 'var(--font-pro-display)',
     textAlign: 'center',
-})
+});
 
 export const CardIcon = styled('div', {
     display: 'inline-block',
     width: '2.5rem',
     height: '2.5rem',
-})
+});
 
 export const CardValue = styled('span', {
     display: 'block',
@@ -32,13 +32,13 @@ export const CardValue = styled('span', {
     color: '#fff',
     marginTop: '0.625rem',
     marginBottom: '0.75rem',
-})
+});
 
 export const CardTitle = styled('span', {
     display: 'inline-block',
     fontSize: '0.875rem',
     color: 'rgba(103, 113, 140, 1)',
-})
+});
 
 export const CardLink = styled('a', {
     position: 'absolute',
@@ -51,4 +51,4 @@ export const CardLink = styled('a', {
     display: 'block',
     width: '100%',
     height: '100%',
-})
+});

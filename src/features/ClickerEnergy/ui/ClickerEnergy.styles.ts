@@ -1,5 +1,5 @@
 import { styled } from '@app/stitches.config';
-import EnergyIcon from '@shared/assets/energy.svg?react'
+import EnergyIcon from '@shared/assets/energy.svg?react';
 
 export const Root = styled('div', {
     display: 'flex',

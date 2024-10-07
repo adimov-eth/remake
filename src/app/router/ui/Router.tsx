@@ -23,7 +23,7 @@ import {
   Profile,
   Settings,
   Swap
-} from '@pages'
+} from '@pages';
 
 import { UserStatusBar } from '@widgets/UserStatusBar';
 import { Header } from '@widgets/Header';
@@ -34,9 +34,9 @@ import {
   ErrorNotification,
   InformationNotification,
   SuccessNotification,
-} from '@shared/ui/Notification'
+} from '@shared/ui/Notification';
 
-import * as S from './Router.styles'
+import * as S from './Router.styles';
 
 export default () => {
   const navigator = initNavigator('app-navigation-state');
@@ -46,7 +46,7 @@ export default () => {
   const initializationStep = useStore($initializationStep);
   const isInitialized = useStore($isInitialized);
   const connectionStatus = useStore($connectionStatus);
-  const currentNotification = useStore($currentNotification)
+  const currentNotification = useStore($currentNotification);
 
   //TODO: check why this cause redirect
   // useEffect(() => {
@@ -67,22 +67,22 @@ export default () => {
     if (currentNotification && !currentNotification.read) {
       switch (currentNotification.type) {
         case 'success':
-          SuccessNotification(currentNotification.message)
-          break
+          SuccessNotification(currentNotification.message);
+          break;
         case 'error':
-          ErrorNotification(currentNotification.message)
-          break
+          ErrorNotification(currentNotification.message);
+          break;
         case 'info':
-          InformationNotification(currentNotification.message)
-          break
+          InformationNotification(currentNotification.message);
+          break;
         default:
-          AchievementNotification(currentNotification.message)
-          break
+          AchievementNotification(currentNotification.message);
+          break;
       }
 
-      $currentNotification.set({ ...currentNotification, read: true })
+      $currentNotification.set({ ...currentNotification, read: true });
     }
-  }, [currentNotification])
+  }, [currentNotification]);
 
   return (
     <S.Root>

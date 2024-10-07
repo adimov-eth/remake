@@ -1,1 +1,1 @@
-export { TreasureStash } from './ui/TreasureStash'
+export { TreasureStash } from './ui/TreasureStash';

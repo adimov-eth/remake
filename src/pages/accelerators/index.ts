@@ -1,1 +1,1 @@
-export { Accelerators } from './ui/Accelerators'
+export { Accelerators } from './ui/Accelerators';

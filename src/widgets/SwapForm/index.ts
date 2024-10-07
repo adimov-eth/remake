@@ -1,1 +1,1 @@
-export { SwapForm } from './ui/SwapForm/SwapForm'
+export { SwapForm } from './ui/SwapForm/SwapForm';

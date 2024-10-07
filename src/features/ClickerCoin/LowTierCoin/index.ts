@@ -1,1 +1,1 @@
-export { LowTierCoin } from './ui/LowTierCoin'
+export { LowTierCoin } from './ui/LowTierCoin';

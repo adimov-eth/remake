@@ -8,7 +8,7 @@ const useMultiTouch = (
   onTouchMove?: TouchEventHandler,
   onTouchEnd?: TouchEventHandler
 ): RefObject<HTMLElement> => {
-  const touchAreaRef = refElement
+  const touchAreaRef = refElement;
 
   useEffect(() => {
     const handleTouchStart = (event: TouchEvent) => {

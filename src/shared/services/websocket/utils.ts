@@ -1,6 +1,6 @@
 // This code shared with backend
 
-import { onMount, atom } from "nanostores";
+import { onMount, atom } from 'nanostores';
 
 // returns an atom that updates every `ms` milliseconds
 export const intervalStore = (ms: number) => {

@@ -1,1 +1,1 @@
-export { GlitchyText } from './ui/GlitchyText'
+export { GlitchyText } from './ui/GlitchyText';

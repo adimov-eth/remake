@@ -1,5 +1,5 @@
 
-import { styled } from '@/app/stitches.config'
+import { styled } from '@/app/stitches.config';
 
 export const Root = styled('div', {
     display: 'flex',
@@ -7,4 +7,4 @@ export const Root = styled('div', {
     flexDirection: 'column',
     justifyContent: 'center',
     gap: '1.25rem',
-})
+});

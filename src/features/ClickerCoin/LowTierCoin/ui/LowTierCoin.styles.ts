@@ -1,4 +1,4 @@
-import { styled, keyframes } from '@app/stitches.config'
+import { styled, keyframes } from '@app/stitches.config';
 
 const moveUp = keyframes({
     '0%': {
@@ -36,7 +36,7 @@ export const Canvas = styled('canvas', {
     left: 0,
     width: '100%',
     height: '100%',
-})
+});
 
 export const QuarkNotifier = {
     position: 'fixed',
@@ -59,4 +59,4 @@ export const QuarkNotifier = {
     ].join(', '),
     transform: 'rotate(15deg)',
     pointerEvents: 'none',
-}
+};

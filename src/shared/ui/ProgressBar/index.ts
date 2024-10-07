@@ -1,1 +1,1 @@
-export { ProgressBar } from './ui/ProgressBar'
+export { ProgressBar } from './ui/ProgressBar';

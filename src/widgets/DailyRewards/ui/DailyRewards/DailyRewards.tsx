@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { Button } from '@shared/ui/Button'
-import { DailyRewardsModal } from '../DailyRewardsModal/DailyRewardsModal'
+import { Button } from '@shared/ui/Button';
+import { DailyRewardsModal } from '../DailyRewardsModal/DailyRewardsModal';
 
 export const DailyRewards = () => {
-    const [dailyOpen, setDailyOpen] = useState(false)
-    const { t } = useTranslation('pages')
+    const [dailyOpen, setDailyOpen] = useState(false);
+    const { t } = useTranslation('pages');
 
     return (
         <>
@@ -15,5 +15,5 @@ export const DailyRewards = () => {
             </Button>
             <DailyRewardsModal open={dailyOpen} onClose={() => setDailyOpen(false)} />
         </>
-    )
-}
+    );
+};

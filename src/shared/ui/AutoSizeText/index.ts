@@ -1,1 +1,1 @@
-export { AutoSizeText } from './ui/AutoSizeText'
+export { AutoSizeText } from './ui/AutoSizeText';

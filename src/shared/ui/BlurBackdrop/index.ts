@@ -1,1 +1,1 @@
-export { BlurBackdrop } from './ui/BlurBackdrop'
+export { BlurBackdrop } from './ui/BlurBackdrop';

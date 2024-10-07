@@ -8,7 +8,7 @@ export const Root = styled('div', {
     flexDirection: 'column',
     width: '100%',
     marginBottom: '0.5rem',
-})
+});
 
 export const LevelsSlider = styled('div', {
     display: 'flex',
@@ -16,12 +16,12 @@ export const LevelsSlider = styled('div', {
     justifyContent: 'space-between',
     marginBottom: '1rem',
     width: '100%',
-})
+});
 
 export const LevelsSliderNavButtonIcon = styled(ArrowIcon, {
     width: '1.5rem',
     height: '1.5rem',
-})
+});
 
 export const LevelsSliderNavButton = styled('button', {
     background: 'none',
@@ -46,12 +46,12 @@ export const LevelsSliderNavButton = styled('button', {
             },
         },
     },
-})
+});
 
 export const Level = styled('div', {
     textAlign: 'center',
     margin: '0 1rem',
-})
+});
 
 export const Title = styled('div', {
     fontFamily: 'var(--font-pro-display)',
@@ -60,7 +60,7 @@ export const Title = styled('div', {
     textAlign: 'center',
     marginBottom: '0.75rem',
     color: 'white',
-})
+});
 
 export const Description = styled('div', {
     fontFamily: 'var(--font-pro-display)',
@@ -69,4 +69,4 @@ export const Description = styled('div', {
     lineHeight: '1rem',
     textAlign: 'center',
     color: '#67718C',
-})
+});

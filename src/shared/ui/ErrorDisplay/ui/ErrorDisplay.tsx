@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import * as S from './ErrorDisplay.styles'
+import * as S from './ErrorDisplay.styles';
 
 interface ErrorDisplayProps {
   title?: string;

@@ -1,1 +1,1 @@
-export { MissionCard } from './ui/MissionCard/MissionCard'
+export { MissionCard } from './ui/MissionCard/MissionCard';

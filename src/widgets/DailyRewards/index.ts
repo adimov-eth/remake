@@ -1,1 +1,1 @@
-export { DailyRewards } from './ui/DailyRewards/DailyRewards'
+export { DailyRewards } from './ui/DailyRewards/DailyRewards';

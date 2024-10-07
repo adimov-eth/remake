@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+ 
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useStore } from '@nanostores/react';

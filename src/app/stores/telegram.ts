@@ -1,6 +1,6 @@
-import '@/shared/utils/mockEnv'
+import '@/shared/utils/mockEnv';
 
-import { retrieveLaunchParams, User as $User} from '@telegram-apps/sdk-react'
+import { retrieveLaunchParams, User as $User} from '@telegram-apps/sdk-react';
 
 
 

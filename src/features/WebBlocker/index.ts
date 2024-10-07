@@ -1,1 +1,1 @@
-export { WebBlocker } from './ui/WebBlocker'
+export { WebBlocker } from './ui/WebBlocker';
