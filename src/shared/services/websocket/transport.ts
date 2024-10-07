@@ -116,12 +116,6 @@ class Transport {
         this.clk = updateClock(this.clk, event.clk);
       }
 
-      if (event.evt === 'leaders') {
-        console.log('Received leaders event', event);
-        const currentState = $gameState.get();
-        currentState?.handleLeaders(event.leaders);
-      }
-
       if (event.evt === 'notification') {
         console.log('Received notification event', event);
         const { message, type } = event.notification;
@@ -224,10 +218,6 @@ class Transport {
   commit() {
     // Send the action to the server
     this.socket?.send(JSON.stringify({ evt: 'commit' }));
-  }
-
-  getLeaders(level: number) {
-    this.socket?.send(JSON.stringify({ evt: 'leaders', level }));
   }
 }
 

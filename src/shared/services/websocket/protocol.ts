@@ -1,6 +1,6 @@
 // This code shared with backend
 
-import { Action, SerializedState, Leaderboard } from "./clicker";
+import { Action, SerializedState } from "./clicker";
 
 export const PROTOCOL_VERSION = "1.0.0";
 
@@ -49,10 +49,6 @@ export type ChannelClientEvent =
     }
   | {
       evt: "ping";
-    }
-  | {
-      evt: "leaders";
-      level: number;
     };
 
 export type ACKErrorCode = "RATE_LTD" | "INV_ACTION";
@@ -72,10 +68,6 @@ export type ChannelServerEvent =
     }
   | {
       evt: "pong";
-    }
-  | {
-     evt: "leaders";
-     leaders: Leaderboard;
     }
   | {
     evt: "notification";
