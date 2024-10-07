@@ -31,7 +31,7 @@ export const FriendCard: React.FC<FriendCardProps> = ({
       </S.Info>
       <S.Balance>
         <S.BalanceIcon as={QuarksIcon} />
-        <span>{rewardQuarks.toLocaleString('en-US')}</span>
+        <span>{(rewardQuarks || 0).toLocaleString('en-US')}</span>
       </S.Balance>
     </S.Root>
   );
