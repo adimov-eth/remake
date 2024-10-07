@@ -19,11 +19,12 @@ export const Root = styled('div', {
     bottom: 0,
     display: 'flex',
     flexDirection: 'column',
+    zIndex: 1,
 });
 
-export const Top = styled('div', { 
+export const Top = styled('div', {
     position: 'relative',
-    zIndex: 1,
+    zIndex: 2,
 });
 
 export const Main = styled('main', {
@@ -35,5 +36,5 @@ export const Main = styled('main', {
 
 export const Bottom = styled('div', {
     position: 'relative',
-    zIndex: 1,
+    zIndex: 2,
 });
