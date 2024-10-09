@@ -6,7 +6,7 @@ import { useStore } from '@nanostores/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import '@shared/locale/index.ts';
 
-import { Router } from '@app/router';
+import { AppRouter } from '@app/router';
 import { ErrorProvider } from './providers/ErrorProvider';
 import { CONFIG } from './config';
 
@@ -57,7 +57,7 @@ const Inner: FC = () => {
     <TonConnectUIProvider manifestUrl={CONFIG.TON_CONNECT_MANIFEST_URL}>
       <SDKProvider acceptCustomStyles debug={debug}>
         <QueryClientProvider client={queryClient}>
-          {isDesktop ? <WebBlocker /> : <Router />}
+          {isDesktop ? <WebBlocker /> : <AppRouter />}
         </QueryClientProvider>
       </SDKProvider>
     </TonConnectUIProvider>

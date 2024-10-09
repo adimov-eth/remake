@@ -82,5 +82,6 @@
     "black_hole": "Black Hole"
   },
 
-  "day": "Day {{day}}"
+  "day": "Day {{day}}",
+  "star": "Star"
 }

@@ -7,7 +7,9 @@ export const Swap = () => {
   return (
     <S.Root>
       <SwapForm />
-      <EasterEggHunter />
+      <S.Star>
+        <EasterEggHunter />
+      </S.Star>
     </S.Root>
   );
 };

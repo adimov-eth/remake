@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { preloadAssetURLs } from '@/app/config';
+import { preloadAssetURLs } from '@app/config';
 
 export const $assetsLoaded = atom(false);
 

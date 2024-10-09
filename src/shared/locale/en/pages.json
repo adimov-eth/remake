@@ -5,15 +5,12 @@
     "button": "Invite friends"
   },
   "accelerators": {
-    "title": "Accelerators"
+    "title": "Boosts"
   },
   "missions": {
     "title": "Missions"
   },
-  "swap": {
-    "exchange_quark": "Quark to Star",
-    "exchange_star": "Star to Quark"
-  },
+  "swap": {},
   "profile": {
     "daily_rewards": "Daily Rewards"
   }

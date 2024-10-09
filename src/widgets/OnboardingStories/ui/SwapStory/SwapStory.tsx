@@ -3,7 +3,7 @@ import { StoryHeader, StorySeeMore } from '../Story';
 
 import QuarkIcon from '@shared/assets/quark.svg?react';
 import StarIcon from '@shared/assets/star-gradient.svg?react';
-import videoMp4_5 from '@shared/assets/stories/on5.mp4';
+import video from '@shared/assets/stories/swap.webm';
 
 import * as S from './SwapStory.styles';
 
@@ -52,7 +52,7 @@ const SeeMore: React.FC = () => {
 };
 
 export const swapStoryConfig = {
-  url: videoMp4_5,
+  url: video,
   type: 'video',
   header: Header,
   seeMore: SeeMore,
