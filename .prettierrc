@@ -12,5 +12,13 @@
   "semi": false,
   "plugins": [
     "prettier-plugin-organize-imports"
+  ],
+  "overrides": [
+    {
+      "files": "*.ts",
+      "options": {
+        "parser": "typescript"
+      }
+    }
   ]
 }
