@@ -26,10 +26,17 @@ export const Description = styled('div', {
 });
 
 export const Rewards = styled('div', {
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'center',
+  width: '100%',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(4, 1fr)',
   gap: '0.625rem',
   overflowY: 'auto',
   marginBottom: '1.875rem',
+  '& > *:nth-last-child(2)': {
+    gridColumnStart: 2,
+  },
+
+  '& > *:last-child': {
+    gridColumnStart: 3,
+  },
 });

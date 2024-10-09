@@ -18,16 +18,20 @@ export const RewardCard = ({
     compactDisplay: 'short',
   });
 
+  const isDisabled = progress_status === 'claimed_reward';
   const isQuark = Boolean(reward_quarks) && Boolean(!reward_stars);
   const iconSize = isQuark ? 'medium' : 'large';
+  const isComplete = progress_status === 'complete';
 
   return (
-    <S.Root type="button" progressStatus={progress_status as 'claimed_reward' | 'complete'}>
-      <span>{t('day', { day })}</span>
-      <S.Icon size={iconSize}>
-        {isQuark ? <QuarkIcon /> : <StarIcon />}
-      </S.Icon>
-      <span>{isQuark ? formatter.format(reward_quarks) : formatter.format(reward_stars)}</span>
+    <S.Root type="button" complete={isComplete} disabled={isDisabled}>
+      <S.Content>
+        <span>{t('day', { day })}</span>
+        <S.Icon size={iconSize}>
+          {isQuark ? <QuarkIcon /> : <StarIcon />}
+        </S.Icon>
+        <span>{formatter.format(reward_quarks)}</span>
+      </S.Content>
     </S.Root>
   );
 };
