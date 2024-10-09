@@ -13,6 +13,8 @@ interface ISwapFormInputInputProps {
   showMaxButton?: boolean;
   onMaxClick?: () => void;
   max: number;
+  step: string;
+  min: string;
 }
 
 const currencyMap: Record<string, string> = {
@@ -28,6 +30,8 @@ export const SwapFormInput: React.FC<ISwapFormInputInputProps> = ({
   showMaxButton,
   onMaxClick,
   max,
+  step,
+  min
 }) => {
   const { t } = useTranslation('global');
 
@@ -44,7 +48,9 @@ export const SwapFormInput: React.FC<ISwapFormInputInputProps> = ({
           value={value}
           onChange={handleChange}
           placeholder="0"
+          min={min}
           max={max}
+          step={step}
         />
         <S.CurrencyBlock>
           {showMaxButton && <Label as="button" onClick={onMaxClick}>{t('max')}</Label>}

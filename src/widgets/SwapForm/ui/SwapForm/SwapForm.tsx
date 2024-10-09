@@ -34,16 +34,16 @@ export const SwapForm: React.FC = () => {
   const gameState = useStore($gameState);
   const { t: tGlobal } = useTranslation('global');
   // const connectionStatus = useStore($connectionStatus);
-  const { fromValue, toValue, direction } = useStore($swapState);
+  const { fromValue, toValue, direction, min: minSwapAmount, step: swapStep } = useStore($swapState);
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData({ enabled: !!rawData, variables: { rawData } });
   const { syncedQuarks, syncedStars } = useSyncedValues(userData, gameState);
   const currentPair = useMemo(() => SWAP_PAIRS[direction], [direction]);
-  const submitDisabled = !parseFloat(fromValue);
   const isQuarkToStarDirection = useMemo(() => direction === SwapDirection.QuarkToStar, [direction]);
  
   const handleSwapSuccess = () => {
     updateSwapValues('', 'from', 0);
-    queryClient.invalidateQueries({ queryKey: ['get/missions'] });
+    setTimeout(() => queryClient.invalidateQueries({ queryKey: ['get/missions'] }), 2000); // delay so swap can be processed before missions are updated
+    
   };
 
   const handleSwapError = (error: unknown) => {
@@ -80,6 +80,7 @@ export const SwapForm: React.FC = () => {
 
   if (isLoading) return <Loader speed="fast" />;
 
+  const submitDisabled = !parseFloat(fromValue) || isSwapPending;
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -91,6 +92,8 @@ export const SwapForm: React.FC = () => {
             onMaxClick={() => setMaxFromValue(top)}
             currency={currentPair.from}
             max={top}
+            min={minSwapAmount}
+            step={swapStep}
             showMaxButton
           />
           <S.ToggleButton onClick={toggleSwapDirection}>
@@ -104,6 +107,8 @@ export const SwapForm: React.FC = () => {
             onChange={value => handleChange(value, 'to')}
             currency={currentPair.to}
             max={bottom}
+            min={minSwapAmount}
+            step={swapStep}
           />
         </S.Inputs>
         <S.SwapButton

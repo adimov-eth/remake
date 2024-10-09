@@ -77,38 +77,29 @@ export const MissionModal: FC<IMissionModalProps> = ({
     }
   }, [status]);
 
+  
+  const requirementActions: { [key: string]: () => void } = {
+    referrals_count: () => handleCopy(refUrl),
+    daily_friends_invited: () => handleCopy(refUrl),
+    daily_quarks_swapped: () => navigate('/swap'),
+    quarks_count: () => navigate('/'),
+    daily_quarks_tapped: () => navigate('/'),
+    daily_clicks_tapped: () => navigate('/'),
+    level: () => navigate('/'),
+    clicks_count: () => navigate('/'),
+    daily_boosts_bought: () => navigate('/accelerators'),
+    quarks_spent_on_upgrades: () => navigate('/accelerators'),
+    join_before: () => navigate('/profile'),
+    daily_login: () => navigate('/profile'),
+  };
+  
   const handleButtonClick = async () => {
     if (status === MissionProgressStatus.IN_PROGRESS) {
       try {
         const parsedRequirements: MissionRequirements = JSON.parse(requirements);
-
-        for (const key of Object.keys(parsedRequirements)) {
-          switch (key) {
-          case 'referrals_count':
-            await handleCopy(refUrl);
-            break;
-          case 'quarks_count':
-            navigate('/');
-            break;
-          case 'level':
-            navigate('/');
-            break;
-          case 'clicks_count':
-            navigate('/');
-            break;
-          case 'quarks_spent_on_upgrades':
-            navigate('/accelerators');
-            break;
-          case 'join_before':
-            navigate('/profile');
-            break;
-          case 'daily_login':
-            navigate('/profile');
-            break;
-          default:
-            console.log(`Unknown requirement: ${key}`);
-          }
-        }
+        Object.keys(parsedRequirements).forEach( (key: string) => {
+          requirementActions[key]?.();
+        });
       } catch (error) {
         console.error('Failed to parse requirements:', error);
       }
@@ -116,6 +107,7 @@ export const MissionModal: FC<IMissionModalProps> = ({
       onButtonClick();
     }
   };
+  
 
   const isShowQuarks = Boolean(amountQuarks);
   const isShowStars = Boolean(amountStars);
