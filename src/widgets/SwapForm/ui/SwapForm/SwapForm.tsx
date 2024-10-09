@@ -39,7 +39,6 @@ export const SwapForm: React.FC = () => {
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData({ enabled: !!rawData, variables: { rawData } });
   const { syncedQuarks, syncedStars } = useSyncedValues(userData, gameState);
   const currentPair = useMemo(() => SWAP_PAIRS[direction], [direction]);
-  const submitDisabled = !parseFloat(fromValue);
   const isQuarkToStarDirection = useMemo(() => direction === SwapDirection.QuarkToStar, [direction]);
  
   const handleSwapSuccess = () => {
@@ -86,6 +85,7 @@ export const SwapForm: React.FC = () => {
 
   if (isLoading) return <Loader speed="fast" />;
 
+  const submitDisabled = !parseFloat(fromValue) || isSwapPending;
   return (
     <>
       <form onSubmit={handleSubmit}>
