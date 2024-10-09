@@ -69,6 +69,11 @@ export type MissionRequirements = {
   quarks_spent_on_upgrades?: number
   join_before?: string
   daily_login?: any
+  daily_quarks_tapped?: number;
+  daily_clicks_tapped?: number;
+  daily_boosts_bought?: number;
+  daily_friends_invited?: number;
+  daily_quarks_swapped?: number;
 }
 
 // const missionTypeMap: Record<MissionType, string> = {
