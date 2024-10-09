@@ -5,9 +5,9 @@ import lock from './lock.svg';
 import warp from './warp.svg';
 
 export default {
-    ['powerUp']: powerUp,
-    ['warpDrive']: warp,
-    ['fuelTank']: bolt,
-    ['recharge']: recharge,
-    ['locked']: lock,
+  ['powerUp']: powerUp,
+  ['warpDrive']: warp,
+  ['fuelTank']: bolt,
+  ['recharge']: recharge,
+  ['locked']: lock,
 };

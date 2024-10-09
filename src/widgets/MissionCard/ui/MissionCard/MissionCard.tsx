@@ -76,17 +76,17 @@ export const MissionCard: FC<ResolvedMission> = ({
   const handleOverlayClick = useCallback(() => {
     notifyUser();
     switch (resolved_status) {
-      case 'complete':
-        handleCompleteMission();
-        break;
-      case 'not_started':
-        checkStatusMutation.mutate({ missionId: id, rawData });
-        break;
-      case 'participated_once':
-        console.warn(' MISSION participated_once'); //TODO показать информацию о том, что миссия одноразовая и уже была начата 
-        break;
-      default:
-        setModalOpen(true);
+    case 'complete':
+      handleCompleteMission();
+      break;
+    case 'not_started':
+      checkStatusMutation.mutate({ missionId: id, rawData });
+      break;
+    case 'participated_once':
+      console.warn(' MISSION participated_once'); //TODO показать информацию о том, что миссия одноразовая и уже была начата 
+      break;
+    default:
+      setModalOpen(true);
     }
   }, [resolved_status, id, rawData, notifyUser]);
 

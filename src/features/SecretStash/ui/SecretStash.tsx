@@ -1,39 +1,28 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGetMissions, claimMissionReward } from '@shared/services/api/missions/model';
-import { useModal } from '@shared/hooks';
 import { initDataRaw } from '@app/stores/telegram';
+import { useModal } from '@shared/hooks';
 
 import { GlitchyText } from '@shared/ui/GlitchyText';
-import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
-import { BlurBackdrop } from '@shared/ui/BlurBackdrop';
+import { CongratulationsDialog } from '@features/CongratulationsDialog';
 
-import * as S from './TreasureStash.styles';
-import ChestPng from '@shared/assets/chest.png';
-import ChestWebp from '@shared/assets/chest.webp';
-
-interface TreasureStashProps {
+interface SecretStashProps {
   string: string
 }
 
 const MISSION_SLUG = 'secret_stash';
 
-export const TreasureStash: React.FC<TreasureStashProps> = ({ string }) => {
-  const [isOpen, openModal, closeModal] = useModal();
-  const { t } = useTranslation('global');
+export const SecretStash: React.FC<SecretStashProps> = ({ string }) => {
   const rawData = initDataRaw || '';
+  const { data: missions, refetch } = useGetMissions({ enabled: !!rawData, variables: { rawData } });
+  const { id, reward_quarks, progress_status, status } = missions?.find(({ slug }) => slug === MISSION_SLUG) || {};
+  const isMissionAvailable = progress_status !== 'claimed_reward' && status !== 'unavailable';
 
-  const { data: missions, refetch } = useGetMissions({
-    enabled: !!rawData,
-    variables: { rawData },
-  });
-
-  const foundMission = missions?.find(({ slug }) => slug === MISSION_SLUG);
-  const { id, reward_quarks, progress_status, status } = foundMission || {};
+  const { t } = useTranslation('global');
+  const [isOpen, openModal, closeModal] = useModal();
 
   const handleClick = () => {
-    if (!id) return;
-
     claimMissionReward({ missionId: id || '', rawData: rawData });
     openModal();
   };
@@ -42,11 +31,6 @@ export const TreasureStash: React.FC<TreasureStashProps> = ({ string }) => {
     refetch();
     closeModal();
   };
-
-  const isMissionAvailable =
-    foundMission &&
-    progress_status !== 'claimed_reward' &&
-    status !== 'unavailable';
 
   if (!isMissionAvailable) return string;
 
@@ -81,32 +65,12 @@ export const TreasureStash: React.FC<TreasureStashProps> = ({ string }) => {
   return (
     <>
       {textWithGlitch}
-      <ConfirmDialog
-        onClose={handleClose}
+      <CongratulationsDialog
+        missionName={t('secret_stash')}
+        reward={reward_quarks}
         isOpen={isOpen}
-      >
-        <S.ConfirmContent>
-          <ChestIcon />
-          <S.ConfirmTitle>{t('congratulations')}</S.ConfirmTitle>
-          <S.ConfirmDescription>{t('secret_stash', { reward_quarks: reward_quarks })}</S.ConfirmDescription>
-        </S.ConfirmContent>
-      </ConfirmDialog>
+        onClose={handleClose}
+      />
     </>
-  );
-};
-
-export const ChestIcon = () => {
-  const { t } = useTranslation('global');
-
-  return (
-    <BlurBackdrop variant='pink'>
-      <picture>
-        <source
-          srcSet={ChestWebp}
-          type="image/webp"
-        />
-        <img src={ChestPng} alt={t('chest')} width={124} height={129} />
-      </picture>
-    </BlurBackdrop>
   );
 };

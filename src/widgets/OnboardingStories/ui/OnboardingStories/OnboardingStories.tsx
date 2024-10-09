@@ -13,12 +13,12 @@ import { joinStoryConfig } from '../JoinStory';
 import * as S from './OnboardingStories.styles';
 
 const storyConfigs = [
-    welcomeStoryConfig,
-    earnStoryConfig,
-    missionsStoryConfig,
-    enhanceStoryConfig,
-    swapStoryConfig,
-    joinStoryConfig,
+  welcomeStoryConfig,
+  earnStoryConfig,
+  missionsStoryConfig,
+  enhanceStoryConfig,
+  swapStoryConfig,
+  joinStoryConfig,
 ];
 
 interface IStoryProps {
@@ -33,41 +33,41 @@ interface IStoryProps {
 }
 
 const prepareStories = (): IStoryProps[] => {
-    const index = useStore($storieIndex);
+  const index = useStore($storieIndex);
 
-    const handleSeeMoreClick = () => {
-        if (index === storyConfigs.length) return;
+  const handleSeeMoreClick = () => {
+    if (index === storyConfigs.length) return;
     
-        $storieIndex.set(index + 1);
-    };
+    $storieIndex.set(index + 1);
+  };
 
-    const defOpts = {
-        duration: 5000,
-        onSeeMoreClick: handleSeeMoreClick,
-    };
+  const defOpts = {
+    duration: 5000,
+    onSeeMoreClick: handleSeeMoreClick,
+  };
 
-    return storyConfigs.map(story => ({
-        ...defOpts,
-        ...story,
-    }));
+  return storyConfigs.map(story => ({
+    ...defOpts,
+    ...story,
+  }));
 };
 
 export const OnboardingStories = () => {
-    const index = useStore($storieIndex);
+  const index = useStore($storieIndex);
 
-    const handleStoryChange = (index: number) => {
-        $storieIndex.set(index);
-    };
+  const handleStoryChange = (index: number) => {
+    $storieIndex.set(index);
+  };
 
-    const stories = prepareStories();
+  const stories = prepareStories();
 
-    return (
-        <S.Root>
-            <Stories
-                currentIndex={index}
-                stories={stories}
-                onStoryChange={handleStoryChange}
-            />
-        </S.Root>
-    );
+  return (
+    <S.Root>
+      <Stories
+        currentIndex={index}
+        stories={stories}
+        onStoryChange={handleStoryChange}
+      />
+    </S.Root>
+  );
 };

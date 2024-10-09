@@ -66,14 +66,14 @@ export const MissionModal: FC<IMissionModalProps> = ({
 
   const getButtonText = useMemo(() => {
     switch (status) {
-      case MissionProgressStatus.NOT_STARTED:
-        return t('start_mission');
-      case MissionProgressStatus.IN_PROGRESS:
-        return t('lets_go');
-      case MissionProgressStatus.COMPLETE:
-        return t('claim');
-      default:
-        return t('claimed');
+    case MissionProgressStatus.NOT_STARTED:
+      return t('start_mission');
+    case MissionProgressStatus.IN_PROGRESS:
+      return t('lets_go');
+    case MissionProgressStatus.COMPLETE:
+      return t('claim');
+    default:
+      return t('claimed');
     }
   }, [status]);
 
@@ -84,29 +84,29 @@ export const MissionModal: FC<IMissionModalProps> = ({
 
         for (const key of Object.keys(parsedRequirements)) {
           switch (key) {
-            case 'referrals_count':
-              await handleCopy(refUrl);
-              break;
-            case 'quarks_count':
-              navigate('/');
-              break;
-            case 'level':
-              navigate('/');
-              break;
-            case 'clicks_count':
-              navigate('/');
-              break;
-            case 'quarks_spent_on_upgrades':
-              navigate('/accelerators');
-              break;
-            case 'join_before':
-              navigate('/profile');
-              break;
-            case 'daily_login':
-              navigate('/profile');
-              break;
-            default:
-              console.log(`Unknown requirement: ${key}`);
+          case 'referrals_count':
+            await handleCopy(refUrl);
+            break;
+          case 'quarks_count':
+            navigate('/');
+            break;
+          case 'level':
+            navigate('/');
+            break;
+          case 'clicks_count':
+            navigate('/');
+            break;
+          case 'quarks_spent_on_upgrades':
+            navigate('/accelerators');
+            break;
+          case 'join_before':
+            navigate('/profile');
+            break;
+          case 'daily_login':
+            navigate('/profile');
+            break;
+          default:
+            console.log(`Unknown requirement: ${key}`);
           }
         }
       } catch (error) {

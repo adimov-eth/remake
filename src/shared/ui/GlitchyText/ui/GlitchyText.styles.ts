@@ -1,8 +1,8 @@
 import { styled, keyframes } from '@app/stitches.config';
 
 const pathsAnimation = keyframes({
-    '0%': {
-        clipPath: `polygon(
+  '0%': {
+    clipPath: `polygon(
       0% 43%,
       83% 43%,
       83% 22%,
@@ -39,9 +39,9 @@ const pathsAnimation = keyframes({
       50% 56%,
       50% 8%
     )`
-    },
-    '5%': {
-        clipPath: `polygon(
+  },
+  '5%': {
+    clipPath: `polygon(
       0% 29%,
       44% 29%,
       44% 83%,
@@ -71,9 +71,9 @@ const pathsAnimation = keyframes({
       15% 88%,
       52% 88%
     )`
-    },
-    '30%': {
-        clipPath: `polygon(
+  },
+  '30%': {
+    clipPath: `polygon(
       0% 53%,
       93% 53%,
       93% 62%,
@@ -105,9 +105,9 @@ const pathsAnimation = keyframes({
       63% 4%,
       65% 4%
     )`
-    },
-    '45%': {
-        clipPath: `polygon(
+  },
+  '45%': {
+    clipPath: `polygon(
       0% 33%,
       2% 33%,
       2% 69%,
@@ -165,9 +165,9 @@ const pathsAnimation = keyframes({
       52% 83%,
       68% 83%
     )`
-    },
-    '76%': {
-        clipPath: `polygon(
+  },
+  '76%': {
+    clipPath: `polygon(
       0% 26%,
       15% 26%,
       15% 73%,
@@ -200,9 +200,9 @@ const pathsAnimation = keyframes({
       63% 25%,
       63% 14%
     )`
-    },
-    '90%': {
-        clipPath: `polygon(
+  },
+  '90%': {
+    clipPath: `polygon(
       0% 41%,
       13% 41%,
       13% 6%,
@@ -235,148 +235,148 @@ const pathsAnimation = keyframes({
       38% 85%,
       38% 62%
     )`
-    },
-    '1%, 7%, 33%, 47%, 78%, 93%': {
-        clipPath: 'none'
-    }
+  },
+  '1%, 7%, 33%, 47%, 78%, 93%': {
+    clipPath: 'none'
+  }
 });
 
 const opacityAnimation = keyframes({
-    '0%': {
-        opacity: '0.1',
-    },
+  '0%': {
+    opacity: '0.1',
+  },
 
-    '5%': {
-        opacity: '0.7',
-    },
+  '5%': {
+    opacity: '0.7',
+  },
 
-    '30%': {
-        opacity: '0.4',
-    },
+  '30%': {
+    opacity: '0.4',
+  },
 
-    '45%': {
-        opacity: '0.6',
-    },
+  '45%': {
+    opacity: '0.6',
+  },
 
-    '76%': {
-        opacity: '0.4',
-    },
+  '76%': {
+    opacity: '0.4',
+  },
 
-    '90%': {
-        opacity: '0.8',
-    },
+  '90%': {
+    opacity: '0.8',
+  },
 
-    '1%, 7%, 33%, 47%, 78%, 93%': {
-        opacity: '0',
-    }
+  '1%, 7%, 33%, 47%, 78%, 93%': {
+    opacity: '0',
+  }
 });
 
 const fontAnimation = keyframes({
-    '0%': {
-        fontWeight: 100,
-        color: '#2A9EF1',
-        filter: 'blur(3px)',
-    },
-    '20%': {
-        fontWeight: 500,
-        color: '#fff',
-        filter: 'blur(0)',
-    },
-    '50%': {
-        fontWeight: 300,
-        color: '#F70A81',
-        filter: 'blur(2px)',
-    },
-    '60%': {
-        fontWeight: 700,
-        color: '#fff',
-        filter: 'blur(0)',
-    },
-    '90%': {
-        fontWeight: 500,
-        color: '#2A9EF1',
-        filter: 'blur(6px)',
-    }
+  '0%': {
+    fontWeight: 100,
+    color: '#2A9EF1',
+    filter: 'blur(3px)',
+  },
+  '20%': {
+    fontWeight: 500,
+    color: '#fff',
+    filter: 'blur(0)',
+  },
+  '50%': {
+    fontWeight: 300,
+    color: '#F70A81',
+    filter: 'blur(2px)',
+  },
+  '60%': {
+    fontWeight: 700,
+    color: '#fff',
+    filter: 'blur(0)',
+  },
+  '90%': {
+    fontWeight: 500,
+    color: '#2A9EF1',
+    filter: 'blur(6px)',
+  }
 });
 
 const movementAnimation = keyframes({
-    '0%': {
-        top: '0px',
-        left: '-20px',
-    },
-    '15%': {
-        top: '10px',
-        left: '10px',
-    },
-    '60%': {
-        top: '5px',
-        left: '-10px',
-    },
-    '75%': {
-        top: '-5px',
-        left: '20px',
-    },
-    '100%': {
-        top: '10px',
-        left: '5px',
-    }
+  '0%': {
+    top: '0px',
+    left: '-20px',
+  },
+  '15%': {
+    top: '10px',
+    left: '10px',
+  },
+  '60%': {
+    top: '5px',
+    left: '-10px',
+  },
+  '75%': {
+    top: '-5px',
+    left: '20px',
+  },
+  '100%': {
+    top: '10px',
+    left: '5px',
+  }
 });
 
 export const Content = styled('span', {
-    animation: 'var(--content-animation, none)',
+  animation: 'var(--content-animation, none)',
 });
 
 export const Root = styled('span', {
-    position: 'relative',
-    display: 'inline-block',
-    zIndex: 2,
+  position: 'relative',
+  display: 'inline-block',
+  zIndex: 2,
 
-    '&::before, &::after': {
-        content: 'attr(data-text)',
-        position: 'absolute',
-        width: '110%',
-        zIndex: -1,
+  '&::before, &::after': {
+    content: 'attr(data-text)',
+    position: 'absolute',
+    width: '110%',
+    zIndex: -1,
+  },
+  '&::before': {
+    display: 'var(--root-before-display, none)',
+    color: '#e0287d',
+    top: 0,
+    left: '-20px',
+    animation: 'var(--root-before-animation, none)',
+  },
+  '&::after': {
+    display: 'var(--root-after-display, none)',
+    color: '#1bc7fb',
+    top: 0,
+    left: '-20px',
+    animation: 'var(--root-after-animation, none)',
+  },
+  variants: {
+    'animation-enabled': {
+      true: {
+        '--root-before-display': 'block',
+        '--root-after-display': 'block',
+        '--root-before-animation': [
+          `${pathsAnimation} 5s step-end`,
+          `${opacityAnimation} 5s step-end`,
+          `${fontAnimation} 8s step-end`,
+          `${movementAnimation} 10s step-end`
+        ].join(','),
+        '--root-after-animation': [
+          `${pathsAnimation} 5s step-end`,
+          `${opacityAnimation} 5s step-end`,
+          `${fontAnimation} 7s step-end`,
+          `${movementAnimation} 8s step-end`
+        ].join(','),
+        '--content-animation': `${pathsAnimation} 5s step-end infinite`,
+      },
+      false: {
+        '--root-before-display': 'none',
+        '--root-after-display': 'none',
+        '--root-before-animation': 'none',
+        '--root-after-animation': 'none',
+        '--content-animation': 'none',
+      }
     },
-    '&::before': {
-        display: 'var(--root-before-display, none)',
-        color: '#e0287d',
-        top: 0,
-        left: '-20px',
-        animation: 'var(--root-before-animation, none)',
-    },
-    '&::after': {
-        display: 'var(--root-after-display, none)',
-        color: '#1bc7fb',
-        top: 0,
-        left: '-20px',
-        animation: 'var(--root-after-animation, none)',
-    },
-    variants: {
-        'animation-enabled': {
-            true: {
-                '--root-before-display': 'block',
-                '--root-after-display': 'block',
-                '--root-before-animation': [
-                    `${pathsAnimation} 5s step-end`,
-                    `${opacityAnimation} 5s step-end`,
-                    `${fontAnimation} 8s step-end`,
-                    `${movementAnimation} 10s step-end`
-                ].join(','),
-                '--root-after-animation': [
-                    `${pathsAnimation} 5s step-end`,
-                    `${opacityAnimation} 5s step-end`,
-                    `${fontAnimation} 7s step-end`,
-                    `${movementAnimation} 8s step-end`
-                ].join(','),
-                '--content-animation': `${pathsAnimation} 5s step-end infinite`,
-            },
-            false: {
-                '--root-before-display': 'none',
-                '--root-after-display': 'none',
-                '--root-before-animation': 'none',
-                '--root-after-animation': 'none',
-                '--content-animation': 'none',
-            }
-        },
-    }
+  }
 });

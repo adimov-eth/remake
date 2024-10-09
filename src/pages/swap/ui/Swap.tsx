@@ -1,5 +1,13 @@
 import { SwapForm } from '@widgets/SwapForm';
+import { EasterEggHunter } from '@features/EasterEggHunter';
+
+import * as S from './Swap.styles';
 
 export const Swap = () => {
-  return <SwapForm />;
+  return (
+    <S.Root>
+      <SwapForm />
+      <EasterEggHunter />
+    </S.Root>
+  );
 };

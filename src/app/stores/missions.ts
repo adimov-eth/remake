@@ -80,11 +80,11 @@ export type ResolvedMission = Mission & {
 }
 
 export const $resolvedMissions = computed($missions, (missions: Mission[]): ResolvedMission[] => 
-    missions.map((mission: Mission): Mission & { resolved_status: MissionCompleteStatus } => ({
-      ...mission,
-      resolved_status: magicStatusResolver(mission) as MissionCompleteStatus
-    }))
-  );
+  missions.map((mission: Mission): Mission & { resolved_status: MissionCompleteStatus } => ({
+    ...mission,
+    resolved_status: magicStatusResolver(mission) as MissionCompleteStatus
+  }))
+);
 
 export const $completedMissionsCount = computed($resolvedMissions, (missions: ResolvedMission[]): number => 
   missions.filter(mission => mission.resolved_status === 'claimed_reward').length

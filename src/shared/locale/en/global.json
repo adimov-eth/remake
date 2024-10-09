@@ -26,7 +26,13 @@
   "previous": "Previous",
   "next": "Next",
 
-  "secret_stash": "You just earned {{reward_quarks}} quarks for completing the 'Secret Stash' Secret Mission",
+  "secret_mission_completed": "You just earned {{reward_quarks}} quarks for completing the '{{mission_name}}' Secret Mission",
+  "midnight_clicker": "Midnight Clicker",
+  "orbital_overachiever": "Orbital Overachiever",
+  "palindrome_converter": "Palindrome Converter",
+  "exact_conversion": "Exact Conversion",
+  "easter_egg_hunter": "Easter Egg Hunter",
+  "secret_stash": "Secret Stash",
 
   "quarks": "Quarks",
   "stars": "Stars",

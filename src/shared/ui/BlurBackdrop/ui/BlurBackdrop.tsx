@@ -7,11 +7,11 @@ interface BlurBackdropProps {
 }
 
 export const BlurBackdrop = ({ children, variant }: BlurBackdropProps) => {
-    return (
-        <S.BlurBackdrop variant={variant}>
-            <S.BlurBackdropContent>
-                {children}
-            </S.BlurBackdropContent>
-        </S.BlurBackdrop>
-    );
+  return (
+    <S.BlurBackdrop variant={variant}>
+      <S.BlurBackdropContent>
+        {children}
+      </S.BlurBackdropContent>
+    </S.BlurBackdrop>
+  );
 };
