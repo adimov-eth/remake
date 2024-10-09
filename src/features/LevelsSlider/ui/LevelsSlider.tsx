@@ -6,7 +6,7 @@ import { formatNumberGroup } from '@shared/utils/formatters';
 import { LEVELS } from '@shared/services/websocket/clicker';
 
 import { ProgressBar } from '@shared/ui/ProgressBar';
-import { TreasureStash } from '../../../shared/ui/TreasureStash/ui/TreasureStash';
+import { SecretStash } from '@features/SecretStash';
 
 import * as S from './LevelsSlider.styles';
 
@@ -53,7 +53,7 @@ export const LevelsSlider = () => {
 
         <S.Level>
           <S.Title>
-            {name === 'black_hole' ? <TreasureStash string={t(`levels.${name}`)} /> : t(`levels.${name}`)}
+            {name === 'black_hole' ? <SecretStash string={t(`levels.${name}`)} /> : t(`levels.${name}`)}
           </S.Title>
           <S.Description>
             {`${formatNumberGroup(quarks)}/${formatNumberGroup(selectedLevelDef.quarksToUpgrade)}`}

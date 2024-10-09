@@ -10,6 +10,7 @@ import { ClickerCounter } from '@features/ClickerCounter';
 import { ClickerEnergy } from '@features/ClickerEnergy';
 import { ProgressBar } from '@shared/ui/ProgressBar';
 import { Loader } from '@shared/ui/Loader';
+import { MidnightClicker } from '@features/MidnightClicker';
 
 import * as S from './Clicker.styles';
 
@@ -79,6 +80,7 @@ export const Clicker: FC = () => {
           ) : (
             <HighTierCoin touchAreaRef={touchAreaRef} />
           )}
+          <MidnightClicker />
         </S.TouchArea>
       </S.MiddleArea>
       <S.BottomArea>

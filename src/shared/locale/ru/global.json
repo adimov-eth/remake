@@ -26,7 +26,13 @@
   "previous": "Предыдущий",
   "next": "Следующий",
 
-  "secret_stash": "Вы только что заработали {{reward_quarks}} кварков за выполнение секретной миссии «Тайник»",
+  "secret_mission_completed": "Вы только что заработали {{reward_quarks}} кварков за выполнение секретной миссии «{{mission_name}}»",
+  "midnight_clicker": "Midnight Clicker",
+  "orbital_overachiever": "Orbital Overachiever",
+  "palindrome_converter": "Palindrome Converter",
+  "exact_conversion": "Exact Conversion",
+  "easter_egg_hunter": "Easter Egg Hunter",
+  "secret_stash": "Secret Stash",
 
   "quarks": "Кварки",
   "stars": "Звезды",

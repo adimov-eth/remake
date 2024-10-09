@@ -1,6 +1,6 @@
 // This code shared with backend
 
-import { atom, computed, map } from 'nanostores';
+import { atom, computed } from 'nanostores';
 
 import { intervalStore, addDecimals } from './utils';
 
@@ -306,103 +306,103 @@ export const initClicker = (
 
   const handleAction = (action: Action) => {
     switch (action.type) {
-      case 'click': {
-        $time.set(Date.now()); // make sure $energy is recalculated
-        const currentEnergy = $energy.get();
+    case 'click': {
+      $time.set(Date.now()); // make sure $energy is recalculated
+      const currentEnergy = $energy.get();
 
-        const perClick = $quarksPerClick.get();
-        const newQuarks = $quarks.get() + perClick;
-        const newClicks = $clicks.get() + 1;
-        if (currentEnergy > 0) {
-          $clicks.set(newClicks);
-          $quarks.set(Math.round(newQuarks));
-          $energyReset.set(currentEnergy - perClick);
-          $energyResetAt.set(Date.now());
-          if (newQuarks >= $levelDef.get().quarksToUpgrade) {
-            $level.set($level.get() + 1);
-            $energyResetAt.set(0);
-          }
-
-          return true;
+      const perClick = $quarksPerClick.get();
+      const newQuarks = $quarks.get() + perClick;
+      const newClicks = $clicks.get() + 1;
+      if (currentEnergy > 0) {
+        $clicks.set(newClicks);
+        $quarks.set(Math.round(newQuarks));
+        $energyReset.set(currentEnergy - perClick);
+        $energyResetAt.set(Date.now());
+        if (newQuarks >= $levelDef.get().quarksToUpgrade) {
+          $level.set($level.get() + 1);
+          $energyResetAt.set(0);
         }
 
-        break;
-      }
-
-      case 'claim_reward': {
-        const rewardQuarks = action.payload.rewardQuarks.toString();
-        const rewardStars = action.payload.rewardStars.toString();
-        const newQuarks = $quarks.get() + parseInt(rewardQuarks);
-        const newStars = addDecimals($stars.get(), parseFloat(rewardStars));
-        if (rewardQuarks) {
-          $quarks.set(newQuarks);
-        }
-        if (rewardStars) {
-          $stars.set(newStars);
-        }
         return true;
       }
-      case 'swap_transaction': {
-        const quarksDiff = action.payload.quarksDiff as number;
-        const starsDiff = action.payload.starsDiff as number;
 
-        return handleSwapTransaction(quarksDiff, starsDiff);
+      break;
+    }
+
+    case 'claim_reward': {
+      const rewardQuarks = action.payload.rewardQuarks.toString();
+      const rewardStars = action.payload.rewardStars.toString();
+      const newQuarks = $quarks.get() + parseInt(rewardQuarks);
+      const newStars = addDecimals($stars.get(), parseFloat(rewardStars));
+      if (rewardQuarks) {
+        $quarks.set(newQuarks);
       }
+      if (rewardStars) {
+        $stars.set(newStars);
+      }
+      return true;
+    }
+    case 'swap_transaction': {
+      const quarksDiff = action.payload.quarksDiff as number;
+      const starsDiff = action.payload.starsDiff as number;
 
-      case 'upgrade': {
-        $time.set(Date.now()); // make sure $energy is recalculated
-        const slug = action.payload.slug as string;
-        const initialState: upgradeEffectUser = {
-          quarks: $quarks.get(),
-          quarksPerClick: $quarksPerClick.get(),
-          level: $level.get(),
-          energyLimit: $energyLimit.get(),
-          energy: $energy.get(),
-        };
-        const currentUpgrades = $upgrades.get() || [];
-        const currentUpgrade = currentUpgrades.find(upgrade => upgrade.slug === slug);
-        const newTier = (currentUpgrade?.tier || 0) + 1;
-        const upgradeDef = UPGRADES[slug];
-        let updatedState = initialState;
-        const upgradePrice = upgradeDef.price(updatedState, newTier);
-        updatedState.quarks -= upgradePrice;
-        if (updatedState.quarks >= 0) {
-          updatedState = upgradeDef.activeEffect(updatedState, newTier);
-          let updatedUpgrades = currentUpgrades;
-          if (currentUpgrade) {
-            updatedUpgrades = updatedUpgrades.map(upgrade => {
-              let updatedUpgrade = upgrade;
-              //update prices array with upgradePrice by index(tier)
-              if (updatedUpgrade.slug === slug) {
-                const newTier = upgrade.tier + 1;
-                updatedUpgrade.prices = upgrade.prices || [];
-                //recalculate map previous prices if not set
-                updatedUpgrade.prices.map((price, index) => {
-                  if (updatedUpgrade.prices && !price) {
-                    updatedUpgrade.prices[index] = upgradeDef.price(updatedState, index + 1);
-                  }
-                });
-                updatedUpgrade.prices[newTier - 1] = upgradePrice;
-                updatedUpgrade = {
-                  ...upgrade,
-                  prices: upgrade.prices,
-                  tier: newTier,
-                };
-              }
-              return upgrade.slug === slug ? { ...upgrade, tier: upgrade.tier + 1 } : upgrade;
-            });
-          } else {
-            updatedUpgrades = [...updatedUpgrades, { slug, tier: 1, prices: [upgradePrice] }];
-          }
+      return handleSwapTransaction(quarksDiff, starsDiff);
+    }
 
-          $upgrades.set(updatedUpgrades);
-          $quarks.set(Math.round(updatedState.quarks));
-          $energyReset.set(updatedState.energy);
-          $energyResetAt.set(Date.now());
-          return true;
+    case 'upgrade': {
+      $time.set(Date.now()); // make sure $energy is recalculated
+      const slug = action.payload.slug as string;
+      const initialState: upgradeEffectUser = {
+        quarks: $quarks.get(),
+        quarksPerClick: $quarksPerClick.get(),
+        level: $level.get(),
+        energyLimit: $energyLimit.get(),
+        energy: $energy.get(),
+      };
+      const currentUpgrades = $upgrades.get() || [];
+      const currentUpgrade = currentUpgrades.find(upgrade => upgrade.slug === slug);
+      const newTier = (currentUpgrade?.tier || 0) + 1;
+      const upgradeDef = UPGRADES[slug];
+      let updatedState = initialState;
+      const upgradePrice = upgradeDef.price(updatedState, newTier);
+      updatedState.quarks -= upgradePrice;
+      if (updatedState.quarks >= 0) {
+        updatedState = upgradeDef.activeEffect(updatedState, newTier);
+        let updatedUpgrades = currentUpgrades;
+        if (currentUpgrade) {
+          updatedUpgrades = updatedUpgrades.map(upgrade => {
+            let updatedUpgrade = upgrade;
+            //update prices array with upgradePrice by index(tier)
+            if (updatedUpgrade.slug === slug) {
+              const newTier = upgrade.tier + 1;
+              updatedUpgrade.prices = upgrade.prices || [];
+              //recalculate map previous prices if not set
+              updatedUpgrade.prices.map((price, index) => {
+                if (updatedUpgrade.prices && !price) {
+                  updatedUpgrade.prices[index] = upgradeDef.price(updatedState, index + 1);
+                }
+              });
+              updatedUpgrade.prices[newTier - 1] = upgradePrice;
+              updatedUpgrade = {
+                ...upgrade,
+                prices: upgrade.prices,
+                tier: newTier,
+              };
+            }
+            return upgrade.slug === slug ? { ...upgrade, tier: upgrade.tier + 1 } : upgrade;
+          });
+        } else {
+          updatedUpgrades = [...updatedUpgrades, { slug, tier: 1, prices: [upgradePrice] }];
         }
-        break;
+
+        $upgrades.set(updatedUpgrades);
+        $quarks.set(Math.round(updatedState.quarks));
+        $energyReset.set(updatedState.energy);
+        $energyResetAt.set(Date.now());
+        return true;
       }
+      break;
+    }
     }
 
     return false; // state was not changed
