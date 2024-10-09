@@ -47,8 +47,7 @@ const useSyncedValues = (
 export const SwapForm: React.FC = () => {
   const rawData = initDataRaw || '';
   const gameState = useStore($gameState);
-  const { fromValue, toValue, direction } = useStore($swapState);
-  // const connectionStatus = useStore($connectionStatus);
+  const { fromValue, toValue, direction, step, min } = useStore($swapState);
 
   const { t: tPages } = useTranslation('pages');
   const { t: tGlobal } = useTranslation('global');
@@ -60,7 +59,7 @@ export const SwapForm: React.FC = () => {
 
   const { syncedQuarks, syncedStars } = useSyncedValues(userData, gameState);
 
-  const { mutateAsync: swapMutation } = useCreateSwap();
+  const { mutateAsync: swapMutation, isPending } = useCreateSwap();
 
   const currentPair = useMemo(() => SWAP_PAIRS[direction], [direction]);
 
@@ -121,6 +120,8 @@ export const SwapForm: React.FC = () => {
     return <Loader speed="fast" />;
   }
 
+  const isButtonDisabled = (parseFloat(fromValue) === 0) || isPending;
+
   return (
     <>
       <S.Inputs>
@@ -132,6 +133,8 @@ export const SwapForm: React.FC = () => {
           showMaxButton
           onMaxClick={() => setMaxFromValue(top)}
           max={top}
+          step={step}
+          min={min}
         />
         <S.ToggleButton onClick={handleSwapDirectionToggle}>
           <Button rounded="full" shine>
@@ -144,14 +147,16 @@ export const SwapForm: React.FC = () => {
           onChange={value => handleValueChange(value, 'to')}
           currency={currentPair.to}
           max={bottom}
+          step={step}
+          min={min}
         />
       </S.Inputs>
       <S.SwapButton
         variant="primary"
         onClick={handleSwapClick}
-        disabled={parseFloat(fromValue) === 0}
+        disabled={isButtonDisabled}
       >
-        {tGlobal('swap')}
+        {isPending ? tGlobal('loading') : tGlobal('swap')}
       </S.SwapButton>
       <S.DirectionIndicator>{INDICATOR[direction]}</S.DirectionIndicator>
     </>

@@ -46,7 +46,7 @@ type SwapRate = {
 
 export const SWAP_RATES: SwapRate = {
     [SwapDirection.QuarkToStar]: 0.001,
-    [SwapDirection.StarToQuark]: 1000,
+    [SwapDirection.StarToQuark]: 900,
 };
 
 export const $swapRates = atom<SwapRate>(SWAP_RATES);
@@ -55,12 +55,16 @@ export interface SwapState {
   fromValue: string;
   toValue: string;
   direction: SwapDirection;
+  step: string;
+  min: string;
 }
 
 export const $swapState = atom<SwapState>({
   fromValue: '',
   toValue: '',
   direction: SwapDirection.QuarkToStar,
+  step: "1",
+  min: "100"
 });
 
 const convertCurrency = (amount: number, direction: SwapDirection): number => {
@@ -69,7 +73,7 @@ const convertCurrency = (amount: number, direction: SwapDirection): number => {
 };
 
 export const updateSwapValues = (value: string, input: 'from' | 'to', max: number) => {
-  const { direction } = $swapState.get();
+  const { direction, step, min } = $swapState.get();
   const numericValue = Math.min(Math.max(parseFloat(value) || 0, 0), max);
   
   const rate = $swapRates.get()[direction];
@@ -82,11 +86,13 @@ export const updateSwapValues = (value: string, input: 'from' | 'to', max: numbe
     toValue = numericValue;
     fromValue = rate !== 0 ? Number((numericValue / rate).toFixed(6)) : 0;
   }
-
+  console.log('fromValue', fromValue, 'toValue', toValue);
   $swapState.set({
     direction,
     fromValue: fromValue.toString(),
     toValue: toValue.toString(),
+    step,
+    min
   });
 };
 
@@ -96,10 +102,14 @@ export const toggleSwapDirection = () => {
     ? SwapDirection.StarToQuark
     : SwapDirection.QuarkToStar;
 
+  const newStep = newDirection === SwapDirection.QuarkToStar ? "1" : "0.1";
+  const newMin = newDirection === SwapDirection.QuarkToStar ? "100" : "0.1";
   $swapState.set({
     fromValue: currentState.toValue,
     toValue: currentState.fromValue,
     direction: newDirection,
+    step: newStep,
+    min: newMin
   });
 };
 
@@ -108,12 +118,14 @@ export const setMaxFromValue = (maxValue: number) => {
     throw new Error('Max value cannot be negative');
   }
   
-  const { direction } = $swapState.get();
+  const { direction, step, min } = $swapState.get();
   const convertedValue = convertCurrency(maxValue, direction);
 
   $swapState.set({
     direction,
     fromValue: maxValue.toString(),
     toValue: convertedValue.toString(),
+    step,
+    min
   });
 };
