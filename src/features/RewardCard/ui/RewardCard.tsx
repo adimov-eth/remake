@@ -27,7 +27,7 @@ export const RewardCard = ({
       <S.Icon size={iconSize}>
         {isQuark ? <QuarkIcon /> : <StarIcon />}
       </S.Icon>
-      <span>{formatter.format(reward_quarks)}</span>
+      <span>{isQuark ? formatter.format(reward_quarks) : formatter.format(reward_stars)}</span>
     </S.Root>
   );
 };
