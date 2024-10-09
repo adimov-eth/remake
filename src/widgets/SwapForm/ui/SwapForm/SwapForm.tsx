@@ -43,13 +43,13 @@ export const SwapForm: React.FC = () => {
  
   const handleSwapSuccess = () => {
     updateSwapValues('', 'from', 0);
-    queryClient.invalidateQueries({ queryKey: ['get/missions'] });
+    setTimeout(() => queryClient.invalidateQueries({ queryKey: ['get/missions'] }), 2000); // delay so swap can be processed before missions are updated
+    
   };
 
   const handleSwapError = (error: unknown) => {
     ErrorNotification(tGlobal('something_went_wrong'));
     console.error('Error creating swap:', error);
-    queryClient.invalidateQueries({ queryKey: ['get/missions'] });
   };
 
   const { mutate: swapMutation, isPending: isSwapPending, isSuccess: isSwapSuccess } = useCreateSwap({
