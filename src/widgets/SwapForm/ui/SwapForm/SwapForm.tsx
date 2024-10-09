@@ -27,13 +27,12 @@ import { SwapFormInput } from '../SwapFormInput/SwapFormInput';
 import * as S from './SwapForm.style';
 import SwapIcon from '@shared/assets/swap-currency.svg?react';
 
-// TODO выояснить почему происходит столько рендеров при инициализации
+// TODO требуется полный рефакторинг
 
 export const SwapForm: React.FC = () => {
   const rawData = initDataRaw || '';
   const gameState = useStore($gameState);
   const { t: tGlobal } = useTranslation('global');
-  const { t: tPages } = useTranslation('pages');
   // const connectionStatus = useStore($connectionStatus);
   const { fromValue, toValue, direction, min: minSwapAmount, step: swapStep } = useStore($swapState);
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData({ enabled: !!rawData, variables: { rawData } });
@@ -72,11 +71,6 @@ export const SwapForm: React.FC = () => {
   }, [swapMutation, currentPair.from.symbol, fromValue, rawData]);
 
   const isLoading = isUserDataLoading; //|| isSwapPending || connectionStatus !== 'online';
-
-  const INDICATOR: Record<SwapDirection, string> = {
-    QuarkToStar: tPages('swap.exchange_quark'),
-    StarToQuark: tPages('swap.exchange_star'),
-  };
 
   const [top, bottom] = useMemo(() => {
     return direction === SwapDirection.QuarkToStar
@@ -125,7 +119,6 @@ export const SwapForm: React.FC = () => {
         >
           {tGlobal('swap')}
         </S.SwapButton>
-        <S.DirectionIndicator>{INDICATOR[direction]}</S.DirectionIndicator>
       </form>
       {(isQuarkToStarDirection && isSwapSuccess) && <ExactConversion quarks={parseInt(fromValue)} />}
       {(isQuarkToStarDirection && isSwapSuccess) && <PalindromeConverter quarks={parseInt(fromValue)} />}

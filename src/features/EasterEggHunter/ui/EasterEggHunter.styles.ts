@@ -3,9 +3,6 @@ import { styled } from '@app/stitches.config';
 export const Button = styled('button', {
   width: '2.5rem',
   height: '2.5rem',
-  marginTop: 'auto',
-  marginBottom: '2.5rem',
-  marginLeft: '2.5rem',
   backgroundColor: 'transparent',
   border: 'none',
 });

@@ -17,7 +17,15 @@ export const NavList = styled('ul', {
   listStyle: 'none',
 });
 
-export const NavListItem = styled('li', {});
+export const NavListItem = styled('li', {
+  position: 'relative',
+});
+
+export const NavListItemBadge = styled('span', {
+  position: 'absolute',
+  top: '0.1875rem',
+  right: '0.1875rem',
+});
 
 export const NavLink = styled(Link, {
   display: 'inline-flex',

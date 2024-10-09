@@ -10,10 +10,7 @@
   "missions": {
     "title": "Миссии"
   },
-  "swap": {
-    "exchange_quark": "Кварк в Звезду",
-    "exchange_star": "Звезда в Кварк"
-  },
+  "swap": {},
   "profile": {
     "daily_rewards": "Ежедневные награды"
   }

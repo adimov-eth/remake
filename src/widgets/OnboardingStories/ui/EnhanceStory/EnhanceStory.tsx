@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { StoryHeader, StorySeeMore } from '../Story';
 
-import videoMp4_4 from '@shared/assets/stories/on4.mp4';
+import video from '@shared/assets/stories/enhance.webm';
 
 const Header: React.FC = () => {
   const { t } = useTranslation('stories');
@@ -29,7 +29,7 @@ const SeeMore: React.FC = () => {
 };
 
 export const enhanceStoryConfig = {
-  url: videoMp4_4,
+  url: video,
   type: 'video',
   header: Header,
   seeMore: SeeMore,

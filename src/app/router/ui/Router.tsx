@@ -38,7 +38,7 @@ import {
 
 import * as S from './Router.styles';
 
-export default () => {
+export const AppRouter = () => {
   const navigator = initNavigator('app-navigation-state');
   const [location, reactNavigator] = useIntegration(navigator);
   const isNew = useStore($isNew);

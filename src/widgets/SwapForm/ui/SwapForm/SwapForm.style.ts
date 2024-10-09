@@ -23,13 +23,6 @@ export const Icon = styled('div', {
   height: '1.5rem',
 });
 
-export const DirectionIndicator = styled('div', {
-  textAlign: 'center',
-  margin: '0.625rem 0',
-  color: '#9ca3af',
-  fontSize: '0.875rem',
-});
-
 export const SwapButton = styled(Button, {
   margin: '1.25rem 0'
 });
