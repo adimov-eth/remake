@@ -5,15 +5,15 @@ import { Button } from '@shared/ui/Button';
 import { DailyRewardsModal } from '../DailyRewardsModal/DailyRewardsModal';
 
 export const DailyRewards = () => {
-    const [dailyOpen, setDailyOpen] = useState(false);
-    const { t } = useTranslation('pages');
+  const [dailyOpen, setDailyOpen] = useState(false);
+  const { t } = useTranslation('pages');
 
-    return (
-        <>
-            <Button variant="primary" size='medium' onClick={() => setDailyOpen(true)}>
-                {t('profile.daily_rewards')}
-            </Button>
-            <DailyRewardsModal open={dailyOpen} onClose={() => setDailyOpen(false)} />
-        </>
-    );
+  return (
+    <>
+      <Button variant="primary" size='medium' onClick={() => setDailyOpen(true)}>
+        {t('profile.daily_rewards')}
+      </Button>
+      <DailyRewardsModal open={dailyOpen} onClose={() => setDailyOpen(false)} />
+    </>
+  );
 };

@@ -13,14 +13,14 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ title, error }) => {
   let errorMessage = '';
 
   switch (true) {
-    case error instanceof Error:
-      errorMessage = error.message;
-      break;
-    case typeof error === 'string':
-      errorMessage = error;
-      break;
-    default:
-      errorMessage = JSON.stringify(error);
+  case error instanceof Error:
+    errorMessage = error.message;
+    break;
+  case typeof error === 'string':
+    errorMessage = error;
+    break;
+  default:
+    errorMessage = JSON.stringify(error);
   }
 
   return (

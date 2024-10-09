@@ -20,42 +20,42 @@ const createLoader =
     loadEvent: keyof HTMLElementEventMap,
     preloadAttr?: 'preload'
   ) =>
-  (url: string): Promise<void> =>
-    new Promise<void>(resolve => {
-      const element = document.createElement(elementType) as T;
-      if (preloadAttr && element instanceof HTMLVideoElement) {
-        element.preload = 'auto';
-      }
-      if (element instanceof HTMLVideoElement) {
-        element.muted = true;
-      }
-
-      const cleanup = () => {
-        element.removeEventListener(loadEvent, handleLoad);
-        element.removeEventListener('error', handleError);
-        if (element instanceof HTMLVideoElement) {
-          element.remove();
+    (url: string): Promise<void> =>
+      new Promise<void>(resolve => {
+        const element = document.createElement(elementType) as T;
+        if (preloadAttr && element instanceof HTMLVideoElement) {
+          element.preload = 'auto';
         }
-      };
+        if (element instanceof HTMLVideoElement) {
+          element.muted = true;
+        }
 
-      const handleLoad = () => {
-        cleanup();
-        resolve();
-      };
+        const cleanup = () => {
+          element.removeEventListener(loadEvent, handleLoad);
+          element.removeEventListener('error', handleError);
+          if (element instanceof HTMLVideoElement) {
+            element.remove();
+          }
+        };
 
-      const handleError = () => {
-        console.error(`Failed to load ${elementType}: ${url}`);
-        cleanup();
-        resolve();
-      };
+        const handleLoad = () => {
+          cleanup();
+          resolve();
+        };
 
-      element.addEventListener(loadEvent, handleLoad);
-      element.addEventListener('error', handleError);
-      element.src = url;
-      if (element instanceof HTMLVideoElement) {
-        element.load();
-      }
-    });
+        const handleError = () => {
+          console.error(`Failed to load ${elementType}: ${url}`);
+          cleanup();
+          resolve();
+        };
+
+        element.addEventListener(loadEvent, handleLoad);
+        element.addEventListener('error', handleError);
+        element.src = url;
+        if (element instanceof HTMLVideoElement) {
+          element.load();
+        }
+      });
 
 const loadImage = createLoader<HTMLImageElement>('img', 'load');
 const loadVideo = createLoader<HTMLVideoElement>('video', 'loadeddata', 'preload');

@@ -66,18 +66,18 @@ export default () => {
   useEffect(() => {
     if (currentNotification && !currentNotification.read) {
       switch (currentNotification.type) {
-        case 'success':
-          SuccessNotification(currentNotification.message);
-          break;
-        case 'error':
-          ErrorNotification(currentNotification.message);
-          break;
-        case 'info':
-          InformationNotification(currentNotification.message);
-          break;
-        default:
-          AchievementNotification(currentNotification.message);
-          break;
+      case 'success':
+        SuccessNotification(currentNotification.message);
+        break;
+      case 'error':
+        ErrorNotification(currentNotification.message);
+        break;
+      case 'info':
+        InformationNotification(currentNotification.message);
+        break;
+      default:
+        AchievementNotification(currentNotification.message);
+        break;
       }
 
       $currentNotification.set({ ...currentNotification, read: true });

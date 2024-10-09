@@ -45,8 +45,8 @@ type SwapRate = {
 }
 
 export const SWAP_RATES: SwapRate = {
-    [SwapDirection.QuarkToStar]: 0.001,
-    [SwapDirection.StarToQuark]: 1000,
+  [SwapDirection.QuarkToStar]: 0.001,
+  [SwapDirection.StarToQuark]: 1000,
 };
 
 export const $swapRates = atom<SwapRate>(SWAP_RATES);

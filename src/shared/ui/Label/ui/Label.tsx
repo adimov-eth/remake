@@ -9,22 +9,22 @@ export interface ILabelProps extends React.HTMLAttributes<HTMLSpanElement | HTML
 }
 
 export const Label = ({
-    variant = 'primary',
-    size = 'medium',
-    children,
-    type = 'button',
-    as = 'span',
-    ...props
+  variant = 'primary',
+  size = 'medium',
+  children,
+  type = 'button',
+  as = 'span',
+  ...props
 }: ILabelProps) => {
-    return (
-        <S.Root
-            variant={variant}
-            size={size}
-            as={as}
-            {...(as === 'button' ? { type } : {})}
-            {...props}
-        >
-            {children}
-        </S.Root>
-    );
+  return (
+    <S.Root
+      variant={variant}
+      size={size}
+      as={as}
+      {...(as === 'button' ? { type } : {})}
+      {...props}
+    >
+      {children}
+    </S.Root>
+  );
 };
