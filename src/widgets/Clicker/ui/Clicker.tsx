@@ -63,8 +63,8 @@ export const Clicker: FC = () => {
   });
 
   const deviceTier = useDeviceTier();
-  const levelProgress = gameState?.levelProgress.get() ?? 0;
-
+  const levelProgress = useStore(gameState?.levelProgress);
+  
   if (connectionStatus !== 'online') return <S.Root><Loader speed="fast" /></S.Root>;
 
   return (
