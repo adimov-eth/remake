@@ -12,26 +12,10 @@ import { Avatar } from '@/shared/ui/Avatar';
 import { MissionModal } from '../MissionModal/MissionModal';
 import { AchievementNotification, InformationNotification } from '@shared/ui/Notification';
 
-import { ArrowIcon, CloseIcon, DoneIcon } from '@shared/assets/icons';
+import { CloseIcon, DoneIcon } from '@shared/assets/icons';
 
 import * as S from './MissionCard.styles';
 
-import { MissionCompleteStatus } from '@app/stores/missions';
-
-type IconsMapType = {
-  [key in MissionCompleteStatus]: React.ReactNode;
-};
-
-const iconsMap: IconsMapType = {
-  'in_progress': <S.CardIcon as={ArrowIcon} />,
-  'claimed_reward': <S.CardIcon as={DoneIcon} />,
-  'overdue': <S.CardIcon as={CloseIcon} />,
-  'participated_once': <S.CardIcon as={CloseIcon} />,
-  'available': null,
-  'unavailable': null,
-  'not_started': null,
-  'complete': null,
-};
 
 export const MissionCard: FC<ResolvedMission> = ({
   id,
@@ -41,6 +25,8 @@ export const MissionCard: FC<ResolvedMission> = ({
   description,
   progress_status,
   icon_url,
+  start_date,
+  end_date,
   requirements,
   resolved_status,
 }) => {
@@ -108,31 +94,55 @@ export const MissionCard: FC<ResolvedMission> = ({
     });
   }, [queryClient, rawData, id]);
 
-  const Icon = iconsMap[resolved_status] || null;
-
   const isShowQuarks = amountQuarks > 0;
   const isShowStars = amountStars > 0;
+
+  const renderStatus = () => {
+    switch (true) {
+    case progress_status === MissionProgressStatus.IN_PROGRESS:
+      return <BalanceDisplay
+        variant="ghost"
+        size="small"
+        quarks={amountQuarks}
+        stars={amountStars}
+        showQuarks={isShowQuarks}
+        showStars={isShowStars}
+      />;
+    case progress_status === MissionProgressStatus.COMPLETE:
+      return <BalanceDisplay
+        variant="primary"
+        size="small"
+        quarks={amountQuarks}
+        stars={amountStars}
+        showQuarks={isShowQuarks}
+        showStars={isShowStars}
+      />;
+    case progress_status === MissionProgressStatus.CLAIMED_REWARD:
+      return <S.StatusIcon as={DoneIcon} />;
+    case progress_status === MissionProgressStatus.PARTICIPATED_ONCE:
+      return <S.StatusIcon as={CloseIcon} />;
+    default:
+      return null;
+    }
+  };
 
   return (
     <>
       <S.Card status={resolved_status} onClick={handleOverlayClick}>
         <S.Info>
-          <Avatar src={icon_url || ''} size={40} />
+          <Avatar 
+            src={icon_url || ''} 
+            size={48} 
+            alt={name} 
+            start_date={start_date} 
+            end_date={end_date} 
+          />
           <S.Content>
             <S.Title>{name}</S.Title>
-            <BalanceDisplay
-              variant="ghost"
-              quarks={amountQuarks}
-              stars={amountStars}
-              showQuarks={isShowQuarks}
-              showStars={isShowStars}
-            />
+            <S.Description>{description}</S.Description>
           </S.Content>
         </S.Info>
-        {progress_status === 'complete'
-          ? <S.LabelComplete>{t('complete')}</S.LabelComplete>
-          : <S.LabelAvailable>{Icon}</S.LabelAvailable>
-        }
+        {renderStatus()}
       </S.Card>
       <MissionModal
         open={modalOpen}

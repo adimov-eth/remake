@@ -15,11 +15,9 @@ export const Button = styled('button', {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '100%',
   minWidth: '2.5rem',
   minHeight: '2.5rem',
   fontFamily: 'var(--font-pro-display)',
-  fontWeight: 600,
   cursor: 'pointer',
   border: 'none',
   borderRadius: 'var(--rounded)',
@@ -75,6 +73,11 @@ export const Button = styled('button', {
         '--rounded': '9999px',
       },
     },
+    wide: {
+      true: {
+        width: '100%',
+      },
+    },
     variant: {
       primary: {
         '--before-bg': 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',
@@ -102,15 +105,18 @@ export const Button = styled('button', {
     },
     size: {
       small: {
-        fontSize: '1rem',
+        fontSize: '0.875rem',
+        fontWeight: 500,
         padding: '0.5rem',
       },
       medium: {
-        fontSize: '1.25rem',
+        fontSize: '0.875rem',
+        fontWeight: 500,
         padding: '0.625rem',
       },
       large: {
-        fontSize: '1.5rem',
+        fontSize: '1rem',
+        fontWeight: 600,
         padding: '0.75rem',
       },
     },
