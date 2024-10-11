@@ -6,6 +6,7 @@
   "claimed_successfully": "Claimed successfully!",
   "something_went_wrong": "Something went wrong",
   "daily_rewards": "Daily Rewards",
+  "daily_rewards_short_description": "Hurry up to collect!",
   "daily_rewards_description": "Collect coins for daily entry into the game without passes. The \"Collect\" button must be pressed daily, otherwise the day counter will start over.",
   "receiving_daily_rewards": "Receiving Daily Rewards...",
   "loading": "Loading...",
@@ -22,6 +23,7 @@
   "mission_started": "Mission started",
   "reward_claimed": "Reward claimed successfully!",
   "complete": "Complete",
+  "check_in": "Check in",
 
   "previous": "Previous",
   "next": "Next",
@@ -83,5 +85,12 @@
   },
 
   "day": "Day {{day}}",
-  "star": "Star"
+  "star": "Star",
+  "missions_list": {
+    "daily": "Daily",
+    "milestone": "Milestone",
+    "special": "Special",
+    "social": "Social",
+    "secret": "Secret"
+  }
 }

@@ -16,6 +16,7 @@ interface IBalanceDisplayProps extends Omit<ILabelProps, 'children'> {
 
 export const BalanceDisplay: React.FC<IBalanceDisplayProps> = ({
   variant = 'secondary',
+  size = 'large',
   quarks = 0,
   stars = 0,
   showQuarks = true,
@@ -23,13 +24,13 @@ export const BalanceDisplay: React.FC<IBalanceDisplayProps> = ({
 }) => (
   <S.Root>
     {showQuarks && (
-      <Label id="quarks" variant={variant} size="large">
+      <Label id="quarks" variant={variant} size={size}>
         <S.Icon as={QuarkIcon} />
         {formatNumber(Math.round(quarks))}
       </Label>
     )}
     {showStars && (
-      <Label id="stars" variant={variant} size="large">
+      <Label id="stars" variant={variant} size={size}>
         <S.Icon as={StarIcon} />
         {stars}
       </Label>

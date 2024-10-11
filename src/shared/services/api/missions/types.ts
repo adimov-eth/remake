@@ -19,7 +19,7 @@ export enum MissionType {
   DAILY = 'daily',
   MILESTONE = 'milestone',
   SPECIAL = 'special',
-  EVENT = 'event',
+  SOCIAL = 'social',
   SECRET = 'secret',
 }
 
@@ -85,7 +85,6 @@ export type MissionRequirements = {
 // }
 
 export const missionTypeOrder: MissionType[] = [
-  MissionType.EVENT,
   MissionType.DAILY,
   MissionType.MILESTONE,
   MissionType.SPECIAL,

@@ -4,7 +4,6 @@ export const Root = styled('span', {
   display: 'inline-flex',
   alignItems: 'center',
   gap: '0.25rem',
-  padding: '0.5rem 0.625rem',
   borderRadius: '0.75rem',
   fontFamily: 'var(--font-mono)',
   fontSize: '0.875rem',
@@ -15,7 +14,7 @@ export const Root = styled('span', {
   variants: {
     variant: {
       primary: {
-        backgroundColor: 'rgba(46, 85, 251, 1)',
+        background: 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',
       },
       secondary: {
         backgroundColor: 'rgba(37, 40, 59, 1)',
@@ -26,7 +25,7 @@ export const Root = styled('span', {
     },
     size: {
       small: {
-        // padding: '0.5rem 0.625rem',
+        padding: '0.5rem 0.625rem',
       },
       medium: {
         padding: '0.5rem 0.625rem',

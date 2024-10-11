@@ -2,22 +2,23 @@ import { styled } from '@app/stitches.config';
 import { progressBarAnimation } from '@app/stitches.config';
 
 export const AvatarWrapper = styled('div', {
+  position: 'relative',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   overflow: 'visible',
-  position: 'relative',
   borderRadius: '1rem',
 });
 
 export const AvatarContainer = styled('div', {
+  position: 'relative',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   overflow: 'hidden',
   backgroundColor: 'rgba(28, 31, 48, 1)',
   borderRadius: '1rem',
-  position: 'relative',
+  // border: '3px solid rgb(20, 21, 30)',
 });
 
 export const ProfileImage = styled('img', {
@@ -29,7 +30,7 @@ export const ProgressBar = styled('div', {
   position: 'absolute',
   width: '100%',
   height: '100%',
-  borderRadius: '1rem',
+  borderRadius: '1.1875rem', // border-radius + border-Width
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -37,24 +38,24 @@ export const ProgressBar = styled('div', {
 });
 
 export const ProgressBarInner = styled('div', {
-  backgroundColor: 'transparent',
-  borderRadius: '1rem',
-  width: '100%',
-  height: '100%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  boxSizing: 'border-box',
+  width: '100%',
+  height: '100%',
+  borderRadius: '1rem',
+  backgroundColor: 'transparent',
 });
 
 export const TimeDisplay = styled('div', {
   position: 'absolute',
-  bottom: '0px',
-  right: '-6px',
+  bottom: '0',
+  right: '-0.375rem',
   fontFamily: 'var(--font-pro-display)',
-  fontSize: '10px',
+  fontSize: '0.625rem',
   fontWeight: 500,
-  borderRadius: '3px',
-  padding: '3px',
+  lineHeight: 1,
+  borderRadius: '0.1875rem',
+  padding: '0.1875rem',
   color: '#fff',
 });

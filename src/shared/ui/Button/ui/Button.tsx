@@ -13,6 +13,7 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   shine?: boolean;
   outline?: boolean;
   loading?: boolean;
+  wide?: boolean;
   children: React.ReactNode;
   as?: React.ElementType;
 }
@@ -24,6 +25,7 @@ export const Button: React.FC<IButtonProps> = ({
   shine = false,
   loading = false,
   outline = false,
+  wide = true,
   type = 'button',
   children,
   as = 'button',
@@ -36,6 +38,7 @@ export const Button: React.FC<IButtonProps> = ({
       shine={shine}
       loading={loading}
       outline={outline}
+      wide={wide}
       type={type}
       as={as}
       rounded={rounded}
