@@ -22,7 +22,7 @@ const levels = [
 
 export const InviteFriendsCard = () => {
   const { t } = useTranslation('global');
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const btnText = isOpen ? t('hide_all_bonuses') : t('see_more_bonuses');
   
   const handleToggle = (event: React.SyntheticEvent<HTMLDetailsElement, Event>) => {
