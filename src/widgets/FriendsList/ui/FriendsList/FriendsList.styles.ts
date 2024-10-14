@@ -55,10 +55,18 @@ export const CardDescription = styled('div', {
   lineHeight: '1rem',
 });
 
-export const Container = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.75rem',
+export const List = styled('ul', {
+  display: 'block',
+  width: '100%',
+  listStyle: 'none',
+  padding: 0,
+  margin: 0,
+});
+
+export const ListItem = styled('li', {
+  '& + &': {
+    marginTop: '0.625rem',
+  },
 });
 
 export const CopyIcon = styled('div', {

@@ -5,8 +5,8 @@ import { Button } from '@shared/ui/Button';
 import { DailyRewardsModal } from '@features/DailyRewardsModal/DailyRewardsModal';
 
 export const DailyRewards = () => {
-  const [dailyOpen, setDailyOpen] = useState(false);
   const { t } = useTranslation('pages');
+  const [dailyOpen, setDailyOpen] = useState(false);
 
   return (
     <>

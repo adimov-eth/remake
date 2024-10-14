@@ -43,9 +43,8 @@ const Inner: FC = () => {
       import('eruda').then(lib => lib.default.init());
     }
   }, [debug]);
-  if (initializationError) {
-    return <ErrorDisplay error={initializationError} />;
-  }
+
+  if (initializationError) return <ErrorDisplay error={initializationError} />;
 
   console.table({
     initializationStep,

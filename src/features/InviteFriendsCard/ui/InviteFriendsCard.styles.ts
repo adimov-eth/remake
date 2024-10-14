@@ -1,4 +1,8 @@
 import { styled } from '@app/stitches.config';
+import QuarkIcon from '@shared/assets/quark.svg';
+
+export const Root = styled('div', {
+});
 
 export const Details = styled('details', {
   // pointerEvents: 'none',
@@ -42,13 +46,15 @@ export const Title = styled('h3', {
 });
 
 export const Description = styled('p', {
-  display: 'inline-flex',
-  alignItems: 'center',
   fontFamily: 'var(--font-pro-display)',
   fontSize: '0.875rem',
   fontWeight: '400',
-  lineHeight: '1rem',
+  lineHeight: '1.5rem',
   color: 'rgba(149, 162, 197, 1)',
+  '& > * + *': {
+    marginLeft: '0.5rem',
+    lineHeight: '1.5rem',
+  }
 });
 
 export const Reward = styled('span', {
@@ -57,11 +63,15 @@ export const Reward = styled('span', {
   fontFamily: 'var(--font-mono)',
   fontSize: '0.875rem',
   fontWeight: '600',
-  marginRight: '0.5rem',
   color: 'rgba(255, 255, 255, 1)',
+  paddingLeft: '1.75rem',
+  backgroundImage: `url(${QuarkIcon})`,
+  backgroundSize: '1.5rem',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'left center',
 });
 
-export const RewardIcon = styled('img', {
+export const RewardIcon = styled('div', {
   width: '1.5rem',
   height: '1.5rem',
   marginRight: '0.25rem',

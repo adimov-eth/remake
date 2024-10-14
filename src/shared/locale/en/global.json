@@ -99,5 +99,7 @@
   "bonuses_for_raising_the_level": "Bonuses for raising the level",
   "level": "Level",
   "for_friend": "For friend",
-  "premium": "Premium"
+  "premium": "Premium",
+  "copied_to_clipboard": "Copied to clipboard",
+  "failed_to_copy": "Failed to copy"
 }

@@ -99,5 +99,7 @@
   "bonuses_for_raising_the_level": "Бонусы за повышение уровня",
   "level": "Уровень",
   "for_friend": "для друга",
-  "premium": "Премиум"
+  "premium": "Премиум",
+  "copied_to_clipboard": "Скопировано в буфер обмена",
+  "failed_to_copy": "Не удалось скопировать"
 }

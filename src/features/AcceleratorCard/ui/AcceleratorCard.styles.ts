@@ -65,7 +65,6 @@ export const ConfirmContent = styled('div', {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  marginTop: '0.625rem',
 });
 
 export const ConfirmImg = styled('div', {
@@ -81,6 +80,7 @@ export const ConfirmTitle = styled('span', {
   fontWeight: 700,
   color: '#fff',
   marginTop: '0.625rem',
+  textAlign: 'center',
 });
 
 export const ConfirmDescription = styled('span', {
@@ -89,6 +89,7 @@ export const ConfirmDescription = styled('span', {
   fontWeight: 400,
   color: 'rgba(149, 162, 197, 1)',
   marginTop: '1rem',
+  textAlign: 'center',
 });
 
 export const ConfirmFooter = styled('div', {

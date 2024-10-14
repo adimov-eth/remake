@@ -63,6 +63,17 @@ export const DailyRewardsModal = ({ open, onClose }: { open: boolean; onClose: (
     }
   }, [currentCompleteReward, rawData, claimReward, notifyUser, onClose]);
 
+  const getButtonText = () => {
+    switch (true) {
+    case claimRewardLoading:
+      return t('loading');
+    case !currentCompleteReward || rewardIsClaimed:
+      return t('get_award_tomorrow');
+    default:
+      return t('collect');
+    }
+  };
+
   return (
     <Modal open={open} onClose={onClose}>
       <S.Root>
@@ -75,22 +86,22 @@ export const DailyRewardsModal = ({ open, onClose }: { open: boolean; onClose: (
           </>
         ) : (
           <>
-            <S.Rewards>
+            <S.List>
               {sortedRewards?.map((reward, i) => (
-                <RewardCard key={i} {...reward} day={i + 1} />
+                <S.ListItem key={i}>
+                  <RewardCard {...reward} day={i + 1} special={i === sortedRewards.length - 1}/>
+                </S.ListItem>
               ))}
-            </S.Rewards>
-            <Button
-              disabled={!currentCompleteReward || rewardIsClaimed || claimRewardLoading || !rawData}
-              variant="primary"
-              onClick={handleCollectReward}
-            >
-              {claimRewardLoading
-                ? t('loading')
-                : !currentCompleteReward || rewardIsClaimed
-                  ? t('get_award_tomorrow')
-                  : t('collect')}
-            </Button>
+            </S.List>
+            <S.BottomArea>
+              <Button
+                disabled={!currentCompleteReward || rewardIsClaimed || claimRewardLoading || !rawData}
+                variant="primary"
+                onClick={handleCollectReward}
+              >
+                {getButtonText()}
+              </Button>
+            </S.BottomArea>
           </>
         )}
       </S.Root>

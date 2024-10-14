@@ -16,6 +16,23 @@ export const BlurBackdrop = styled('div', {
     zIndex: 0,
   },
   variants: {
+    size: {
+      sm: {
+        '&::before': {
+          filter: 'blur(1.5rem)',
+        },
+      },
+      md: {
+        '&::before': {
+          filter: 'blur(2.5rem)',
+        },
+      },
+      lg: {
+        '&::before': {
+          filter: 'blur(4.625rem)',
+        },
+      },
+    },
     variant: {
       pink: {
         '&::before': {
@@ -33,10 +50,7 @@ export const BlurBackdrop = styled('div', {
         },
       },
     },
-  },
-  defaultVariants: {
-    variant: 'pink',
-  },
+  }
 });
 
 export const BlurBackdropContent = styled('div', {

@@ -5,7 +5,6 @@ import { BlurBackdrop } from '@shared/ui/BlurBackdrop';
 
 import * as S from './InviteFriendsCard.styles';
 import CasesPng from '@shared/assets/cases.png';
-import QuarkIcon from '@shared/assets/quark.svg?react';
 
 const levels = [
   { name: 'protostar', for_friend: '1k', premium: '5k' },
@@ -34,7 +33,7 @@ export const InviteFriendsCard = () => {
   };
 
   return (
-    <>
+    <S.Root>
       <S.Details open={isOpen} onToggle={handleToggle}>
         <S.DetailsSummary>
           <BlurBackdrop variant="blue">
@@ -43,11 +42,8 @@ export const InviteFriendsCard = () => {
           <S.Content>
             <S.Title>{t('invite_friends')}</S.Title>
             <S.Description>
-              <S.Reward>
-                <S.RewardIcon as={QuarkIcon} />
-                5,000+
-              </S.Reward>
-              {t('quarks_for_you_and_your_friend')}
+              <S.Reward>5,000+</S.Reward>
+              <span>{t('quarks_for_you_and_your_friend')}</span>
             </S.Description>
           </S.Content>
         </S.DetailsSummary>
@@ -63,16 +59,10 @@ export const InviteFriendsCard = () => {
               <S.TableRow key={level.name}>
                 <S.TableData>{t(`levels.${level.name}`)}</S.TableData>
                 <S.TableData>
-                  <S.Reward>
-                    <S.RewardIcon as={QuarkIcon} />
-                    {level.for_friend}
-                  </S.Reward>
+                  <S.Reward>{level.for_friend}</S.Reward>
                 </S.TableData>
                 <S.TableData>
-                  <S.Reward>
-                    <S.RewardIcon as={QuarkIcon} />
-                    {level.premium}
-                  </S.Reward>
+                  <S.Reward>{level.premium}</S.Reward>
                 </S.TableData>
               </S.TableRow>
             ))}
@@ -80,6 +70,6 @@ export const InviteFriendsCard = () => {
         </S.DetailsContent>
       </S.Details>
       <S.Button type="button" onClick={handleClick}>{btnText}</S.Button>
-    </>
+    </S.Root>
   );
 };
