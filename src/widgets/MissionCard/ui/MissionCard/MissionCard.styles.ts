@@ -31,6 +31,7 @@ export const Card = styled('div', {
           height: '100%',
           background: 'linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
           animation: `${shineAnimation} 4s ease-in-out infinite`,
+          pointerEvents: 'none',
         },
         [`& ${StatusIcon}`]: {
           color: '#fff',

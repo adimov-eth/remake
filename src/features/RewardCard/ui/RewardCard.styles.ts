@@ -36,7 +36,7 @@ export const Root = styled('button', {
         background: 'radial-gradient(64.81% 64.81% at 50% 50%, #121e45 0%, #5634cb 100%)',
         boxShadow: '0px 0px 8px 0px #473bbb',
         [`& ${Content}`]: {
-          background: `url(${bg})`,
+          backgroundImage: `url(${bg})`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'center, cover',
           backgroundPosition: 'center, center',
