@@ -48,20 +48,3 @@ export const Rank = styled('div', {
   textOverflow: 'ellipsis',
   minWidth: 0,
 });
-
-export const Balance = styled('div', {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '0.5rem',
-  fontFamily: 'var(--font-mono)',
-  fontSize: '0.875rem',
-  fontWeight: 600,
-  color: '#fff',
-  flexShrink: 0,
-});
-
-export const BalanceIcon = styled('div', {
-  width: '1.5rem',
-  height: '1.5rem',
-  flexShrink: 0,
-});

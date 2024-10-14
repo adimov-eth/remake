@@ -92,5 +92,14 @@
     "special": "Специальные",
     "social": "Социальные",
     "secret": "Секретные"
-  }
+  },
+  "quarks_for_you_and_your_friend": "кварков для вас и вашего друга",
+  "see_more_bonuses": "Смотреть больше бонусов",
+  "hide_all_bonuses": "Скрыть все бонусы",
+  "bonuses_for_raising_the_level": "Бонусы за повышение уровня",
+  "level": "Уровень",
+  "for_friend": "для друга",
+  "premium": "Премиум",
+  "copied_to_clipboard": "Скопировано в буфер обмена",
+  "failed_to_copy": "Не удалось скопировать"
 }

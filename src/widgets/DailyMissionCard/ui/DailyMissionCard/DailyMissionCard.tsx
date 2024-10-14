@@ -8,8 +8,9 @@ import { DailyRewardsModal } from '@features/DailyRewardsModal/DailyRewardsModal
 
 import * as S from './DailyMissionCard.styles';
 
+interface IDailyMissionCardProps extends Pick<ResolvedMission, 'icon_url' | 'start_date' | 'end_date' | 'resolved_status'> {}
 
-export const DailyMissionCard: FC<ResolvedMission> = ({
+export const DailyMissionCard: FC<IDailyMissionCardProps> = ({
   icon_url,
   start_date,
   end_date,

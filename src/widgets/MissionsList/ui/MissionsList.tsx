@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { FC, Fragment, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useStore } from '@nanostores/react';
 import { initDataRaw } from '@app/stores/telegram';
@@ -22,11 +22,12 @@ type MissionCategories = {
 };
 
 
-export const MissionsList: React.FC = () => {
+export const MissionsList: FC = () => {
   const { t } = useTranslation('global');
   const rawData = initDataRaw || '';
   const { data: fetchedMissions = [], isLoading } = useAllMissions(rawData);
   const sortedMissions = useStore($filteredAndSortedMissions) as ResolvedMission[];
+
   const missionCategories = useMemo(() => {
     const categories: MissionCategories = {
       'daily': { title: t('missions_list.daily'), list: [] },
@@ -42,28 +43,12 @@ export const MissionsList: React.FC = () => {
   }, [sortedMissions, t]);
 
   useEffect(() => {
-    if (fetchedMissions.length > 0) $missions.set(fetchedMissions);
+    if (fetchedMissions.length === 0) return;
+
+    $missions.set(fetchedMissions);
   }, [fetchedMissions]);
 
   if (isLoading) return <Loader speed="slow" />;
-
-  const MissionCategory: React.FC<{ category: MissionCategory }> = ({ category }) => (
-    <S.Category>
-      <S.CategoryTitle>{category.title}</S.CategoryTitle>
-      {category.list.length > 0 && (
-        <S.List>
-          {category.list.map((mission, idx) => (
-            <>
-              { mission.mission_type === MissionType.DAILY && idx === 0 && 
-                <S.ListItem key={mission.id}><DailyMissionCard {...mission} /></S.ListItem>
-              }
-              <S.ListItem key={mission.id}><MissionCard {...mission} /></S.ListItem>
-            </>
-          ))}
-        </S.List>
-      )}
-    </S.Category>
-  );
 
   return (
     <>
@@ -73,3 +58,21 @@ export const MissionsList: React.FC = () => {
     </>
   );
 };
+
+const MissionCategory: FC<{ category: MissionCategory }> = ({ category }) => (
+  <S.Category key={category.title}>
+    <S.CategoryTitle>{category.title}</S.CategoryTitle>
+    {category.list.length > 0 && (
+      <S.List>
+        {category.list.map((mission, idx) => (
+          <Fragment key={mission.id}>
+            {mission.mission_type === MissionType.DAILY && idx === 0 && (
+              <S.ListItem><DailyMissionCard {...mission}/></S.ListItem>
+            )}
+            <S.ListItem><MissionCard {...mission}/></S.ListItem>
+          </Fragment>
+        ))}
+      </S.List>
+    )}
+  </S.Category>
+);
