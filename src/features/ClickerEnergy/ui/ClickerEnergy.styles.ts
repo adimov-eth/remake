@@ -6,6 +6,7 @@ export const Root = styled('div', {
   flexDirection: 'column',
   gap: '0.625rem',
   alignItems: 'center',
+  pointerEvents: 'none',
 });
 
 export const Icon = styled(EnergyIcon, {
