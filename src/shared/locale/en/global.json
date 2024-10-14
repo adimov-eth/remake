@@ -92,5 +92,12 @@
     "special": "Special",
     "social": "Social",
     "secret": "Secret"
-  }
+  },
+  "quarks_for_you_and_your_friend": "quarks for you and your friend",
+  "see_more_bonuses": "See more bonuses",
+  "hide_all_bonuses": "Hide all bonuses",
+  "bonuses_for_raising_the_level": "Bonuses for raising the level",
+  "level": "Level",
+  "for_friend": "For friend",
+  "premium": "Premium"
 }
