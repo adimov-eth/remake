@@ -96,12 +96,6 @@ export const Reward = styled('span', {
   backgroundPosition: 'left center',
 });
 
-export const RewardIcon = styled('div', {
-  width: '1.5rem',
-  height: '1.5rem',
-  marginRight: '0.25rem',
-});
-
 export const Button = styled('button', {
   display: 'inline-flex',
   alignItems: 'center',
