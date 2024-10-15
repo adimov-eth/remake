@@ -60,10 +60,12 @@ export const MissionsList: FC = () => {
   );
 };
 
-const MissionCategory: FC<{ category: MissionCategory }> = ({ category }) => (
-  <S.Category key={category.title}>
-    <S.CategoryTitle>{category.title}</S.CategoryTitle>
-    {category.list.length > 0 && (
+const MissionCategory: FC<{ category: MissionCategory }> = ({ category }) => {
+  if (category.list.length === 0) return null;
+
+  return (
+    <S.Category key={category.title}>
+      <S.CategoryTitle>{category.title}</S.CategoryTitle>
       <S.List>
         {category.list.map((mission, idx) => (
           <Fragment key={mission.id}>
@@ -74,6 +76,6 @@ const MissionCategory: FC<{ category: MissionCategory }> = ({ category }) => (
           </Fragment>
         ))}
       </S.List>
-    )}
-  </S.Category>
-);
+    </S.Category>
+  );
+};

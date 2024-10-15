@@ -11,6 +11,7 @@ export const Content = styled('div', {
   background: 'rgba(20, 21, 30, 1)',
   height: '6.75rem',
   backgroundColor: 'transparent',
+
 });
 
 export const Root = styled('button', {
@@ -39,10 +40,10 @@ export const Root = styled('button', {
         [`& ${Content}`]: {
           backgroundImage: `url(${bg})`,
           backgroundRepeat: 'no-repeat',
-          backgroundSize: 'center, cover',
-          backgroundPosition: 'center, center',
+          backgroundSize: 'center cover',
+          backgroundPosition: 'center center',
         }
-      }
+      },
     },
     disabled: {
       true: {
