@@ -1,5 +1,5 @@
 import { styled, keyframes } from '@stitches/react';
-import bg from '@shared/assets/notification-bg.svg';
+import { notificationBg } from '@shared/assets';
 
 export const Notification = styled('div', {
   '--notification-icon-color': '#fff',
@@ -74,7 +74,7 @@ export const NotificationMessage = styled('div', {
   opacity: 0,
   animation: `${slideInAnimation} 0.5s ease-out forwards, ${slideOutAnimation} 0.5s ease-in 2.5s forwards`,
   whiteSpace: 'nowrap',
-  backgroundImage: `url(${bg})`,
+  backgroundImage: `url(${notificationBg})`,
   backgroundPosition: 'center',
   backgroundSize: 'cover',
 });

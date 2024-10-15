@@ -1,5 +1,5 @@
 import { styled } from '@app/stitches.config';
-import bg from '@shared/assets/quark.svg';
+import { quark } from '@shared/assets';
 
 export const Root = styled('div', {
 });
@@ -90,7 +90,7 @@ export const Reward = styled('span', {
   fontWeight: '600',
   color: 'rgba(255, 255, 255, 1)',
   paddingLeft: '1.75rem',
-  backgroundImage: `url(${bg})`,
+  backgroundImage: `url(${quark})`,
   backgroundSize: '1.5rem',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'left center',
