@@ -7,7 +7,6 @@ import unknown from './accelerators/unknown.svg';
 import warp from './accelerators/warp.svg';
 import arrow from './arrow.svg';
 import backgroundStars from './background-stars.svg';
-import chestShine from './chest-shine.png';
 import chestPng from './chest.png';
 import chestWebp from './chest.webp';
 import close from './close.svg';
@@ -54,6 +53,8 @@ import twitter from './twitter.svg';
 import upgradesFilled from './upgrades-filled.svg';
 import upgrades from './upgrades.svg';
 import user from './user.svg';
+import notificationBg from './notification-bg.svg';
+import rewardBg from './reward-bg.svg';
 
 
 import * as Icons from './icons';
@@ -70,7 +71,6 @@ export {
   warp,
   arrow,
   backgroundStars,
-  chestShine,
   chestPng,
   chestWebp,
   close,
@@ -117,6 +117,6 @@ export {
   upgradesFilled,
   upgrades,
   user,
+  notificationBg,
+  rewardBg
 };
-
-
