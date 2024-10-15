@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { BlurBackdrop } from '@shared/ui/BlurBackdrop';
-
 import * as S from './InviteFriendsCard.styles';
 import CasesPng from '@shared/assets/cases.png';
 
@@ -36,9 +34,9 @@ export const InviteFriendsCard = () => {
     <S.Root>
       <S.Details open={isOpen} onToggle={handleToggle}>
         <S.DetailsSummary>
-          <BlurBackdrop variant="blue">
+          <S.ImageWrapper>
             <S.Image src={CasesPng} width={60} height={60} />
-          </BlurBackdrop>
+          </S.ImageWrapper>
           <S.Content>
             <S.Title>{t('invite_friends')}</S.Title>
             <S.Description>

@@ -21,6 +21,7 @@
     "@telegram-apps/sdk-react": "^1.0.0",
     "@telegram-apps/telegram-ui": "^2.1.5",
     "@tonconnect/ui-react": "^2.0.5",
+    "@twa-dev/sdk": "^7.10.1",
     "axios": "^1.7.5",
     "classnames": "^2.5.1",
     "crypto": "^1.0.1",

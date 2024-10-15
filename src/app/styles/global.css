@@ -16,6 +16,10 @@ a {
   text-decoration: none;
 }
 
+body {
+  overscroll-behavior: contain;
+}
+
 body, html {
   width: 100%;
   min-height: 100%;

@@ -33,6 +33,7 @@ export const Button: React.FC<IButtonProps> = ({
 }) => {
   return (
     <S.Button
+      rounded={rounded}
       variant={variant}
       size={size}
       shine={shine}
@@ -41,7 +42,6 @@ export const Button: React.FC<IButtonProps> = ({
       wide={wide}
       type={type}
       as={as}
-      rounded={rounded}
       {...props}
     >
       <S.ButtonContent>

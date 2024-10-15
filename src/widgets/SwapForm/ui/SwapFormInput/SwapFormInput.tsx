@@ -44,7 +44,7 @@ export const SwapFormInput: React.FC<ISwapFormInputInputProps> = ({
       <S.Label>{label}</S.Label>
       <S.InputContainer>
         <S.Input
-          type="text" // TODO: change to number
+          type="number"
           value={value}
           onChange={handleChange}
           placeholder="0"

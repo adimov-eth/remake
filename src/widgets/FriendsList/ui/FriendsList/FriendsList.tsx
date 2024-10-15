@@ -42,7 +42,7 @@ export const FriendsList: React.FC = () => {
   return (
     <S.Root>
       <S.Title>{t('friends_joined', { count: joined_count })}</S.Title>
-      <S.Description>{t('earned', { quarks: (quarksReward || 0).toLocaleString('en-US'), stars: starsReward })}</S.Description>
+      <S.Description>{t('earned', { quarks: (quarksReward).toLocaleString('en-US'), stars: (starsReward).toLocaleString('en-US') })}</S.Description>
       <S.List>
         {referrals?.map((referral) => (
           <S.ListItem key={referral.tg_uid}>
