@@ -10,6 +10,7 @@ export const Content = styled('div', {
   borderRadius: '1rem',
   background: 'rgba(20, 21, 30, 1)',
   height: '6.75rem',
+  backgroundColor: 'transparent',
 });
 
 export const Root = styled('button', {
@@ -33,7 +34,7 @@ export const Root = styled('button', {
     },
     special: {
       true: {
-        background: 'radial-gradient(64.81% 64.81% at 50% 50%, #121e45 0%, #5634cb 100%)',
+        background: 'radial-gradient(64.81% 64.81% at 50% 50%, #121E45 0%, #5634CB 100%)',
         boxShadow: '0px 0px 8px 0px #473bbb',
         [`& ${Content}`]: {
           backgroundImage: `url(${bg})`,

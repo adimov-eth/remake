@@ -4,16 +4,18 @@ import { floatCloseAnimation } from '@app/stitches.config';
 export const Root = styled('div', {
   position: 'relative',
   display: 'grid',
-  gap: '1.25rem',
   gridTemplateRows: '1fr auto',
   height: '100%',
 });
 
 export const TopArea = styled('div', {
   display: 'grid',
-  gap: '1.25rem',
   gridAutoFlow: 'row',
   gridAutoRows: 'max-content',
+
+  '& > *:nth-child(n+3)': {
+    marginTop: '1.25rem',
+  },
 });
 
 export const Illustration = styled('div', {

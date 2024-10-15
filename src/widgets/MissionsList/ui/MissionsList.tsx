@@ -21,6 +21,7 @@ type MissionCategories = {
   [key in MissionType]: MissionCategory;
 };
 
+// TODO не отображать секретные миссии если они не выполнены
 
 export const MissionsList: FC = () => {
   const { t } = useTranslation('global');

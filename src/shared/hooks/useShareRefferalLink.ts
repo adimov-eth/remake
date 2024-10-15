@@ -19,9 +19,10 @@ const useShareRefferalLink = (text = '') => {
 
   const handleShare = useCallback(() => {
     const botStartUrlWithRefId = buildShareUrl();
-    const shareUrl = `https://t.me/share/url?url=${botStartUrlWithRefId}&text=${text || t('join_me')}`;
+    const encodedText = encodeURIComponent(text || t('join_me'));
+    const shareUrl = `https://t.me/share/url?url=${botStartUrlWithRefId}&text=${encodedText}`;
     utils.openTelegramLink(shareUrl);
-  }, [telegramUser, utils, t, text]);
+  }, [buildShareUrl, utils, t, text]);
 
   return {
     handleShare,

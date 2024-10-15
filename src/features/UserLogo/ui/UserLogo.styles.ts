@@ -1,23 +1,27 @@
 import { styled } from '@stitches/react';
-import { AutoSizeText } from '@shared/ui/AutoSizeText';
-import { UserIcon } from '@shared/assets/icons';
 
 export const UserLogoRoot = styled('div', {
-  maxWidth: '132px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '8.25rem',
+  height: '8.25rem',
   background: '#1C1F30',
-  borderRadius: '32px',
-  padding: '18px 28px 27px',
-  marginBottom: '8px',
+  borderRadius: '2rem',
 });
 
 export const UserLogoWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '12px',
 });
 
-export const UserLogoUsername = styled(AutoSizeText, {
+export const UserLogoIcon = styled('div', {
+  width: '4rem',
+  height: '4rem',
+});
+
+export const UserLogoUsername = styled('span', {
   fontFamily: 'var(--font-pro-display)',
   fontWeight: 500,
   textAlign: 'center',
@@ -26,15 +30,8 @@ export const UserLogoUsername = styled(AutoSizeText, {
   overflow: 'hidden',
   display: 'inline-block',
   width: 'fit-content',
-  fontSize: '14px',
+  textOverflow: 'ellipsis',
+  fontSize: '0.875rem',
   color: 'white',
-});
-
-export const UserLogoIcon = styled(UserIcon, {
-  minWidth: '64px',
-  minHeight: '64px',
-  svg: {
-    minWidth: '64px',
-    minHeight: '64px',
-  }
+  marginTop: '0.75rem',
 });

@@ -1,11 +1,17 @@
 import { styled } from '@app/stitches.config';
-import QuarkIcon from '@shared/assets/quark.svg';
+import bg from '@shared/assets/quark.svg';
 
 export const Root = styled('div', {
 });
 
 export const Details = styled('details', {
   // pointerEvents: 'none',
+  '&::marker': {
+    display: 'none',
+  },
+  '&::-webkit-details-marker': {
+    display: 'none',
+  },
 });
 
 export const DetailsSummary = styled('summary', {
@@ -22,6 +28,25 @@ export const DetailsContent = styled('div', {
   // gridTemplateRows: '0fr',
   // transition: 'all 0.3s ease-in-out',
   paddingTop: '1.25rem',
+});
+
+export const ImageWrapper = styled('div', {
+  position: 'relative',
+  width: '3.75rem',
+  height: '3.75rem',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '9999px',
+    filter: 'blur(0.5rem)',
+    backgroundColor: 'rgba(127, 74, 186, 0.85)',
+    zIndex: 0,
+  },
 });
 
 export const Image = styled('img', {
@@ -65,7 +90,7 @@ export const Reward = styled('span', {
   fontWeight: '600',
   color: 'rgba(255, 255, 255, 1)',
   paddingLeft: '1.75rem',
-  backgroundImage: `url(${QuarkIcon})`,
+  backgroundImage: `url(${bg})`,
   backgroundSize: '1.5rem',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'left center',
@@ -89,12 +114,12 @@ export const Button = styled('button', {
   fontWeight: '700',
   lineHeight: '2.375rem',
   textTransform: 'uppercase',
+  textShadow: '0px 0px 20px rgba(39, 176, 244, 0.80)',
   color: 'transparent',
   border: 'none',
   backgroundColor: 'transparent',
   backgroundImage: 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',
-  '-webkit-background-clip': 'text',
-  'background-clip': 'text',
+  backgroundClip: 'text',
   marginTop: '0.5rem',
 });
 
@@ -107,10 +132,10 @@ export const Table = styled('table', {
 export const TableHeader = styled('th', {
   textAlign: 'left',
   fontFamily: 'var(--font-pro-display)',
-  fontSize: '0.875rem',
-  fontWeight: '600',
+  fontSize: '0.75rem',
+  fontWeight: '400',
   lineHeight: '1rem',
-  color: 'rgba(149, 162, 197, 1)',
+  color: 'rgba(112, 126, 170, 1)',
   padding: '0.5rem 0.75rem',
 });
 

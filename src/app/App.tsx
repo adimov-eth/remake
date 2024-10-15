@@ -2,6 +2,7 @@ import { type FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
+import WebApp from '@twa-dev/sdk';
 import { useStore } from '@nanostores/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import '@shared/locale/index.ts';
@@ -45,6 +46,8 @@ const Inner: FC = () => {
   }, [debug]);
 
   if (initializationError) return <ErrorDisplay error={initializationError} />;
+
+  WebApp.disableVerticalSwipes();
 
   console.table({
     initializationStep,
