@@ -10,7 +10,7 @@ export const StatusIcon = styled('div', {
   color: '#fff',
 });
 
-export const Card = styled('div', {
+export const Card = styled('button', {
   position: 'relative',
   display: 'flex',
   justifyContent: 'space-between',
@@ -18,6 +18,7 @@ export const Card = styled('div', {
   background: '#14151E',
   borderRadius: '1rem',
   padding: '1rem',
+  border: 'none',
   variants: {
     status: {
       in_progress: {
