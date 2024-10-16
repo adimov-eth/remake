@@ -29,20 +29,19 @@ export const FriendsList: React.FC = () => {
   if (!userData) return <div>{t('no_user_data')}</div>;
 
   const {
-    user: {
-      referrals = [],
-      total_reward_quarks: quarksReward = 0,
-      total_reward_stars: starsReward = 0,
-    },
-    meta: {
-      referrals_pagination: { count: joined_count },
-    },
-  } = userData;
+    user: { referrals = [], total_reward_quarks: quarksReward = 0, total_reward_stars: starsReward = 0 },
+    meta: { referrals_pagination: { count: joined_count = 0 } = {} } = {},
+  } = userData ?? {};
 
   return (
     <S.Root>
       <S.Title>{t('friends_joined', { count: joined_count })}</S.Title>
-      <S.Description>{t('earned', { quarks: (quarksReward).toLocaleString('en-US'), stars: (starsReward).toLocaleString('en-US') })}</S.Description>
+      <S.Description>
+        {t('earned', {
+          quarks: Number(quarksReward || 0).toLocaleString('en-US'),
+          stars: Number(starsReward || 0).toLocaleString('en-US')
+        })}
+      </S.Description>
       <S.List>
         {referrals?.map((referral) => (
           <S.ListItem key={referral.tg_uid}>
