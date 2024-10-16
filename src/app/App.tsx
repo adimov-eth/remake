@@ -37,6 +37,13 @@ const Inner: FC = () => {
 
   useEffect(() => {
     initializeApp();
+    WebApp.disableVerticalSwipes();
+    WebApp.setHeaderColor('#0B0C14');
+    WebApp.setBackgroundColor('#0B0C14');
+    WebApp.setBottomBarColor('#0B0C14');
+    WebApp.enableClosingConfirmation();
+    // WebApp.BackButton.show();
+    // WebApp.BackButton.onClick(() => WebApp.close());
   }, []);
 
   useEffect(() => {
@@ -46,8 +53,6 @@ const Inner: FC = () => {
   }, [debug]);
 
   if (initializationError) return <ErrorDisplay error={initializationError} />;
-
-  WebApp.disableVerticalSwipes();
 
   console.table({
     initializationStep,
