@@ -34,15 +34,10 @@ export const MissionCard: FC<ResolvedMission> = ({
   const { notifyUser } = useClickNotification('');
   const queryClient = useQueryClient();
   const rawData = initDataRaw || '';
-
   const [modalOpen, setModalOpen] = useState(false);
-
   const claimRewardMutation = useClaimMissionReward({
-    onError: error => {
-      console.error('Error claiming mission reward:', error);
-    },
+    onError: error => console.error('Error claiming mission reward:', error),
   });
-
   const checkStatusMutation = useCheckMissionStatus({
     onSuccess: updatedMission => {
       queryClient.setQueryData(['missions', rawData], (oldData: Mission[] | undefined) => {
@@ -128,10 +123,10 @@ export const MissionCard: FC<ResolvedMission> = ({
 
   return (
     <>
-      <S.Card status={resolved_status} onClick={handleOverlayClick}>
+      <S.Card type='button' status={resolved_status} onClick={handleOverlayClick}>
         <S.Info>
           <Avatar 
-            src={icon_url || ''} 
+            src={icon_url} 
             size={48} 
             alt={name} 
             start_date={start_date} 

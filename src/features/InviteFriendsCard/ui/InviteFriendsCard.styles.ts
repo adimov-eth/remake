@@ -6,12 +6,6 @@ export const Root = styled('div', {
 
 export const Details = styled('details', {
   // pointerEvents: 'none',
-  '&::marker': {
-    display: 'none',
-  },
-  '&::-webkit-details-marker': {
-    display: 'none',
-  },
 });
 
 export const DetailsSummary = styled('summary', {
@@ -21,6 +15,9 @@ export const DetailsSummary = styled('summary', {
   borderRadius: '1rem',
   border: '1px dashed rgba(87, 104, 157, 0.3)',
   backgroundColor: 'rgba(18, 22, 35, 1)',
+  '&::-webkit-details-marker': {
+    display: 'none',
+  }
 });
 
 export const DetailsContent = styled('div', {
