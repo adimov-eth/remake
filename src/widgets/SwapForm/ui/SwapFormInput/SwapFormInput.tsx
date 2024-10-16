@@ -45,6 +45,8 @@ export const SwapFormInput: React.FC<ISwapFormInputInputProps> = ({
       <S.InputContainer>
         <S.Input
           type="number"
+          inputMode="decimal"
+          pattern="[0-9]*"
           value={value}
           onChange={handleChange}
           placeholder="0"
