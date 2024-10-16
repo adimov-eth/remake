@@ -15,6 +15,7 @@ import copy from './copy.svg';
 import cosmo from './cosmo.webp';
 import cosmo1 from './cosmo1.webp';
 import quark from './quark.svg';
+import quarkPng from './quark.png';
 import star from './star-gradient.svg';
 import done from './done.svg';
 import energy from './energy.svg';
@@ -55,6 +56,7 @@ import upgrades from './upgrades.svg';
 import user from './user.svg';
 import notificationBg from './notification-bg.svg';
 import rewardBg from './reward-bg.svg';
+import starPng from './star.png';
 
 
 import * as Icons from './icons';
@@ -99,6 +101,7 @@ export {
   app,
   channel,
   quark,
+  quarkPng,
   react,
   settings,
   skins,
@@ -118,5 +121,6 @@ export {
   upgrades,
   user,
   notificationBg,
-  rewardBg
+  rewardBg,
+  starPng
 };

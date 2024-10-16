@@ -4,8 +4,6 @@ import { formatNumber } from '@/shared/utils/formatters';
 import { Label, ILabelProps } from '@shared/ui/Label';
 
 import * as S from './BalanceDisplay.styles';
-import QuarkIcon from '@shared/assets/quark.svg?react';
-import StarIcon from '@shared/assets/star-gradient.svg?react';
 
 interface IBalanceDisplayProps extends Omit<ILabelProps, 'children'> {
   quarks?: number
@@ -25,14 +23,16 @@ export const BalanceDisplay: React.FC<IBalanceDisplayProps> = ({
   <S.Root>
     {showQuarks && (
       <Label id="quarks" variant={variant} size={size}>
-        <S.Icon as={QuarkIcon} />
-        {formatNumber(Math.round(quarks))}
+        <S.LabelContent variant="quark">
+          {formatNumber(Math.round(quarks))}
+        </S.LabelContent>
       </Label>
     )}
     {showStars && (
       <Label id="stars" variant={variant} size={size}>
-        <S.Icon as={StarIcon} />
-        {stars}
+        <S.LabelContent variant="star">
+          {stars}
+        </S.LabelContent>
       </Label>
     )}
   </S.Root>

@@ -1,5 +1,5 @@
 import { styled } from '@app/stitches.config';
-import { quark } from '@shared/assets';
+import { quarkPng } from '@shared/assets';
 
 export const Root = styled('div', {
 });
@@ -90,7 +90,7 @@ export const Reward = styled('span', {
   fontWeight: '600',
   color: 'rgba(255, 255, 255, 1)',
   paddingLeft: '1.75rem',
-  backgroundImage: `url(${quark})`,
+  backgroundImage: `url(${quarkPng})`,
   backgroundSize: '1.5rem',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'left center',
@@ -142,7 +142,7 @@ export const TableData = styled('td', {
   borderTop: '1px dashed rgba(87, 104, 157, 0.3)',
   borderBottom: '1px dashed rgba(87, 104, 157, 0.3)',
   backgroundColor: 'rgba(18, 22, 35, 1)',
-  padding: '0.5rem 0.75rem',
+  padding: '0.75rem 1rem',
 });
 
 export const TableRow = styled('tr', {
