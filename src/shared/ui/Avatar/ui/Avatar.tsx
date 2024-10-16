@@ -5,12 +5,12 @@ import UserIcon from '@shared/assets/user.svg?react';
 import * as S from './Avatar.styles';
 
 interface IAvatarProps {
-  src?: string
+  src?: string | null | undefined
   size?: number
   alt?: string
   className?: string
-  start_date?: string | null
-  end_date?: string | null
+  start_date?: string | null | undefined
+  end_date?: string | null | undefined
 }
 
 export const Avatar: FC<IAvatarProps> = ({

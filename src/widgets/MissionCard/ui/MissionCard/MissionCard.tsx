@@ -131,7 +131,7 @@ export const MissionCard: FC<ResolvedMission> = ({
       <S.Card status={resolved_status} onClick={handleOverlayClick}>
         <S.Info>
           <Avatar 
-            src={icon_url || ''} 
+            src={icon_url} 
             size={48} 
             alt={name} 
             start_date={start_date} 
