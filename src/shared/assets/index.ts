@@ -56,6 +56,7 @@ import upgrades from './upgrades.svg';
 import user from './user.svg';
 import notificationBg from './notification-bg.svg';
 import rewardBg from './reward-bg.svg';
+import rewardBgPng from './reward-bg.png';
 import starPng from './star.png';
 
 
@@ -122,5 +123,6 @@ export {
   user,
   notificationBg,
   rewardBg,
+  rewardBgPng,
   starPng
 };

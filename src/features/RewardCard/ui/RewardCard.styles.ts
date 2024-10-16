@@ -1,5 +1,5 @@
 import { styled } from '@app/stitches.config';
-import { rewardBg } from '@shared/assets';
+import { rewardBgPng } from '@shared/assets';
 
 export const Content = styled('div', {
   display: 'flex',
@@ -38,7 +38,7 @@ export const Root = styled('button', {
         background: 'radial-gradient(64.81% 64.81% at 50% 50%, #121E45 0%, #5634CB 100%)',
         boxShadow: '0px 0px 8px 0px #473bbb',
         [`& ${Content}`]: {
-          backgroundImage: `url(${rewardBg})`,
+          backgroundImage: `url(${rewardBgPng})`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'center cover',
           backgroundPosition: 'center center',
