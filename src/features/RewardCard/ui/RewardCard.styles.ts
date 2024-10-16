@@ -11,7 +11,6 @@ export const Content = styled('div', {
   background: 'rgba(20, 21, 30, 1)',
   height: '6.75rem',
   backgroundColor: 'transparent',
-
 });
 
 export const Root = styled('button', {
@@ -31,6 +30,9 @@ export const Root = styled('button', {
     complete: {
       true: {
         background: 'linear-gradient(88.72deg, #264dd0 0%, #5931ae 102.05%)',
+        [`& ${Content}`]: {
+          background: 'rgba(20, 21, 30, 1)'
+        },
       }
     },
     special: {
