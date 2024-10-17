@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { $locale } from '@/app/stores/state';
+import { $locale } from '@app/stores/state';
 
 // Import combined translations for each supported locale
 import enTranslations from './en';

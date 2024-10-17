@@ -14,20 +14,22 @@ import * as S from './UserStatusBar.styles';
 
 export const UserStatusBar: React.FC = () => {
   const gameState = useStore($gameState);
+  const location = useLocation();
+  const { t } = useTranslation('global');
+
+  const quarks: number = useStore(gameState?.quarks ?? 0);
+  const stars: number = useStore(gameState?.stars ?? 0);
+  const currentRank = gameState?.levelDef.get() ?? { name: '' };
+  const telegramUser = useStore($user);
+  const pfp = useStore($pfp);
 
   if (!gameState) return null;
 
-  const location = useLocation();
-  const { t } = useTranslation('global');
+  const isSettingsPage = location.pathname === '/settings';
+  if (isSettingsPage) return null;
+
   const isProfilePage = location.pathname === '/profile';
-  const showQuarks = location.pathname !== '/';
-
-  const quarks: number = useStore(gameState.quarks);
-  const stars: number = useStore(gameState.stars);
-
-  const currentRank = gameState.levelDef.get();
-  const telegramUser = useStore($user);
-  const pfp = useStore($pfp);
+  const isShowQuarks = location.pathname !== '/';
   const rankName = t(`levels.${currentRank.name}`);
 
   console.log('UserStatusBar', { quarks, stars, currentRank, telegramUser, pfp, rankName });
@@ -44,7 +46,7 @@ export const UserStatusBar: React.FC = () => {
         : <BalanceDisplay
           quarks={Number(quarks)}
           stars={Number(stars)}
-          showQuarks={showQuarks}
+          showQuarks={isShowQuarks}
           showStars={true}
         />
       }
