@@ -24,7 +24,7 @@ export const DetailsContent = styled('div', {
   // display: 'grid',
   // gridTemplateRows: '0fr',
   // transition: 'all 0.3s ease-in-out',
-  paddingTop: '1.25rem',
+  paddingTop: '1.875rem',
 });
 
 export const ImageWrapper = styled('div', {

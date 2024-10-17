@@ -60,7 +60,7 @@ export const Value = styled('div', {
   textTransform: 'uppercase',
 });
 
-export const Icon = styled('div', {
+export const Icon = styled('img', {
   margin: '0.375rem 0',
   variants: {
     size: {

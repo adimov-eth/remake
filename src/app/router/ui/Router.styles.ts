@@ -30,7 +30,7 @@ export const Top = styled('div', {
 
 export const Main = styled('main', {
   position: 'relative',
-  padding: '1.875rem 1rem 0',
+  padding: '1.875rem 1rem 1rem 1rem',
   flexGrow: 1,
   overflowY: 'auto',
 });

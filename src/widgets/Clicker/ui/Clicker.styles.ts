@@ -5,7 +5,7 @@ export const Root = styled('div', {
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  paddingBottom: '1.875rem',
+  paddingBottom: '0.875rem',
   height: '100%',
   maxWidth: '18.75rem',
   margin: '0 auto',

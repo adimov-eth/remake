@@ -28,5 +28,5 @@ export const BottomArea = styled('div', {
   right: 0,
   bottom: 0,
   zIndex: 1,
-  padding: '1rem 0',
+  paddingTop: '1rem',
 });
