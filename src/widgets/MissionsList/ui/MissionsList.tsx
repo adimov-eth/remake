@@ -4,7 +4,7 @@ import { useStore } from '@nanostores/react';
 import { initDataRaw } from '@app/stores/telegram';
 import { useAllMissions } from '@shared/services/api/missions/model';
 import { $missions, $filteredAndSortedMissions, ResolvedMission } from '@app/stores/missions';
-import { MissionType } from '@shared/services/api/missions/types';
+import { MissionType, MissionProgressStatus } from '@shared/services/api/missions/types';
 
 import { Loader } from '@shared/ui/Loader';
 import { MissionCard } from '@widgets/MissionCard';
@@ -20,8 +20,6 @@ type MissionCategory = {
 type MissionCategories = {
   [key in MissionType]: MissionCategory;
 };
-
-// TODO не отображать секретные миссии если они не выполнены
 
 export const MissionsList: FC = () => {
   const { t } = useTranslation('global');
@@ -72,7 +70,9 @@ const MissionCategory: FC<{ category: MissionCategory }> = ({ category }) => {
             {mission.mission_type === MissionType.DAILY && idx === 0 && (
               <S.ListItem><DailyMissionCard {...mission}/></S.ListItem>
             )}
-            <S.ListItem><MissionCard {...mission}/></S.ListItem>
+            {mission.progress_status !== MissionProgressStatus.UNAVAILABLE && (
+              <S.ListItem><MissionCard {...mission}/></S.ListItem>
+            )}
           </Fragment>
         ))}
       </S.List>

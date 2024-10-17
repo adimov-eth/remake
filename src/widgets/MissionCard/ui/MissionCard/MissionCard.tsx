@@ -7,6 +7,7 @@ import { Mission } from '@shared/services/api/missions/types';
 import { ResolvedMission, MissionProgressStatus } from '@app/stores/missions';
 import { useClickNotification } from '@shared/hooks';
 
+import { Card, CardVariant } from '@shared/ui/Card';
 import { BalanceDisplay } from '@features/BalanceDisplay';
 import { Avatar } from '@/shared/ui/Avatar';
 import { MissionModal } from '../MissionModal/MissionModal';
@@ -16,12 +17,23 @@ import { CloseIcon, DoneIcon } from '@shared/assets/icons';
 
 import * as S from './MissionCard.styles';
 
+const ResolvedStatusMap: Record<MissionProgressStatus | 'overdue', CardVariant> = {
+  [MissionProgressStatus.IN_PROGRESS]: 'active',
+  [MissionProgressStatus.CLAIMED_REWARD]: 'disabled',
+  [MissionProgressStatus.PARTICIPATED_ONCE]: 'disabled',
+  [MissionProgressStatus.COMPLETE]: 'default',
+  [MissionProgressStatus.NOT_STARTED]: 'default',
+  [MissionProgressStatus.AVAILABLE]: 'default',
+  [MissionProgressStatus.UNAVAILABLE]: 'disabled',
+  overdue: 'disabled',
+};
+
 
 export const MissionCard: FC<ResolvedMission> = ({
   id,
   name,
-  reward_quarks: amountQuarks,
-  reward_stars: amountStars,
+  reward_quarks,
+  reward_stars,
   description,
   progress_status,
   icon_url,
@@ -89,64 +101,24 @@ export const MissionCard: FC<ResolvedMission> = ({
     });
   }, [queryClient, rawData, id]);
 
-  const isShowQuarks = amountQuarks > 0;
-  const isShowStars = amountStars > 0;
-
-  const renderStatus = () => {
-    switch (true) {
-    case progress_status === MissionProgressStatus.IN_PROGRESS:
-      return <BalanceDisplay
-        variant="ghost"
-        size="small"
-        quarks={amountQuarks}
-        stars={amountStars}
-        showQuarks={isShowQuarks}
-        showStars={isShowStars}
-      />;
-    case progress_status === MissionProgressStatus.COMPLETE:
-      return <BalanceDisplay
-        variant="primary"
-        size="small"
-        quarks={amountQuarks}
-        stars={amountStars}
-        showQuarks={isShowQuarks}
-        showStars={isShowStars}
-      />;
-    case progress_status === MissionProgressStatus.CLAIMED_REWARD:
-      return <S.StatusIcon as={DoneIcon} />;
-    case progress_status === MissionProgressStatus.PARTICIPATED_ONCE:
-      return <S.StatusIcon as={CloseIcon} />;
-    default:
-      return null;
-    }
-  };
-
   return (
     <>
-      <S.Card type='button' status={resolved_status} onClick={handleOverlayClick}>
-        <S.Info>
-          <Avatar 
-            src={icon_url} 
-            size={48} 
-            alt={name} 
-            start_date={start_date} 
-            end_date={end_date} 
-          />
-          <S.Content>
-            <S.Title>{name}</S.Title>
-            <S.Description>{description}</S.Description>
-          </S.Content>
-        </S.Info>
-        {renderStatus()}
-      </S.Card>
+      <Card 
+        variant={ResolvedStatusMap[resolved_status]}
+        slotStart={<SlotStart {...{ icon_url, name, start_date, end_date }} />}
+        slotEnd={<SlotEnd {...{ progress_status, reward_quarks, reward_stars }} />}
+        slotTitle={name}
+        slotDescription={description}
+        onClick={handleOverlayClick}
+      />
       <MissionModal
         open={modalOpen}
         icon={icon_url}
         onClose={() => setModalOpen(false)}
         title={name}
         description={description}
-        amountQuarks={amountQuarks}
-        amountStars={amountStars}
+        amountQuarks={reward_quarks}
+        amountStars={reward_stars}
         onButtonClick={handleOverlayClick}
         status={progress_status}
         loading={claimRewardMutation.isPending || checkStatusMutation.isPending}
@@ -154,4 +126,55 @@ export const MissionCard: FC<ResolvedMission> = ({
       />
     </>
   );
+};
+
+const SlotStart = ({
+  icon_url,
+  start_date,
+  end_date,
+}: Pick<ResolvedMission, 'icon_url' | 'name' | 'start_date' | 'end_date'>) => {
+  return (
+    <Avatar 
+      src={icon_url} 
+      size={40} 
+      start_date={start_date} 
+      end_date={end_date} 
+    />
+  );
+};
+
+const SlotEnd = ({ 
+  progress_status, 
+  reward_quarks: amountQuarks,
+  reward_stars: amountStars,
+}: Pick<ResolvedMission, 'progress_status' | 'reward_quarks' | 'reward_stars'>) => {
+  const isShowQuarks = amountQuarks > 0;
+  const isShowStars = amountStars > 0;
+
+  switch (true) {
+  case progress_status === MissionProgressStatus.IN_PROGRESS:
+    return <BalanceDisplay
+      variant="ghost"
+      size="small"
+      quarks={amountQuarks}
+      stars={amountStars}
+      showQuarks={isShowQuarks}
+      showStars={isShowStars}
+    />;
+  case progress_status === MissionProgressStatus.COMPLETE:
+    return <BalanceDisplay
+      variant="primary"
+      size="small"
+      quarks={amountQuarks}
+      stars={amountStars}
+      showQuarks={isShowQuarks}
+      showStars={isShowStars}
+    />;
+  case progress_status === MissionProgressStatus.CLAIMED_REWARD:
+    return <S.StatusIcon as={DoneIcon} variant="success" />;
+  case progress_status === MissionProgressStatus.PARTICIPATED_ONCE:
+    return <S.StatusIcon as={CloseIcon} variant="danger" />;
+  default:
+    return null;
+  }
 };

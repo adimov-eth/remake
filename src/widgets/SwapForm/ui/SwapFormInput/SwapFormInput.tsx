@@ -5,16 +5,12 @@ import { Currency } from '@app/stores/swap';
 import { Label } from '@shared/ui/Label';
 import * as S from './SwapFormInput.styles';
 
-interface ISwapFormInputInputProps {
+interface ISwapFormInputInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   value: string;
-  onChange: (value: string) => void;
   currency: Currency;
   showMaxButton?: boolean;
   onMaxClick?: () => void;
-  max: number;
-  step: string;
-  min: string;
 }
 
 const currencyMap: Record<string, string> = {
@@ -25,19 +21,12 @@ const currencyMap: Record<string, string> = {
 export const SwapFormInput: React.FC<ISwapFormInputInputProps> = ({
   label,
   value,
-  onChange,
   currency,
   showMaxButton,
   onMaxClick,
-  max,
-  step,
-  min
+  ...props
 }) => {
   const { t } = useTranslation('global');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
-  };
 
   return (
     <S.InputRow>
@@ -48,11 +37,8 @@ export const SwapFormInput: React.FC<ISwapFormInputInputProps> = ({
           inputMode="decimal"
           pattern="[0-9]*"
           value={value}
-          onChange={handleChange}
           placeholder="0"
-          min={min}
-          max={max}
-          step={step}
+          {...props}
         />
         <S.CurrencyBlock>
           {showMaxButton && <Label as="button" onClick={onMaxClick}>{t('max')}</Label>}
