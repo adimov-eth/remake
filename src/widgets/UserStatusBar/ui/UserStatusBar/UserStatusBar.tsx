@@ -3,11 +3,12 @@ import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useStore } from '@nanostores/react';
 import { $gameState, $pfp, $user } from '@app/stores/state';
+import { formatNumberGroup } from '@shared/utils/formatters';
 
 import { UserInfo } from '../UserInfo/UserInfo';
 import { BalanceDisplay } from '@features/BalanceDisplay';
 import { SettingsButtons } from '@features/SettingsButtons';
-import { ValueTooltip } from '@shared/ui/ValueTooltip';
+import { Tooltip } from '@shared/ui/Tooltip';
 
 import * as S from './UserStatusBar.styles';
 
@@ -47,8 +48,8 @@ export const UserStatusBar: React.FC = () => {
           showStars={true}
         />
       }
-      <ValueTooltip value={Number(quarks)} type="quarks" />
-      <ValueTooltip value={Number(stars)} type="stars" />
+      <Tooltip anchorId="quarks">{formatNumberGroup(Number(quarks))}</Tooltip>
+      <Tooltip anchorId="stars">{Number(stars).toFixed(2)}</Tooltip>
     </S.Root>
   );
 };

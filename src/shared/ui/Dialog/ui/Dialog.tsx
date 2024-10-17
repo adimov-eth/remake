@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 
 import * as S from './Dialog.styles';
 
@@ -47,7 +47,7 @@ export const Dialog: React.FC<IDialogProps> = ({
     </S.ModalOverlay>
   );
 
-  return ReactDOM.createPortal(
+  return createPortal(
     modalContent,
     document.body
   );

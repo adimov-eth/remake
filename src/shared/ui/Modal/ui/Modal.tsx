@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import CloseIcon from '@shared/assets/close.svg?react';
 
 import * as S from './Modal.styles';
@@ -22,7 +23,7 @@ export const Modal = ({
     }
   }, [open]);
 
-  return (
+  const modalContent = (
     <S.ModalRoot open={animate}>
       <S.Overlay onClick={onClose} />
       <S.Inner slideDown={!open}>
@@ -32,5 +33,10 @@ export const Modal = ({
         <S.Scroll>{children}</S.Scroll>
       </S.Inner>
     </S.ModalRoot>
+  );
+
+  return createPortal(
+    modalContent,
+    document.body
   );
 };

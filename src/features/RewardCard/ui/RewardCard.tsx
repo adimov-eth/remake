@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { DailyReward } from '@shared/services/api/missions/types';
 
 import * as S from './RewardCard.styles';
-import QuarkIcon from '@shared/assets/quark.svg?react';
-import StarIcon from '@shared/assets/star-gradient.svg?react';
+import { quarkPng, starPng } from '@shared/assets';
 
 interface IRewardCard extends DailyReward {
   special?: boolean;
@@ -38,9 +37,12 @@ export const RewardCard: FC<IRewardCard> = ({
     >
       <S.Content>
         <span>{t('day', { day })}</span>
-        <S.Icon size={iconSize}>
-          {isQuark ? <QuarkIcon /> : <StarIcon />}
-        </S.Icon>
+        <S.Icon 
+          size={iconSize}
+          src={isQuark ? quarkPng : starPng} 
+          width={24}
+          height={24}
+        />
         <S.Value>
           {isQuark ? formatter.format(reward_quarks) : t('star')}
         </S.Value>
