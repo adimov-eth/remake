@@ -13,5 +13,10 @@
   "swap": {},
   "profile": {
     "daily_rewards": "Ежедневные награды"
+  },
+  "settings": {
+    "title": "Настройки",
+    "language": "Язык",
+    "delete_account": "Удалить аккаунт"
   }
 }
