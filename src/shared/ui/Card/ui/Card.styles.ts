@@ -1,14 +1,4 @@
-import { styled, shineAnimation } from '@/app/stitches.config';
-
-export const StatusIcon = styled('div', {
-  flexShrink: 0,
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '1.5rem',
-  height: '1.5rem',
-  color: '#fff',
-});
+import { styled, shineAnimation } from '@app/stitches.config';
 
 export const Card = styled('div', {
   position: 'relative',
@@ -19,8 +9,9 @@ export const Card = styled('div', {
   borderRadius: '1rem',
   padding: '1rem',
   variants: {
-    status: {
-      in_progress: {
+    variant: {
+      default: {},
+      active: {
         overflow: 'hidden',
         '&::before': {
           content: '""',
@@ -32,37 +23,11 @@ export const Card = styled('div', {
           background: 'linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
           animation: `${shineAnimation} 4s ease-in-out infinite`,
         },
-        [`& ${StatusIcon}`]: {
-          color: '#fff',
-        },
       },
-      claimed_reward: {
+      disabled: {
         opacity: 0.5,
         pointerEvents: 'none',
-        [`& ${StatusIcon}`]: {
-          color: '#52B425',
-        },
       },
-      overdue: {
-        opacity: 0.5,
-        pointerEvents: 'none',
-        [`& ${StatusIcon}`]: {
-          color: '#971313',
-        },
-      },
-      participated_once: {
-        opacity: 0.5,
-        pointerEvents: 'none',
-        [`& ${StatusIcon}`]: {
-          color: '#971313',
-        },
-      },
-      available: {},
-      unavailable: {
-        display: 'none',
-      },
-      not_started: {},
-      complete: {},
     },
   },
 });
@@ -73,7 +38,9 @@ export const Info = styled('div', {
 });
 
 export const Content = styled('div', {
-  margin: '0 0.625rem'
+  textAlign: 'left',
+  marginLeft: '1rem',
+  marginRight: '0.625rem',
 });
 
 export const Title = styled('div', {
@@ -90,15 +57,4 @@ export const Description = styled('div', {
   lineHeight: '1rem',
   color: 'rgba(121, 128, 172, 1)',
   marginTop: '0.5rem'
-});
-
-export const MissionIcon = styled('div', {
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '0.625rem',
-  borderRadius: '1rem',
-  background: 'rgba(28, 31, 48, 1)',
-  minWidth: '2.5rem',
-  minHeight: '2.5rem',
 });
