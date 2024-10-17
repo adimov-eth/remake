@@ -102,10 +102,11 @@ export const Button = styled('button', {
       outline: true,
       css: {
         color: '#1CE7FD',
+        background: 'transparent',
         '&::before': {
-          background: 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',
-          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-          maskComposite: 'exclude',
+          background: 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%) padding-box',
+          mask: 'conic-gradient(#000 0 0) content-box exclude,conic-gradient(#000 0 0)',
+          WebkitMask: 'conic-gradient(#000 0 0) content-box exclude,conic-gradient(#000 0 0)',
         },
       },
     },
@@ -114,6 +115,7 @@ export const Button = styled('button', {
       outline: true,
       css: {
         color: '#fff',
+        background: 'transparent',
         '&:before': {
           background: '#282A3A',
           WebkitMask: 'none',
