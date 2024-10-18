@@ -17,6 +17,7 @@
   "settings": {
     "title": "Настройки",
     "language": "Язык",
+    "vibration": "Вибрация",
     "delete_account": "Удалить аккаунт"
   }
 }

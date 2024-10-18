@@ -6,7 +6,7 @@ export const Content = styled('div', {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '1rem 0.5rem',
+  padding: '1rem 0.25rem',
   borderRadius: '1rem',
   background: 'rgba(20, 21, 30, 1)',
   height: '6.75rem',
@@ -56,7 +56,7 @@ export const Root = styled('button', {
   },
 });
 
-export const Value = styled('div', {
+export const Value = styled('span', {
   textTransform: 'uppercase',
 });
 
