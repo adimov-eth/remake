@@ -8,7 +8,7 @@ export const TopArea = styled('div', {
   textAlign: 'center',
 });
 
-export const BackButton = styled('button', {
+export const BackButton = styled('div', {
   position: 'absolute',
   left: 0,
 });
@@ -38,7 +38,7 @@ export const Card = styled('div', {
   background: 'rgba(20, 21, 30, 1)',
   borderRadius: '1rem',
   '> * + *': {
-    marginTop: '0.5rem',
+    marginTop: '1.25rem',
   }
 });
 

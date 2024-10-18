@@ -17,6 +17,7 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
+    "vibration": "Vibration",
     "delete_account": "Delete account"
   }
 }

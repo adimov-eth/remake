@@ -132,3 +132,5 @@ interface ICurrentNotificationType extends IngameNotification {
 export const $currentNotification = atom<ICurrentNotificationType | null>(null);
 
 export const $lastActiveNavPath = atom<string>('/');
+
+export const $isVibrationEnabled = atom<boolean>(true);
