@@ -3,9 +3,12 @@ import { FC } from 'react';
 import * as S from './BlurBackdrop.styles';
 import { ReactNode } from 'react';
 
+export type BlurBackdropVariant = 'pink' | 'purple' | 'blue' | 'brown' | 'red' | 'white' | 'blue' | 'orange' | 'black';
+export type BlurBackdropSize = 'sm' | 'md' | 'lg';
+
 interface BlurBackdropProps {
-  variant?: 'pink' | 'purple' | 'blue';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: BlurBackdropVariant;
+  size?: BlurBackdropSize;
   children: ReactNode;
 }
 

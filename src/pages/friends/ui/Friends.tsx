@@ -18,7 +18,7 @@ export const Friends: React.FC = () => {
     <S.Root>
       <S.TopArea>
         <Banner>
-          <BlurBackdrop variant="blue">
+          <BlurBackdrop variant="purple">
             <S.Illustration>
               <img src={Preview} width={150} height={160} />
             </S.Illustration>

@@ -59,6 +59,17 @@ import rewardBg from './reward-bg.svg';
 import rewardBgPng from './reward-bg.png';
 import starPng from './star.png';
 
+// Level icons
+import protostar from './levels/protostar.webp';
+import brownDwarf from './levels/brown_dwarf.webp';
+import redDwarf from './levels/red_dwarf.webp';
+import whiteDwarf from './levels/white_dwarf.webp';
+import redGiant from './levels/red_giant.webp';
+import blueGiant from './levels/blue_giant.webp';
+import supergiant from './levels/supergiant.webp';
+import neutronStar from './levels/neutron_star.webp';
+import supernova from './levels/supernova.webp';
+import blackHole from './levels/black_hole.webp';
 
 import * as Icons from './icons';
 
@@ -124,5 +135,15 @@ export {
   notificationBg,
   rewardBg,
   rewardBgPng,
-  starPng
+  starPng,
+  protostar,
+  brownDwarf,
+  redDwarf,
+  whiteDwarf,
+  redGiant,
+  blueGiant,
+  supergiant,
+  neutronStar,
+  supernova,
+  blackHole,
 };

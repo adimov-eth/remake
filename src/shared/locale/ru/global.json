@@ -2,6 +2,7 @@
   "confirm": "Подтвердить",
   "easter_egg": "Вы только что заработали {{reward_quarks}} кварков за выполнение секретной миссии «Охотник за пасхалками»",
   "congratulations": "Поздравляем!",
+  "you_reached_level": "Ваш новый ранг: {{ rank }}!",
 
   "claimed_successfully": "Успешно получено!",
   "something_went_wrong": "Что-то пошло не так",
