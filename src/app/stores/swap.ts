@@ -2,6 +2,8 @@ import { atom } from 'nanostores';
 import { CurrencyEnum } from '@shared/services/api/swap/types';
 import { quarkPng, starPng } from '@shared/assets';
 
+// TODO удалить после тестирования SwapForm
+
 // Currency types and constants
 export type Currency = {
   name: string;

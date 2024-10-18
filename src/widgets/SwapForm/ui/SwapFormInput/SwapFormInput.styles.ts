@@ -38,6 +38,11 @@ export const Input = styled('input', {
   '&:focus': {
     outline: 'none',
   },
+
+  '&:disabled': {
+    opacity: 0.5,
+    cursor: 'not-allowed',
+  },
 });
 
 export const CurrencyBlock = styled('div', {
