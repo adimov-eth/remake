@@ -25,6 +25,7 @@ import {
   Swap
 } from '@pages';
 
+import { LevelUpModal } from '@features/LevelUpModal';
 import { UserStatusBar } from '@widgets/UserStatusBar';
 import { Header } from '@widgets/Header';
 import { OnboardingStories } from '@widgets/OnboardingStories';
@@ -116,6 +117,7 @@ export const AppRouter = () => {
                 margin: 'auto',
               }}
             />
+            <LevelUpModal />
           </>
         )}
       </Router>

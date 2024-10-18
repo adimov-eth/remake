@@ -2,6 +2,7 @@
   "confirm": "Confirm",
   "easter_egg": "You just earned {{reward_quarks}} quarks for completing the ”Easter Egg Hunter” Secret Mission",
   "congratulations": "Congratulations!",
+  "you_reached_level": "Your new rank is {{ rank }}!",
 
   "claimed_successfully": "Claimed successfully!",
   "something_went_wrong": "Something went wrong",
