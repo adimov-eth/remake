@@ -81,19 +81,25 @@ export const SwapForm: FC = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const max = swapState.direction === SwapDirection.QuarkToStar ? syncedQuarks : syncedStars;
-    const clampedValue = Math.min(Math.max(parseFloat(e.target.value) || 0, 0), max);
-    
-    const rate = swapRatesMap[swapState.direction];
     let fromValue: number, toValue: number;
 
     if (e.target.id === 'from') {
+      const direction = swapState.direction === SwapDirection.QuarkToStar ? SwapDirection.QuarkToStar : SwapDirection.StarToQuark;
+      const max = swapState.direction === SwapDirection.QuarkToStar ? syncedQuarks : syncedStars;
+      const clampedValue = Math.min(Math.max(parseFloat(e.target.value) || 0, 0), max);
+      const rate = swapRatesMap[direction];
+
       fromValue = clampedValue;
       toValue = Number((clampedValue * rate).toFixed(6));
     }
 
     if (e.target.id === 'to') {
-      fromValue = Number((clampedValue / rate).toFixed(6));
+      const direction = swapState.direction === SwapDirection.QuarkToStar ? SwapDirection.StarToQuark : SwapDirection.QuarkToStar;
+      const max = swapState.direction === SwapDirection.QuarkToStar ? syncedStars : syncedQuarks;
+      const clampedValue = Math.min(Math.max(parseFloat(e.target.value) || 0, 0), max);
+      const rate = swapRatesMap[direction];
+
+      fromValue = Number((clampedValue * rate).toFixed(6));
       toValue = clampedValue;
     }
 
@@ -142,14 +148,12 @@ export const SwapForm: FC = () => {
           <SwapFormInput
             id="from"
             label={t('sell')}
-            showMaxButton
             value={swapState.fromValue}
+            placeholder={isQuarkToStarDirection ? '100' : '0.1'}
             currency={isQuarkToStarDirection ? 'quark' : 'star'}
-            step={isQuarkToStarDirection ? '100' : '0.1'}
-            min={isQuarkToStarDirection ? '100' : '0.1'}
-            max={isQuarkToStarDirection ? syncedQuarks : syncedStars}
             onChange={handleChange}
             onSetMax={handleSetMax}
+            showMaxButton
           />
           <S.ToggleButton onClick={handleChangeDirection}>
             <Button rounded="full" shine>
@@ -160,10 +164,8 @@ export const SwapForm: FC = () => {
             id="to"
             label={t('buy')}
             value={swapState.toValue}
+            placeholder={isQuarkToStarDirection ? '0.1' : '100'}
             currency={isQuarkToStarDirection ? 'star' : 'quark'}
-            min={isQuarkToStarDirection ? '0.1' : '100'}
-            max={isQuarkToStarDirection ? syncedStars : syncedQuarks}
-            step={isQuarkToStarDirection ? '0.1' : '100'}
             onChange={handleChange}
           />
         </S.Inputs>
