@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { useTranslation } from 'react-i18next';
-import { SwapDirection } from '@app/stores/swap';
 import { initDataRaw } from '@app/stores/telegram';
 import { $gameState } from '@app/stores/state';
 
@@ -25,6 +24,11 @@ enum CurrencyEnum {
   STAR = 'stars',
 }
 
+enum SwapDirection {
+  QuarkToStar = 'QuarkToStar',
+  StarToQuark = 'StarToQuark',
+}
+
 const swapRatesMap: Record<SwapDirection, number> = {
   [SwapDirection.QuarkToStar]: 0.001,
   [SwapDirection.StarToQuark]: 900,
@@ -32,88 +36,28 @@ const swapRatesMap: Record<SwapDirection, number> = {
 
 interface SwapState {
   direction: SwapDirection;
-  fromCurrency: CurrencyEnum;
-  fromMax: number;
-  fromMin: string;
-  fromStep: string;
   fromValue: string;
-  toCurrency: CurrencyEnum;
-  toMax: number;
-  toMin: string;
-  toStep: string;
   toValue: string;
 }
 
 export const SwapForm: FC = () => {
+  const { t } = useTranslation('global');
   const rawData = initDataRaw || '';
   const gameState = useStore($gameState);
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData({ enabled: !!rawData, variables: { rawData } });
   const { syncedQuarks, syncedStars } = useSyncedValues(userData, gameState);
-  
-  const { t } = useTranslation('global');
   const [swapState, setSwapState] = useState<SwapState>({
     direction: SwapDirection.QuarkToStar,
-    fromCurrency: CurrencyEnum.QUARK,
-    fromMax: syncedQuarks,
-    fromMin: '100',
-    fromStep: '100',
     fromValue: '',
-    toCurrency: CurrencyEnum.STAR,
-    toMax: syncedStars,
-    toMin: '0.1',
-    toStep: '0.1',
     toValue: '',
   });
 
-  const convertCurrency = (amount: number): number => {
-    const rate = swapRatesMap[swapState.direction];
-    return Number((amount * rate).toFixed(6));
-  };
-
-  const updateSwapValues = (value: string, id: string) => {
-    const max = swapState.direction === SwapDirection.QuarkToStar ? syncedQuarks : syncedStars;
-    const numericValue = Math.min(Math.max(parseFloat(value) || 0, 0), max);
-    
-    const rate = swapRatesMap[swapState.direction];
-    let fromValue: number, toValue: number;
-
-    if (swapState.direction === SwapDirection.QuarkToStar) {
-      switch (id) {
-      case 'from':
-        fromValue = numericValue;
-        toValue = Number((numericValue * rate).toFixed(6));
-        break;
-      case 'to':
-        toValue = numericValue;
-        fromValue = Number((numericValue / rate).toFixed(6));
-        break;
-      default:
-        throw new Error('Invalid input type');
-      }
-    } else {
-      switch (id) {
-      case 'from':
-        fromValue = numericValue;
-        toValue = Number((numericValue / rate).toFixed(6));
-        break;
-      case 'to':
-        toValue = numericValue;
-        fromValue = Number((numericValue * rate).toFixed(6));
-        break;
-      default:
-        throw new Error('Invalid input type');
-      }
-    }
-
+  const onSuccess = () => {
     setSwapState(prevState => ({
       ...prevState,
-      fromValue: fromValue.toString(),
-      toValue: toValue.toString(),
+      fromValue: '',
+      toValue: '',
     }));
-  };
-
-  const onSuccess = () => {
-    updateSwapValues('', 'from');
     setTimeout(() => queryClient.invalidateQueries({ queryKey: ['get/missions'] }), 2000);
   };
 
@@ -137,7 +81,27 @@ export const SwapForm: FC = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateSwapValues(e.target.value, e.target.id);
+    const max = swapState.direction === SwapDirection.QuarkToStar ? syncedQuarks : syncedStars;
+    const clampedValue = Math.min(Math.max(parseFloat(e.target.value) || 0, 0), max);
+    
+    const rate = swapRatesMap[swapState.direction];
+    let fromValue: number, toValue: number;
+
+    if (e.target.id === 'from') {
+      fromValue = clampedValue;
+      toValue = Number((clampedValue * rate).toFixed(6));
+    }
+
+    if (e.target.id === 'to') {
+      fromValue = Number((clampedValue / rate).toFixed(6));
+      toValue = clampedValue;
+    }
+
+    setSwapState(prevState => ({
+      ...prevState,
+      fromValue: fromValue.toString(),
+      toValue: toValue.toString(),
+    }));
   };
 
   const handleChangeDirection = () => {
@@ -148,26 +112,19 @@ export const SwapForm: FC = () => {
 
       return {
         direction: newDirection,
-        fromCurrency: prevState.toCurrency,
-        fromMax: prevState.toMax,
-        fromMin: prevState.toMin,
-        fromStep: prevState.toStep,
         fromValue: prevState.toValue,
-        toCurrency: prevState.fromCurrency,
-        toMax: prevState.fromMax,
-        toMin: prevState.fromMin,
-        toStep: prevState.fromStep,
         toValue: prevState.fromValue,
       };
     });
   };
 
   const handleSetMax = () => {
-    const maxValue = swapState.direction === SwapDirection.QuarkToStar ? syncedQuarks : syncedStars;
+    const maxValue = isQuarkToStarDirection ? syncedQuarks : syncedStars;
 
     if (maxValue < 0) throw new Error('Max value cannot be negative');
     
-    const convertedValue = convertCurrency(maxValue);
+    const rate = swapRatesMap[swapState.direction];
+    const convertedValue = Number((maxValue * rate).toFixed(6));
 
     setSwapState(prevState => ({
       ...prevState,
@@ -188,9 +145,9 @@ export const SwapForm: FC = () => {
             showMaxButton
             value={swapState.fromValue}
             currency={isQuarkToStarDirection ? 'quark' : 'star'}
-            step={swapState.fromStep}
-            min={swapState.fromMin}
-            max={swapState.fromMax}
+            step={isQuarkToStarDirection ? '100' : '0.1'}
+            min={isQuarkToStarDirection ? '100' : '0.1'}
+            max={isQuarkToStarDirection ? syncedQuarks : syncedStars}
             onChange={handleChange}
             onSetMax={handleSetMax}
           />
@@ -204,9 +161,9 @@ export const SwapForm: FC = () => {
             label={t('buy')}
             value={swapState.toValue}
             currency={isQuarkToStarDirection ? 'star' : 'quark'}
-            min={swapState.toMin}
-            max={swapState.toMax}
-            step={swapState.toStep}
+            min={isQuarkToStarDirection ? '0.1' : '100'}
+            max={isQuarkToStarDirection ? syncedStars : syncedQuarks}
+            step={isQuarkToStarDirection ? '0.1' : '100'}
             onChange={handleChange}
           />
         </S.Inputs>
