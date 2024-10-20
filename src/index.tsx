@@ -34,7 +34,7 @@ Sentry.init({
     }),
     Sentry.browserProfilingIntegration(),
     Sentry.replayIntegration(),
-    Sentry.captureConsoleIntegration({levels: ['error', 'debug', 'assert']})
+    Sentry.captureConsoleIntegration({levels: ['error']})
   ],
   // Tracing
   tracesSampleRate: 1.0, //  Capture 100% of the transactions
