@@ -1,4 +1,5 @@
 import '@/shared/utils/mockEnv';
+import * as Sentry from "@sentry/react";
 
 import { retrieveLaunchParams, User as $User} from '@telegram-apps/sdk-react';
 
@@ -21,3 +22,11 @@ export const platform: NonNullable<LaunchParams['platform']> = launchParams.plat
 
 
 export const isDesktop = platform === 'desktop';
+
+Sentry.setTag("platform", platform);
+
+if (initData.user && initData.user.id) {
+  const userData = initData.user;
+  Sentry.setUser({ id: userData.id, username: userData.username, ip_address: "{{auto}}"});
+  Sentry.setContext("init_tg_data", userData);
+}

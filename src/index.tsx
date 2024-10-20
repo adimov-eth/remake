@@ -2,6 +2,8 @@ import ReactDOM from 'react-dom/client';
 import { postEvent } from '@telegram-apps/sdk-react';
 import * as Sentry from "@sentry/react";
 
+const SENTRY_TARGET_DOMAINS = ["localhost", /^https:\/\/*.tonstarsdao\.xyz\//, /^https:\/\/*.42\.works\//];
+
 import { App } from '@app/App.tsx';
 
 import {
@@ -34,12 +36,15 @@ Sentry.init({
     }),
     Sentry.browserProfilingIntegration(),
     Sentry.replayIntegration(),
-    Sentry.captureConsoleIntegration({levels: ['error']})
+    Sentry.captureConsoleIntegration({levels: ['error']}),
+    Sentry.sessionTimingIntegration(),
+    Sentry.httpClientIntegration({failedRequestTargets: SENTRY_TARGET_DOMAINS}),
   ],
+  sendDefaultPii: true,
   // Tracing
   tracesSampleRate: 1.0, //  Capture 100% of the transactions
   // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-  tracePropagationTargets: ["localhost", /^https:\/\/*.tonstarsdao\.xyz\//, /^https:\/\/*.42\.works\//],
+  tracePropagationTargets: SENTRY_TARGET_DOMAINS,
   // Set profilesSampleRate to 1.0 to profile every transaction.
   // Since profilesSampleRate is relative to tracesSampleRate
   // the final profiling rate can be computed as tracesSampleRate * profilesSampleRate

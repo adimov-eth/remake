@@ -6,6 +6,7 @@ import WebApp from '@twa-dev/sdk';
 import { useStore } from '@nanostores/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import '@shared/locale/index.ts';
+import * as Sentry from "@sentry/react";
 
 import { AppRouter } from '@app/router';
 import { ErrorProvider } from './providers/ErrorProvider';
@@ -71,10 +72,10 @@ const Inner: FC = () => {
   );
 };
 
-export const App: FC = () => {
+export const App: FC = Sentry.withProfiler(() => {
   return (
     <ErrorProvider fallback={ErrorBoundary}>
       <Inner />
     </ErrorProvider>
   );
-};
+});

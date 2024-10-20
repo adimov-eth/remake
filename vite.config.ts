@@ -22,7 +22,8 @@ export default defineConfig({
     svgr(),
     sentryVitePlugin({
       org: "self-made-6w",
-      project: "tonstars"
+      project: "tonstars",
+      reactComponentAnnotation: { enabled: true }
     })
   ],
 

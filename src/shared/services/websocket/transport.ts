@@ -153,7 +153,7 @@ class Transport {
     });
 
     this.socket.addEventListener('error', () => {
-      console.log('Error connecting to server. Trying to reconnect...');
+      console.error('Error connecting to server. Trying to reconnect...');
 
       clearInterval(this.pingTimer);
       $connectionStatus.set('reconnecting');
