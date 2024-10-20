@@ -38,6 +38,10 @@ import {
 
 import * as S from './Router.styles';
 
+import * as Sentry from "@sentry/react";
+
+const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
+
 export const AppRouter = () => {
   const navigator = initNavigator('app-navigation-state');
   const [location, reactNavigator] = useIntegration(navigator);
@@ -95,7 +99,7 @@ export const AppRouter = () => {
               <UserStatusBar />
             </S.Top>
             <S.Main>
-              <Routes>
+              <SentryRoutes>
                 <Route path="/" Component={Home} />
                 <Route path="friends" Component={Friends} />
                 <Route path="/accelerators" Component={Accelerators} />
@@ -104,7 +108,7 @@ export const AppRouter = () => {
                 <Route path="/profile" Component={Profile} />
                 <Route path="/settings" Component={Settings} />
                 <Route path="*" element={<Navigate to="/" />} />
-              </Routes>
+              </SentryRoutes>
             </S.Main>
             <S.Bottom>
               <Header />

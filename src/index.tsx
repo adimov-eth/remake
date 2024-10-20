@@ -4,6 +4,12 @@ import * as Sentry from "@sentry/react";
 
 import { App } from '@app/App.tsx';
 
+import {
+  useLocation,
+  useNavigationType,
+  createRoutesFromChildren,
+  matchRoutes,
+} from "react-router-dom";
 
 // Uncomment this import in case, you would like to develop the application even outside
 // the Telegram application, just in your browser.
@@ -11,6 +17,7 @@ import '@shared/utils/mockEnv.ts';
 
 import '@telegram-apps/telegram-ui/dist/styles.css';
 import '@app/styles/global.css';
+import React from 'react';
 
 postEvent('web_app_expand');
 
@@ -18,9 +25,16 @@ postEvent('web_app_expand');
 Sentry.init({
   dsn: "https://8821629c9179afd7378f0619233850f9@o4507655658602496.ingest.us.sentry.io/4508120836145152",
   integrations: [
-    Sentry.browserTracingIntegration(),
+    Sentry.reactRouterV6BrowserTracingIntegration({
+      useEffect: React.useEffect,
+      useLocation,
+      useNavigationType,
+      createRoutesFromChildren,
+      matchRoutes,
+    }),
     Sentry.browserProfilingIntegration(),
     Sentry.replayIntegration(),
+    Sentry.captureConsoleIntegration({levels: ['error', 'debug', 'assert']})
   ],
   // Tracing
   tracesSampleRate: 1.0, //  Capture 100% of the transactions
