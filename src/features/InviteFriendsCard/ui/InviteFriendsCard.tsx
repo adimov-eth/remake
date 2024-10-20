@@ -48,22 +48,24 @@ export const InviteFriendsCard = () => {
         <S.DetailsContent>
           <S.Title>{t('bonuses_for_raising_the_level')}</S.Title>
           <S.Table>
-            <tr>
-              <S.TableHeader>{t('level')}</S.TableHeader>
-              <S.TableHeader>{t('for_friend')}</S.TableHeader>
-              <S.TableHeader>{t('premium')}</S.TableHeader>
-            </tr>
-            {levels.map((level) => (
-              <S.TableRow key={level.name}>
-                <S.TableData>{t(`levels.${level.name}`)}</S.TableData>
-                <S.TableData>
-                  <S.Reward>{level.for_friend}</S.Reward>
-                </S.TableData>
-                <S.TableData>
-                  <S.Reward>{level.premium}</S.Reward>
-                </S.TableData>
-              </S.TableRow>
-            ))}
+            <tbody>
+              <tr>
+                <S.TableHeader>{t('level')}</S.TableHeader>
+                <S.TableHeader>{t('for_friend')}</S.TableHeader>
+                <S.TableHeader>{t('premium')}</S.TableHeader>
+              </tr>
+              {levels.map((level) => (
+                <S.TableRow key={level.name}>
+                  <S.TableData>{t(`levels.${level.name}`)}</S.TableData>
+                  <S.TableData>
+                    <S.Reward>{level.for_friend}</S.Reward>
+                  </S.TableData>
+                  <S.TableData>
+                    <S.Reward>{level.premium}</S.Reward>
+                  </S.TableData>
+                </S.TableRow>
+              ))}
+            </tbody>
           </S.Table>
         </S.DetailsContent>
       </S.Details>
