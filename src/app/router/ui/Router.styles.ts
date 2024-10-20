@@ -17,9 +17,10 @@ export const Root = styled('div', {
   left: 0,
   right: 0,
   bottom: 0,
+  zIndex: 1,
   display: 'flex',
   flexDirection: 'column',
-  zIndex: 1,
+  overflowY: 'auto',
 });
 
 export const Top = styled('div', {
@@ -29,7 +30,7 @@ export const Top = styled('div', {
 
 export const Main = styled('main', {
   position: 'relative',
-  padding: '1.875rem 1rem 0',
+  padding: '1.875rem 1rem 1rem 1rem',
   flexGrow: 1,
   overflowY: 'auto',
 });

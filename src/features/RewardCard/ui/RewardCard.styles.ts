@@ -1,13 +1,19 @@
 import { styled } from '@app/stitches.config';
-import bg from '@shared/assets/reward-bg.svg';
+import { rewardBgPng } from '@shared/assets';
+
+export const Content = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '1rem 0.25rem',
+  borderRadius: '1rem',
+  background: 'rgba(20, 21, 30, 1)',
+  height: '6.75rem',
+  backgroundColor: 'transparent',
+});
 
 export const Root = styled('button', {
-  '--root-bg': 'rgba(20, 21, 30, 1)',
-  '--content-bg': 'rgba(20, 21, 30, 1)',
-  '--before-bg': 'none',
-  '--before-mask': 'none',
-  '--rounded': '1rem',
-
   position: 'relative',
   padding: '0.1875rem',
   textAlign: 'center',
@@ -17,18 +23,29 @@ export const Root = styled('button', {
   lineHeight: '1',
   color: '#fff',
   border: 'none',
-  borderRadius: 'var(--rounded)',
-  background: 'var(--root-bg)',
-  '&:last-child': {
-    '--root-bg': 'radial-gradient(64.81% 64.81% at 50% 50%, #121e45 0%, #5634cb 100%)',
-    '--content-bg': `url(${bg})`,
-    boxShadow: '0px 0px 8px 0px #473bbb',
-  },
+  borderRadius: '1rem',
+  background: 'rgba(20, 21, 30, 1)',
+  width: '100%',
   variants: {
     complete: {
       true: {
-        '--root-bg': 'linear-gradient(88.72deg, #264dd0 0%, #5931ae 102.05%)',
+        background: 'linear-gradient(88.72deg, #264dd0 0%, #5931ae 102.05%)',
+        [`& ${Content}`]: {
+          background: 'rgba(20, 21, 30, 1)'
+        },
       }
+    },
+    special: {
+      true: {
+        background: 'radial-gradient(64.81% 64.81% at 50% 50%, #121E45 0%, #5634CB 100%)',
+        boxShadow: '0px 0px 8px 0px #473bbb',
+        [`& ${Content}`]: {
+          backgroundImage: `url(${rewardBgPng})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'center cover',
+          backgroundPosition: 'center center',
+        }
+      },
     },
     disabled: {
       true: {
@@ -39,25 +56,11 @@ export const Root = styled('button', {
   },
 });
 
-export const Content = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '1rem 0.5rem',
-  borderRadius: 'var(--rounded)',
-  background: 'var(--content-bg)',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'center, cover',
-  backgroundPosition: 'center, center',
-  height: '6.75rem',
-});
-
-export const Value = styled('div', {
+export const Value = styled('span', {
   textTransform: 'uppercase',
 });
 
-export const Icon = styled('div', {
+export const Icon = styled('img', {
   margin: '0.375rem 0',
   variants: {
     size: {

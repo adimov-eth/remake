@@ -13,5 +13,11 @@
   "swap": {},
   "profile": {
     "daily_rewards": "Daily Rewards"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "vibration": "Vibration",
+    "delete_account": "Delete account"
   }
 }

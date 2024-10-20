@@ -2,6 +2,7 @@
   "confirm": "Подтвердить",
   "easter_egg": "Вы только что заработали {{reward_quarks}} кварков за выполнение секретной миссии «Охотник за пасхалками»",
   "congratulations": "Поздравляем!",
+  "you_reached_level": "Ваш новый ранг: {{ rank }}!",
 
   "claimed_successfully": "Успешно получено!",
   "something_went_wrong": "Что-то пошло не так",
@@ -64,7 +65,7 @@
   "telegram_username": "TONStarsDAObot",
   "qr_code": "QR-код",
 
-  "join_me": "Присоединяйтесь ко мне в этой потрясающей кликер-игре!",
+  "join_me": "Hey Internet explorer, welcome on TON Stars board!✨\nOur spaceship is taking off for new adventures among the universe.🚀\nSeal the stars, explore Cosmic Missions and earn Quarks now!",
 
   "start_mission": "Начать миссию",
   "lets_go": "Поехали!",
@@ -92,5 +93,14 @@
     "special": "Специальные",
     "social": "Социальные",
     "secret": "Секретные"
-  }
+  },
+  "quarks_for_you_and_your_friend": "кварков для вас и вашего друга",
+  "see_more_bonuses": "Смотреть больше бонусов",
+  "hide_all_bonuses": "Скрыть все бонусы",
+  "bonuses_for_raising_the_level": "Бонусы за повышение уровня",
+  "level": "Уровень",
+  "for_friend": "для друга",
+  "premium": "Премиум",
+  "copied_to_clipboard": "Скопировано в буфер обмена",
+  "failed_to_copy": "Не удалось скопировать"
 }

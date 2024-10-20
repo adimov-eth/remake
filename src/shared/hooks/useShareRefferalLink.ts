@@ -9,19 +9,20 @@ import { $user } from '@app/stores/state';
 const APP_URL = import.meta.env.VITE_APP_URL;
 
 const useShareRefferalLink = (text = '') => {
-  const utils = useUtils();
-  const telegramUser = useStore($user);
-  const buildShareUrl = useCallback(() => {
-    if (!telegramUser) return;
-    return `${APP_URL}?startapp=refid${telegramUser.id}`;
-  }, [telegramUser]);
   const { t } = useTranslation('global');
+  const telegramUser = useStore($user);
+  const utils = useUtils();
+
+  const buildShareUrl = useCallback(() => {
+    if (telegramUser) return `${APP_URL}?startapp=refid${telegramUser.id}`;
+  }, [telegramUser]);
 
   const handleShare = useCallback(() => {
     const botStartUrlWithRefId = buildShareUrl();
-    const shareUrl = `https://t.me/share/url?url=${botStartUrlWithRefId}&text=${text || t('join_me')}`;
+    const encodedText = encodeURIComponent(text || t('join_me'));
+    const shareUrl = `https://t.me/share/url?url=${botStartUrlWithRefId}&text=${encodedText}`;
     utils.openTelegramLink(shareUrl);
-  }, [telegramUser, utils]);
+  }, [buildShareUrl, utils, t, text]);
 
   return {
     handleShare,

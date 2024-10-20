@@ -2,6 +2,7 @@ import { type FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
+import WebApp from '@twa-dev/sdk';
 import { useStore } from '@nanostores/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import '@shared/locale/index.ts';
@@ -36,6 +37,13 @@ const Inner: FC = () => {
 
   useEffect(() => {
     initializeApp();
+    WebApp.disableVerticalSwipes();
+    WebApp.setHeaderColor('#0B0C14');
+    WebApp.setBackgroundColor('#0B0C14');
+    WebApp.setBottomBarColor('#0B0C14');
+    WebApp.enableClosingConfirmation();
+    // WebApp.BackButton.show();
+    // WebApp.BackButton.onClick(() => WebApp.close());
   }, []);
 
   useEffect(() => {
@@ -43,9 +51,8 @@ const Inner: FC = () => {
       import('eruda').then(lib => lib.default.init());
     }
   }, [debug]);
-  if (initializationError) {
-    return <ErrorDisplay error={initializationError} />;
-  }
+
+  if (initializationError) return <ErrorDisplay error={initializationError} />;
 
   console.table({
     initializationStep,

@@ -5,6 +5,7 @@ import { useModal } from './useModal.ts';
 import useMultiTouch from './useMultiTouch.ts';
 import useShareRefferalLink from './useShareRefferalLink.ts';
 import { useSyncedValues } from './useSyncedValues.ts';
+import { useClickerLogic } from './useClickerLogic.ts';
 
 export {
   useMultiTouch,
@@ -14,4 +15,5 @@ export {
   useDeviceTier,
   useModal,
   useSyncedValues,
+  useClickerLogic,
 };

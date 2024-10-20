@@ -15,6 +15,8 @@ export const NavList = styled('ul', {
   paddingTop: '0.125rem',
   paddingBottom: '0.125rem',
   listStyle: 'none',
+  padding: 0,
+  margin: 0,
 });
 
 export const NavListItem = styled('li', {

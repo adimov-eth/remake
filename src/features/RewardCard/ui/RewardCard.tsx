@@ -1,16 +1,21 @@
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DailyReward } from '@shared/services/api/missions/types';
 
 import * as S from './RewardCard.styles';
-import QuarkIcon from '@shared/assets/quark.svg?react';
-import StarIcon from '@shared/assets/star-gradient.svg?react';
+import { quarkPng, starPng } from '@shared/assets';
 
-export const RewardCard = ({
+interface IRewardCard extends DailyReward {
+  special?: boolean;
+}
+
+export const RewardCard: FC<IRewardCard> = ({
   progress_status,
   reward_stars,
   day,
   reward_quarks,
-}: DailyReward) => {
+  special = false,
+}) => {
   const { t } = useTranslation('global');
 
   const formatter = new Intl.NumberFormat('en-GB', {
@@ -24,12 +29,20 @@ export const RewardCard = ({
   const isComplete = progress_status === 'complete';
 
   return (
-    <S.Root type="button" complete={isComplete} disabled={isDisabled}>
+    <S.Root 
+      type="button" 
+      complete={isComplete} 
+      special={special}
+      disabled={isDisabled}
+    >
       <S.Content>
         <span>{t('day', { day })}</span>
-        <S.Icon size={iconSize}>
-          {isQuark ? <QuarkIcon /> : <StarIcon />}
-        </S.Icon>
+        <S.Icon 
+          size={iconSize}
+          src={isQuark ? quarkPng : starPng} 
+          width={24}
+          height={24}
+        />
         <S.Value>
           {isQuark ? formatter.format(reward_quarks) : t('star')}
         </S.Value>

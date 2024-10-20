@@ -6,10 +6,10 @@ import { useStore } from '@nanostores/react';
 import { $lastActiveNavPath } from '@app/stores/state';
 
 import Home from '@shared/assets/home.svg?react';
-import Leaders from '@shared/assets/leaderboard.svg?react';
+import Upgrades from '@shared/assets/upgrades.svg?react';
 import Swap from '@shared/assets/swap-currency.svg?react';
 import Tasks from '@shared/assets/tasks.svg?react';
-import Upgrades from '@shared/assets/upgrades.svg?react';
+import Leaders from '@shared/assets/leaderboard.svg?react';
 import { Badge } from '@shared/ui/Badge/ui/Badge';
 
 import * as S from './Navigation.styles';

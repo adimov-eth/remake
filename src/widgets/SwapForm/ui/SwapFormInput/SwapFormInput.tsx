@@ -1,62 +1,51 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Currency } from '@app/stores/swap';
+import { quarkPng, starPng } from '@shared/assets';
 
 import { Label } from '@shared/ui/Label';
 import * as S from './SwapFormInput.styles';
 
-interface ISwapFormInputInputProps {
+export type TSwapFormInputCurrency = 'quark' | 'star';
+interface ISwapFormInputInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   value: string;
-  onChange: (value: string) => void;
-  currency: Currency;
+  currency: TSwapFormInputCurrency;
   showMaxButton?: boolean;
-  onMaxClick?: () => void;
-  max: number;
-  step: string;
-  min: string;
+  onSetMax?: () => void;
 }
 
 const currencyMap: Record<string, string> = {
-  'quarks': 'QRK',
-  'stars': 'STR',
+  'quark': 'QRK',  
+  'star': 'STR',
 };
 
 export const SwapFormInput: React.FC<ISwapFormInputInputProps> = ({
   label,
   value,
-  onChange,
   currency,
   showMaxButton,
-  onMaxClick,
-  max,
-  step,
-  min
+  onSetMax,
+  ...props
 }) => {
   const { t } = useTranslation('global');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
-  };
+  const currencyIcon = currency === 'quark' ? quarkPng : starPng;
+  const currencySymbol = currencyMap[currency] || null;
 
   return (
     <S.InputRow>
       <S.Label>{label}</S.Label>
       <S.InputContainer>
         <S.Input
-          type="text" // TODO: change to number
+          type="number"
+          inputMode="decimal"
           value={value}
-          onChange={handleChange}
-          placeholder="0"
-          min={min}
-          max={max}
-          step={step}
+          {...props}
         />
         <S.CurrencyBlock>
-          {showMaxButton && <Label as="button" onClick={onMaxClick}>{t('max')}</Label>}
+          {showMaxButton && <Label as="button" onClick={onSetMax}>{t('max')}</Label>}
           <Label variant='secondary'>
-            <img src={currency.icon} width={18} height={18} />
-            <span>{currencyMap[currency.symbol]}</span>
+            {currencySymbol && <img src={currencyIcon} width={18} height={18} />}
+            <span>{currencySymbol}</span>
           </Label>
         </S.CurrencyBlock>
       </S.InputContainer>

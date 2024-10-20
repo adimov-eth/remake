@@ -19,7 +19,7 @@ export const Card = styled('div', {
   textAlign: 'center',
 });
 
-export const CardIcon = styled('div', {
+export const CardIcon = styled('img', {
   display: 'inline-block',
   width: '2.5rem',
   height: '2.5rem',

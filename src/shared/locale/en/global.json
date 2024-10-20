@@ -2,6 +2,7 @@
   "confirm": "Confirm",
   "easter_egg": "You just earned {{reward_quarks}} quarks for completing the ”Easter Egg Hunter” Secret Mission",
   "congratulations": "Congratulations!",
+  "you_reached_level": "Your new rank is {{ rank }}!",
 
   "claimed_successfully": "Claimed successfully!",
   "something_went_wrong": "Something went wrong",
@@ -64,7 +65,7 @@
   "telegram_username": "TONStarsDAObot",
   "qr_code": "QR Code",
 
-  "join_me": "Join me in this awesome clicker game!",
+  "join_me": "Hey Internet explorer, welcome on TON Stars board!✨\nOur spaceship is taking off for new adventures among the universe.🚀\nSeal the stars, explore Cosmic Missions and earn Quarks now!",
 
   "start_mission": "Start Mission",
   "lets_go": "Let's Go!",
@@ -92,5 +93,14 @@
     "special": "Special",
     "social": "Social",
     "secret": "Secret"
-  }
+  },
+  "quarks_for_you_and_your_friend": "quarks for you and your friend",
+  "see_more_bonuses": "See more bonuses",
+  "hide_all_bonuses": "Hide all bonuses",
+  "bonuses_for_raising_the_level": "Bonuses for raising the level",
+  "level": "Level",
+  "for_friend": "For friend",
+  "premium": "Premium",
+  "copied_to_clipboard": "Copied to clipboard",
+  "failed_to_copy": "Failed to copy"
 }

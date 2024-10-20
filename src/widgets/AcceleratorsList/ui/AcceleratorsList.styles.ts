@@ -5,6 +5,9 @@ export const AcceleratorsList = styled('ul', {
   gridTemplateColumns: 'repeat(2, 1fr)',
   columnGap: '0.75rem',
   rowGap: '1rem',
+  listStyle: 'none',
+  padding: 0,
+  margin: 0,
 });
 
 export const AcceleratorsListItem = styled('li', {

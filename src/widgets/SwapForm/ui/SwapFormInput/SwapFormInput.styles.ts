@@ -4,10 +4,10 @@ export const InputRow = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: 'rgba(43, 46, 69, 0.5)',
-  padding: '16px',
-  borderRadius: '8px',
+  padding: '1rem',
+  borderRadius: '0.5rem',
   width: '100%',
-  marginBottom: '10px',
+  marginBottom: '0.625rem',
 });
 
 export const Label = styled('span', {
@@ -37,6 +37,11 @@ export const Input = styled('input', {
 
   '&:focus': {
     outline: 'none',
+  },
+
+  '&:disabled': {
+    opacity: 0.5,
+    cursor: 'not-allowed',
   },
 });
 

@@ -7,7 +7,6 @@ import unknown from './accelerators/unknown.svg';
 import warp from './accelerators/warp.svg';
 import arrow from './arrow.svg';
 import backgroundStars from './background-stars.svg';
-import chestShine from './chest-shine.png';
 import chestPng from './chest.png';
 import chestWebp from './chest.webp';
 import close from './close.svg';
@@ -16,6 +15,7 @@ import copy from './copy.svg';
 import cosmo from './cosmo.webp';
 import cosmo1 from './cosmo1.webp';
 import quark from './quark.svg';
+import quarkPng from './quark.png';
 import star from './star-gradient.svg';
 import done from './done.svg';
 import energy from './energy.svg';
@@ -54,7 +54,22 @@ import twitter from './twitter.svg';
 import upgradesFilled from './upgrades-filled.svg';
 import upgrades from './upgrades.svg';
 import user from './user.svg';
+import notificationBg from './notification-bg.svg';
+import rewardBg from './reward-bg.svg';
+import rewardBgPng from './reward-bg.png';
+import starPng from './star.png';
 
+// Level icons
+import protostar from './levels/protostar.webp';
+import brownDwarf from './levels/brown_dwarf.webp';
+import redDwarf from './levels/red_dwarf.webp';
+import whiteDwarf from './levels/white_dwarf.webp';
+import redGiant from './levels/red_giant.webp';
+import blueGiant from './levels/blue_giant.webp';
+import supergiant from './levels/supergiant.webp';
+import neutronStar from './levels/neutron_star.webp';
+import supernova from './levels/supernova.webp';
+import blackHole from './levels/black_hole.webp';
 
 import * as Icons from './icons';
 
@@ -70,7 +85,6 @@ export {
   warp,
   arrow,
   backgroundStars,
-  chestShine,
   chestPng,
   chestWebp,
   close,
@@ -99,6 +113,7 @@ export {
   app,
   channel,
   quark,
+  quarkPng,
   react,
   settings,
   skins,
@@ -117,6 +132,18 @@ export {
   upgradesFilled,
   upgrades,
   user,
+  notificationBg,
+  rewardBg,
+  rewardBgPng,
+  starPng,
+  protostar,
+  brownDwarf,
+  redDwarf,
+  whiteDwarf,
+  redGiant,
+  blueGiant,
+  supergiant,
+  neutronStar,
+  supernova,
+  blackHole,
 };
-
-

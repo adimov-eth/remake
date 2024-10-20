@@ -16,27 +16,66 @@ export const BlurBackdrop = styled('div', {
     zIndex: 0,
   },
   variants: {
+    size: {
+      sm: {
+        '&::before': {
+          filter: 'blur(1.5rem)',
+        },
+      },
+      md: {
+        '&::before': {
+          filter: 'blur(2.5rem)',
+        },
+      },
+      lg: {
+        '&::before': {
+          filter: 'blur(4.625rem)',
+        },
+      },
+    },
     variant: {
       pink: {
         '&::before': {
-          backgroundColor: '#c13d9d',
+          backgroundColor: 'rgba(193, 69, 152, 1)',
         },
       },
       purple: {
         '&::before': {
-          backgroundColor: '#7f4aba',
+          backgroundColor: 'rgba(101, 86, 208, 1)',
+        },
+      },
+      brown: {
+        '&::before': {
+          backgroundColor: 'rgba(159, 33, 0, 1)',
+        },
+      },
+      red: {
+        '&::before': {
+          backgroundColor: 'rgba(210, 49, 40, 1)',
+        },
+      },
+      white: {
+        '&::before': {
+          backgroundColor: 'rgba(255, 255, 255, 1)',
         },
       },
       blue: {
         '&::before': {
-          backgroundColor: '#6556d0',
+          backgroundColor: 'rgba(73, 114, 226, 1)',
+        },
+      },
+      orange: {
+        '&::before': {
+          backgroundColor: 'rgba(205, 125, 207, 1)',
+        },
+      },
+      black: {
+        '&::before': {
+          backgroundColor: 'rgba(0, 0, 0, 1)',
         },
       },
     },
-  },
-  defaultVariants: {
-    variant: 'pink',
-  },
+  }
 });
 
 export const BlurBackdropContent = styled('div', {

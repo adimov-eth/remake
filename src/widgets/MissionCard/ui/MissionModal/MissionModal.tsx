@@ -1,24 +1,19 @@
-import { FC, ReactNode, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useCopyToClipboard } from 'usehooks-ts';
 
-import { Modal } from '@shared/ui/Modal';
 import { formatNumber } from '@shared/utils/formatters';
-import QuarkIcon from '@shared/assets/quark.svg?react';
-import StarIcon from '@shared/assets/star-gradient.svg?react';
-import UserIcon from '@shared/assets/user.svg?react';
-import {
-  MissionProgressStatus,
-  MissionRequirements,
-  MissionStatus,
-} from '@shared/services/api/missions/types';
+import { Modal } from '@shared/ui/Modal';
+import { Avatar } from '@shared/ui/Avatar';
+import { Button } from '@shared/ui/Button';
+import { MissionProgressStatus, MissionRequirements, MissionStatus } from '@shared/services/api/missions/types';
 import { useClickNotification, useShareRefferalLink } from '@shared/hooks';
 import * as S from './MissionModal.styles';
 
 interface IMissionModalProps {
   open: boolean
-  icon: ReactNode
+  icon: string | null | undefined
   onClose: () => void
   title: string
   description: string
@@ -63,20 +58,6 @@ export const MissionModal: FC<IMissionModalProps> = ({
   };
 
   const { t } = useTranslation('global');
-
-  const getButtonText = useMemo(() => {
-    switch (status) {
-    case MissionProgressStatus.NOT_STARTED:
-      return t('start_mission');
-    case MissionProgressStatus.IN_PROGRESS:
-      return t('lets_go');
-    case MissionProgressStatus.COMPLETE:
-      return t('claim');
-    default:
-      return t('claimed');
-    }
-  }, [status]);
-
   
   const requirementActions: { [key: string]: () => void } = {
     referrals_count: () => handleCopy(refUrl),
@@ -107,34 +88,49 @@ export const MissionModal: FC<IMissionModalProps> = ({
       onButtonClick();
     }
   };
-  
 
   const isShowQuarks = Boolean(amountQuarks);
   const isShowStars = Boolean(amountStars);
+  const btnText = useMemo(() => {
+    switch (true) {
+    case loading:
+      return t('loading');
+    case status === MissionProgressStatus.NOT_STARTED:
+      return t('start_mission');
+    case status === MissionProgressStatus.IN_PROGRESS:
+      return t('lets_go');
+    case status === MissionProgressStatus.COMPLETE:
+      return t('claim');
+    default:
+      return t('claimed');
+    }
+  }, [status, loading]);
+
 
   return (
     <Modal open={open} onClose={onClose}>
       <S.Content>
-        <S.Icon>{icon || <UserIcon />}</S.Icon>
+        <Avatar src={icon} size={112}/>
         <S.Title>{title}</S.Title>
         <S.Description>{description}</S.Description>
-        <S.Reward>
-          {isShowQuarks && (
-            <S.Currency>
-              <QuarkIcon />
-              <S.Value>{formatNumber(amountQuarks)}</S.Value>
-            </S.Currency>
-          )}
-          {isShowStars && (
-            <S.Currency>
-              <StarIcon />
-              <S.Value>{formatNumber(amountStars)}</S.Value>
-            </S.Currency>
-          )}
-        </S.Reward>
-        <S.Button onClick={handleButtonClick} disabled={loading}>
-          {loading ? t('loading') : getButtonText}
-        </S.Button>
+        {isShowQuarks && (
+          <S.Reward variant='quark'>
+            {formatNumber(amountQuarks)}
+          </S.Reward>
+        )}
+        {isShowStars && (
+          <S.Reward variant='star'>
+            {formatNumber(amountStars)}
+          </S.Reward>
+        )}
+        <Button 
+          onClick={handleButtonClick} 
+          disabled={loading}
+          variant='primary'
+          size='large'
+        >
+          {btnText}
+        </Button>
       </S.Content>
     </Modal>
   );

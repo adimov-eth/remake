@@ -1,6 +1,8 @@
 import { atom } from 'nanostores';
 import { CurrencyEnum } from '@shared/services/api/swap/types';
-import { quark, star } from '@shared/assets';
+import { quarkPng, starPng } from '@shared/assets';
+
+// TODO удалить после тестирования SwapForm
 
 // Currency types and constants
 export type Currency = {
@@ -12,13 +14,13 @@ export type Currency = {
 export const QUARK_CURRENCY: Currency = {
   name: 'Quark',
   symbol: CurrencyEnum.QUARK,
-  icon: quark
+  icon: quarkPng
 };
 
 export const STAR_CURRENCY: Currency = {
   name: 'Star',
   symbol: CurrencyEnum.STAR,
-  icon: star
+  icon: starPng
 };
 
 // Swap types and constants
@@ -45,8 +47,8 @@ type SwapRate = {
 }
 
 export const SWAP_RATES: SwapRate = {
-    [SwapDirection.QuarkToStar]: 0.001,
-    [SwapDirection.StarToQuark]: 900,
+  [SwapDirection.QuarkToStar]: 0.001,
+  [SwapDirection.StarToQuark]: 900,
 };
 
 export const $swapRates = atom<SwapRate>(SWAP_RATES);
@@ -63,8 +65,8 @@ export const $swapState = atom<SwapState>({
   fromValue: '',
   toValue: '',
   direction: SwapDirection.QuarkToStar,
-  step: "1",
-  min: "100"
+  step: '1',
+  min: '100'
 });
 
 const convertCurrency = (amount: number, direction: SwapDirection): number => {
@@ -102,8 +104,8 @@ export const toggleSwapDirection = () => {
     ? SwapDirection.StarToQuark
     : SwapDirection.QuarkToStar;
 
-  const newStep = newDirection === SwapDirection.QuarkToStar ? "1" : "0.1";
-  const newMin = newDirection === SwapDirection.QuarkToStar ? "100" : "0.1";
+  const newStep = newDirection === SwapDirection.QuarkToStar ? '1' : '0.1';
+  const newMin = newDirection === SwapDirection.QuarkToStar ? '100' : '0.1';
   $swapState.set({
     fromValue: currentState.toValue,
     toValue: currentState.fromValue,

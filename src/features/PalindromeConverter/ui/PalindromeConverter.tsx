@@ -14,8 +14,6 @@ interface PalindromeConverterProps {
 const MISSION_SLUG = 'palindrome_converter';
 
 export const PalindromeConverter: React.FC<PalindromeConverterProps> = ({ quarks }) => {
-  console.log('!PalindromeConverter', isPalindrome(quarks, 4));
-  
   if (!isPalindrome(quarks, 4)) return null;
 
   const rawData = initDataRaw || '';

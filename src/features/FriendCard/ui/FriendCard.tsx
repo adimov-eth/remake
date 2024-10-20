@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Avatar } from '@shared/ui/Avatar';
+import { BalanceDisplay } from '@features/BalanceDisplay';
 
 import * as S from './FriendCard.styles';
-import QuarksIcon from '@shared/assets/quark.svg?react';
 
 export interface FriendCardProps {
   username: string;
@@ -23,16 +23,18 @@ export const FriendCard: React.FC<FriendCardProps> = ({
   return (
     <S.Root>
       <S.Info>
-        <Avatar src={profileImage} size={40} />
+        <Avatar src={profileImage} size={48} />
         <S.Content>
           <S.Name>{username}</S.Name>
-          <S.Rank>{rank} - {points ? points.toLocaleString('en-US') : ''}</S.Rank>
+          <S.Rank>{rank} ({points ? points.toLocaleString('en-US') : ''} Q)</S.Rank>
         </S.Content>
       </S.Info>
-      <S.Balance>
-        <S.BalanceIcon as={QuarksIcon} />
-        <span>{(rewardQuarks || 0).toLocaleString('en-US')}</span>
-      </S.Balance>
+      <BalanceDisplay
+        variant="ghost"
+        size="small"
+        quarks={rewardQuarks || 0} 
+        showStars={false} 
+      />
     </S.Root>
   );
 };

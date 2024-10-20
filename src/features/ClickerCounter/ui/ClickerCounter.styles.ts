@@ -8,4 +8,5 @@ export const Root = styled('div', {
   fontSize: '2.25rem',
   textAlign: 'center',
   // marginTop: '-36px'
+  pointerEvents: 'none',
 });

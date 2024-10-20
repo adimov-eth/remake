@@ -7,10 +7,6 @@ const pulse = keyframes({
 });
 
 export const Button = styled('button', {
-  '--before-bg': 'none',
-  '--before-mask': 'none',
-  '--rounded': '0.875rem',
-
   position: 'relative',
   display: 'inline-flex',
   alignItems: 'center',
@@ -20,81 +16,53 @@ export const Button = styled('button', {
   fontFamily: 'var(--font-pro-display)',
   cursor: 'pointer',
   border: 'none',
-  borderRadius: 'var(--rounded)',
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    right: '0',
-    bottom: '0',
-    padding: '0.125rem',
-    borderRadius: 'var(--rounded)',
-    background: 'var(--before-bg)',
-    WebkitMask: 'var(--before-mask)',
-    WebkitMaskComposite: 'xor',
-    maskComposite: 'exclude',
-    zIndex: 0,
-  },
+  borderRadius: '0.875rem',
+  '&:active': { filter: 'brightness(0.9)' },
   '&:disabled': {
-    '--before-bg': 'none',
-    '--before-mask': 'none',
     background: 'rgba(68, 79, 106, 1)',
     color: 'rgba(138, 150, 180, 1)',
     cursor: 'not-allowed',
-  },
-  '&:active': {
-    filter: 'brightness(0.9)',
+    '&::before': {
+      background: 'none',
+    }
   },
   variants: {
-    loading: {
-      true: {
-        animation: `${pulse} 1.5s ease-in-out infinite`,
-      },
-      false: {},
-    },
-    shine: {
-      true: {},
-      false: {},
-    },
+    loading: { true: { animation: `${pulse} 1.5s ease-in-out infinite` } },
+    shine: { true: {} },
+    wide: { true: { width: '100%' } },
     outline: {
-      true: {
+      true: { 
         background: 'transparent',
-      },
-      false: {},
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          right: '0',
+          bottom: '0',
+          borderRadius: 'inherit',
+          padding: '0.125rem',
+          zIndex: 0,
+        },
+      } 
     },
     rounded: {
-      sm: {},
-      md: {
-        '--rounded': '0.875rem',
-      },
-      lg: {},
-      full: {
-        '--rounded': '9999px',
-      },
-    },
-    wide: {
-      true: {
-        width: '100%',
-      },
+      sm: { borderRadius: '0.5rem' },
+      md: { borderRadius: '0.875rem' },
+      lg: { borderRadius: '1.25rem' },
+      full: { borderRadius: '9999px' },
     },
     variant: {
       primary: {
-        '--before-bg': 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',
-        '--before-mask': 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-
         background: 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%)',
         color: '#fff',
       },
       secondary: {
-        '--before-bg': '#282A3A',
-        '--before-mask': 'none',
-
         background: '#282A3A',
         color: '#fff',
       },
       danger: {
-        background: 'rgba(181, 58, 58, 1)',
+        background: 'linear-gradient(88.7deg, #E76464 0%, #DD2E2E 100%)',
         color: '#fff',
       },
       ghost: {
@@ -134,6 +102,12 @@ export const Button = styled('button', {
       outline: true,
       css: {
         color: '#1CE7FD',
+        background: 'transparent',
+        '&::before': {
+          background: 'linear-gradient(90deg, #1CE7FD 0%, #365AE5 100%) padding-box',
+          mask: 'conic-gradient(#000 0 0) content-box exclude,conic-gradient(#000 0 0)',
+          WebkitMask: 'conic-gradient(#000 0 0) content-box exclude,conic-gradient(#000 0 0)',
+        },
       },
     },
     {
@@ -141,6 +115,12 @@ export const Button = styled('button', {
       outline: true,
       css: {
         color: '#fff',
+        background: 'transparent',
+        '&:before': {
+          background: '#282A3A',
+          WebkitMask: 'none',
+          maskComposite: 'exclude',
+        }
       },
     },
   ],

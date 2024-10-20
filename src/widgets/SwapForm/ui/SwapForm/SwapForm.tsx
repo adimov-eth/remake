@@ -1,14 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
+import { FC, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { useTranslation } from 'react-i18next';
-import {
-  $swapState,
-  SwapDirection,
-  SWAP_PAIRS,
-  updateSwapValues,
-  toggleSwapDirection,
-  setMaxFromValue,
-} from '@app/stores/swap';
 import { initDataRaw } from '@app/stores/telegram';
 import { $gameState } from '@app/stores/state';
 
@@ -27,101 +19,171 @@ import { SwapFormInput } from '../SwapFormInput/SwapFormInput';
 import * as S from './SwapForm.style';
 import SwapIcon from '@shared/assets/swap-currency.svg?react';
 
-// TODO требуется полный рефакторинг
+enum CurrencyEnum {
+  QUARK = 'quarks',
+  STAR = 'stars',
+}
 
-export const SwapForm: React.FC = () => {
+enum SwapDirection {
+  QuarkToStar = 'QuarkToStar',
+  StarToQuark = 'StarToQuark',
+}
+
+const swapRatesMap: Record<SwapDirection, number> = {
+  [SwapDirection.QuarkToStar]: 0.001,
+  [SwapDirection.StarToQuark]: 900,
+};
+
+interface SwapState {
+  direction: SwapDirection;
+  fromValue: string;
+  toValue: string;
+}
+
+export const SwapForm: FC = () => {
+  const { t } = useTranslation('global');
   const rawData = initDataRaw || '';
   const gameState = useStore($gameState);
-  const { t: tGlobal } = useTranslation('global');
-  // const connectionStatus = useStore($connectionStatus);
-  const { fromValue, toValue, direction, min: minSwapAmount, step: swapStep } = useStore($swapState);
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData({ enabled: !!rawData, variables: { rawData } });
   const { syncedQuarks, syncedStars } = useSyncedValues(userData, gameState);
-  const currentPair = useMemo(() => SWAP_PAIRS[direction], [direction]);
-  const isQuarkToStarDirection = useMemo(() => direction === SwapDirection.QuarkToStar, [direction]);
- 
-  const handleSwapSuccess = () => {
-    updateSwapValues('', 'from', 0);
-    setTimeout(() => queryClient.invalidateQueries({ queryKey: ['get/missions'] }), 2000); // delay so swap can be processed before missions are updated
-    
+  const [swapState, setSwapState] = useState<SwapState>({
+    direction: SwapDirection.QuarkToStar,
+    fromValue: '',
+    toValue: '',
+  });
+
+  const onSuccess = () => {
+    setSwapState(prevState => ({
+      ...prevState,
+      fromValue: '',
+      toValue: '',
+    }));
+    setTimeout(() => queryClient.invalidateQueries({ queryKey: ['get/missions'] }), 2000);
   };
 
-  const handleSwapError = (error: unknown) => {
-    ErrorNotification(tGlobal('something_went_wrong'));
+  const onError = (error: unknown) => {
+    ErrorNotification(t('something_went_wrong'));
     console.error('Error creating swap:', error);
   };
 
-  const { mutate: swapMutation, isPending: isSwapPending, isSuccess: isSwapSuccess } = useCreateSwap({
-    onSuccess: handleSwapSuccess,
-    onError: handleSwapError,
-  });
+  const { mutate: swapMutation, isPending: isSwapPending, isSuccess: isSwapSuccess } = useCreateSwap({ onSuccess, onError });
+  const isSubmitDisabled = !parseFloat(swapState.fromValue) || isSwapPending;
+  const isQuarkToStarDirection = swapState.direction === SwapDirection.QuarkToStar;
+  const isLoading = isUserDataLoading;
 
-  const handleChange = (value: string, input: 'from' | 'to') => {
-    const maxValue = direction === SwapDirection.QuarkToStar ? syncedQuarks : syncedStars;
-    updateSwapValues(value, input, maxValue);
-  };
-
-  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const amount = parseFloat(fromValue);
+    const amount = parseFloat(swapState.fromValue);
     if (!amount) return;
 
-    swapMutation({ rawData, body: { amount: String(amount), currency: currentPair.from.symbol } });
-  }, [swapMutation, currentPair.from.symbol, fromValue, rawData]);
+    swapMutation({ rawData, body: { amount: String(amount), currency: isQuarkToStarDirection ? CurrencyEnum.QUARK : CurrencyEnum.STAR } });
+  };
 
-  const isLoading = isUserDataLoading; //|| isSwapPending || connectionStatus !== 'online';
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let fromValue: number, toValue: number;
 
-  const [top, bottom] = useMemo(() => {
-    return direction === SwapDirection.QuarkToStar
-      ? [syncedQuarks, syncedStars]
-      : [syncedStars, syncedQuarks];
-  }, [direction, syncedQuarks, syncedStars]);
+    if (e.target.id === 'from') {
+      const direction = swapState.direction === SwapDirection.QuarkToStar ? SwapDirection.QuarkToStar : SwapDirection.StarToQuark;
+      const max = swapState.direction === SwapDirection.QuarkToStar ? syncedQuarks : syncedStars;
+      const clampedValue = Math.min(Math.max(parseFloat(e.target.value) || 0, 0), max);
+      const rate = swapRatesMap[direction];
+
+      fromValue = clampedValue;
+      toValue = Number((clampedValue * rate).toFixed(6));
+    }
+
+    if (e.target.id === 'to') {
+      const direction = swapState.direction === SwapDirection.QuarkToStar ? SwapDirection.StarToQuark : SwapDirection.QuarkToStar;
+      const max = swapState.direction === SwapDirection.QuarkToStar ? syncedStars : syncedQuarks;
+      const clampedValue = Math.min(Math.max(parseFloat(e.target.value) || 0, 0), max);
+      const rate = swapRatesMap[direction];
+
+      fromValue = Number((clampedValue * rate).toFixed(6));
+      toValue = clampedValue;
+    }
+
+    setSwapState(prevState => ({
+      ...prevState,
+      fromValue: fromValue.toString(),
+      toValue: toValue.toString(),
+    }));
+  };
+
+  const handleChangeDirection = () => {
+    setSwapState(prevState => {
+      const newDirection = prevState.direction === SwapDirection.QuarkToStar
+        ? SwapDirection.StarToQuark
+        : SwapDirection.QuarkToStar;
+
+      return {
+        direction: newDirection,
+        fromValue: prevState.toValue,
+        toValue: prevState.fromValue,
+      };
+    });
+  };
+
+  const handleSetMax = () => {
+    const maxValue = isQuarkToStarDirection ? syncedQuarks : syncedStars;
+
+    if (maxValue < 0) throw new Error('Max value cannot be negative');
+    
+    const rate = swapRatesMap[swapState.direction];
+    const convertedValue = Number((maxValue * rate).toFixed(6));
+
+    setSwapState(prevState => ({
+      ...prevState,
+      fromValue: maxValue.toString(),
+      toValue: convertedValue.toString(),
+    }));
+  };
 
   if (isLoading) return <Loader speed="fast" />;
-
-  const submitDisabled = !parseFloat(fromValue) || isSwapPending;
+  
   return (
     <>
       <form onSubmit={handleSubmit}>
         <S.Inputs>
           <SwapFormInput
-            label={tGlobal('sell')}
-            value={fromValue}
-            onChange={value => handleChange(value, 'from')}
-            onMaxClick={() => setMaxFromValue(top)}
-            currency={currentPair.from}
-            max={top}
-            min={minSwapAmount}
-            step={swapStep}
+            id="from"
+            label={t('sell')}
+            value={swapState.fromValue}
+            placeholder={isQuarkToStarDirection ? '100' : '0.1'}
+            currency={isQuarkToStarDirection ? 'quark' : 'star'}
+            onChange={handleChange}
+            onSetMax={handleSetMax}
             showMaxButton
           />
-          <S.ToggleButton onClick={toggleSwapDirection}>
+          <S.ToggleButton onClick={handleChangeDirection}>
             <Button rounded="full" shine>
               <S.Icon as={SwapIcon} />
             </Button>
           </S.ToggleButton>
           <SwapFormInput
-            label={tGlobal('buy')}
-            value={toValue}
-            onChange={value => handleChange(value, 'to')}
-            currency={currentPair.to}
-            max={bottom}
-            min={minSwapAmount}
-            step={swapStep}
+            id="to"
+            label={t('buy')}
+            value={swapState.toValue}
+            placeholder={isQuarkToStarDirection ? '0.1' : '100'}
+            currency={isQuarkToStarDirection ? 'star' : 'quark'}
+            onChange={handleChange}
           />
         </S.Inputs>
         <S.SwapButton
           type="submit"
           variant="primary"
           loading={isSwapPending}
-          disabled={submitDisabled}
+          disabled={isSubmitDisabled}
         >
-          {tGlobal('swap')}
+          {t('swap')}
         </S.SwapButton>
       </form>
-      {(isQuarkToStarDirection && isSwapSuccess) && <ExactConversion quarks={parseInt(fromValue)} />}
-      {(isQuarkToStarDirection && isSwapSuccess) && <PalindromeConverter quarks={parseInt(fromValue)} />}
+      {(isQuarkToStarDirection && isSwapSuccess) && (
+        <>
+          <ExactConversion quarks={parseInt(swapState.fromValue)} />
+          <PalindromeConverter quarks={parseInt(swapState.fromValue)} />
+        </>
+      )}
     </>
   );
 };
