@@ -93,14 +93,14 @@ const levelIconsMap: Record<number, LevelIcon> = {
 export const LevelUpModal: FC = () => {
   const { t } = useTranslation('global');
   const gameState = useStore($gameState);
-  const isVisible = gameState?.levelUpModalVisible.get() ?? false;
+  const isVisible = false;
   const level = gameState?.level.get() ?? 1;
   const levelDefinition = LEVELS[level - 1].name;
   const rank = t(`levels.${levelDefinition}`);
   const levelIcon = levelIconsMap[level];
 
   const handleClose = () => {
-    gameState?.levelUpModalVisible.set(false);
+    
   };
 
   return (
