@@ -117,7 +117,7 @@ export const AppRouter = () => {
                 margin: 'auto',
               }}
             />
-            <LevelUpModal />
+            {/* <LevelUpModal /> */}
           </>
         )}
       </Router>
