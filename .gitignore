@@ -28,3 +28,5 @@ dist-ssr
 
 project_files.txt
 .ctx
+# Sentry Config File
+.env.sentry-build-plugin

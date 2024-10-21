@@ -8,6 +8,7 @@ export const Card = styled('div', {
   background: '#14151E',
   borderRadius: '1rem',
   padding: '1rem',
+  width: '100%',
   variants: {
     variant: {
       default: {},

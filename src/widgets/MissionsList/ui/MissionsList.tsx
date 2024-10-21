@@ -7,7 +7,7 @@ import { $missions, $filteredAndSortedMissions, ResolvedMission } from '@app/sto
 import { MissionType, MissionProgressStatus } from '@shared/services/api/missions/types';
 
 import { Loader } from '@shared/ui/Loader';
-import { MissionCard } from '@widgets/MissionCard';
+import { MissionCard, OptimisticMissionCard } from '@widgets/MissionCard';
 import { DailyMissionCard } from '@widgets/DailyMissionCard';
 
 import * as S from './MissionsList.styles';
@@ -70,7 +70,10 @@ const MissionCategory: FC<{ category: MissionCategory }> = ({ category }) => {
             {mission.mission_type === MissionType.DAILY && idx === 0 && (
               <S.ListItem><DailyMissionCard {...mission}/></S.ListItem>
             )}
-            {mission.progress_status !== MissionProgressStatus.UNAVAILABLE && (
+            {mission.mission_type === MissionType.SOCIAL && (
+              <S.ListItem><OptimisticMissionCard {...mission}/></S.ListItem>
+            )}
+            {mission.mission_type !== MissionType.SOCIAL && mission.progress_status !== MissionProgressStatus.UNAVAILABLE && (
               <S.ListItem><MissionCard {...mission}/></S.ListItem>
             )}
           </Fragment>
