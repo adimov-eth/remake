@@ -44,14 +44,12 @@ export const Content = styled('div', {
 });
 
 export const Title = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '1rem',
   fontWeight: '600',
   color: '#fff',
 });
 
 export const Description = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '0.875rem',
   fontWeight: '400',
   lineHeight: '1rem',

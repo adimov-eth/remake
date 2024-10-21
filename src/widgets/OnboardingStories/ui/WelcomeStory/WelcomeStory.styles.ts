@@ -5,7 +5,6 @@ export const Subtitle = styled('h2', {
   color: '#FFF',
   textAlign: 'center',
   textShadow: '0px 0px 6.6px rgba(255, 255, 255, 0.49)',
-  fontFamily: 'Tektur',
   fontSize: '1.5rem',
   fontStyle: 'normal',
   fontWeight: 700,

@@ -9,7 +9,6 @@ export const Content = styled('div', {
 });
 
 export const Title = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '1.75rem',
   fontWeight: 600,
   textAlign: 'center',
@@ -19,7 +18,6 @@ export const Title = styled('div', {
 });
 
 export const Description = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '1rem',
   lineHeight: '1.25rem',
   textAlign: 'center',
@@ -30,7 +28,6 @@ export const Description = styled('div', {
 export const Reward = styled('span', {
   display: 'inline-flex',
   alignItems: 'center',
-  fontFamily: 'var(--font-mono)',
   fontSize: '3rem',
   fontWeight: 600,
   lineHeight: '3.75rem',

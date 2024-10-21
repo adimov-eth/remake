@@ -22,7 +22,6 @@ export const UserLogoIcon = styled('div', {
 });
 
 export const UserLogoUsername = styled('span', {
-  fontFamily: 'var(--font-pro-display)',
   fontWeight: 500,
   textAlign: 'center',
   maxWidth: '100%',

@@ -33,7 +33,6 @@ export const RadioInput = styled('input', {
 
 export const RadioLabel = styled('label', {
   display: 'block',
-  fontFamily: 'var(--font-pro-display)',
   fontWeight: '600',
   fontSize: '1rem',
   lineHeight: '1',

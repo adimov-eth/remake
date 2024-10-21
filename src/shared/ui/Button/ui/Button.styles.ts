@@ -13,7 +13,6 @@ export const Button = styled('button', {
   justifyContent: 'center',
   minWidth: '2.5rem',
   minHeight: '2.5rem',
-  fontFamily: 'var(--font-pro-display)',
   cursor: 'pointer',
   border: 'none',
   borderRadius: '0.875rem',

@@ -8,7 +8,6 @@ export const Root = styled('div', {
 });
 
 export const Title = styled('div', {
-  fontFamily: 'var(--font-mono)',
   fontSize: '24px',
   fontWeight: '600',
   color: '#fff',

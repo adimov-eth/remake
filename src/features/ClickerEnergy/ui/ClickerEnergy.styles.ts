@@ -16,7 +16,6 @@ export const Icon = styled(EnergyIcon, {
 });
 
 export const Value = styled('span', {
-  fontFamily: 'var(--font-mono)',
   fontSize: '0.875rem',
   fontWeight: 600,
   textAlign: 'left',
@@ -31,7 +30,6 @@ export const Inner = styled('div', {
 });
 
 export const Title = styled('span', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '0.875rem',
   color: '#4E5464',
 });
