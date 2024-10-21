@@ -322,7 +322,6 @@ export const initClicker = (
           const newLevel = $level.get() + 1;
           $level.set(newLevel);
           $energyResetAt.set(0);
-          $levelUpModalVisible.set(true);
         }
 
         return true;
@@ -451,8 +450,6 @@ export const initClicker = (
     upgrades: $upgrades.get(),
   });
 
-  const $levelUpModalVisible = atom<boolean>(false);
-
   return {
     // state
     clicks: $clicks,
@@ -468,7 +465,6 @@ export const initClicker = (
     energyResetAt: $energyResetAt,
     upgrades: $upgrades,
     profileImage: $proifle_image,
-    levelUpModalVisible: $levelUpModalVisible,
     // methods
     handleAction,
     serialize,

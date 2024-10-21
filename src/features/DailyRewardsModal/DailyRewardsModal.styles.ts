@@ -10,7 +10,6 @@ export const Root = styled('div', {
 });
 
 export const Title = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '1.75rem',
   fontWeight: '600',
   textAlign: 'center',
@@ -19,7 +18,6 @@ export const Title = styled('div', {
 });
 
 export const Description = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '1rem',
   textAlign: 'center',
   color: '#95A2C5',

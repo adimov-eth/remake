@@ -80,7 +80,6 @@ export const NotificationMessage = styled('div', {
 });
 
 export const NotificationMessageText = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   padding: 'var(--notification-padding) 1rem var(--notification-padding) var(--notification-padding)',
   fontSize: '1rem',
   fontWeight: '400',

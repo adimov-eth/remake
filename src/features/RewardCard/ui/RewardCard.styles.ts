@@ -17,7 +17,6 @@ export const Root = styled('button', {
   position: 'relative',
   padding: '0.1875rem',
   textAlign: 'center',
-  fontFamily: 'var(--font-mono)',
   fontSize: '0.875rem',
   fontWeight: '600',
   lineHeight: '1',

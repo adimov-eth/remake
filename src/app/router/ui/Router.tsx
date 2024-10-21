@@ -25,7 +25,7 @@ import {
   Swap
 } from '@pages';
 
-import { LevelUpModal } from '@features/LevelUpModal';
+// import { LevelUpModal } from '@features/LevelUpModal';
 import { UserStatusBar } from '@widgets/UserStatusBar';
 import { Header } from '@widgets/Header';
 import { OnboardingStories } from '@widgets/OnboardingStories';
@@ -39,7 +39,7 @@ import {
 
 import * as S from './Router.styles';
 
-import * as Sentry from "@sentry/react";
+import * as Sentry from '@sentry/react';
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -121,7 +121,7 @@ export const AppRouter = () => {
                 margin: 'auto',
               }}
             />
-            <LevelUpModal />
+            {/* <LevelUpModal /> */}
           </>
         )}
       </Router>

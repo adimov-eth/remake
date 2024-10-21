@@ -48,12 +48,14 @@ export const InviteFriendsCard = () => {
         <S.DetailsContent>
           <S.Title>{t('bonuses_for_raising_the_level')}</S.Title>
           <S.Table>
-            <tbody>
+            <thead>
               <tr>
                 <S.TableHeader>{t('level')}</S.TableHeader>
                 <S.TableHeader>{t('for_friend')}</S.TableHeader>
                 <S.TableHeader>{t('premium')}</S.TableHeader>
               </tr>
+            </thead>
+            <tbody>
               {levels.map((level) => (
                 <S.TableRow key={level.name}>
                   <S.TableData>{t(`levels.${level.name}`)}</S.TableData>

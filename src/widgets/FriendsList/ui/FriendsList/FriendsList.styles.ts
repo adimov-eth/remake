@@ -4,7 +4,6 @@ export const Root = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  fontFamily: 'var(--font-pro-display)',
   color: '#fff',
 });
 

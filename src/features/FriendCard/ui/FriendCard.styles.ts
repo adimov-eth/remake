@@ -28,7 +28,6 @@ export const Content = styled('div', {
 });
 
 export const Name = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '1rem',
   fontWeight: 600,
   color: '#fff',
@@ -39,7 +38,6 @@ export const Name = styled('div', {
 });
 
 export const Rank = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '0.875rem',
   fontWeight: 400,
   color: '#67718C',

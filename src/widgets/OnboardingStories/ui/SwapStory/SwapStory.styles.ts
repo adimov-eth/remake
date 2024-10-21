@@ -29,7 +29,6 @@ export const Input = styled('div', {
 });
 
 export const InputLabel = styled('div', {
-  fontFamily: 'SF Pro, sans-serif',
   color: '#FFF',
   fontSize: '1rem',
   fontStyle: 'normal',
@@ -40,7 +39,6 @@ export const InputControl = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  fontFamily: 'SF Pro, sans-serif',
   color: '#FFF',
   fontSize: '1.5rem',
   fontStyle: 'normal',
@@ -48,7 +46,6 @@ export const InputControl = styled('div', {
 });
   
 export const InputValue = styled('span', {
-  fontFamily: 'SF Pro, sans-serif',
   fontSize: '1.5rem',
   color: 'rgba(255, 255, 255, 1)',
 });
@@ -76,7 +73,6 @@ export const SwapIcon = styled(SwapCurrencyIcon, {
 });
 
 export const CurrencyName = styled('span', {
-  fontFamily: 'SF Pro Display, sans-serif',
   fontSize: '0.75rem',
   color: 'rgba(255, 255, 255, 1)',
 });

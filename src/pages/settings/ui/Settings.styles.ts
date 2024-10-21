@@ -21,7 +21,6 @@ export const BackIcon = styled('div', {
 });
 
 export const Title = styled('h1', {
-  fontFamily: 'var(--font-pro-display)',
   fontWeight: '500',
   fontSize: '1.25rem',
 });
@@ -49,7 +48,6 @@ export const CardItem = styled('div', {
 });
 
 export const Label = styled('span', {
-  fontFamily: 'var(--font-pro-display)',
   fontWeight: '500',
   fontSize: '1rem',
 });

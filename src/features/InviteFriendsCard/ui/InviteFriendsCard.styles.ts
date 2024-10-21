@@ -59,7 +59,6 @@ export const Content = styled('div', {
 });
 
 export const Title = styled('h3', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '1rem',
   fontWeight: '600',
   lineHeight: '1.25rem',
@@ -68,7 +67,6 @@ export const Title = styled('h3', {
 });
 
 export const Description = styled('p', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '0.875rem',
   fontWeight: '400',
   lineHeight: '1.5rem',
@@ -82,7 +80,6 @@ export const Description = styled('p', {
 export const Reward = styled('span', {
   display: 'inline-flex',
   alignItems: 'center',
-  fontFamily: 'var(--font-mono)',
   fontSize: '0.875rem',
   fontWeight: '600',
   color: 'rgba(255, 255, 255, 1)',
@@ -100,7 +97,6 @@ export const Button = styled('button', {
   width: '100%',
   minWidth: '2.5rem',
   minHeight: '2.5rem',
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '1rem',
   fontWeight: '700',
   lineHeight: '2.375rem',
@@ -122,7 +118,6 @@ export const Table = styled('table', {
 
 export const TableHeader = styled('th', {
   textAlign: 'left',
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '0.75rem',
   fontWeight: '400',
   lineHeight: '1rem',
@@ -131,7 +126,6 @@ export const TableHeader = styled('th', {
 });
 
 export const TableData = styled('td', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '0.75rem',
   fontWeight: '600',
   lineHeight: '1rem',

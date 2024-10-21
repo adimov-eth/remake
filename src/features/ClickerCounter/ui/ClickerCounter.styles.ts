@@ -1,7 +1,6 @@
 import { styled } from '@app/stitches.config';
 
 export const Root = styled('div', {
-  fontFamily: 'var(--font-mono)',
   fontWeight: 700,
   color: '#fff',
   marginBottom: '2rem',
