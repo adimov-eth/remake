@@ -21,7 +21,6 @@ export const StatusIcon = styled('div', {
 });
 
 export const LoaderText = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '0.875rem',
   fontWeight: '600',
   color: '#fff',
