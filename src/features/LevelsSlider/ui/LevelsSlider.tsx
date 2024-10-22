@@ -18,7 +18,7 @@ export const LevelsSlider = () => {
   const quarks = useStore(clickerState.quarks);
   const [selectedLevel, setSelectedLevel] = useState<number>(0);
   const { t } = useTranslation('global');
-  const isLastLevel = selectedLevel - 1 === LEVELS.length;
+  const isLastLevel = selectedLevel === LEVELS.length;
 
   useEffect(() => {
     setSelectedLevel(currentLevel);
