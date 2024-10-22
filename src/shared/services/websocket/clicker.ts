@@ -1,75 +1,150 @@
 // This code shared with backend
-
 import { atom, computed } from 'nanostores';
-
 import { intervalStore, addDecimals } from './utils';
+import { BlurBackdropVariant } from '@shared/ui/BlurBackdrop';
+import { 
+  protostar, 
+  brownDwarf, 
+  redDwarf, 
+  whiteDwarf, 
+  redGiant, 
+  blueGiant, 
+  supergiant, 
+  neutronStar, 
+  supernova, 
+  blackHole 
+} from '@shared/assets';
 
 export type LevelDefinition = {
+  icon: {
+    src: string;
+    width: number;
+    height: number;
+    variant: BlurBackdropVariant;
+  };
   name: string;
   energy: number;
   quarksToUpgrade: number;
   quarksPerClick: number;
 };
 
-// TODO Уровни должны приходить из бэка
-
 export const LEVELS: LevelDefinition[] = [
   { 
-    name: 'protostar', 
+    icon: {
+      src: protostar,
+      width: 178,
+      height: 120,
+      variant: 'blue',
+    },
+    name: 'levels.protostar', 
     energy: 500, 
     quarksToUpgrade: 1000, 
     quarksPerClick: 1 
   },
   {
-    name: 'brown_dwarf',
+    icon: {
+      src: brownDwarf,
+      width: 134,
+      height: 134,
+      variant: 'brown',
+    },
+    name: 'levels.brown_dwarf',
     energy: 750,
     quarksToUpgrade: 5000,
     quarksPerClick: 2,
   },
   {
-    name: 'red_dwarf',
+    icon: {
+      src: redDwarf,
+      width: 134,
+      height: 134,
+      variant: 'red',
+    },
+    name: 'levels.red_dwarf',
     energy: 1000,
     quarksToUpgrade: 10000,
     quarksPerClick: 2,
   },
   {
-    name: 'white_dwarf',
+    icon: {
+      src: whiteDwarf,
+      width: 134,
+      height: 134,
+      variant: 'white',
+    },
+    name: 'levels.white_dwarf',
     energy: 1500,
     quarksToUpgrade: 50000,
     quarksPerClick: 3,
   },
   {
-    name: 'red_giant',
+    icon: {
+      src: redGiant,
+      width: 143,
+      height: 120,
+      variant: 'red',
+    },
+    name: 'levels.red_giant',
     energy: 2000,
     quarksToUpgrade: 100000,
     quarksPerClick: 4,
   },
   {
-    name: 'blue_giant',
+    icon: {
+      src: blueGiant,
+      width: 143,
+      height: 120,
+      variant: 'blue',
+    },
+    name: 'levels.blue_giant',
     energy: 2500,
     quarksToUpgrade: 500000,
     quarksPerClick: 5,
   },
   {
-    name: 'blue_supergiant',
+    icon: {
+      src: supergiant,
+      width: 160,
+      height: 130,
+      variant: 'blue',
+    },
+    name: 'levels.blue_supergiant',
     energy: 3000,
     quarksToUpgrade: 1000000,
     quarksPerClick: 6,
   },
   {
-    name: 'neutron_star',
+    icon: {
+      src: neutronStar,
+      width: 160,
+      height: 160,
+      variant: 'orange',
+    },
+    name: 'levels.neutron_star',
     energy: 3500,
     quarksToUpgrade: 5000000,
     quarksPerClick: 7,
   },
   {
-    name: 'supernova',
+    icon: {
+      src: supernova,
+      width: 134,
+      height: 134,
+      variant: 'pink',
+    },
+    name: 'levels.supernova',
     energy: 4000,
     quarksToUpgrade: 10000000,
     quarksPerClick: 8,
   },
   {
-    name: 'black_hole',
+    icon: {
+      src: blackHole,
+      width: 240,
+      height: 240,
+      variant: 'black',
+    },
+    name: 'levels.black_hole',
     energy: 5000,
     quarksToUpgrade: 100000000,
     quarksPerClick: 10,
@@ -162,17 +237,17 @@ const getRechargeStatus = (user: upgradeEffectUser) => {
     updatedPaidRechargesToday,
     updatedLastPaidRechargeResetAt,
   } as RechargeStatus;
-}
+};
 
 
 export const UPGRADES: { [key: string]: UpgradeDefinition } = {
   recharge: {
-    name: 'Recharge',
-    description: 'Fully restores energy.',
+    name: 'boosts.recharge.title',
+    description: 'boosts.recharge.description',
     attribute_type: 'energy',
     tier: 1,
     price(user: upgradeEffectUser, _tier: number) {
-      const data = getRechargeStatus(user)
+      const data = getRechargeStatus(user);
       return data.price;
     },
     activeEffect(user: upgradeEffectUser, _tier: number) {
@@ -196,8 +271,8 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
     },
   },
   energyBoost: {
-    name: 'Increase Energy',
-    description: 'Increases maximum energy by 500 units.',
+    name: 'boosts.energy_boost.title',
+    description: 'boosts.energy_boost.description',
     attribute_type: 'energyLimit',
     tier: 1,
     price: (_user, tier) => calcUpgradePrice(500, tier),
@@ -217,8 +292,8 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
     isEnabled: user => user.energyLimit < 10000
   },
   additionalTap: {
-    name: '+1 Tap per Click',
-    description: 'Adds an additional tap for every click.',
+    name: 'boosts.additional_tap.title',
+    description: 'boosts.additional_tap.description',
     attribute_type: 'clicksPerTap',
     tier: 1,
     price(_user: upgradeEffectUser, tier: number) {
@@ -233,8 +308,8 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
     isEnabled: () => true, // Unlimited maximum
   },
   megaClick: {
-    name: 'Mega Click',
-    description: 'Adds +1 quark for every click for 1 minute.',
+    name: 'boosts.mega_click.title',
+    description: 'boosts.mega_click.description',
     attribute_type: 'quarksPerClick',
     tier: 1,
     price(_user: upgradeEffectUser, tier: number) {
@@ -274,8 +349,8 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
     },
   },
   warpDrive: {
-    name: 'Warp Drive',
-    description: 'Allows you to spend all accumulated energy in one tap.',
+    name: 'boosts.warp_drive.title',
+    description: 'boosts.warp_drive.description',
     attribute_type: 'energy',
     tier: 1,
     price(_user: upgradeEffectUser, tier: number) {
@@ -283,15 +358,15 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
       return calcUpgradePrice(basePrice, tier);
     },
     activeEffect: (user, _tier) => {
-      const gain = user.energy
+      const gain = user.energy;
       return {
         ...user,
         quarks: user.quarks + gain,
         energy: 0,
-      }
+      };
     },
     passiveEffect: (user, _tier) => {
-      return user
+      return user;
     },
     isEnabled: (user) => user.level > 0,
   },
@@ -372,7 +447,7 @@ export const initClicker = (
       megaClickExpiresAt: $megaClickExpiresAt.get(),
     };
     const upgradesWithQuarksPerClick = upgrades.filter(
-      upgrade => UPGRADES[upgrade.slug].attribute_type === 'energyLimit'
+      upgrade => UPGRADES[upgrade.slug] && UPGRADES[upgrade.slug].attribute_type === 'energyLimit'
     );
     const updatedState = upgradesWithQuarksPerClick.reduce((state, upgrade) => {
       return UPGRADES[upgrade.slug].passiveEffect(state, upgrade.tier);
@@ -394,7 +469,7 @@ export const initClicker = (
       megaClickExpiresAt: $megaClickExpiresAt.get(),
     };
     const upgradesWithClicksPerTap = upgrades.filter(
-      upgrade => UPGRADES[upgrade.slug].attribute_type === 'clicksPerTap'
+      upgrade => UPGRADES[upgrade.slug] && UPGRADES[upgrade.slug].attribute_type === 'clicksPerTap'
     );
     const updatedState = upgradesWithClicksPerTap.reduce((state, upgrade) => {
       return UPGRADES[upgrade.slug].passiveEffect(state, upgrade.tier);
@@ -416,10 +491,11 @@ export const initClicker = (
       megaClickExpiresAt: $megaClickExpiresAt.get(),
     };
     const upgradesWithQuarksPerClick = upgrades.filter(
-      upgrade => UPGRADES[upgrade.slug].attribute_type === 'quarksPerClick'
+      upgrade => UPGRADES[upgrade.slug] && UPGRADES[upgrade.slug].attribute_type === 'quarksPerClick'
     );
     const updatedState = upgradesWithQuarksPerClick.reduce((state, upgrade) => {
-      return UPGRADES[upgrade.slug].passiveEffect(state, upgrade.tier);
+      const upgradeDef = UPGRADES[upgrade.slug];
+      return upgradeDef ? upgradeDef.passiveEffect(state, upgrade.tier) : state;
     }, initialState);
     return updatedState.quarksPerClick;
   });
@@ -670,3 +746,4 @@ export const initClicker = (
 };
 
 export type ClickerState = ReturnType<typeof initClicker>;
+
