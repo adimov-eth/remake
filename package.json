@@ -34,7 +34,6 @@
     "i18next": "^23.14.0",
     "nanoevents": "^9.0.0",
     "nanostores": "^0.11.2",
-    "posthog-js": "^1.157.2",
     "prop-types": "^15.8.1",
     "proton-engine": "^6.0.3",
     "raf-manager": "^0.3.0",

@@ -39,7 +39,7 @@ export const AcceleratorsList: React.FC = () => {
         paidRechargesToday: gameState.paidRechargesToday.get(),
         lastPaidRechargeResetAt: gameState.lastPaidRechargeResetAt.get(),
         megaClickExpiresAt: gameState.megaClickExpiresAt.get(),
-    
+        clicksPerTap: gameState.clicksPerTap.get(),
       }
       const currentAccelerator = currentAccelerators.find(
         (current) => current.slug === accelerator.slug

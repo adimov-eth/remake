@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Survey } from 'posthog-js';
-
 export interface DailyReward {
   id: string
   completed: boolean
@@ -58,7 +56,6 @@ export interface Mission {
   end_date?: string | null
   icon_url?: string | null
   requirements: any
-  postHogSurvey: Survey
 }
 
 export type MissionRequirements = {
