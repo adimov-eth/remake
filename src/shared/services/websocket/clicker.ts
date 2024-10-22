@@ -237,17 +237,17 @@ const getRechargeStatus = (user: upgradeEffectUser) => {
     updatedPaidRechargesToday,
     updatedLastPaidRechargeResetAt,
   } as RechargeStatus;
-}
+};
 
 
 export const UPGRADES: { [key: string]: UpgradeDefinition } = {
   recharge: {
-    name: 'Recharge',
-    description: 'Fully restores energy.',
+    name: 'boosts.recharge.title',
+    description: 'boosts.recharge.description',
     attribute_type: 'energy',
     tier: 1,
     price(user: upgradeEffectUser, _tier: number) {
-      const data = getRechargeStatus(user)
+      const data = getRechargeStatus(user);
       return data.price;
     },
     activeEffect(user: upgradeEffectUser, _tier: number) {
@@ -271,8 +271,8 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
     },
   },
   energyBoost: {
-    name: 'Increase Energy',
-    description: 'Increases maximum energy by 500 units.',
+    name: 'boosts.energy_boost.title',
+    description: 'boosts.energy_boost.description',
     attribute_type: 'energyLimit',
     tier: 1,
     price: (_user, tier) => calcUpgradePrice(500, tier),
@@ -292,8 +292,8 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
     isEnabled: user => user.energyLimit < 10000
   },
   additionalTap: {
-    name: '+1 Tap per Click',
-    description: 'Adds an additional tap for every click.',
+    name: 'boosts.additional_tap.title',
+    description: 'boosts.additional_tap.description',
     attribute_type: 'clicksPerTap',
     tier: 1,
     price(_user: upgradeEffectUser, tier: number) {
@@ -308,8 +308,8 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
     isEnabled: () => true, // Unlimited maximum
   },
   megaClick: {
-    name: 'Mega Click',
-    description: 'Adds +1 quark for every click for 1 minute.',
+    name: 'boosts.mega_click.title',
+    description: 'boosts.mega_click.description',
     attribute_type: 'quarksPerClick',
     tier: 1,
     price(_user: upgradeEffectUser, tier: number) {
@@ -349,8 +349,8 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
     },
   },
   warpDrive: {
-    name: 'Warp Drive',
-    description: 'Allows you to spend all accumulated energy in one tap.',
+    name: 'boosts.warp_drive.title',
+    description: 'boosts.warp_drive.description',
     attribute_type: 'energy',
     tier: 1,
     price(_user: upgradeEffectUser, tier: number) {
@@ -358,15 +358,15 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
       return calcUpgradePrice(basePrice, tier);
     },
     activeEffect: (user, _tier) => {
-      const gain = user.energy
+      const gain = user.energy;
       return {
         ...user,
         quarks: user.quarks + gain,
         energy: 0,
-      }
+      };
     },
     passiveEffect: (user, _tier) => {
-      return user
+      return user;
     },
     isEnabled: (user) => user.level > 0,
   },
@@ -447,7 +447,7 @@ export const initClicker = (
       megaClickExpiresAt: $megaClickExpiresAt.get(),
     };
     const upgradesWithQuarksPerClick = upgrades.filter(
-      upgrade => UPGRADES[upgrade.slug].attribute_type === 'energyLimit'
+      upgrade => UPGRADES[upgrade.slug] && UPGRADES[upgrade.slug].attribute_type === 'energyLimit'
     );
     const updatedState = upgradesWithQuarksPerClick.reduce((state, upgrade) => {
       return UPGRADES[upgrade.slug].passiveEffect(state, upgrade.tier);
@@ -469,7 +469,7 @@ export const initClicker = (
       megaClickExpiresAt: $megaClickExpiresAt.get(),
     };
     const upgradesWithClicksPerTap = upgrades.filter(
-      upgrade => UPGRADES[upgrade.slug].attribute_type === 'clicksPerTap'
+      upgrade => UPGRADES[upgrade.slug] && UPGRADES[upgrade.slug].attribute_type === 'clicksPerTap'
     );
     const updatedState = upgradesWithClicksPerTap.reduce((state, upgrade) => {
       return UPGRADES[upgrade.slug].passiveEffect(state, upgrade.tier);
@@ -491,10 +491,11 @@ export const initClicker = (
       megaClickExpiresAt: $megaClickExpiresAt.get(),
     };
     const upgradesWithQuarksPerClick = upgrades.filter(
-      upgrade => UPGRADES[upgrade.slug].attribute_type === 'quarksPerClick'
+      upgrade => UPGRADES[upgrade.slug] && UPGRADES[upgrade.slug].attribute_type === 'quarksPerClick'
     );
     const updatedState = upgradesWithQuarksPerClick.reduce((state, upgrade) => {
-      return UPGRADES[upgrade.slug].passiveEffect(state, upgrade.tier);
+      const upgradeDef = UPGRADES[upgrade.slug];
+      return upgradeDef ? upgradeDef.passiveEffect(state, upgrade.tier) : state;
     }, initialState);
     return updatedState.quarksPerClick;
   });
@@ -745,3 +746,4 @@ export const initClicker = (
 };
 
 export type ClickerState = ReturnType<typeof initClicker>;
+

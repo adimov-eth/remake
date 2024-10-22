@@ -20,8 +20,6 @@ export const LevelUpModal: FC = () => {
   const { icon, name } = LEVELS[idx];
 
   useEffect(() => {
-    console.log('!currentLevel', currentLevel, previousLevel.current);
-    
     if (currentLevel > 0 && currentLevel > previousLevel.current) {
       if (previousLevel.current > 0) {
         setIsVisible(true);

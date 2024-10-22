@@ -103,7 +103,7 @@
   "premium": "Premium",
   "copied_to_clipboard": "Copied to clipboard",
   "failed_to_copy": "Failed to copy",
-
+  "boost_activated": "Boost \"{{boost_name}}\" activated",
   "boosts": {
     "power_up": {
       "title": "Power up",
@@ -120,6 +120,18 @@
     "warp_drive": {
       "title": "Warp Drive",
       "description": "Gain quarks equal to (89 + {{tier}})% energy"
+    },
+    "energy_boost": {
+      "title": "Increase Energy",
+      "description": "Increases maximum energy by 500 units."
+    },
+    "additional_tap": {
+      "title": "+1 Tap per Click",
+      "description": "Adds an additional tap for every click."
+    },
+    "mega_click": {
+      "title": "Mega Click",
+      "description": "Adds +1 quark for every click for 1 minute."
     }
   }
 }

@@ -56,7 +56,7 @@ export const AcceleratorCard: React.FC<IAcceleratorCard> = ({
       const wasUpgraded = newUpgrades.some(isNewUpgrade) && !oldUpgrades.some(isNewUpgrade);
 
       if (wasUpgraded) {
-        AchievementNotification(`${name} activated`);
+        AchievementNotification(t('boost_activated', { boost_name: t(name) }));
       }
     };
 
