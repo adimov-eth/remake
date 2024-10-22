@@ -90,8 +90,8 @@ export const AcceleratorCard: React.FC<IAcceleratorCard> = ({
     <S.Card type="button" disabled={disabled} onClick={handlePurchaseClick}>
       <S.Icon><img src={imagePath} width="30" height="30" /></S.Icon>
       <S.Content>
-        <S.Title>{name}</S.Title>
-        <S.Description>{description}</S.Description>
+        <S.Title>{t(name)}</S.Title>
+        <S.Description>{t(description)}</S.Description>
         <S.Price>
           <BalanceDisplay variant="ghost" quarks={price} />
         </S.Price>
@@ -116,9 +116,9 @@ export const AcceleratorCard: React.FC<IAcceleratorCard> = ({
       >
         <S.ConfirmContent>
           <S.ConfirmImg><img src={imagePath} width="40" height="40" /></S.ConfirmImg>
-          <S.ConfirmTitle>{name}</S.ConfirmTitle>
-          <S.ConfirmDescription>{description}</S.ConfirmDescription>
-          <S.ConfirmFooter>{t('are_you_sure', { name, price: formatNumberGroup(price), currency })}</S.ConfirmFooter>
+          <S.ConfirmTitle>{t(name)}</S.ConfirmTitle>
+          <S.ConfirmDescription>{t(description, { tier })}</S.ConfirmDescription>
+          <S.ConfirmFooter>{t('are_you_sure', { name: t(name), price: formatNumberGroup(price), currency })}</S.ConfirmFooter>
         </S.ConfirmContent>
       </ConfirmDialog>
     </S.Card>

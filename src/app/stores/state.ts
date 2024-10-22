@@ -7,7 +7,7 @@ import {
   ClickerState,
   SerializedState,
   UPGRADES,
-  // LEVELS,
+  LEVELS,
   initClicker,
   upgradeEffectUser,
 } from '@/shared/services/websocket/clicker';
@@ -53,9 +53,35 @@ export const $pfp = computed($user, user => user?.photoUrl || '');
 export const $level = computed($gameState, state => {
   if (!state) return 0;
   const currentLevel = state.level.get();
-  return currentLevel;
+  return Math.min(Math.max(currentLevel - 1, 0), LEVELS.length - 1);
+  // return currentLevel > LEVELS.length - 1 ? LEVELS.length - 1 : currentLevel;
 });
 
+// const upgradeCards: IAcceleratorCard[] = Object.keys(UPGRADES).map(
+//   (upgradeSlug) => {
+//     const upgradeDef = UPGRADES[upgradeSlug] as UpgradeDefinition
+//     const currentUpgrade = currentUpgrades.find(
+//       (upgrade) => upgrade.slug === upgradeSlug
+//     )
+//     const upgradeMeta = {
+//       user: {
+//         level: clickerState.level.get(),
+//         energyLimit: clickerState.energyLimit.get(),
+//       },
+//       tier: currentUpgrade?.tier || 0,
+//     }
+
+//     return {
+//       slug: upgradeSlug,
+//       title: upgradeDef.name,
+//       description: upgradeDef.description,
+//       currency: 'quarks',
+//       cost: upgradeDef.price(upgradeMeta.user, upgradeMeta.tier + 1),
+//       disabled: !upgradeDef.isEnabled(upgradeMeta.user),
+//       tier: upgradeMeta.tier,
+//     }
+//   }
+// )
 
 export const $accelerators = computed($gameState, state => {
   console.log('INIT $accelerators state', state);

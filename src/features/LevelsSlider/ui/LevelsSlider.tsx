@@ -18,6 +18,7 @@ export const LevelsSlider = () => {
   const quarks = useStore(clickerState.quarks);
   const [selectedLevel, setSelectedLevel] = useState<number>(0);
   const { t } = useTranslation('global');
+  const isLastLevel = selectedLevel - 1 === LEVELS.length;
 
   useEffect(() => {
     setSelectedLevel(currentLevel);
@@ -53,7 +54,7 @@ export const LevelsSlider = () => {
 
         <S.Level>
           <S.Title>
-            {name === 'black_hole' ? <SecretStash string={t(`levels.${name}`)} /> : t(`levels.${name}`)}
+            {isLastLevel ? <SecretStash string={t(name)} /> : t(name)}
           </S.Title>
           <S.Description>
             {`${formatNumberGroup(quarks)}/${formatNumberGroup(selectedLevelDef.quarksToUpgrade)}`}
