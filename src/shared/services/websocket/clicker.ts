@@ -76,104 +76,186 @@ export const LEVELS: LevelDefinition[] = [
   },
 ] as const;
 
-type upgradeEffectUser = {
+export type upgradeEffectUser = {
   quarks: number;
   quarksPerClick: number;
+  clicksPerTap: number;
   level: number;
   energyLimit: number;
   energy: number;
+  lastFreeRechargeAt: number;
+  paidRechargesToday: number;
+  lastPaidRechargeResetAt: number;
+  megaClickExpiresAt: number;
 };
 type upgradeEffect = (user: upgradeEffectUser, tier: number) => upgradeEffectUser;
+
+type RechargeStatus = {
+  price: number;
+  canRecharge: boolean;
+  updatedLastFreeRechargeAt: number;
+  updatedPaidRechargesToday: number;
+  updatedLastPaidRechargeResetAt: number;
+};
 
 export type UpgradeDefinition = {
   name: string;
   description: string;
-  attribute_type: 'energy' | 'energyLimit' | 'quarksPerClick';
+  attribute_type: 'energy' | 'energyLimit' | 'quarksPerClick' | 'clicksPerTap';
   tier: number;
-  price: (user: { level: number; energyLimit: number }, tier: number) => number;
+  price: (user: upgradeEffectUser, tier: number) => number;
   passiveEffect: upgradeEffect;
   activeEffect: upgradeEffect;
-  isEnabled: (user: { level: number }) => boolean;
+  isEnabled: (user: upgradeEffectUser) => boolean;
 };
 
+const MAX_PAID_RECHARGES = 6;
+const BASE_RECHARGE_PRICE = 250;
+const EIGHT_HOURS_IN_MS = 8 * 60 * 60 * 1000;
+const TWENTY_FOUR_HOURS_IN_MS = 24 * 60 * 60 * 1000;
+const calcUpgradePrice = (basePrice: number, tier: number) => basePrice * (2 ** (tier - 1));
+
+const getRechargeStatus = (user: upgradeEffectUser) => {
+  const now = Date.now();
+
+  // Инициализация переменных
+  const lastFreeRechargeAt = user.lastFreeRechargeAt || 0;
+  const paidRechargesToday = user.paidRechargesToday || 0;
+  const lastPaidRechargeResetAt = user.lastPaidRechargeResetAt || 0;
+
+  // Проверка доступности бесплатной перезарядки
+  const freeRechargeAvailable = now - lastFreeRechargeAt >= EIGHT_HOURS_IN_MS;
+
+  // Сброс платных перезарядок
+  let currentPaidRecharges = paidRechargesToday;
+  let updatedLastPaidRechargeResetAt = lastPaidRechargeResetAt;
+  if (now - lastPaidRechargeResetAt >= TWENTY_FOUR_HOURS_IN_MS) {
+    currentPaidRecharges = 0;
+    updatedLastPaidRechargeResetAt = now;
+  }
+
+  let price: number | null = 0;
+  let canRecharge = true;
+  let updatedLastFreeRechargeAt = lastFreeRechargeAt;
+  let updatedPaidRechargesToday = currentPaidRecharges;
+
+  if (freeRechargeAvailable) {
+    // Бесплатная перезарядка
+    price = 0;
+    updatedLastFreeRechargeAt = now;
+  } else {
+    if (currentPaidRecharges >= MAX_PAID_RECHARGES) {
+      // Достигнут максимум платных перезарядок
+      price = null; // Цена недоступна
+      canRecharge = false;
+    } else {
+      // Платная перезарядка
+      price = calcUpgradePrice(BASE_RECHARGE_PRICE, 1);
+      updatedPaidRechargesToday += 1;
+    }
+  }
+
+  return {
+    price,
+    canRecharge,
+    updatedLastFreeRechargeAt,
+    updatedPaidRechargesToday,
+    updatedLastPaidRechargeResetAt,
+  } as RechargeStatus;
+}
+
+
 export const UPGRADES: { [key: string]: UpgradeDefinition } = {
-  powerUp: {
-    name: 'Power up',
-    description: 'Increases power by 1',
-    attribute_type: 'quarksPerClick',
+  energyBoost: {
+    name: 'Energy Boost',
+    description: 'Increases maximum energy by 500 units.',
+    attribute_type: 'energyLimit',
     tier: 1,
-    price: (user, tier) => 1000 * tier ** 2 * user.level,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    price: (_user, tier) => calcUpgradePrice(500, tier),
     activeEffect: (user, _tier) => {
       return user;
     },
     passiveEffect: (user, tier) => {
+      const additionalEnergy = 500 * tier;
+      const potentialEnergyLimit = user.energyLimit + additionalEnergy;
+      const cappedEnergyLimit = Math.min(potentialEnergyLimit, 10000);
+
       return {
         ...user,
-        quarksPerClick: user.quarksPerClick + tier,
+        energyLimit: cappedEnergyLimit,
       };
     },
-    isEnabled: user => user.level > 0,
-  },
-  fuelTank: {
-    name: 'Extend fuel tank',
-    description: 'Increases max energy by 100 and refills energy',
-    attribute_type: 'energyLimit',
-    tier: 1,
-    price: (_user, tier) => 500 * tier ** 2,
-    activeEffect: (user, tier) => {
-      return {
-        ...user,
-        energy: user.energyLimit + 100 * tier,
-      };
-    },
-    passiveEffect: (user, tier) => {
-      return {
-        ...user,
-        energyLimit: user.energyLimit + 100 * tier,
-      };
-    },
-    isEnabled: user => user.level > 0,
+    isEnabled: user => user.energyLimit < 10000
   },
   recharge: {
     name: 'Recharge',
-    description: 'Recharges energy to full',
+    description: 'Fully restores energy.',
     attribute_type: 'energy',
     tier: 1,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    price: (user, _tier) => user.energyLimit * 0.6 * user.level,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    activeEffect: (user, _tier) => {
+    price(user: upgradeEffectUser, _tier: number) {
+      const data = getRechargeStatus(user)
+      return data.price;
+    },
+    activeEffect(user: upgradeEffectUser, _tier: number) {
+      const status = getRechargeStatus(user);
+      if (!status.canRecharge) return user;
+
       return {
         ...user,
         energy: user.energyLimit,
+        lastFreeRechargeAt: status.updatedLastFreeRechargeAt,
+        paidRechargesToday: status.updatedPaidRechargesToday,
+        lastPaidRechargeResetAt: status.updatedLastPaidRechargeResetAt,
       };
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    passiveEffect: (user, _tier) => {
+    passiveEffect(user: upgradeEffectUser, _tier: number) {
       return user;
     },
-    isEnabled: user => user.level > 0,
+    isEnabled(user: upgradeEffectUser) {
+      const status = getRechargeStatus(user);
+      return status.canRecharge;
+    },
   },
-  warpDrive: {
-    name: 'Warp Drive',
-    description: 'Gain quarks equal to (89 + tier)% energy',
-    attribute_type: 'energy',
+  megaClick: {
+    name: 'Mega Click',
+    description: 'Adds +1 quark for every click for 1 minute.',
+    attribute_type: 'quarksPerClick',
     tier: 1,
-    price: (_user, tier) => 1000 * tier ** 2,
-    activeEffect: (user, tier) => {
-      const gain = user.energy * ((89 + tier) / 100);
+    price(_user: upgradeEffectUser, tier: number) {
+      const basePrice = 300; // As per your cost table
+      return calcUpgradePrice(basePrice, tier);
+    },
+    activeEffect(user: upgradeEffectUser, _tier: number) {
+      const now = Date.now();
+      const duration = 60 * 1000; // 1 minute in milliseconds
+
+      // Extend the effect duration
+      const currentExpiration = user.megaClickExpiresAt || now;
+      const newExpiration = currentExpiration > now ? currentExpiration + duration : now + duration;
+
       return {
         ...user,
-        quarks: user.quarks + gain,
-        energy: 0,
+        megaClickExpiresAt: newExpiration,
       };
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    passiveEffect: (user, _tier) => {
-      return user;
+    passiveEffect(user: upgradeEffectUser, _tier: number) {
+      const now = Date.now();
+      const isActive = user.megaClickExpiresAt && user.megaClickExpiresAt > now;
+      console.log('passiveEffect', [isActive, user]);
+      if (isActive) {
+        return {
+          ...user,
+          quarksPerClick: user.quarksPerClick + 1,
+        };
+      } else {
+        return user;
+      }
     },
-    isEnabled: user => user.level > 0,
+    isEnabled(user: upgradeEffectUser) {
+      const now = Date.now();
+      const isActive = user.megaClickExpiresAt && user.megaClickExpiresAt > now;
+      return !isActive;
+    },
   },
 };
 
@@ -197,6 +279,10 @@ export interface SerializedState {
   energyResetAt: number;
   upgrades: SerializedUpgrade[];
   profile_image?: string;
+  lastFreeRechargeAt: number;
+  paidRechargesToday: number;
+  lastPaidRechargeResetAt: number;
+  megaClickExpiresAt: number;
 }
 
 export const initClicker = (
@@ -238,9 +324,14 @@ export const initClicker = (
     const initialState: upgradeEffectUser = {
       energyLimit: levelDef.energy,
       quarksPerClick: $quarksPerClick.get(),
+      clicksPerTap: $clicksPerTap.get() || 1,
       quarks: $quarks.get(),
       level: $level.get(),
       energy: $energy.get(),
+      lastFreeRechargeAt: $lastFreeRechargeAt.get(),
+      paidRechargesToday: $paidRechargesToday.get(),
+      lastPaidRechargeResetAt: $lastPaidRechargeResetAt.get(),
+      megaClickExpiresAt: $megaClickExpiresAt.get(),
     };
     const upgradesWithQuarksPerClick = upgrades.filter(
       upgrade => UPGRADES[upgrade.slug].attribute_type === 'energyLimit'
@@ -251,13 +342,40 @@ export const initClicker = (
     return updatedState.energyLimit;
   });
 
-  const $quarksPerClick = computed([$levelDef, $upgrades], (levelDef, upgrades) => {
+  const $clicksPerTap = computed([$levelDef, $upgrades, $quarks], (levelDef, upgrades, quarks) => {
     const initialState: upgradeEffectUser = {
       quarksPerClick: levelDef.quarksPerClick,
-      quarks: $quarks.get(),
+      clicksPerTap: $clicksPerTap.get() || 1,
+      quarks: quarks,
       level: $level.get(),
       energyLimit: $energyLimit.get(),
       energy: $energy.get(),
+      lastFreeRechargeAt: $lastFreeRechargeAt.get(),
+      paidRechargesToday: $paidRechargesToday.get(),
+      lastPaidRechargeResetAt: $lastPaidRechargeResetAt.get(),
+      megaClickExpiresAt: $megaClickExpiresAt.get(),
+    };
+    const upgradesWithClicksPerTap = upgrades.filter(
+      upgrade => UPGRADES[upgrade.slug].attribute_type === 'clicksPerTap'
+    );
+    const updatedState = upgradesWithClicksPerTap.reduce((state, upgrade) => {
+      return UPGRADES[upgrade.slug].passiveEffect(state, upgrade.tier);
+    }, initialState);
+    return updatedState.clicksPerTap;
+  });
+
+  const $quarksPerClick = computed([$levelDef, $upgrades, $quarks], (levelDef, upgrades, quarks) => {
+    const initialState: upgradeEffectUser = {
+      quarksPerClick: levelDef.quarksPerClick,
+      clicksPerTap: $clicksPerTap.get() || 1,
+      quarks: quarks,
+      level: $level.get(),
+      energyLimit: $energyLimit.get(),
+      energy: $energy.get(),
+      lastFreeRechargeAt: $lastFreeRechargeAt.get(),
+      paidRechargesToday: $paidRechargesToday.get(),
+      lastPaidRechargeResetAt: $lastPaidRechargeResetAt.get(),
+      megaClickExpiresAt: $megaClickExpiresAt.get(),
     };
     const upgradesWithQuarksPerClick = upgrades.filter(
       upgrade => UPGRADES[upgrade.slug].attribute_type === 'quarksPerClick'
@@ -270,6 +388,11 @@ export const initClicker = (
 
   const $energyReset = atom<number>(0);
   const $energyResetAt = atom<number>(0);
+  const $lastFreeRechargeAt = atom<number>(0);
+  const $paidRechargesToday = atom<number>(0);
+  const $lastPaidRechargeResetAt = atom<number>(0);
+  const $megaClickExpiresAt = atom<number>(0);
+
 
   const $time = intervalStore(500);
 
@@ -311,8 +434,10 @@ export const initClicker = (
       const currentEnergy = $energy.get();
 
       const perClick = $quarksPerClick.get();
+      const clicksPerTap = $clicksPerTap.get() || 1;
       const newQuarks = $quarks.get() + perClick;
-      const newClicks = $clicks.get() + 1;
+      const newClicks = $clicks.get() + 1 * clicksPerTap;
+      console.log('click', [perClick, clicksPerTap, currentEnergy, newQuarks, newClicks]);
       if (currentEnergy > 0) {
         $clicks.set(newClicks);
         $quarks.set(Math.round(newQuarks));
@@ -357,9 +482,14 @@ export const initClicker = (
       const initialState: upgradeEffectUser = {
         quarks: $quarks.get(),
         quarksPerClick: $quarksPerClick.get(),
+        clicksPerTap: $clicksPerTap.get(),
         level: $level.get(),
         energyLimit: $energyLimit.get(),
         energy: $energy.get(),
+        lastFreeRechargeAt: $lastFreeRechargeAt.get(),
+        paidRechargesToday: $paidRechargesToday.get(),
+        lastPaidRechargeResetAt: $lastPaidRechargeResetAt.get(),
+        megaClickExpiresAt: $megaClickExpiresAt.get(),
       };
       const currentUpgrades = $upgrades.get() || [];
       const currentUpgrade = currentUpgrades.find(upgrade => upgrade.slug === slug);
@@ -396,7 +526,10 @@ export const initClicker = (
         } else {
           updatedUpgrades = [...updatedUpgrades, { slug, tier: 1, prices: [upgradePrice] }];
         }
-
+        $lastFreeRechargeAt.set(updatedState.lastFreeRechargeAt);
+        $paidRechargesToday.set(updatedState.paidRechargesToday);
+        $lastPaidRechargeResetAt.set(updatedState.lastPaidRechargeResetAt);
+        $megaClickExpiresAt.set(updatedState.megaClickExpiresAt);
         $upgrades.set(updatedUpgrades);
         $quarks.set(Math.round(updatedState.quarks));
         $energyReset.set(updatedState.energy);
@@ -438,6 +571,18 @@ export const initClicker = (
     if (state.clicks !== undefined) {
       $clicks.set(state.clicks);
     }
+    if (state.lastFreeRechargeAt !== undefined) {
+      $lastFreeRechargeAt.set(state.lastFreeRechargeAt);
+    }
+    if (state.paidRechargesToday !== undefined) {
+      $paidRechargesToday.set(state.paidRechargesToday);
+    }
+    if (state.lastPaidRechargeResetAt !== undefined) {
+      $lastPaidRechargeResetAt.set(state.lastPaidRechargeResetAt);
+    }
+    if (state.megaClickExpiresAt !== undefined) {
+      $megaClickExpiresAt.set(state.megaClickExpiresAt);
+    }
   };
 
   const serialize = (): SerializedState => ({
@@ -449,6 +594,10 @@ export const initClicker = (
     energyReset: $energyReset.get(),
     energyResetAt: $energyResetAt.get(),
     upgrades: $upgrades.get(),
+    lastFreeRechargeAt: $lastFreeRechargeAt.get(),
+    paidRechargesToday: $paidRechargesToday.get(),
+    lastPaidRechargeResetAt: $lastPaidRechargeResetAt.get(),
+    megaClickExpiresAt: $megaClickExpiresAt.get(),
   });
 
   const $levelUpModalVisible = atom<boolean>(false);
@@ -458,6 +607,7 @@ export const initClicker = (
     clicks: $clicks,
     quarks: $quarks,
     stars: $stars,
+    clicksPerTap: $clicksPerTap,
     quarksPerClick: $quarksPerClick,
     level: $level,
     levelDef: $levelDef,
@@ -469,6 +619,10 @@ export const initClicker = (
     upgrades: $upgrades,
     profileImage: $proifle_image,
     levelUpModalVisible: $levelUpModalVisible,
+    lastFreeRechargeAt: $lastFreeRechargeAt,
+    paidRechargesToday: $paidRechargesToday,
+    lastPaidRechargeResetAt: $lastPaidRechargeResetAt,
+    megaClickExpiresAt: $megaClickExpiresAt,
     // methods
     handleAction,
     serialize,

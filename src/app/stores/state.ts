@@ -65,6 +65,7 @@ export const $accelerators = computed($gameState, state => {
   const upgradeUserData: upgradeEffectUser = {
     energyLimit: state.energyLimit.get(),
     quarksPerClick: state.quarksPerClick.get(),
+    clicksPerTap: state.clicksPerTap.get(),
     quarks: state.quarks.get(),
     level: state.level.get(),
     energy: state.energy.get(),
