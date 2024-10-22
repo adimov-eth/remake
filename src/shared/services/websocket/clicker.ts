@@ -3,6 +3,7 @@
 import { atom, computed } from 'nanostores';
 
 import { intervalStore, addDecimals } from './utils';
+import { recharge } from '@shared/assets';
 
 export type LevelDefinition = {
   name: string;
@@ -166,27 +167,6 @@ const getRechargeStatus = (user: upgradeEffectUser) => {
 
 
 export const UPGRADES: { [key: string]: UpgradeDefinition } = {
-  energyBoost: {
-    name: 'Energy Boost',
-    description: 'Increases maximum energy by 500 units.',
-    attribute_type: 'energyLimit',
-    tier: 1,
-    price: (_user, tier) => calcUpgradePrice(500, tier),
-    activeEffect: (user, _tier) => {
-      return user;
-    },
-    passiveEffect: (user, tier) => {
-      const additionalEnergy = 500 * tier;
-      const potentialEnergyLimit = user.energyLimit + additionalEnergy;
-      const cappedEnergyLimit = Math.min(potentialEnergyLimit, 10000);
-
-      return {
-        ...user,
-        energyLimit: cappedEnergyLimit,
-      };
-    },
-    isEnabled: user => user.energyLimit < 10000
-  },
   recharge: {
     name: 'Recharge',
     description: 'Fully restores energy.',
@@ -215,6 +195,43 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
       const status = getRechargeStatus(user);
       return status.canRecharge;
     },
+  },
+  energyBoost: {
+    name: 'Increase Energy',
+    description: 'Increases maximum energy by 500 units.',
+    attribute_type: 'energyLimit',
+    tier: 1,
+    price: (_user, tier) => calcUpgradePrice(500, tier),
+    activeEffect: (user, _tier) => {
+      return user;
+    },
+    passiveEffect: (user, tier) => {
+      const additionalEnergy = 500 * tier;
+      const potentialEnergyLimit = user.energyLimit + additionalEnergy;
+      const cappedEnergyLimit = Math.min(potentialEnergyLimit, 10000);
+
+      return {
+        ...user,
+        energyLimit: cappedEnergyLimit,
+      };
+    },
+    isEnabled: user => user.energyLimit < 10000
+  },
+  additionalTap: {
+    name: '+1 Tap per Click',
+    description: 'Adds an additional tap for every click.',
+    attribute_type: 'clicksPerTap',
+    tier: 1,
+    price(_user: upgradeEffectUser, tier: number) {
+      const basePrice = 250; // As per your cost table
+      return calcUpgradePrice(basePrice, tier);
+    },
+    activeEffect: (user: upgradeEffectUser, _tier: number) => user,
+    passiveEffect: (user: upgradeEffectUser, tier: number) => ({
+      ...user,
+      clicksPerTap: user.clicksPerTap + tier, // Each tier adds 1 tap
+    }),
+    isEnabled: () => true, // Unlimited maximum
   },
   megaClick: {
     name: 'Mega Click',
@@ -257,21 +274,27 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
       return !isActive;
     },
   },
-  additionalTap: {
-    name: '+1 Tap per Click',
-    description: 'Adds an additional tap for every click.',
-    attribute_type: 'clicksPerTap',
+  warpDrive: {
+    name: 'Warp Drive',
+    description: 'Allows you to spend all accumulated energy in one tap.',
+    attribute_type: 'energy',
     tier: 1,
     price(_user: upgradeEffectUser, tier: number) {
-      const basePrice = 250; // As per your cost table
+      const basePrice = 250;
       return calcUpgradePrice(basePrice, tier);
     },
-    activeEffect: (user: upgradeEffectUser, _tier: number) => user,
-    passiveEffect: (user: upgradeEffectUser, tier: number) => ({
-      ...user,
-      clicksPerTap: user.clicksPerTap + tier, // Each tier adds 1 tap
-    }),
-    isEnabled: () => true, // Unlimited maximum
+    activeEffect: (user, _tier) => {
+      const gain = user.energy
+      return {
+        ...user,
+        quarks: user.quarks + gain,
+        energy: 0,
+      }
+    },
+    passiveEffect: (user, _tier) => {
+      return user
+    },
+    isEnabled: (user) => user.level > 0,
   },
 };
 
