@@ -21,7 +21,7 @@ export const FriendsList: React.FC = () => {
   const getCurrentRank = (level: number) => {
     const lvl = Math.min(Math.max(level - 1, 0), LEVELS.length - 1);
     const rankName = LEVELS[lvl].name;
-    return t(`levels.${rankName}`);
+    return t(rankName);
   };
 
   if (isLoading) return <Loader speed="slow" />;

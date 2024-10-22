@@ -66,7 +66,6 @@ export const MissionOptimisticValidation: React.FC<IOptimisticValidationProps> =
         onClick={() => handleItemClick() }
         style={{
           cursor: 'pointer',
-          display: 'flex',
           ...style,
         }}
       >

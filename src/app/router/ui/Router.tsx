@@ -92,7 +92,7 @@ export const AppRouter = () => {
   return (
     <S.Root>
       <Router location={location} navigator={reactNavigator}>
-        {isNew && initializationStep >= 3 ? (
+        {isNew ? (
           <OnboardingStories />
         ) : (
           <>

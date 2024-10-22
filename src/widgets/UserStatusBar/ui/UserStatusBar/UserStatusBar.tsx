@@ -30,10 +30,7 @@ export const UserStatusBar: React.FC = () => {
 
   const isProfilePage = location.pathname === '/profile';
   const isShowQuarks = location.pathname !== '/';
-  const rankName = t(`levels.${currentRank.name}`);
-
-  console.log('UserStatusBar', { quarks, stars, currentRank, telegramUser, pfp, rankName });
-
+  const rankName = t(currentRank.name);
   return (
     <S.Root>
       <UserInfo
