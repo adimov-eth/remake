@@ -36,7 +36,7 @@ export const LevelsSlider = () => {
     }
   };
 
-  const selectedLevelDef = LEVELS[selectedLevel - 1] || 0;
+  const selectedLevelDef = LEVELS[selectedLevel - 1] || LEVELS[0];
   const { name } = selectedLevelDef;
 
   const isDisabledPrevButton = selectedLevel <= 1;
