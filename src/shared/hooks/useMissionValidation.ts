@@ -227,7 +227,12 @@ export const useMissionValidation = ({
     if (!isCompleted) {
       setMissionClickTime(missionId);
       setTimeout(() => dispatch({ type: 'SET_VALIDATING', payload: true }), validationDelayMs);
-      utils.openLink(url);
+      if (url.includes('t.me')) {
+        utils.openTelegramLink(url);
+      } else {
+        utils.openLink(url);
+      }
+      
     }
   }, [isCompleted, title, handleClaim, url, utils]);
 
