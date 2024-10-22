@@ -5,14 +5,14 @@ import { type Mission } from '@shared/services/api/missions/types.ts';
 import { initDataRaw } from '@app/stores/telegram';
 import { useClaimMissionReward, useGetMissions } from '@shared/services/api/missions/model';
 
-export const getMissionClickTime = (title: string): string | null =>
-  localStorage.getItem(title);
+export const getMissionClickTime = (missionId: string): string | null =>
+  localStorage.getItem(missionId);
 
-export const setMissionClickTime = (title: string): void =>
-  localStorage.setItem(title, Date.now().toString());
+export const setMissionClickTime = (missionId: string): void =>
+  localStorage.setItem(missionId, Date.now().toString());
 
-export const removeMissionClickTime = (title: string): void =>
-  localStorage.removeItem(title);
+export const removeMissionClickTime = (missionId: string): void =>
+  localStorage.removeItem(missionId);
 
 export const calculateTimeDiff = (startTime: number): number =>
   Date.now() - startTime;
@@ -70,7 +70,7 @@ const reducer = (state: State, action: Action): State => {
 // Move DEFAULT_CONFIG outside the hook to prevent re-initialization
 const DEFAULT_CONFIG: Partial<MissionValidationConfig> = {
   validationDelayMs: 250,
-  maxWaitTimeMs: 3 * 60 * 1000, // 3 minutes
+  maxWaitTimeMs: 1 * 60 * 1000, // 1 minutes
   missionsFetchStatus: ['telegram_follow'],
 };
 
@@ -115,14 +115,19 @@ export const useMissionValidation = ({
   // Initialize state using useReducer
   const [state, dispatch] = useReducer(reducer, {
     isCompleted: progressStatus === 'claimed_reward',
-    isValidating: !!getMissionClickTime(title),
+    isValidating: !!getMissionClickTime(missionId),
     isOpen: false,
   });
 
   const { isCompleted, isValidating, isOpen } = state;
 
   // API interactions
-  const claimRewardMutation = useClaimMissionReward();
+  const claimRewardMutation = useClaimMissionReward({ onSuccess: (res) => {
+    if (res?.progress_status === 'claimed_reward') {
+      dispatch({ type: 'SET_COMPLETED', payload: true });
+      dispatch({ type: 'SET_OPEN', payload: true });
+    }
+  }});
   const { refetch } = useGetMissions({
     enabled: !!rawData,
     variables: { rawData },
@@ -163,7 +168,7 @@ export const useMissionValidation = ({
           await refetch();
           setTimeout(() => dispatch({ type: 'SET_OPEN', payload: true }), validationTimeMs);
         } else {
-          await claimRewardMutation.mutateAsync({ missionId, rawData });
+          await claimRewardMutation.mutateAsync({ missionId, rawData })
         }
       } catch (error) {
         console.error('Error processing mission:', error);
@@ -178,21 +183,19 @@ export const useMissionValidation = ({
    * Handles the mission validation process.
    */
   const handleClaim = useCallback(() => {
-    const clickTimeString = getMissionClickTime(title);
+    const clickTimeString = getMissionClickTime(missionId);
 
     // Start validation animation
     setTimeout(() => dispatch({ type: 'SET_VALIDATING', payload: true }), validationDelayMs);
-    setTimeout(() => dispatch({ type: 'SET_VALIDATING', payload: false }), validationTimeMs);
+    setTimeout(() => {
+      dispatch({ type: 'SET_VALIDATING', payload: false })
+      removeMissionClickTime(missionId);
+    }, validationTimeMs);
 
     if (clickTimeString) {
       const clickTime = parseInt(clickTimeString, 10);
       const timeDiff = calculateTimeDiff(clickTime);
       const valid = isMissionValid(timeDiff, missionSlug || '');
-
-      // Update completion status if not fetching from server
-      if (!shouldFetchActualStatus(missionSlug || '')) {
-        dispatch({ type: 'SET_COMPLETED', payload: valid });
-      }
 
       // Process mission if valid
       if (valid && missionId) {
@@ -201,13 +204,8 @@ export const useMissionValidation = ({
 
       // Clean up localStorage if mission is completed or max wait time exceeded
       if (valid || timeDiff > (maxWaitTimeMs || 0)) {
-        removeMissionClickTime(title);
+        removeMissionClickTime(missionId);
       }
-    }
-
-    // Open modal if not fetching actual status
-    if (!shouldFetchActualStatus(missionSlug || '')) {
-      setTimeout(() => dispatch({ type: 'SET_OPEN', payload: true }), validationTimeMs);
     }
   }, [
     title,
@@ -227,17 +225,17 @@ export const useMissionValidation = ({
    */
   const handleClick = useCallback(() => {
     if (!isCompleted) {
-      setMissionClickTime(title);
-      handleClaim();
+      setMissionClickTime(missionId);
+      setTimeout(() => dispatch({ type: 'SET_VALIDATING', payload: true }), validationDelayMs);
+      utils.openLink(url);
     }
-    utils.openLink(url);
   }, [isCompleted, title, handleClaim, url, utils]);
 
   /**
    * Handles focus events to re-validate the mission if necessary.
    */
   const handleFocus = useCallback(() => {
-    if (getMissionClickTime(title)) {
+    if (getMissionClickTime(missionId)) {
       handleClaim();
     }
   }, [title, handleClaim]);
@@ -249,7 +247,7 @@ export const useMissionValidation = ({
   handleClaimRef.current = handleClaim;
 
   useEffect(() => {
-    if (getMissionClickTime(title)) {
+    if (getMissionClickTime(missionId)) {
       handleClaimRef.current();
     }
     // We only want to run this effect once when the component mounts.

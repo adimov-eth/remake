@@ -54,10 +54,16 @@ export const MissionOptimisticValidation: React.FC<OptimisticValidationProps> = 
     config
   });
 
+  const handleItemClick = () => {
+    if (isCompleted) return;
+    console.log('handleItemClick', [isCompleted, isValidating, isOpen]);
+    return handleClick();
+  }
+
   return (
     <>
       <div
-        onClick={handleClick}
+        onClick={() => handleItemClick() }
         style={{
           cursor: 'pointer',
           display: 'flex',

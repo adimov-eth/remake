@@ -41,7 +41,7 @@ export const OptimisticMissionCard: FC<ResolvedMission> = (mission) => {
 
   const missionValidationConfig = useMemo(() => ({
     validationTimeMs: 1500,
-    missionTimeMs: 5000,
+    missionTimeMs: 10000,
     missionsFetchStatus: []
   }), []);
   let url = 'https://t.me/tonstarsdao';
@@ -68,7 +68,7 @@ export const OptimisticMissionCard: FC<ResolvedMission> = (mission) => {
             <Card 
             variant={ResolvedStatusMap[resolved_status]}
             slotStart={<SlotStart {...{ icon_url, name, start_date, end_date }} />}
-            slotEnd={<SlotEnd {...{ progress_status, reward_quarks, reward_stars, isLoading }} />}
+            slotEnd={<SlotEnd {...{ progress_status, reward_quarks, reward_stars, isLoading: !isCompleted && isLoading }} />}
             slotTitle={name}
             slotDescription={description}
             onClick={ () => console.log('Optimistic MissionCard clicked') }
