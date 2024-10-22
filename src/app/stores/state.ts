@@ -9,6 +9,7 @@ import {
   UPGRADES,
   // LEVELS,
   initClicker,
+  upgradeEffectUser,
 } from '@/shared/services/websocket/clicker';
 import { ConnectionStatus } from '@/shared/types/connectionStatus';
 import { IngameNotification } from '@/shared/services/websocket/protocol';
@@ -53,51 +54,37 @@ export const $level = computed($gameState, state => {
   if (!state) return 0;
   const currentLevel = state.level.get();
   return currentLevel;
-  // return currentLevel > LEVELS.length - 1 ? LEVELS.length - 1 : currentLevel;
 });
 
-// const upgradeCards: IAcceleratorCard[] = Object.keys(UPGRADES).map(
-//   (upgradeSlug) => {
-//     const upgradeDef = UPGRADES[upgradeSlug] as UpgradeDefinition
-//     const currentUpgrade = currentUpgrades.find(
-//       (upgrade) => upgrade.slug === upgradeSlug
-//     )
-//     const upgradeMeta = {
-//       user: {
-//         level: clickerState.level.get(),
-//         energyLimit: clickerState.energyLimit.get(),
-//       },
-//       tier: currentUpgrade?.tier || 0,
-//     }
-
-//     return {
-//       slug: upgradeSlug,
-//       title: upgradeDef.name,
-//       description: upgradeDef.description,
-//       currency: 'quarks',
-//       cost: upgradeDef.price(upgradeMeta.user, upgradeMeta.tier + 1),
-//       disabled: !upgradeDef.isEnabled(upgradeMeta.user),
-//       tier: upgradeMeta.tier,
-//     }
-//   }
-// )
 
 export const $accelerators = computed($gameState, state => {
+  console.log('INIT $accelerators state', state);
   if (!state) return [];
-  const currentLevel = state.level.get();
-  const currentEnergyLimit = state.energyLimit.get();
   const currentUpgrades = state.upgrades.get();
+
+  const upgradeUserData: upgradeEffectUser = {
+    energyLimit: state.energyLimit.get(),
+    quarksPerClick: state.quarksPerClick.get(),
+    quarks: state.quarks.get(),
+    level: state.level.get(),
+    energy: state.energy.get(),
+    lastFreeRechargeAt: state.lastFreeRechargeAt.get(),
+    paidRechargesToday: state.paidRechargesToday.get(),
+    lastPaidRechargeResetAt: state.lastPaidRechargeResetAt.get(),
+    megaClickExpiresAt: state.megaClickExpiresAt.get(),
+
+  }
 
   return Object.entries(UPGRADES).map(([slug, { name, description, price, isEnabled }]) => {
     const { tier = 0 } = currentUpgrades.find(u => u.slug === slug) || {};
-
+    console.log('Current upgrades', currentUpgrades);
     return {
       slug,
       tier,
       name,
       description,
-      price: price({ level: currentLevel, energyLimit: currentEnergyLimit }, tier + 1),
-      disabled: !isEnabled({ level: currentLevel }),
+      price: price(upgradeUserData, tier + 1),
+      disabled: !isEnabled(upgradeUserData),
     };
   });
 });

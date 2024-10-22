@@ -13,7 +13,7 @@ import { BalanceDisplay } from '@features/BalanceDisplay';
 import * as S from './AcceleratorCard.styles';
 import acceleratorIcons from '@shared/assets/accelerators';
 
-interface IAcceleratorCard {
+export interface IAcceleratorCard {
   disabled: boolean;
   slug: string;
   name: string;
@@ -85,7 +85,6 @@ export const AcceleratorCard: React.FC<IAcceleratorCard> = ({
   };
 
   const imagePath = acceleratorIcons[slug as keyof typeof acceleratorIcons];
-  const isShowQuarks = price > 0;
 
   return (
     <S.Card type="button" disabled={disabled} onClick={handlePurchaseClick}>
@@ -94,7 +93,7 @@ export const AcceleratorCard: React.FC<IAcceleratorCard> = ({
         <S.Title>{name}</S.Title>
         <S.Description>{description}</S.Description>
         <S.Price>
-          <BalanceDisplay variant="ghost" quarks={price} showQuarks={isShowQuarks} />
+          <BalanceDisplay variant="ghost" quarks={price} />
         </S.Price>
       </S.Content>
       <ConfirmDialog
