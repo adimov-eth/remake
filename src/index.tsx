@@ -25,7 +25,7 @@ postEvent('web_app_expand');
 
 
 Sentry.init({
-  dsn: 'https://8821629c9179afd7378f0619233850f9@o4507655658602496.ingest.us.sentry.io/4508120836145152',
+  dsn: import.meta.env.VITE_SENTRY_AUTH_DSN,
   integrations: [
     Sentry.reactRouterV6BrowserTracingIntegration({
       useEffect: React.useEffect,
