@@ -435,13 +435,14 @@ export const initClicker = (
 
       const perClick = $quarksPerClick.get();
       const clicksPerTap = $clicksPerTap.get() || 1;
-      const newQuarks = $quarks.get() + perClick;
-      const newClicks = $clicks.get() + 1 * clicksPerTap;
-      console.log('click', [perClick, clicksPerTap, currentEnergy, newQuarks, newClicks]);
+      const perTap = perClick * clicksPerTap;
+      const newQuarks = $quarks.get() + perTap;
+      const newClicks = $clicks.get() + 1; //real clicks
+      console.log('click', [perClick, clicksPerTap, perTap, currentEnergy, newQuarks, newClicks]);
       if (currentEnergy > 0) {
         $clicks.set(newClicks);
         $quarks.set(Math.round(newQuarks));
-        $energyReset.set(currentEnergy - perClick);
+        $energyReset.set(currentEnergy - perTap);
         $energyResetAt.set(Date.now());
         if (newQuarks >= $levelDef.get().quarksToUpgrade) {
           const newLevel = $level.get() + 1;
