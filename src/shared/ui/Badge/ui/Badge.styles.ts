@@ -7,7 +7,6 @@ export const Badge = styled('span', {
   width: '1.375rem',
   height: '1.375rem',
   padding: '0.125rem',
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '0.75rem',
   fontWeight: '400',
   lineHeight: '1rem',

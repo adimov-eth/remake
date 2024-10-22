@@ -1,5 +1,4 @@
 import { FC, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { ResolvedMission, MissionProgressStatus } from '@app/stores/missions';
 
 import { Card, CardVariant } from '@shared/ui/Card';
@@ -22,9 +21,9 @@ const ResolvedStatusMap: Record<MissionProgressStatus | 'overdue', CardVariant> 
   overdue: 'disabled',
 };
 
+// TODO remove
 
 export const OptimisticMissionCard: FC<ResolvedMission> = (mission) => {
-  const { t } = useTranslation('global');
   const {
     id,
     name,
@@ -46,9 +45,9 @@ export const OptimisticMissionCard: FC<ResolvedMission> = (mission) => {
   }), []);
   let url = 'https://t.me/tonstarsdao';
   if (slug === 'follow_x') {
-    url = 'https://x.com/tonstarsdao'
+    url = 'https://x.com/tonstarsdao';
   } else if (slug === 'follow_instagram') {
-    url = 'https://instagram.com/tonstars.dao'
+    url = 'https://instagram.com/tonstars.dao';
   }
   return (
     <>
@@ -65,7 +64,7 @@ export const OptimisticMissionCard: FC<ResolvedMission> = (mission) => {
         config={missionValidationConfig}
       >
         {(isCompleted, isLoading) => (
-            <Card 
+          <Card 
             variant={ResolvedStatusMap[resolved_status]}
             slotStart={<SlotStart {...{ icon_url, name, start_date, end_date }} />}
             slotEnd={<SlotEnd {...{ progress_status, reward_quarks, reward_stars, isLoading: !isCompleted && isLoading }} />}
@@ -107,7 +106,7 @@ const SlotEnd = ({
     <S.LoaderText>
       Checking...
     </S.LoaderText>
-  )
+  );
   switch (true) {
   case progress_status === MissionProgressStatus.IN_PROGRESS:
     return <BalanceDisplay

@@ -1,8 +1,8 @@
 import ReactDOM from 'react-dom/client';
 import { postEvent } from '@telegram-apps/sdk-react';
-import * as Sentry from "@sentry/react";
+import * as Sentry from '@sentry/react';
 
-const SENTRY_TARGET_DOMAINS = ["localhost", /^https:\/\/*.tonstarsdao\.xyz\//, /^https:\/\/*.42\.works\//];
+const SENTRY_TARGET_DOMAINS = ['localhost', /^https:\/\/*.tonstarsdao\.xyz\//, /^https:\/\/*.42\.works\//];
 
 import { App } from '@app/App.tsx';
 
@@ -11,7 +11,7 @@ import {
   useNavigationType,
   createRoutesFromChildren,
   matchRoutes,
-} from "react-router-dom";
+} from 'react-router-dom';
 
 // Uncomment this import in case, you would like to develop the application even outside
 // the Telegram application, just in your browser.
@@ -25,7 +25,7 @@ postEvent('web_app_expand');
 
 
 Sentry.init({
-  dsn: "https://8821629c9179afd7378f0619233850f9@o4507655658602496.ingest.us.sentry.io/4508120836145152",
+  dsn: 'https://8821629c9179afd7378f0619233850f9@o4507655658602496.ingest.us.sentry.io/4508120836145152',
   integrations: [
     Sentry.reactRouterV6BrowserTracingIntegration({
       useEffect: React.useEffect,

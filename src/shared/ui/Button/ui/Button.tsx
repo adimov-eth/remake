@@ -16,6 +16,7 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   wide?: boolean;
   children: React.ReactNode;
   as?: React.ElementType;
+  to?: string;
 }
 
 export const Button: React.FC<IButtonProps> = ({
@@ -29,6 +30,7 @@ export const Button: React.FC<IButtonProps> = ({
   type = 'button',
   children,
   as = 'button',
+  to,
   ...props
 }) => {
   return (
@@ -41,7 +43,8 @@ export const Button: React.FC<IButtonProps> = ({
       outline={outline}
       wide={wide}
       type={type}
-      as={as}
+      {...(as && { as })}
+      {...(to && { to })}
       {...props}
     >
       <S.ButtonContent>

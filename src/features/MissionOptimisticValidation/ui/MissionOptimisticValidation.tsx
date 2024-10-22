@@ -1,12 +1,12 @@
 
-import { ConfirmDialog } from "@shared/ui/ConfirmDialog";
-import { useMissionValidation, type MissionValidationConfig } from "@shared/hooks/useMissionValidation";
-import { PurpleMoonIcon } from "@shared/ui/PurpleMoonIcon";
-import { type Mission } from "@shared/services/api/missions/types";
+import { ConfirmDialog } from '@shared/ui/ConfirmDialog';
+import { useMissionValidation, type MissionValidationConfig } from '@shared/hooks/useMissionValidation';
+import PurpleMoonWebp from '@shared/assets/purple-moon.webp';
+import { type Mission } from '@shared/services/api/missions/types';
 
 import * as S from './MissionOptimisticValidation.styles';
 
-interface OptimisticValidationProps {
+interface IOptimisticValidationProps {
   url: string;
   icon?: React.ReactNode;
   title: string;
@@ -27,7 +27,7 @@ interface OptimisticValidationProps {
  * @param {OptimisticValidationProps} props - Component properties.
  * @returns {ReactElement} - Rendered component.
  */
-export const MissionOptimisticValidation: React.FC<OptimisticValidationProps> = ({
+export const MissionOptimisticValidation: React.FC<IOptimisticValidationProps> = ({
   url,
   icon,
   title,
@@ -78,7 +78,10 @@ export const MissionOptimisticValidation: React.FC<OptimisticValidationProps> = 
         onClose={handleClose}
       >
         <S.ConfirmContent>
-          {isCompleted ? icon : <PurpleMoonIcon/>}
+          {isCompleted 
+            ? icon 
+            : <img src={PurpleMoonWebp} alt="chest" width={129} height={129} />
+          }
           <S.ConfirmTitle>{isCompleted ? modalTitle : incompleteModalTitle}</S.ConfirmTitle>
           <S.ConfirmDescription>{isCompleted ? modalDescription : incompleteModalDescription}</S.ConfirmDescription>
         </S.ConfirmContent>

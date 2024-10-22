@@ -5,7 +5,6 @@ export const Root = styled('span', {
   alignItems: 'center',
   gap: '0.25rem',
   borderRadius: '0.75rem',
-  fontFamily: 'var(--font-mono)',
   fontSize: '0.875rem',
   fontWeight: '500',
   color: '#fff',

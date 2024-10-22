@@ -15,7 +15,6 @@ export const Card = styled('div', {
   padding: '1rem',
   borderRadius: '1rem',
   background: 'rgba(20, 21, 30, 0.5)',
-  fontFamily: 'var(--font-pro-display)',
   textAlign: 'center',
 });
 

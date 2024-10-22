@@ -54,7 +54,6 @@ export const Level = styled('div', {
 });
 
 export const Title = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '1.5rem',
   fontWeight: '700',
   textAlign: 'center',
@@ -63,7 +62,6 @@ export const Title = styled('div', {
 });
 
 export const Description = styled('div', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '0.75rem',
   fontWeight: '400',
   lineHeight: '1rem',

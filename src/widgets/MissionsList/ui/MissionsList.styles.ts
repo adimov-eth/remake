@@ -7,7 +7,6 @@ export const Category = styled('div', {
 });
 
 export const CategoryTitle = styled('h2', {
-  fontFamily: 'var(--font-pro-display)',
   fontSize: '1rem',
   fontWeight: '600',
   letterSpacing: '2%',

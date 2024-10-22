@@ -32,7 +32,6 @@ export const Root = styled('div', {
 export const Title = styled('h1', {
   position: 'relative',
   zIndex: 3,
-  fontFamily: 'Tektur, sans-serif',
   color: '#FFF',
   textAlign: 'center',
   textShadow: '0px 0px 1.25rem rgba(255, 255, 255, 0.80)',
@@ -46,7 +45,6 @@ export const Description = styled('div', {
   flexDirection: 'column',
   gap: '1.75rem',
   marginTop: '1.75rem',
-  fontFamily: 'SF Pro Display, sans-serif',
   color: '#FFF',
   textAlign: 'center',
   fontSize: '1.125rem',
@@ -60,7 +58,6 @@ export const Subtitle = styled('h2', {
   color: '#FFF',
   textAlign: 'center',
   textShadow: '0px 0px 6.6px rgba(255, 255, 255, 0.49)',
-  fontFamily: 'Tektur',
   fontSize: '1.5rem',
   fontStyle: 'normal',
   fontWeight: 700,

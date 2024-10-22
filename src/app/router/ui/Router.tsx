@@ -39,7 +39,7 @@ import {
 
 import * as S from './Router.styles';
 
-import * as Sentry from "@sentry/react";
+import * as Sentry from '@sentry/react';
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 

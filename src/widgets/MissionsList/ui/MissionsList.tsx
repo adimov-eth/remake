@@ -71,7 +71,7 @@ const MissionCategory: FC<{ category: MissionCategory }> = ({ category }) => {
               <S.ListItem><DailyMissionCard {...mission}/></S.ListItem>
             )}
             {mission.mission_type === MissionType.SOCIAL && (
-              <S.ListItem><OptimisticMissionCard {...mission}/></S.ListItem>
+              <S.ListItem><OptimisticMissionCard {...mission}/></S.ListItem> // TODO remove
             )}
             {mission.mission_type !== MissionType.SOCIAL && mission.progress_status !== MissionProgressStatus.UNAVAILABLE && (
               <S.ListItem><MissionCard {...mission}/></S.ListItem>
