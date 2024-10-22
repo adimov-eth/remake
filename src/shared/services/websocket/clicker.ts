@@ -3,7 +3,6 @@
 import { atom, computed } from 'nanostores';
 
 import { intervalStore, addDecimals } from './utils';
-import { recharge } from '@shared/assets';
 
 export type LevelDefinition = {
   name: string;
