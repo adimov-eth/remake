@@ -43,6 +43,7 @@ export const LowTierCoinCanvas: React.FC<ICanvasProps> = ({
   const clickerState = $gameState.get();
   const currentEnergy =  clickerState.energy.get();
   const quarksPerClick =  clickerState.quarksPerClick.get();
+  const clicksPerTap = clickerState.clicksPerTap.get();
 
   const performCanvasAnimation = useCallback(
     (event: TouchEvent) => {
@@ -86,7 +87,9 @@ export const LowTierCoinCanvas: React.FC<ICanvasProps> = ({
         performCanvasAnimation(event);
         Array.from(event.touches).forEach((touch) => {
           if (isTouchInArea(touch, touchAreaRef)) {
-            performClickAnimation(touch.clientX, touch.clientY);
+            for (let i = 0; i < clicksPerTap; i++) {
+              performClickAnimation(touch.clientX + i * 5, touch.clientY + i * 10);
+            }
           }
         });
       }
@@ -94,6 +97,7 @@ export const LowTierCoinCanvas: React.FC<ICanvasProps> = ({
     [
       currentEnergy,
       quarksPerClick,
+      clicksPerTap,
       touchAreaRef,
       performCanvasAnimation,
       performClickAnimation,

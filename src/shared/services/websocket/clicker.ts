@@ -257,6 +257,22 @@ export const UPGRADES: { [key: string]: UpgradeDefinition } = {
       return !isActive;
     },
   },
+  additionalTap: {
+    name: '+1 Tap per Click',
+    description: 'Adds an additional tap for every click.',
+    attribute_type: 'clicksPerTap',
+    tier: 1,
+    price(_user: upgradeEffectUser, tier: number) {
+      const basePrice = 250; // As per your cost table
+      return calcUpgradePrice(basePrice, tier);
+    },
+    activeEffect: (user: upgradeEffectUser, _tier: number) => user,
+    passiveEffect: (user: upgradeEffectUser, tier: number) => ({
+      ...user,
+      clicksPerTap: user.clicksPerTap + tier, // Each tier adds 1 tap
+    }),
+    isEnabled: () => true, // Unlimited maximum
+  },
 };
 
 export interface Action {
@@ -324,7 +340,7 @@ export const initClicker = (
     const initialState: upgradeEffectUser = {
       energyLimit: levelDef.energy,
       quarksPerClick: $quarksPerClick.get(),
-      clicksPerTap: $clicksPerTap.get() || 1,
+      clicksPerTap: 1,
       quarks: $quarks.get(),
       level: $level.get(),
       energy: $energy.get(),
@@ -345,7 +361,7 @@ export const initClicker = (
   const $clicksPerTap = computed([$levelDef, $upgrades, $quarks], (levelDef, upgrades, quarks) => {
     const initialState: upgradeEffectUser = {
       quarksPerClick: levelDef.quarksPerClick,
-      clicksPerTap: $clicksPerTap.get() || 1,
+      clicksPerTap: 1,
       quarks: quarks,
       level: $level.get(),
       energyLimit: $energyLimit.get(),
