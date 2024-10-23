@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useStore } from '@nanostores/react';
-import { $gameState, $pfp, $user } from '@app/stores/state';
+import { $gameState, $pfp, $user, $quarks, $stars } from '@app/stores/state';
 import { formatNumberGroup } from '@shared/utils/formatters';
 
 import { UserInfo } from '../UserInfo/UserInfo';
@@ -17,8 +17,8 @@ export const UserStatusBar: React.FC = () => {
   const location = useLocation();
   const { t } = useTranslation('global');
 
-  const quarks: number = useStore(gameState?.quarks ?? 0);
-  const stars: number = useStore(gameState?.stars ?? 0);
+  const quarks = useStore($quarks);
+  const stars = useStore($stars);
   const currentRank = gameState?.levelDef.get() ?? { name: '' };
   const telegramUser = useStore($user);
   const pfp = useStore($pfp);
@@ -30,9 +30,7 @@ export const UserStatusBar: React.FC = () => {
 
   const isProfilePage = location.pathname === '/profile';
   const isShowQuarks = location.pathname !== '/';
-  const rankName = t(`levels.${currentRank.name}`);
-
-  console.log('UserStatusBar', { quarks, stars, currentRank, telegramUser, pfp, rankName });
+  const rankName = t(currentRank.name);
 
   return (
     <S.Root>

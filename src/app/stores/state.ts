@@ -57,6 +57,9 @@ export const $level = computed($gameState, state => {
   // return currentLevel > LEVELS.length - 1 ? LEVELS.length - 1 : currentLevel;
 });
 
+export const $quarks = computed($gameState, state => state?.quarks.get() ?? 0);
+export const $stars = computed($gameState, state => state?.stars.get() ?? 0);
+
 // const upgradeCards: IAcceleratorCard[] = Object.keys(UPGRADES).map(
 //   (upgradeSlug) => {
 //     const upgradeDef = UPGRADES[upgradeSlug] as UpgradeDefinition
@@ -100,7 +103,7 @@ export const $accelerators = computed($gameState, state => {
     lastPaidRechargeResetAt: state.lastPaidRechargeResetAt.get(),
     megaClickExpiresAt: state.megaClickExpiresAt.get(),
 
-  }
+  };
 
   return Object.entries(UPGRADES).map(([slug, { name, description, price, isEnabled }]) => {
     const { tier = 0 } = currentUpgrades.find(u => u.slug === slug) || {};
