@@ -15,6 +15,7 @@ export const Nav = styled('nav', {
   WebkitBackdropFilter: 'blur(1.5rem)',
   maxWidth: '30rem',
   width: '100%',
+  margin: '0 auto',
 });
 
 export const NavList = styled('ul', {

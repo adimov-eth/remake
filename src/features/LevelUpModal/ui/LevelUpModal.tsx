@@ -18,7 +18,8 @@ import {
   blueGiant, 
   supergiant, 
   neutronStar, 
-  supernova, blackHole 
+  supernova, 
+  blackHole,
 } from '@shared/assets';
 
 type LevelIcon = {
@@ -28,68 +29,68 @@ type LevelIcon = {
   variant: BlurBackdropVariant;
 };
 
-const levelIconsMap: Record<number, LevelIcon> = {
-  1: {
+const levelIcons: LevelIcon[] = [
+  {
     src: protostar,
     width: 178,
     height: 120,
     variant: 'blue',
   },
-  2: {
+  {
     src: brownDwarf,
     width: 134,
     height: 134,
     variant: 'brown',
   },
-  3: {
+  {
     src: redDwarf,
     width: 134,
     height: 134,
     variant: 'red',
   },
-  4: {
+  {
     src: whiteDwarf,
     width: 134,
     height: 134,
     variant: 'white',
   },
-  5: {
+  {
     src: redGiant,
     width: 143,
     height: 120,
     variant: 'red',
   },
-  6: {
+  {
     src: blueGiant,
     width: 143,
     height: 120,
     variant: 'blue',
   },
-  7: {
+  {
     src: supergiant,
     width: 160,
     height: 130,
     variant: 'blue',
   },
-  8: {
+  {
     src: neutronStar,
     width: 160,
     height: 160,
     variant: 'orange',
   },
-  9: {
+  {
     src: supernova,
     width: 134,
     height: 134,
     variant: 'pink',
   },
-  10: {
+  {
     src: blackHole,
     width: 240,
     height: 240,
     variant: 'black',
   },
-};
+];
 
 // TODO переделать это после рефакторинга логики кликера
 
@@ -99,7 +100,7 @@ export const LevelUpModal: FC = () => {
   const previousLevel = useRef<number>(0);
   const [isVisible, setIsVisible] = useState(false);
   const idx = Math.min(Math.max(currentLevel - 1, 0), LEVELS.length - 1);
-  const levelIcon = levelIconsMap[idx];
+  const levelIcon = levelIcons[idx];
   const levelName = LEVELS[currentLevel].name;
 
   useEffect(() => {

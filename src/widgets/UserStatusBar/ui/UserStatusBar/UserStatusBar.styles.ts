@@ -8,4 +8,6 @@ export const Root = styled('div', {
   width: '100%',
   backgroundColor: 'rgba(5, 6, 10, 0.30)',
   backdropFilter: 'blur(10px)',
+  maxWidth: '30rem',
+  margin: '0 auto',
 });
