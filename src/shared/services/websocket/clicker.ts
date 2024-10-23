@@ -371,10 +371,10 @@ export const initClicker = (
       megaClickExpiresAt: $megaClickExpiresAt.get(),
     };
     const upgradesWithQuarksPerClick = upgrades.filter(
-      upgrade => UPGRADES[upgrade.slug].attribute_type === 'energyLimit'
+      upgrade => UPGRADES[upgrade.slug] && UPGRADES[upgrade.slug].attribute_type === 'energyLimit'
     );
     const updatedState = upgradesWithQuarksPerClick.reduce((state, upgrade) => {
-      return UPGRADES[upgrade.slug].passiveEffect(state, upgrade.tier);
+      return UPGRADES[upgrade.slug] && UPGRADES[upgrade.slug].passiveEffect(state, upgrade.tier);
     }, initialState);
     return updatedState.energyLimit;
   });
