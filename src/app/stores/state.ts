@@ -54,7 +54,6 @@ export const $level = computed($gameState, state => {
   if (!state) return 0;
   const currentLevel = state.level.get();
   return Math.min(Math.max(currentLevel - 1, 0), LEVELS.length - 1);
-  // return currentLevel > LEVELS.length - 1 ? LEVELS.length - 1 : currentLevel;
 });
 
 export const $quarks = computed($gameState, state => state?.quarks.get() ?? 0);

@@ -58,7 +58,7 @@ export const InviteFriendsCard = () => {
             <tbody>
               {levels.map((level) => (
                 <S.TableRow key={level.name}>
-                  <S.TableData>{t(level.name)}</S.TableData>
+                  <S.TableData>{t(`levels.${level.name}`)}</S.TableData>
                   <S.TableData>
                     <S.Reward>{level.for_friend}</S.Reward>
                   </S.TableData>
