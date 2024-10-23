@@ -1,11 +1,14 @@
-import { FC } from 'react';
+import { FC, useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useStore } from '@nanostores/react';
-import { $gameState } from '@app/stores/state';
+import { $level } from '@app/stores/state';
 import { LEVELS } from '@shared/services/websocket/clicker';
 
 import { BlurBackdrop, BlurBackdropVariant } from '@shared/ui/BlurBackdrop';
 import { ConfirmDialog } from '@shared/ui/ConfirmDialog';
+
+import * as S from './LevelUpModal.styles';
+
 import { 
   protostar, 
   brownDwarf, 
@@ -17,8 +20,6 @@ import {
   neutronStar, 
   supernova, blackHole 
 } from '@shared/assets';
-
-import * as S from './LevelUpModal.styles';
 
 type LevelIcon = {
   src: string;
@@ -90,17 +91,28 @@ const levelIconsMap: Record<number, LevelIcon> = {
   },
 };
 
+// TODO переделать это после рефакторинга логики кликера
+
 export const LevelUpModal: FC = () => {
   const { t } = useTranslation('global');
-  const gameState = useStore($gameState);
-  const isVisible = useStore(gameState?.levelUpModalVisible);
-  const level = gameState?.level.get() ?? 1;
-  const levelDefinition = LEVELS[level - 1].name;
-  const rank = t(levelDefinition);
-  const levelIcon = levelIconsMap[level];
+  const currentLevel = useStore($level);
+  const previousLevel = useRef<number>(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const idx = Math.min(Math.max(currentLevel - 1, 0), LEVELS.length - 1);
+  const levelIcon = levelIconsMap[idx];
+  const levelName = LEVELS[currentLevel].name;
+
+  useEffect(() => {
+    if (currentLevel > 0 && currentLevel > previousLevel.current) {
+      if (previousLevel.current > 0) {
+        setIsVisible(true);
+      }
+      previousLevel.current = currentLevel;
+    }
+  }, [currentLevel]);
 
   const handleClose = () => {
-    gameState?.levelUpModalVisible.set(false);
+    setIsVisible(false);
   };
 
   return (
@@ -109,15 +121,13 @@ export const LevelUpModal: FC = () => {
       onClose={handleClose}
     >
       <S.ConfirmContent>
-        {levelIcon && (
-          <BlurBackdrop variant={levelIcon.variant} size="md">
-            <S.ConfirmImgWrapper>
-              <S.ConfirmImg src={levelIcon.src} width={levelIcon.width} height={levelIcon.height}/>
-            </S.ConfirmImgWrapper>
-          </BlurBackdrop>
-        )}
+        <BlurBackdrop variant={levelIcon.variant} size="md">
+          <S.ConfirmImgWrapper>
+            <S.ConfirmImg src={levelIcon.src} width={levelIcon.width} height={levelIcon.height}/>
+          </S.ConfirmImgWrapper>
+        </BlurBackdrop>
         <S.ConfirmTitle>{t('congratulations')}</S.ConfirmTitle>
-        <S.ConfirmDescription>{t('you_reached_level', { rank })}</S.ConfirmDescription>
+        <S.ConfirmDescription>{t('you_reached_level', { rank: t(levelName) })}</S.ConfirmDescription>
       </S.ConfirmContent>
     </ConfirmDialog>
   );
