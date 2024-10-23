@@ -33,6 +33,8 @@ export const Main = styled('main', {
   padding: '1.875rem 1rem 1rem 1rem',
   flexGrow: 1,
   overflowY: 'auto',
+  maxWidth: '30rem',
+  margin: '0 auto',
 });
 
 export const Bottom = styled('div', {

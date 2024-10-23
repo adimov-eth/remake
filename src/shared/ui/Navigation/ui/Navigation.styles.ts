@@ -2,16 +2,29 @@ import { styled } from '@app/stitches.config';
 import { Link } from '@shared/ui/Link';
 
 export const Nav = styled('nav', {
-  display: 'flex',
-  justifyContent: 'center',
+  paddingTop: '0.25rem',
+  paddingLeft: '0.75rem',
+  paddingRight: '0.75rem',
+  paddingBottom: '1.75rem',
+  borderTop: '1px solid $navBorder',
+  borderRadius: '2rem 2rem 0 0',
+  background: '$navBackground',
+  boxShadow: '0 0.25rem 1.5rem $navShadow',
+  borderImageSource: 'linear-gradient(181.98deg, $navBorderGradientStart 1.46%, $navBorderGradientEnd 98.13%)',
+  backdropFilter: 'blur(1.5rem)',
+  WebkitBackdropFilter: 'blur(1.5rem)',
+  maxWidth: '30rem',
+  width: '100%',
+  margin: '0 auto',
 });
 
 export const NavList = styled('ul', {
   position: 'relative',
   width: '100%',
   display: 'flex',
-  justifyContent: 'space-between',
+  justifyContent: 'center',
   alignItems: 'center',
+  gap: '1.25rem',
   paddingTop: '0.125rem',
   paddingBottom: '0.125rem',
   listStyle: 'none',
@@ -34,9 +47,9 @@ export const NavLink = styled(Link, {
   flexDirection: 'column',
   alignItems: 'center',
   textAlign: 'center',
-  width: '4.375rem',
-  height: '4.375rem',
-  padding: '0.625rem',
+  minWidth: '2.5rem',
+  minHeight: '2.5rem',
+  // padding: '0.625rem',
   color: '#5D6275',
   variants: {
     active: {

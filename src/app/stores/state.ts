@@ -56,6 +56,34 @@ export const $level = computed($gameState, state => {
   return Math.min(Math.max(currentLevel - 1, 0), LEVELS.length - 1);
 });
 
+export const $quarks = computed($gameState, state => state?.quarks.get() ?? 0);
+export const $stars = computed($gameState, state => state?.stars.get() ?? 0);
+
+// const upgradeCards: IAcceleratorCard[] = Object.keys(UPGRADES).map(
+//   (upgradeSlug) => {
+//     const upgradeDef = UPGRADES[upgradeSlug] as UpgradeDefinition
+//     const currentUpgrade = currentUpgrades.find(
+//       (upgrade) => upgrade.slug === upgradeSlug
+//     )
+//     const upgradeMeta = {
+//       user: {
+//         level: clickerState.level.get(),
+//         energyLimit: clickerState.energyLimit.get(),
+//       },
+//       tier: currentUpgrade?.tier || 0,
+//     }
+
+//     return {
+//       slug: upgradeSlug,
+//       title: upgradeDef.name,
+//       description: upgradeDef.description,
+//       currency: 'quarks',
+//       cost: upgradeDef.price(upgradeMeta.user, upgradeMeta.tier + 1),
+//       disabled: !upgradeDef.isEnabled(upgradeMeta.user),
+//       tier: upgradeMeta.tier,
+//     }
+//   }
+// )
 
 export const $accelerators = computed($gameState, state => {
   console.log('INIT $accelerators state', state);
@@ -74,7 +102,7 @@ export const $accelerators = computed($gameState, state => {
     lastPaidRechargeResetAt: state.lastPaidRechargeResetAt.get(),
     megaClickExpiresAt: state.megaClickExpiresAt.get(),
 
-  }
+  };
 
   return Object.entries(UPGRADES).map(([slug, { name, description, price, isEnabled }]) => {
     const { tier = 0 } = currentUpgrades.find(u => u.slug === slug) || {};
