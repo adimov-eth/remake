@@ -2,7 +2,7 @@ import React, { FC, useState, useCallback } from 'react';
 import { useStore } from '@nanostores/react';
 import { useTranslation } from 'react-i18next';
 import { initDataRaw } from '@app/stores/telegram';
-import { $quarks, $stars } from '@app/stores/state';
+import { $gameState, $quarks, $stars } from '@app/stores/state';
 
 import { queryClient } from '@shared/services/api/queryClient';
 import { useCreateSwap } from '@shared/services/api/swap/model';
@@ -42,6 +42,7 @@ interface SwapState {
 export const SwapForm: FC = () => {
   const { t } = useTranslation('global');
   const rawData = initDataRaw || '';
+  const gameState = useStore($gameState);
   const quarks = useStore($quarks);
   const stars = useStore($stars);
   const [swapState, setSwapState] = useState<SwapState>({
@@ -49,6 +50,9 @@ export const SwapForm: FC = () => {
     fromValue: '',
     toValue: '',
   });
+
+  console.log('!', quarks, stars);
+  console.log('!!', gameState.quarks.get(), gameState.stars.get());
 
   const onSuccess = () => {
     setSwapState(prevState => ({
