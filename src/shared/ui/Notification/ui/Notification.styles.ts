@@ -1,15 +1,36 @@
 import { styled, keyframes } from '@stitches/react';
 import { notificationBg } from '@shared/assets';
 
+export const slideInAnimation = keyframes({
+  '0%': {
+    maxWidth: '0px',
+    opacity: '0',
+  },
+  '100%': {
+    maxWidth: '20rem',
+    opacity: '1',
+  },
+});
+
+export const slideOutAnimation = keyframes({
+  '0%': {
+    maxWidth: '18.75rem',
+    opacity: '1',
+  },
+  '100%': {
+    maxWidth: '0px',
+    opacity: '0',
+  },
+});
+
 export const Notification = styled('div', {
   '--notification-icon-color': '#fff',
-  '--notification-padding': '0.5625rem',
+  '--notification-padding': '0.3125rem',
 
   display: 'flex',
   alignItems: 'center',
   borderRadius: '1.25rem',
   backgroundColor: 'var(--notification-background)',
-
   variants: {
     type: {
       achievement: {
@@ -45,46 +66,26 @@ export const NotificationIcon = styled('div', {
   backgroundColor: 'var(--notification-icon-background)',
 });
 
-export const slideInAnimation = keyframes({
-  '0%': {
-    maxWidth: '0px',
-    opacity: '0',
-  },
-  '100%': {
-    maxWidth: '20rem',
-    opacity: '1',
-  },
-});
-
-export const slideOutAnimation = keyframes({
-  '0%': {
-    maxWidth: '18.75rem',
-    opacity: '1',
-  },
-  '100%': {
-    maxWidth: '0px',
-    opacity: '0',
-  },
-});
-
 export const NotificationMessage = styled('div', {
   display: 'flex',
   alignItems: 'center',
   maxWidth: '0',
+  maxHeight: '2.625rem',
   opacity: 0,
   animation: `${slideInAnimation} 0.5s ease-out forwards, ${slideOutAnimation} 0.5s ease-in 2.5s forwards`,
-  whiteSpace: 'nowrap',
   backgroundImage: `url(${notificationBg})`,
   backgroundPosition: 'center',
   backgroundSize: 'cover',
+  overflowY: 'hidden',
 });
 
 export const NotificationMessageText = styled('div', {
-  padding: 'var(--notification-padding) 1rem var(--notification-padding) var(--notification-padding)',
-  fontSize: '1rem',
+  paddingTop: 'var(--notification-padding)',
+  paddingRight: '1rem',
+  paddingBottom: 'var(--notification-padding)',
+  paddingLeft: '0.625rem',
+  fontSize: '0.75rem',
   fontWeight: '400',
   color: '#fff',
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
+  lineHeight: '1rem',
 });

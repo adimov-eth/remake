@@ -11,7 +11,7 @@ import { InviteFriendsPanel } from '@features/InviteFriendsPanel';
 import * as S from './Friends.styles';
 import Preview from '@shared/assets/spaceman-friends.png';
 
-export const Friends: React.FC = () => {
+export const FriendsPage: React.FC = () => {
   const { t } = useTranslation('pages');
 
   return (

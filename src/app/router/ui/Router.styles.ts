@@ -26,6 +26,9 @@ export const Root = styled('div', {
 export const Top = styled('div', {
   position: 'relative',
   zIndex: 2,
+  maxWidth: '30rem',
+  margin: '0 auto',
+  width: '100%',
 });
 
 export const Main = styled('main', {
@@ -35,9 +38,13 @@ export const Main = styled('main', {
   overflowY: 'auto',
   maxWidth: '30rem',
   margin: '0 auto',
+  width: '100%',
 });
 
 export const Bottom = styled('div', {
   position: 'relative',
   zIndex: 2,
+  maxWidth: '30rem',
+  margin: '0 auto',
+  width: '100%',
 });

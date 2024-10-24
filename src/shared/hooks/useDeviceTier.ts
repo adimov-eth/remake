@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 
+// TODO: Удалить после тестирования entities/Device
+
 const DEVICE_TIER_KEY = 'device_tier';
 
 const useDeviceTier = () => {

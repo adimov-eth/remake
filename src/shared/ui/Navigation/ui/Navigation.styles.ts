@@ -13,16 +13,14 @@ export const Nav = styled('nav', {
   borderImageSource: 'linear-gradient(181.98deg, $navBorderGradientStart 1.46%, $navBorderGradientEnd 98.13%)',
   backdropFilter: 'blur(1.5rem)',
   WebkitBackdropFilter: 'blur(1.5rem)',
-  maxWidth: '30rem',
   width: '100%',
-  margin: '0 auto',
 });
 
 export const NavList = styled('ul', {
   position: 'relative',
   width: '100%',
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'space-around',
   alignItems: 'center',
   gap: '1.25rem',
   paddingTop: '0.125rem',

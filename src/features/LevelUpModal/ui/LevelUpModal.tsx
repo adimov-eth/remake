@@ -97,19 +97,18 @@ const levelIcons: LevelIcon[] = [
 export const LevelUpModal: FC = () => {
   const { t } = useTranslation('global');
   const currentLevel = useStore($level);
-  const previousLevel = useRef<number>(0);
+  const previousLevel = useRef<number>();
   const [isVisible, setIsVisible] = useState(false);
   const idx = Math.min(Math.max(currentLevel - 1, 0), LEVELS.length - 1);
   const levelIcon = levelIcons[idx];
   const levelName = LEVELS[currentLevel].name;
 
   useEffect(() => {
-    if (currentLevel > 0 && currentLevel > previousLevel.current) {
-      if (previousLevel.current > 0) {
-        setIsVisible(true);
-      }
-      previousLevel.current = currentLevel;
-    }
+    if (!currentLevel) return;
+
+    if (previousLevel.current && currentLevel !== previousLevel.current) setIsVisible(true);
+
+    previousLevel.current = currentLevel;
   }, [currentLevel]);
 
   const handleClose = () => {

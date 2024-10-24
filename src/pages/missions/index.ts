@@ -1,1 +1,1 @@
-export { Missions } from './ui/Missions';
+export { MissionsPage } from './ui/Missions';

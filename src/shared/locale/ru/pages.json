@@ -18,6 +18,7 @@
     "title": "Настройки",
     "language": "Язык",
     "vibration": "Вибрация",
+    "clickable_object": "Объект для клика",
     "delete_account": "Удалить аккаунт"
   }
 }
