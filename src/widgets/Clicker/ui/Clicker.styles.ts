@@ -5,6 +5,7 @@ export const Root = styled('div', {
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
+  width: '100%',
   paddingBottom: '0.875rem',
   height: '100%',
   maxWidth: '18.75rem',
