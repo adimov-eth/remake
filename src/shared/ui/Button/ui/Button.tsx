@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from 'react';
 
 import * as S from './Button.styles';
 
-export type ButtonVariantType = 'primary' | 'secondary' | 'danger' | 'ghost';
+export type ButtonVariantType = 'primary' | 'secondary' | 'danger' | 'ghost' | 'accent';
 export type ButtonSizeType = 'small' | 'medium' | 'large';
 export type ButtonRoundedType = 'sm' | 'md' | 'lg' | 'full';
 
