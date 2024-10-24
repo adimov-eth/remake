@@ -48,7 +48,7 @@ export const Button = styled('button', {
     rounded: {
       sm: { borderRadius: '0.5rem' },
       md: { borderRadius: '0.875rem' },
-      lg: { borderRadius: '1.25rem' },
+      lg: { borderRadius: '1.625rem' },
       full: { borderRadius: '9999px' },
     },
     variant: {
@@ -69,6 +69,10 @@ export const Button = styled('button', {
         color: '#fff',
         borderColor: '#4E567E'
       },
+      accent: {
+        background: 'rgba(223, 23, 167, 1)',
+        color: '#fff',
+      },
     },
     size: {
       small: {
@@ -84,7 +88,7 @@ export const Button = styled('button', {
       large: {
         fontSize: '1rem',
         fontWeight: 600,
-        padding: '0.75rem',
+        padding: '0.75rem 1rem',
       },
     },
   },
