@@ -3,7 +3,7 @@ import { EasterEggHunter } from '@features/EasterEggHunter';
 
 import * as S from './Swap.styles';
 
-export const Swap = () => {
+export const SwapPage: React.FC = () => {
   return (
     <S.Root>
       <SwapForm />

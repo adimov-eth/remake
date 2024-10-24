@@ -1,10 +1,19 @@
-import { Home } from './home';
-import { Accelerators } from './accelerators';
-import { Missions } from './missions';
-import { Friends } from './friends';
-import { Swap } from './swap';
-import { Profile } from './profile';
-import { Settings } from './settings';
+import { HomePage } from './home';
+import { AcceleratorsPage } from './accelerators';
+import { MissionsPage } from './missions';
+import { FriendsPage } from './friends';
+import { SwapPage } from './swap';
+import { ProfilePage } from './profile';
+import { SettingsPage } from './settings';
+import { CrashPage } from './crash';
 
-
-export { Home, Accelerators, Missions, Friends, Swap, Profile, Settings };
+export {
+  HomePage,
+  AcceleratorsPage,
+  MissionsPage,
+  FriendsPage,
+  SwapPage,
+  ProfilePage,
+  SettingsPage,
+  CrashPage,
+};

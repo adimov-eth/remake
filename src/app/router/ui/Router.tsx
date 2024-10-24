@@ -16,13 +16,14 @@ import {
 } from '@app/stores/state';
 
 import {
-  Accelerators,
-  Friends,
-  Home,
-  Missions,
-  Profile,
-  Settings,
-  Swap
+  AcceleratorsPage,
+  FriendsPage,
+  HomePage,
+  MissionsPage,
+  ProfilePage,
+  SettingsPage,
+  SwapPage,
+  CrashPage,
 } from '@pages';
 
 import { LevelUpModal } from '@features/LevelUpModal';
@@ -101,13 +102,14 @@ export const AppRouter = () => {
             </S.Top>
             <S.Main>
               <SentryRoutes>
-                <Route path="/" Component={Home} />
-                <Route path="friends" Component={Friends} />
-                <Route path="/accelerators" Component={Accelerators} />
-                <Route path="/missions" Component={Missions} />
-                <Route path="/swap" Component={Swap} />
-                <Route path="/profile" Component={Profile} />
-                <Route path="/settings" Component={Settings} />
+                <Route path="/" Component={HomePage} />
+                <Route path="friends" Component={FriendsPage} />
+                <Route path="/accelerators" Component={AcceleratorsPage} />
+                <Route path="/missions" Component={MissionsPage} />
+                <Route path="/swap" Component={SwapPage} />
+                <Route path="/profile" Component={ProfilePage} />
+                <Route path="/settings" Component={SettingsPage} />
+                <Route path="/crash" Component={CrashPage} />
                 <Route path="*" element={<Navigate to="/" />} />
               </SentryRoutes>
             </S.Main>

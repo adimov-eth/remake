@@ -10,7 +10,7 @@ import Preview from '@shared/assets/spaceman-run.png';
 
 import * as S from './Missions.styles';
 
-export const Missions: React.FC = () => {
+export const MissionsPage: React.FC = () => {
   const { t } = useTranslation('pages');
 
   return (

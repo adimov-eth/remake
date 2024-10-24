@@ -28,7 +28,7 @@ const deviceTierOptions = [
   { value: 'high', label: 'Quark', id: 'device-tier-high' },
 ];
 
-export const Settings: React.FC = () => {
+export const SettingsPage: React.FC = () => {
   const { t } = useTranslation('pages');
   const locale = useStore($locale);
   const isVibrationEnabled = useStore($isVibrationEnabled);

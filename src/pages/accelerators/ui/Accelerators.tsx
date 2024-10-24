@@ -9,7 +9,7 @@ import { AcceleratorsList } from '@widgets/AcceleratorsList';
 import * as S from './Accelerators.styles';
 import Rocket from '@shared/assets/rocket.png';
 
-export const Accelerators: React.FC = () => {
+export const AcceleratorsPage: React.FC = () => {
   const { t } = useTranslation('pages');
 
   return (

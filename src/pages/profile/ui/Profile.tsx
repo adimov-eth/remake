@@ -10,7 +10,7 @@ import { FriendsList } from '@widgets/FriendsList';
 
 import * as S from './Profile.styles';
 
-export const Profile: React.FC = () => {
+export const ProfilePage: React.FC = () => {
   return (
     <S.Root>
       <UserLogo />
